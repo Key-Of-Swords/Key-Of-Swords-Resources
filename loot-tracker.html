@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EQ Loot Tracker</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#040608;--bg1:#080c12;--bg2:#0d1420;--bg3:#121b2e;
+  --border:#1a2640;--border2:#243550;
+  --gold:#d4a843;--gold2:#f0c060;--gold3:#7a5a10;
+  --yellow:#ffe066;
+  --cyan:#00d4ff;--cyan2:#0099bb;
+  --red:#ff4455;--red2:#cc1122;--red3:#2a0810;
+  --green:#00e87a;--green2:#00aa55;--green3:#002215;
+  --purple:#c084fc;--purple3:#1e0a3c;
+  --text:#b0c4de;--text2:#607090;--text3:#3a4a60;
+  --mono:'Share Tech Mono',monospace;
+  --sans:'Rajdhani',sans-serif;
+}
+html,body{min-height:100vh;background:var(--bg0);color:var(--text);font-family:var(--sans);font-size:15px}
+.app{max-width:1400px;margin:0 auto;padding:0 16px 80px}
+
+/* HEADER */
+.hdr{padding:16px 0 14px;border-bottom:1px solid var(--border2);margin-bottom:18px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hdr-title{font-size:clamp(15px,3vw,24px);font-weight:700;color:var(--gold);
+  letter-spacing:0.06em;text-transform:uppercase}
+.hdr-sub{font-size:12px;color:var(--text2);margin-top:2px}
+
+/* LIVE INDICATOR */
+
+
+/* PANELS */
+.panel{background:var(--bg1);border:1px solid var(--border);border-radius:3px;margin-bottom:14px;overflow:hidden}
+.panel-hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:9px 16px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel-title{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan)}
+.panel-body{padding:14px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:9px 8px;text-align:center}
+.stat .n{font-family:var(--mono);font-size:20px;line-height:1}
+.stat .l{font-size:10px;letter-spacing:0.08em;color:var(--text2);margin-top:3px;text-transform:uppercase}
+
+/* FILTER ROW */
+.filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.search-box{background:var(--bg0);border:1px solid var(--border2);color:var(--text);
+  padding:6px 10px;font-family:var(--mono);font-size:13px;border-radius:2px;outline:none;width:200px}
+.search-box:focus{border-color:var(--cyan2)}
+select.fsel{background:var(--bg0);border:1px solid var(--border2);color:var(--text);
+  padding:6px 10px;font-family:var(--mono);font-size:13px;border-radius:2px;outline:none}
+select.fsel option{background:var(--bg0)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+th{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--text2);padding:8px 12px;border-bottom:1px solid var(--border2);
+  text-align:left;background:var(--bg2);white-space:nowrap}
+th.col-center{text-align:center}
+td.col-center{text-align:center}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--gold)}
+th.sort-asc::after{content:' ↑';color:var(--gold)}
+th.sort-desc::after{content:' ↓';color:var(--gold)}
+td{padding:5px 12px;border-bottom:1px solid rgba(26,38,64,0.5);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,212,255,0.018)}
+tr.row-mm td{background:rgba(255,68,85,0.06)!important}
+tr.row-mm td:first-child{border-left:3px solid var(--red2)}
+/* New row flash */
+tr.row-new td{animation:flashNew 2s ease-out}
+@keyframes flashNew{0%{background:rgba(0,212,255,0.15)}100%{background:transparent}}
+
+/* CHECK CELLS */
+.cc{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;width:100%}
+.chk{font-size:17px;line-height:1}
+.cy{color:var(--yellow)} .cg{color:var(--green)} .cr{color:var(--red)} .cp{color:var(--purple)}
+.pn{font-size:13px;font-weight:700}
+.csub{font-family:var(--mono);font-size:11px;color:var(--text2)}
+.cnone{color:var(--text3);font-size:20px;line-height:1}
+.mm-badge{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:2px;
+  background:var(--red3);border:1px solid var(--red2);color:var(--red);margin-top:2px;white-space:nowrap;display:inline-block}
+
+.mob-badge{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:2px;
+  background:rgba(212,168,67,0.1);border:1px solid var(--gold3);color:var(--gold);
+  white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+
+/* BUTTONS */
+.btn{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.1em;
+  text-transform:uppercase;padding:6px 14px;border:none;border-radius:2px;
+  cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.btn-cyan{background:linear-gradient(135deg,var(--cyan2),var(--cyan));color:#000}
+.btn-cyan:hover{filter:brightness(1.15)}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.btn-ghost:hover,.btn-ghost.active-sort{border-color:var(--cyan2);color:var(--cyan)}
+.btn-red{background:var(--red2);color:#fff}
+.btn-sm{padding:3px 10px;font-size:11px}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border2);margin-bottom:14px;overflow-x:auto}
+.tab{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;padding:7px 18px;cursor:pointer;color:var(--text2);
+  border:none;background:none;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.tab:hover:not(.active){color:var(--text)}
+
+/* MOB / ITEM LIST */
+.mob-sort-row{display:flex;gap:6px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.mob-list{display:flex;flex-direction:column;gap:4px;max-height:340px;overflow-y:auto}
+.mob-row{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:2px;
+  background:var(--bg2);border:1px solid var(--border)}
+.mob-row label{flex:1;cursor:pointer;display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12px;color:var(--text)}
+.mob-row.excluded label{color:var(--text2)}
+.mob-row input[type=checkbox]{accent-color:var(--cyan);width:14px;height:14px;cursor:pointer;flex-shrink:0}
+.mob-count{font-family:var(--mono);font-size:11px;color:var(--text2);white-space:nowrap}
+
+/* SETUP PANEL */
+
+.dropzone{border:2px dashed var(--border2);border-radius:4px;padding:30px 20px;text-align:center;
+  cursor:pointer;transition:all 0.2s;position:relative;background:var(--bg0)}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--cyan2);background:rgba(0,153,187,0.06)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{font-size:28px;margin-bottom:8px;display:block}
+.dz-text{font-size:14px;color:var(--text2)}.dz-text strong{color:var(--cyan)}
+.dz-hint{font-size:12px;color:var(--text3);margin-top:5px;font-family:var(--mono)}
+.file-loaded{border-color:var(--green2);background:rgba(0,170,85,0.05)}
+
+
+.setup-steps{text-align:left;display:inline-block;font-size:14px;line-height:2}
+.setup-steps code{font-family:var(--mono);background:var(--bg0);padding:2px 8px;
+  border-radius:2px;border:1px solid var(--border2);color:var(--cyan);font-size:13px}
+
+/* LOG STREAM */
+.log-box{background:var(--bg0);border:1px solid var(--border);border-radius:2px;
+  padding:10px 12px;font-family:var(--mono);font-size:12px;max-height:260px;overflow-y:auto}
+.log-line{padding:2px 0;border-bottom:1px solid rgba(26,38,64,0.3);color:var(--text2);line-height:1.7}
+.log-ts{color:var(--text3);margin-right:8px}
+.ev-loot{color:var(--gold)}
+.ev-given{color:var(--yellow)}
+.ev-roll{color:var(--purple)}
+.ev-left{color:var(--red)}
+.ev-sys{color:var(--text3)}
+
+/* SUMMARY TAB */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:700px){.summary-grid{grid-template-columns:1fr}}
+.sum-stat-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}
+@media(max-width:700px){.sum-stat-row{grid-template-columns:repeat(3,1fr)}}
+.sum-stat{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:12px 10px;text-align:center}
+.sum-stat .n{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1}
+.sum-stat .l{font-size:10px;letter-spacing:0.08em;color:var(--text2);margin-top:4px;text-transform:uppercase}
+.sum-stat .sub{font-family:var(--mono);font-size:11px;color:var(--text2);margin-top:2px}
+
+.player-grid{display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto}
+.player-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:2px}
+.player-name-cell{font-weight:700;font-size:13px;color:var(--text);min-width:100px}
+.player-bar-wrap{flex:1;background:var(--bg0);border-radius:2px;height:8px;overflow:hidden}
+.player-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--cyan2),var(--cyan));transition:width 0.3s}
+.player-count{font-family:var(--mono);font-size:12px;color:var(--cyan);min-width:30px;text-align:right}
+.player-detail{font-size:11px;color:var(--text2);font-family:var(--mono);margin-left:4px}
+
+.mob-sum-list{display:flex;flex-direction:column;gap:5px;max-height:320px;overflow-y:auto}
+.mob-sum-row{display:flex;align-items:center;gap:10px;padding:7px 12px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:2px}
+.mob-sum-name{flex:1;font-family:var(--mono);font-size:12px;color:var(--gold)}
+.mob-sum-count{font-family:var(--mono);font-size:12px;color:var(--text2)}
+.mob-sum-items{font-size:11px;color:var(--text2);flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.issue-list{display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto}
+.issue-row{padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:2px;font-size:13px}
+.issue-row.iss-mm{border-left:3px solid var(--red)}
+.issue-row.iss-left{border-left:3px solid var(--red2)}
+.issue-row.iss-pending{border-left:3px solid var(--orange)}
+.issue-item{font-weight:700;color:var(--gold2);margin-bottom:3px}
+.issue-detail{font-size:12px;color:var(--text2);font-family:var(--mono)}
+
+.confirm-pct{font-size:13px;font-family:var(--mono)}
+.pct-bar-wrap{background:var(--bg0);border-radius:2px;height:10px;overflow:hidden;margin-top:6px}
+.pct-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green2),var(--green))}
+
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--text2)}
+.hidden{display:none!important}
+input[type=text]{background:var(--bg0);border:1px solid var(--border2);color:var(--text);
+  padding:6px 10px;font-family:var(--mono);font-size:13px;border-radius:2px;outline:none}
+input[type=text]:focus{border-color:var(--cyan2)}
+.export-pre{background:var(--bg0);border:1px solid var(--border);padding:12px;font-family:var(--mono);
+  font-size:12px;color:#60d090;max-height:340px;overflow-y:auto;white-space:pre;line-height:1.7;border-radius:2px}
+.legend{display:flex;gap:12px;align-items:center;font-size:12px;color:var(--text2);flex-wrap:wrap;margin-left:auto}
+.legend-item{display:flex;align-items:center;gap:4px}
+.saved-badge{font-size:11px;color:var(--green2);font-family:var(--mono)}
+
+/* ── LIGHT MODE ── */
+body.light {
+  --bg0:#f4ece0; --bg1:#ede0cc; --bg2:#e4d4b8; --bg3:#dcc8a8;
+  --border:#c8a878; --border2:#b89060;
+  --gold:#8a5a10; --gold2:#6a3a00; --gold3:#f0d898;
+  --yellow:#7a5000;
+  --cyan:#1a4a8a; --cyan2:#2a6aaa;
+  --red:#a02020; --red2:#c04040; --red3:#fde8e8;
+  --green:#1a6030; --green2:#2a8040; --green3:#d0f0d8;
+  --purple:#6a3a9a; --purple3:#ede0f8;
+  --text:#2a1f0e; --text2:#5a4020; --text3:#8a6840;
+}
+body.light html, body.light { background: #f4ece0; color: #2a1f0e; }
+body.light th { background: var(--bg2); color: var(--text2); }
+body.light tr:hover td { background: rgba(200,140,40,0.06) !important; }
+body.light .search-box,
+body.light select.fsel,
+body.light textarea,
+body.light input[type=text] { background: #f0e8d8 !important; color: #2a1f0e !important; border-color: var(--border2) !important; }
+body.light .export-pre { background: #f0e8d8 !important; color: #2a6040 !important; border-color: var(--border) !important; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="hdr-title">⚔ EQ Loot Tracker</div>
+    <div class="hdr-sub">Drag &amp; drop your EQ log · given · rolled · looted · left on corpse · no interest</div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span style="color:var(--yellow)">✔</span> given</div>
+    <div class="legend-item"><span>🎲</span> rolled</div>
+    <div class="legend-item"><span style="color:var(--green)">✔</span> looted</div>
+    <div class="legend-item"><span>💀</span> left on corpse</div>
+    <div class="legend-item"><span style="color:var(--red)">⚠</span> mismatch</div>
+  </div>
+
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" id="tab-btn-loot"    onclick="switchTab('loot',this)">Loot Log</button>
+  <button class="tab"        id="tab-btn-summary" onclick="switchTab('summary',this)">Summary</button>
+  <button class="tab"        id="tab-btn-mobs"    onclick="switchTab('mobs',this)">Filter</button>
+  <button class="tab"        id="tab-btn-log"     onclick="switchTab('log',this)">Event Stream</button>
+  <button class="tab"        id="tab-btn-export"  onclick="switchTab('export',this)">Export</button>
+</div>
+
+<!-- LOOT TAB -->
+<div id="tab-loot">
+
+  <div class="panel">
+    <div class="panel-hdr">
+      <div class="panel-title">📂 Load EQ Log File</div>
+      <span id="file-status" class="note">No file loaded</span>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="loadDemo()">Load Demo</button>
+        <button class="btn btn-red btn-sm" onclick="doReset()">⟳ Reset</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="dropzone" id="dropzone"
+           ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+        <input type="file" accept=".txt,.log" onchange="onFileSelect(event)">
+        <span class="dz-icon">📜</span>
+        <div class="dz-text"><strong>Drag &amp; drop</strong> your EQ log file here, or <strong>click to browse</strong></div>
+        <div class="dz-hint">eqlog_Temujin_teek.txt</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n" style="color:var(--gold)"   id="st-items">0</div><div class="l">Items</div></div>
+    <div class="stat"><div class="n" style="color:var(--yellow)" id="st-given">0</div><div class="l">Given</div></div>
+    <div class="stat"><div class="n" style="color:var(--purple)" id="st-rolled">0</div><div class="l">Rolled</div></div>
+    <div class="stat"><div class="n" style="color:var(--green)"  id="st-looted">0</div><div class="l">Looted</div></div>
+    <div class="stat"><div class="n" style="color:var(--red)"    id="st-left">0</div><div class="l">Left on Corpse</div></div>
+    <div class="stat"><div class="n" style="color:var(--text2)"  id="st-nointerest">0</div><div class="l">No Interest</div></div>
+    <div class="stat"><div class="n" style="color:var(--red)"    id="st-mm">0</div><div class="l">Mismatch</div></div>
+  </div>
+
+  <div class="filter-row">
+    <input class="search-box" type="text" id="search" placeholder="Search…" oninput="renderTable()">
+    <select class="fsel" id="filt" onchange="renderTable()">
+      <option value="">All items</option>
+      <option value="confirmed">✔ Confirmed</option>
+      <option value="mismatch">⚠ Mismatch</option>
+      <option value="given_only">Given — not looted yet</option>
+      <option value="rolled_only">🎲 Rolled — not looted yet</option>
+      <option value="left">💀 Left on corpse</option>
+      <option value="looted_only">Looted — no assignment</option>
+    </select>
+    <button class="btn btn-red btn-sm" onclick="doReset()">⟳ Reset Session</button>
+    <span class="note" id="row-count"></span>
+  </div>
+
+  <div class="panel">
+    <div class="panel-body" style="padding:0">
+      <div class="tbl-wrap">
+        <div class="empty" id="loot-empty">Waiting for loot events… (items appear here the instant they drop in game)</div>
+        <table class="hidden" id="loot-table">
+          <thead><tr>
+            <th class="sortable" id="th-time"   onclick="sortBy('time')" style="width:110px">Time</th>
+            <th class="sortable" id="th-mob"    onclick="sortBy('mob')" style="width:160px">Mob / Source</th>
+            <th class="sortable" id="th-item"   onclick="sortBy('item')" style="width:220px">Item</th>
+            <th class="sortable" id="th-given"  onclick="sortBy('given')" style="width:140px;text-align:center">Was Given To</th>
+            <th class="sortable" id="th-rolled" onclick="sortBy('rolled')" style="width:140px;text-align:center">Rolled</th>
+            <th class="sortable" id="th-looted" onclick="sortBy('looted')" style="width:140px;text-align:center">Has Looted</th>
+          </tr></thead>
+          <tbody id="loot-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY TAB -->
+<div id="tab-summary" class="hidden">
+
+  <!-- Top stats bar -->
+  <div class="sum-stat-row">
+    <div class="sum-stat">
+      <div class="n" style="color:var(--gold)"   id="sum-total">0</div>
+      <div class="l">Total Items</div>
+    </div>
+    <div class="sum-stat">
+      <div class="n" style="color:var(--green)"  id="sum-confirmed">0</div>
+      <div class="l">Confirmed</div>
+      <div class="sub" id="sum-pct">0%</div>
+    </div>
+    <div class="sum-stat">
+      <div class="n" style="color:var(--red)"    id="sum-issues">0</div>
+      <div class="l">Issues</div>
+      <div class="sub" style="color:var(--text2)">mm + pending</div>
+    </div>
+    <div class="sum-stat">
+      <div class="n" style="color:var(--red2)"   id="sum-left-count">0</div>
+      <div class="l">Left on Corpse</div>
+    </div>
+    <div class="sum-stat">
+      <div class="n" style="color:var(--text2)"  id="sum-nointerest-count">0</div>
+      <div class="l">No Interest</div>
+    </div>
+    <div class="sum-stat">
+      <div class="n" style="color:var(--cyan)"   id="sum-players">0</div>
+      <div class="l">Players</div>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+
+    <!-- Loot per player -->
+    <div class="panel">
+      <div class="panel-hdr">
+        <div class="panel-title">👤 Loot Per Player</div>
+        <span class="note" style="margin-left:auto">items given or rolled</span>
+      </div>
+      <div class="panel-body">
+        <div class="player-grid" id="sum-player-list">
+          <div class="empty">No data yet.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Issues: mismatches + pending only -->
+    <div class="panel">
+      <div class="panel-hdr">
+        <div class="panel-title" style="color:var(--red)">⚠ Issues</div>
+        <span class="note" style="margin-left:auto">mismatches · pending only</span>
+      </div>
+      <div class="panel-body">
+        <div class="issue-list" id="sum-issue-list">
+          <div class="empty">No issues detected. ✓</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Left on corpse — separate panel -->
+    <div class="panel">
+      <div class="panel-hdr">
+        <div class="panel-title" style="color:var(--red2)">💀 Left on Corpse</div>
+        <span class="note" style="margin-left:auto">items abandoned on corpse</span>
+      </div>
+      <div class="panel-body">
+        <div class="issue-list" id="sum-left-list">
+          <div class="empty">Nothing left on corpse. ✓</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No interest -->
+    <div class="panel">
+      <div class="panel-hdr">
+        <div class="panel-title" style="color:var(--text2)">😴 No Interest</div>
+        <span class="note" style="margin-left:auto">nobody rolled · available to all after unlock</span>
+      </div>
+      <div class="panel-body">
+        <div class="issue-list" id="sum-nointerest-list">
+          <div class="empty">No unclaimed items.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Per-mob breakdown -->
+    <div class="panel">
+      <div class="panel-hdr">
+        <div class="panel-title">⚔ Per-Mob Breakdown</div>
+        <span class="note" style="margin-left:auto">items dropped per source</span>
+      </div>
+      <div class="panel-body">
+        <div class="mob-sum-list" id="sum-mob-list">
+          <div class="empty">No data yet.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unassigned loots -->
+    <div class="panel">
+      <div class="panel-hdr">
+        <div class="panel-title" style="color:var(--text2)">? Unassigned Loots</div>
+        <span class="note" style="margin-left:auto">looted with no given/roll record</span>
+      </div>
+      <div class="panel-body">
+        <div class="issue-list" id="sum-unassigned-list">
+          <div class="empty">No unassigned loots. ✓</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /summary-grid -->
+</div><!-- /tab-summary -->
+
+<!-- MOB FILTER TAB -->
+<div id="tab-mobs" class="hidden">
+  <div class="panel">
+    <div class="panel-hdr">
+      <div class="panel-title">Mob / Source Filter</div>
+      <span class="saved-badge">✓ remembered between sessions</span>
+      <span id="mob-excl-warn" class="hidden" style="font-family:var(--mono);font-size:11px;color:var(--orange);margin-left:8px">⚠ some mobs hidden</span>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="setAllMobs(true)">Check All</button>
+        <button class="btn btn-ghost btn-sm" onclick="setAllMobs(false)">Uncheck All</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p class="note" style="margin-bottom:10px">Uncheck a mob to hide all its loot. Saved automatically.</p>
+      <div class="mob-sort-row">
+        <span class="note">Sort:</span>
+        <button class="btn btn-ghost btn-sm active-sort" id="ms-na" onclick="mobSortBy('name-asc')">Name A→Z</button>
+        <button class="btn btn-ghost btn-sm" id="ms-nd" onclick="mobSortBy('name-desc')">Name Z→A</button>
+        <button class="btn btn-ghost btn-sm" id="ms-cd" onclick="mobSortBy('count-desc')">Most Loot</button>
+        <button class="btn btn-ghost btn-sm" id="ms-ta" onclick="mobSortBy('time-asc')">First Seen ↑</button>
+        <button class="btn btn-ghost btn-sm" id="ms-td" onclick="mobSortBy('time-desc')">First Seen ↓</button>
+      </div>
+      <div class="mob-list" id="mob-list"><div class="empty">No mobs yet.</div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr">
+      <div class="panel-title">Item Filter</div>
+      <span class="saved-badge">✓ remembered between sessions</span>
+      <span id="item-excl-warn" class="hidden" style="font-family:var(--mono);font-size:11px;color:var(--orange);margin-left:8px">⚠ some items hidden</span>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="setAllItems(true)">Check All</button>
+        <button class="btn btn-ghost btn-sm" onclick="setAllItems(false)">Uncheck All</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p class="note" style="margin-bottom:10px">Uncheck an item to hide it everywhere. Saved automatically.</p>
+      <div class="mob-sort-row">
+        <span class="note">Sort:</span>
+        <button class="btn btn-ghost btn-sm active-sort" id="is-na" onclick="itemSortBy('name-asc')">Name A→Z</button>
+        <button class="btn btn-ghost btn-sm" id="is-nd" onclick="itemSortBy('name-desc')">Name Z→A</button>
+        <button class="btn btn-ghost btn-sm" id="is-cd" onclick="itemSortBy('count-desc')">Most Drops</button>
+      </div>
+      <div class="mob-list" id="item-list"><div class="empty">No items yet.</div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr">
+      <div class="panel-title">Player Filter</div>
+      <span class="saved-badge">&#10003; remembered between sessions</span>
+      <span id="player-excl-warn" class="hidden" style="font-family:var(--mono);font-size:11px;color:var(--orange);margin-left:8px">&#9888; some players hidden</span>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="setAllPlayers(true)">Check All</button>
+        <button class="btn btn-ghost btn-sm" onclick="setAllPlayers(false)">Uncheck All</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p class="note" style="margin-bottom:10px">Uncheck a player to hide all their loot. Saved automatically.</p>
+      <div class="mob-sort-row">
+        <span class="note">Sort:</span>
+        <button class="btn btn-ghost btn-sm active-sort" id="ps-na" onclick="playerSortBy('name-asc')">Name A&#8594;Z</button>
+        <button class="btn btn-ghost btn-sm" id="ps-nd" onclick="playerSortBy('name-desc')">Name Z&#8594;A</button>
+        <button class="btn btn-ghost btn-sm" id="ps-cd" onclick="playerSortBy('count-desc')">Most Loot</button>
+      </div>
+      <div class="mob-list" id="player-list"><div class="empty">No players yet.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT STREAM TAB -->
+<div id="tab-log" class="hidden">
+  <div class="panel">
+    <div class="panel-hdr">
+      <div class="panel-title">Live Event Stream</div>
+      <span class="note">Every event received from your log file</span>
+      <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="clearLog()">Clear</button>
+    </div>
+    <div class="panel-body">
+      <div class="log-box" id="log-box"><div class="ev-sys" style="color:var(--text3)">Waiting for events…</div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr">
+      <div class="panel-title">Player Filter</div>
+      <span class="saved-badge">&#10003; remembered between sessions</span>
+      <span id="player-excl-warn" class="hidden" style="font-family:var(--mono);font-size:11px;color:var(--orange);margin-left:8px">&#9888; some players hidden</span>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="setAllPlayers(true)">Check All</button>
+        <button class="btn btn-ghost btn-sm" onclick="setAllPlayers(false)">Uncheck All</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p class="note" style="margin-bottom:10px">Uncheck a player to hide all their loot. Saved automatically.</p>
+      <div class="mob-sort-row">
+        <span class="note">Sort:</span>
+        <button class="btn btn-ghost btn-sm active-sort" id="ps-na" onclick="playerSortBy('name-asc')">Name A&#8594;Z</button>
+        <button class="btn btn-ghost btn-sm" id="ps-nd" onclick="playerSortBy('name-desc')">Name Z&#8594;A</button>
+        <button class="btn btn-ghost btn-sm" id="ps-cd" onclick="playerSortBy('count-desc')">Most Loot</button>
+      </div>
+      <div class="mob-list" id="player-list"><div class="empty">No players yet.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT TAB -->
+<div id="tab-export" class="hidden">
+  <div class="panel">
+    <div class="panel-hdr"><div class="panel-title">Export Session Report</div></div>
+    <div class="panel-body">
+      <div class="row" style="margin-bottom:12px">
+        <button class="btn btn-cyan btn-sm" onclick="copyExport()">Copy to Clipboard</button>
+        <button class="btn btn-ghost btn-sm" onclick="dlExport()">Download .txt</button>
+      </div>
+      <div class="export-pre" id="export-pre">No data yet.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════════════
+var S = {
+  rows:      [],
+  queues:    {},
+  mobState:  {},
+  itemState: {},
+  playerState: {},
+  exclItems: [],
+  noInterest:[],
+  sortCol:   'time',
+  sortDir:   'desc',
+  mobSort:   'name-asc',
+  itemSort:  'name-asc',
+  logFile:   ''
+};
+var logLines = [];
+var LS_MOBS   = 'eq_rt_mob_v1';
+var LS_ISTATE = 'eq_rt_item_v1';
+var LS_PSTATE = 'eq_rt_player_v1';
+
+// ═══════════════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════════════
+function norm(s){ return (s||'').toLowerCase().trim(); }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function uid()  { return Math.random().toString(36).slice(2,9); }
+function fmtTime(ts){ return (!ts||isNaN(ts))?'':new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+function fmtDateTime(ts){
+  if(!ts||isNaN(ts)) return '';
+  var d=new Date(ts);
+  var mo=String(d.getMonth()+1).padStart(2,'0');
+  var dy=String(d.getDate()).padStart(2,'0');
+  var yr=String(d.getFullYear()).slice(2);
+  var time=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  return time+'<br><span style="font-size:10px;color:var(--text3)">'+mo+'/'+dy+'/'+yr+'</span>';
+}
+function rowTime(r){ return r.givenTime||r.rolledTime||r.lootTime||0; }
+function isPlayerExcl(player){
+  if(!player) return false;
+  var nk=norm(player);
+  return !!(S.playerState[nk]&&S.playerState[nk].excluded);
+}
+function isItemExcl(item){ var nk=norm(item); if(S.itemState[nk]&&S.itemState[nk].excluded) return true; return false; }
+function isMobExcl(mob)  { return S.mobState[mob]&&S.mobState[mob].excluded; }
+
+function getStatus(r){
+  var assignee=r.givenTo||r.rolledBy||null;
+  if(r.leftOnCorpse)        return 'left';
+  if(assignee && r.looter)  return norm(assignee)===norm(r.looter)?'confirmed':'mismatch';
+  if(assignee && !r.looter) return r.rolledBy&&!r.givenTo?'rolled_only':'given_only';
+  if(!assignee && r.looter) return 'looted_only';
+  return 'unknown';
+}
+
+function lootStatusKey(r){
+  if(r.looter&&!r.leftOnCorpse) return '1_'+norm(r.looter);
+  if(r.leftOnCorpse)            return '2_'+norm(r.looter||'');
+  return '3_';
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════════
+function savePrefs(){
+  try{
+    var ex={};
+    Object.keys(S.mobState).forEach(function(m){ ex[m]=S.mobState[m].excluded; });
+    localStorage.setItem(LS_MOBS, JSON.stringify(ex));
+    var ix={};
+    Object.keys(S.itemState).forEach(function(k){ ix[k]=S.itemState[k].excluded; });
+    localStorage.setItem(LS_ISTATE, JSON.stringify(ix));
+    var px={};
+    Object.keys(S.playerState).forEach(function(k){ px[k]=S.playerState[k].excluded; });
+    localStorage.setItem(LS_PSTATE, JSON.stringify(px));
+  }catch(e){}
+}
+function getSavedMobExcl(){ try{ return JSON.parse(localStorage.getItem(LS_MOBS)||'{}')||{}; }catch(e){ return {}; } }
+function getSavedItemExcl(){ try{ return JSON.parse(localStorage.getItem(LS_ISTATE)||'{}')||{}; }catch(e){ return {}; } }
+
+// ═══════════════════════════════════════════════════════════════════════
+//  ROW HELPERS  (same matching logic as the drag-drop version)
+// ═══════════════════════════════════════════════════════════════════════
+function makeRow(item){
+  return { id:uid(), item:item, mob:'—',
+    givenTo:null, givenTime:null,
+    rolledBy:null, rollScore:null, rolledTime:null,
+    looter:null, lootTime:null, leftOnCorpse:false, isNew:true };
+}
+function getQ(nk){ if(!S.queues[nk]) S.queues[nk]=[]; return S.queues[nk]; }
+
+function claimForLoot(nk, item, player, eventTs){
+  var q=getQ(nk);
+  // Match unlooted row assigned to this player within 60 second window
+  for(var i=0;i<q.length;i++){
+    var r=q[i];
+    if(r.looter||r.leftOnCorpse) continue;
+    var winner=r.rolledBy||r.givenTo||'';
+    var sameWindow = !eventTs || !r._ts || Math.abs(eventTs - r._ts) < 300000;
+    if(winner && norm(winner)===norm(player) && sameWindow) return r;
+  }
+  // Fall back: unassigned row within 60 second window
+  for(var i=0;i<q.length;i++){
+    var r=q[i];
+    if(!r.looter && !r.leftOnCorpse && !r.rolledBy && !r.givenTo){
+      var sameWindow = !eventTs || !r._ts || Math.abs(eventTs - r._ts) < 300000;
+      if(sameWindow) return r;
+    }
+  }
+  // No match — create new row
+  var r=makeRow(item); r._ts=eventTs; S.rows.push(r); q.push(r); return r;
+}
+
+function claimForGiven(nk, item, player, eventTs){
+  var q=getQ(nk);
+  // Match row already looted by this player within 60 second window
+  for(var i=0;i<q.length;i++){
+    var r=q[i];
+    if(!r.givenTo && r.looter && !r.leftOnCorpse && norm(r.looter)===norm(player)){
+      var sameWindow = !eventTs || !r._ts || Math.abs(eventTs - r._ts) < 300000;
+      if(sameWindow) return r;
+    }
+  }
+  // Match rolledBy
+  for(var i=0;i<q.length;i++){
+    var r=q[i];
+    if(!r.givenTo && norm(r.rolledBy||'')===norm(player)) return r;
+  }
+  // Empty row within 60 second window
+  for(var i=0;i<q.length;i++){
+    var r=q[i];
+    if(!r.givenTo && !r.looter && !r.rolledBy){
+      var sameWindow = !eventTs || !r._ts || Math.abs(eventTs - r._ts) < 300000;
+      if(sameWindow) return r;
+    }
+  }
+  // Create new row
+  var r=makeRow(item); r._ts=eventTs; S.rows.push(r); q.push(r); return r;
+}
+
+// Prune fully resolved rows older than 120 seconds from the queue
+function pruneQueue(nk){
+  var now=Date.now();
+  S.queues[nk]=getQ(nk).filter(function(r){
+    var hasAssign = !!(r.givenTo||r.rolledBy);
+    var hasLoot   = !!(r.looter||r.leftOnCorpse);
+    var isOld     = !r._ts || (now - r._ts) > 600000;
+    return !(hasAssign && hasLoot && isOld);
+  });
+}
+
+function trackMob(name, ts){
+  if(!name||name==='—') return;
+  var savedEx=getSavedMobExcl();
+  if(!S.mobState[name]) S.mobState[name]={count:0,excluded:savedEx[name]||false,firstSeen:ts||0};
+  S.mobState[name].count++;
+}
+function trackPlayer(player){
+  if(!player) return;
+  var nk=norm(player);
+  var savedEx={};
+  try{ savedEx=JSON.parse(localStorage.getItem(LS_PSTATE)||'{}')||{}; }catch(e){}
+  if(!S.playerState[nk]) S.playerState[nk]={displayName:player,count:0,excluded:savedEx[nk]||false};
+  S.playerState[nk].count++;
+}
+function trackItem(item){
+  var nk=norm(item);
+  var savedEx=getSavedItemExcl();
+  if(!S.itemState[nk]) S.itemState[nk]={displayName:item,count:0,excluded:savedEx[nk]||false};
+  S.itemState[nk].count++;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  WEBSOCKET  (connects to server.js)
+// ═══════════════════════════════════════════════════════════════════════
+var loadedFile = '';
+
+// no live status in simple version
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════════
+//  FILE HANDLING (drag & drop)
+// ═══════════════════════════════════════════════════════════════════════
+function onDragOver(e){ e.preventDefault(); document.getElementById('dropzone').classList.add('drag-over'); }
+function onDragLeave(){ document.getElementById('dropzone').classList.remove('drag-over'); }
+function onDrop(e){
+  e.preventDefault(); document.getElementById('dropzone').classList.remove('drag-over');
+  var f=e.dataTransfer.files[0]; if(f) readFile(f);
+}
+function onFileSelect(e){ var f=e.target.files[0]; if(f) readFile(f); }
+function readFile(f){
+  loadedFile=f.name;
+  var r=new FileReader();
+  r.onload=function(ev){ parseAndProcess(ev.target.result, f.name); };
+  r.readAsText(f);
+}
+
+function parseAndProcess(text, fname){
+  // Reset state
+  S.rows=[]; S.queues={}; S.noInterest=[]; S.playerState={};
+  S.mobState={}; S.itemState={};
+  document.getElementById('search').value='';
+  document.getElementById('filt').value='';
+
+  // Two-pass batch parser — collect ALL events first, then match them.
+  // This avoids pruneQueue() killing matches mid-parse.
+  var events = [];
+  var lines = text.split('\n');
+
+  lines.forEach(function(rawLine){
+    var line=rawLine.trim(); if(!line) return;
+    var tsM=line.match(/^\[([^\]]+)\]/);
+    var ts=tsM?new Date(tsM[1]).getTime():null;
+    if(ts&&isNaN(ts)) ts=null;
+    var body=line.replace(/^\[[^\]]+\]\s*/,'').trim();
+    var isWrapped=body.slice(0,2)==='--';
+    body=body.replace(/^-+\s*/,'').replace(/\s*-+\s*$/,'').trim();
+
+    if(isWrapped){
+      // LOOT
+      var lm=body.match(/^(\w+)\s+ha(?:s|ve)\s+looted\s+(\d+|a|an)\s+(.+?)\s+from\s+(.+?)\s*\.?\s*$/i);
+      if(lm){
+        var rawP=lm[1].trim();
+        var player=rawP.toLowerCase()==='you'?(CONFIG_NAME||'You'):rawP;
+        var qty=isNaN(parseInt(lm[2],10))?1:parseInt(lm[2],10);
+        var item=lm[3].trim(), mob=cleanMobStr(lm[4]);
+        if(item) for(var q=0;q<qty;q++) events.push({type:'loot',player:player,item:item,mob:mob,ts:ts});
+        return;
+      }
+    }
+
+    // GIVEN (wrapped or unwrapped)
+    var gm=body.match(/^(.+?)\s+(?:was|were)\s+given\s+to\s+(\w+)\s*\.?\s*$/i);
+    if(gm){
+      var rawItem=gm[1].trim(), rawP=gm[2].trim();
+      var player=rawP.toLowerCase()==='you'?(CONFIG_NAME||'You'):rawP;
+      var qtyM=rawItem.match(/^(\d+)\s+(.+)$/);
+      var qty=qtyM?parseInt(qtyM[1],10):1;
+      var item=qtyM?qtyM[2].trim():rawItem.replace(/^(a|an|the)\s+/i,'').trim();
+      if(item) for(var q=0;q<qty;q++) events.push({type:'given',player:player,item:item,ts:ts});
+      return;
+    }
+
+    // LEFT ON CORPSE (wrapped or unwrapped)
+    var lcm=body.match(/^(\w+)\s+left\s+(\d+|a|an)\s+(.+?)\s+on\s+(.+?)\s*\.?\s*$/i);
+    if(lcm){
+      var rawP=lcm[1].trim();
+      var player=rawP.toLowerCase()==='you'?(CONFIG_NAME||'You'):rawP;
+      var qty=isNaN(parseInt(lcm[2],10))?1:parseInt(lcm[2],10);
+      var item=lcm[3].trim(), mob=cleanMobStr(lcm[4]);
+      if(item) for(var q=0;q<qty;q++) events.push({type:'left',player:player,item:item,mob:mob,ts:ts});
+      return;
+    }
+
+    // WON ROLL
+    var wm=body.match(/^(\w+)\s+won the (need|greed) roll on (\d+) item\(s\):\s*(.+?)\s+with a roll of\s+(\d+)\s*\.?\s*$/i);
+    if(wm){
+      var rollType=(wm[2]||'need').toLowerCase(), qty=parseInt(wm[3],10), item=wm[4].trim(), score=parseInt(wm[5],10);
+      if(item) for(var q=0;q<qty;q++) events.push({type:'roll_win',player:wm[1].trim(),item:item,score:score,rollType:rollType,ts:ts});
+      return;
+    }
+
+    // NO INTEREST
+    var nm=body.match(/^No one was interested in the (\d+) item\(s\):\s*(.+?)\s*\.?\s*$/i);
+    if(nm){
+      var item=nm[2].trim();
+      if(item) events.push({type:'no_interest',item:item,qty:parseInt(nm[1],10),ts:ts});
+    }
+  });
+
+  // Now process all collected events in order without pruning between them
+  // Disable pruning during batch — re-enable after
+  var batchMode = true;
+  var counts = {loot:0,given:0,left:0,roll_win:0,no_interest:0};
+  events.forEach(function(ev){
+    counts[ev.type] = (counts[ev.type]||0) + 1;
+    if(ev.type==='loot'){
+      if(isItemExcl(ev.item)) return;
+      var nk=norm(ev.item), evTs=ev.ts;
+      var row=claimForLoot(nk,ev.item,ev.player,evTs);
+      row.looter=ev.player; row.lootTime=evTs; row._ts=evTs;
+      if(ev.mob) row.mob=ev.mob;
+      trackMob(ev.mob, evTs); trackPlayer(ev.player);
+      trackItem(ev.item);
+    } else if(ev.type==='left'){
+      if(isItemExcl(ev.item)) return;
+      var nk=norm(ev.item), evTs=ev.ts;
+      var q=getQ(nk), row=null;
+      for(var i=0;i<q.length;i++){
+        var r=q[i];
+        if(!r.looter&&!r.leftOnCorpse){
+          var winner=r.rolledBy||r.givenTo||'';
+          if(winner&&norm(winner)===norm(ev.player)){ row=r; break; }
+        }
+      }
+      if(!row){ row=makeRow(ev.item); row._ts=evTs; S.rows.push(row); q.push(row); }
+      row.looter=ev.player; row.lootTime=evTs; row.leftOnCorpse=true;
+      if(ev.mob) row.mob=ev.mob;
+      trackMob(ev.mob, evTs);
+      trackItem(ev.item);
+    } else if(ev.type==='given'){
+      if(isItemExcl(ev.item)) return;
+      var nk=norm(ev.item), evTs=ev.ts;
+      var row=claimForGiven(nk,ev.item,ev.player,evTs);
+      row.givenTo=ev.player; row.givenTime=evTs; row._ts=evTs;
+      trackItem(ev.item); trackPlayer(ev.player);
+    } else if(ev.type==='roll_win'){
+      if(isItemExcl(ev.item)) return;
+      var nk=norm(ev.item), evTs=ev.ts;
+      var row=makeRow(ev.item);
+      row.rolledBy=ev.player; row.rollScore=ev.score; row.rolledTime=evTs; row._ts=evTs; row.rollType=ev.rollType||'need';
+      S.rows.push(row); getQ(nk).push(row);
+      trackItem(ev.item); trackPlayer(ev.player);
+    } else if(ev.type==='no_interest'){
+      S.noInterest.push({item:ev.item,qty:ev.qty,ts:ev.ts});
+    }
+  });
+
+  // Update UI
+  loadedFile = fname;
+  var dz=document.getElementById('dropzone');
+  dz.classList.add('file-loaded');
+  dz.querySelector('.dz-text').innerHTML='&#10003; <strong>'+esc(fname)+'</strong> &mdash; '+S.rows.length+' item(s) parsed';
+  dz.querySelector('.dz-hint').textContent='Drop a new file to reload';
+  var fs=document.getElementById('file-status');
+  if(fs){ fs.textContent=fname+' · '+S.rows.length+' items'; fs.style.color='var(--green)'; }
+  savePrefs();
+  renderAll();
+}
+
+
+function cleanMobStr(raw){
+  return (raw||'').trim()
+    .replace(/\s*\.\s*$/,'')
+    .replace(/['\u2019]s\s+corpse\s*$/i,'')
+    .replace(/^(a|an|the)\s+/i,'')
+    .trim();
+}
+
+// Character name for "You" substitution — update if needed
+var CONFIG_NAME = 'Temujin';
+
+function loadDemo(){
+  var log=[
+    '[Thu Apr 02 21:14:39 2026] A Battered Silver Runed War Shield was given to Phiveooh.',
+    '[Thu Apr 02 21:14:51 2026] --Phiveooh has looted a Battered Silver Runed War Shield from Lorekeeper Grenwald\'s corpse.--',
+    '[Thu Apr 02 21:15:00 2026] Niladdar won the need roll on 1 item(s): Timeworn Boot Mold with a roll of 864.',
+    '[Thu Apr 02 21:15:10 2026] --Niladdar has looted a Timeworn Boot Mold from Lorekeeper Grenwald\'s corpse.--',
+    '[Thu Apr 02 21:16:00 2026] A Mark of Rallos Zek was given to Ekks.',
+    '[Thu Apr 02 21:16:12 2026] --Ekks left a Mark of Rallos Zek on a fallen Krithgor warrior.--',
+    '[Thu Apr 02 21:17:00 2026] A Staff of the Arcane was given to Draknor.',
+    '[Thu Apr 02 21:17:20 2026] --Seluwyn has looted a Staff of the Arcane from Arch Magister Yael\'s corpse.--',
+    '[Thu Apr 02 21:18:00 2026] A Ring of the Ancients was given to Feywind.',
+    '[Thu Apr 02 21:19:00 2026] --Vexara has looted 2 Broken Stone Thumb from a trash goblin\'s corpse.--',
+    '[Thu Apr 02 21:19:30 2026] No one was interested in the 2 item(s): Spiderling Legs.',
+    '[Thu Apr 02 21:20:00 2026] A Purified Drop of Focused Sunlight was given to Croissant.',
+    '[Thu Apr 02 21:20:12 2026] --Croissant has looted a Purified Drop of Focused Sunlight from a chest .--',
+  ].join('\n');
+  parseAndProcess(log,'demo_raid.txt');
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+//  EVENT HANDLER  (processes parsed log events)
+// ═══════════════════════════════════════════════════════════════════════
+function handleEvent(type, payload, ts){
+  var p=payload;
+  if(type==='connected'){
+    S.logFile=p.logFile||'';
+    addLog('sys','Watching: '+S.logFile);
+    return;
+  }
+
+  if(type==='loot'){
+    if(isItemExcl(p.item)) return;
+    var lqty = parseInt(p.qty,10)||1;
+    var evTs = p.ts||ts;
+    addLog('loot','[LOOT x'+lqty+'] '+p.player+' looted '+p.item+(p.mob?' from '+p.mob:''));
+    var nk=norm(p.item);
+    for(var i=0;i<lqty;i++){
+      var row=claimForLoot(nk,p.item,p.player,evTs);
+      row.looter=p.player; row.lootTime=evTs; row.isNew=true; row._ts=evTs;
+      if(p.mob) row.mob=p.mob;
+      trackMob(p.mob, evTs); trackPlayer(p.player);
+    }
+    pruneQueue(nk);
+    trackItem(p.item);
+    renderAll();
+    return;
+  }
+
+  if(type==='left'){
+    if(isItemExcl(p.item)) return;
+    var evTs = p.ts||ts;
+    addLog('left','[LEFT] '+p.player+' left '+p.item+(p.mob?' on '+p.mob:''));
+    var nk=norm(p.item);
+    var q=getQ(nk);
+    var row=null;
+    for(var i=0;i<q.length;i++){
+      var r=q[i];
+      if(!r.looter && !r.leftOnCorpse){
+        var winner=r.rolledBy||r.givenTo||'';
+        var sameTime=!evTs||!r._ts||Math.abs(evTs-r._ts)<2000;
+        if(winner && norm(winner)===norm(p.player) && sameTime){ row=r; break; }
+      }
+    }
+    if(!row){ row=makeRow(p.item); row._ts=evTs; S.rows.push(row); q.push(row); }
+    row.looter=p.player; row.lootTime=evTs; row.leftOnCorpse=true; row.isNew=true;
+    if(p.mob) row.mob=p.mob;
+    trackMob(p.mob, evTs);
+    pruneQueue(nk);
+    trackItem(p.item);
+    renderAll();
+    return;
+  }
+
+  if(type==='given'){
+    if(isItemExcl(p.item)) return;
+    var gqty = parseInt(p.qty,10)||1;
+    var evTs = p.ts||ts;
+    addLog('given','[GIVEN x'+gqty+'] '+p.item+' → '+p.player);
+    var nk=norm(p.item);
+    for(var i=0;i<gqty;i++){
+      var row=claimForGiven(nk,p.item,p.player,evTs);
+      row.givenTo=p.player; row.givenTime=evTs; row.isNew=true; row._ts=evTs;
+    }
+    pruneQueue(nk);
+    trackItem(p.item); trackPlayer(p.player);
+    renderAll();
+    return;
+  }
+
+  if(type==='no_interest'){
+    addLog('sys','[NO INTEREST x'+p.qty+'] '+p.item);
+    S.noInterest.push({ item:p.item, qty:parseInt(p.qty,10)||1, ts:p.ts||ts });
+    renderAll();
+    return;
+  }
+
+  if(type==='roll_win'){
+    // p = { player, qty, item, score, ts }
+    if(isItemExcl(p.item)) return;
+    addLog('roll','[ROLL WIN x'+p.qty+'] '+p.player+' won '+p.item+' ('+p.score+')');
+    var nk=norm(p.item);
+    for(var i=0;i<p.qty;i++){
+      var row=makeRow(p.item);
+      row.rolledBy=p.player; row.rollScore=p.score; row.rolledTime=p.ts||ts; row.isNew=true; row.rollType=p.rollType||'need';
+      S.rows.push(row); getQ(nk).push(row);
+    }
+    trackItem(p.item); trackPlayer(p.player);
+    renderAll();
+    return;
+  }
+
+  if(type==='roll_attempt'){
+    addLog('roll','[ROLL] '+p.player+' rolled '+p.score+' on '+p.item);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  LOG STREAM
+// ═══════════════════════════════════════════════════════════════════════
+function addLog(type, msg){
+  var ts=fmtTime(Date.now());
+  logLines.unshift({type,msg,ts});
+  if(logLines.length>300) logLines.length=300;
+  if(document.getElementById('tab-log') && !document.getElementById('tab-log').classList.contains('hidden')){
+    renderLogStream();
+  }
+}
+function renderLogStream(){
+  var box=document.getElementById('log-box'); if(!box) return;
+  var clsMap={loot:'ev-loot',given:'ev-given',roll:'ev-roll',left:'ev-left',sys:'ev-sys'};
+  box.innerHTML=logLines.map(function(l){
+    return '<div class="log-line"><span class="log-ts">'+l.ts+'</span>'
+      +'<span class="'+(clsMap[l.type]||'ev-sys')+'">'
+      +esc(l.msg)+'</span></div>';
+  }).join('');
+}
+function clearLog(){ logLines=[]; renderLogStream(); }
+
+// ═══════════════════════════════════════════════════════════════════════
+//  SORT
+// ═══════════════════════════════════════════════════════════════════════
+function sortBy(col){
+  if(S.sortCol===col) S.sortDir=S.sortDir==='asc'?'desc':'asc';
+  else{ S.sortCol=col; S.sortDir='asc'; }
+  updateSortHeaders(); renderTable();
+}
+function updateSortHeaders(){
+  ['time','mob','item','given','rolled','looted'].forEach(function(c){
+    var th=document.getElementById('th-'+c); if(!th) return;
+    th.classList.remove('sort-asc','sort-desc');
+    if(c===S.sortCol) th.classList.add('sort-'+S.sortDir);
+  });
+}
+function sortedRows(arr){
+  return arr.slice().sort(function(a,b){
+    var av,bv;
+    switch(S.sortCol){
+      case 'time':   av=rowTime(a);           bv=rowTime(b);           break;
+      case 'mob':    av=norm(a.mob);          bv=norm(b.mob);          break;
+      case 'item':   av=norm(a.item);         bv=norm(b.item);         break;
+      case 'given':  av=norm(a.givenTo||'');  bv=norm(b.givenTo||'');  break;
+      case 'rolled': av=norm(a.rolledBy||''); bv=norm(b.rolledBy||''); break;
+      case 'looted': av=lootStatusKey(a);     bv=lootStatusKey(b);     break;
+      default:       av=0; bv=0;
+    }
+    if(av<bv) return S.sortDir==='asc'?-1:1;
+    if(av>bv) return S.sortDir==='asc'?1:-1;
+    return 0;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  RENDER ALL
+// ═══════════════════════════════════════════════════════════════════════
+function renderAll(){
+  renderTable();
+  renderMobList();
+  renderItemList();
+  renderPlayerList();
+  // Only render summary if that tab is visible (avoid unnecessary work)
+  if(document.getElementById('tab-summary') &&
+     !document.getElementById('tab-summary').classList.contains('hidden')){
+    renderSummary();
+  }
+  renderExport();
+  savePrefs();
+  setTimeout(function(){ S.rows.forEach(function(r){ r.isNew=false; }); }, 2100);
+}
+
+function renderTable(){
+  var tbody=document.getElementById('loot-tbody');
+  var empty=document.getElementById('loot-empty');
+  var table=document.getElementById('loot-table');
+  var search=norm(document.getElementById('search').value);
+  var filt=document.getElementById('filt').value;
+
+  var visible=S.rows.filter(function(r){
+    if(r.mob!=='—'&&isMobExcl(r.mob)) return false;
+    if(isItemExcl(r.item))            return false;
+    if(r.givenTo&&isPlayerExcl(r.givenTo)) return false;
+    if(r.rolledBy&&isPlayerExcl(r.rolledBy)) return false;
+    if(r.looter&&isPlayerExcl(r.looter)) return false;
+    var st=getStatus(r);
+    if(filt&&st!==filt) return false;
+    if(search){
+      var rt=rowTime(r); var dtStr=rt?fmtTime(rt)+' '+new Date(rt).toLocaleDateString([],{month:'2-digit',day:'2-digit',year:'2-digit'}):''; var hay=norm(r.item)+' '+norm(r.mob)+' '+norm(r.givenTo||'')+' '+norm(r.looter||'')+' '+norm(r.rolledBy||'')+' '+norm(dtStr);
+      if(hay.indexOf(search)===-1) return false;
+    }
+    return true;
+  });
+  visible=sortedRows(visible);
+  document.getElementById('row-count').textContent=visible.length+' row'+(visible.length!==1?'s':'')+' shown';
+
+  var all=S.rows.filter(function(r){
+    if(r.mob!=='—'&&isMobExcl(r.mob)) return false;
+    if(isItemExcl(r.item)) return false;
+    if(r.givenTo&&isPlayerExcl(r.givenTo)) return false;
+    if(r.rolledBy&&isPlayerExcl(r.rolledBy)) return false;
+    if(r.looter&&isPlayerExcl(r.looter)) return false;
+    return true;
+  });
+  document.getElementById('st-items').textContent  =all.length;
+  document.getElementById('st-given').textContent  =all.filter(function(r){return !!r.givenTo;}).length;
+  document.getElementById('st-rolled').textContent =all.filter(function(r){return !!r.rolledBy;}).length;
+  document.getElementById('st-looted').textContent =all.filter(function(r){return !!r.looter&&!r.leftOnCorpse;}).length;
+  document.getElementById('st-left').textContent   =all.filter(function(r){return r.leftOnCorpse;}).length;
+  document.getElementById('st-nointerest').textContent=S.noInterest.length;
+  document.getElementById('st-mm').textContent     =all.filter(function(r){return getStatus(r)==='mismatch';}).length;
+
+  if(!visible.length){
+    empty.classList.remove('hidden');
+    if(table) table.classList.add('hidden');
+    tbody.innerHTML='';
+    return;
+  }
+  empty.classList.add('hidden');
+  if(table) table.classList.remove('hidden');
+
+  tbody.innerHTML=visible.map(function(r){
+    var st=getStatus(r);
+    var rowCls=(st==='mismatch'?'row-mm':'')+(r.isNew?' row-new':'');
+    rowCls=rowCls.trim();
+
+    var timeCell='<td style="font-family:var(--mono);font-size:12px;color:var(--text2);white-space:nowrap;font-weight:600;line-height:1.6">'+fmtDateTime(rowTime(r))+'</td>';
+
+    var gCell=r.givenTo
+      ?'<div class="cc"><div style="display:flex;align-items:center;gap:4px"><span class="chk cy" style="font-size:13px">✔</span><span class="pn cy">'+esc(r.givenTo)+'</span></div>'+(r.givenTime?'<span class="csub">'+fmtTime(r.givenTime)+'</span>':'')+'</div>'
+      :'<div class="cc"><span class="cnone">—</span></div>';
+
+    var rollTypeLbl = r.rollType==='greed'
+      ? '<span class="csub" style="color:var(--gold);font-weight:700">GREED</span>'
+      : '<span class="csub" style="color:var(--cyan);font-weight:700">NEED</span>';
+    var rCell=r.rolledBy
+      ?'<div class="cc"><div style="display:flex;align-items:center;gap:4px"><span style="font-size:13px">🎲</span><span class="pn cp">'+esc(r.rolledBy)+'</span></div>'+(r.rollScore!=null?'<span class="csub" style="color:var(--purple)">roll: '+r.rollScore+'</span>':'')+rollTypeLbl+(r.rolledTime?'<span class="csub">'+fmtTime(r.rolledTime)+'</span>':'')+'</div>'
+      :'<div class="cc"><span class="cnone">—</span></div>';
+
+    var lCell;
+    if(r.leftOnCorpse){
+      lCell='<div class="cc"><div style="display:flex;align-items:center;gap:4px"><span style="font-size:13px">💀</span><span class="pn cr">'+esc(r.looter)+'</span></div><span class="csub" style="color:var(--red)">left on corpse</span>'+(r.lootTime?'<span class="csub">'+fmtTime(r.lootTime)+'</span>':'')+'</div>';
+    } else if(r.looter){
+      lCell='<div class="cc"><div style="display:flex;align-items:center;gap:4px"><span class="chk cg" style="font-size:13px">✔</span><span class="pn cg">'+esc(r.looter)+'</span></div>'+(r.lootTime?'<span class="csub">'+fmtTime(r.lootTime)+'</span>':'')+(st==='mismatch'?'<span class="mm-badge">⚠ wrong player</span>':'')+'</div>';
+    } else {
+      lCell='<div class="cc"><span class="cnone">—</span></div>';
+    }
+
+    return '<tr'+(rowCls?' class="'+rowCls+'"':'')+'>'+timeCell
+      +'<td><span class="mob-badge">'+esc(r.mob)+'</span></td>'
+      +'<td style="color:var(--gold2);font-weight:600">'+esc(r.item)+'</td>'
+      +'<td>'+gCell+'</td><td>'+rCell+'</td><td>'+lCell+'</td></tr>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  MOB LIST
+// ═══════════════════════════════════════════════════════════════════════
+function mobSortBy(mode){
+  S.mobSort=mode;
+  ['name-asc','name-desc','count-desc','time-asc','time-desc'].forEach(function(m){
+    var id={'name-asc':'ms-na','name-desc':'ms-nd','count-desc':'ms-cd','time-asc':'ms-ta','time-desc':'ms-td'}[m];
+    var btn=document.getElementById(id); if(!btn) return;
+    btn.classList.toggle('active-sort',m===mode);
+  });
+  renderMobList();
+}
+function sortedMobKeys(){
+  var keys=Object.keys(S.mobState);
+  keys.sort(function(a,b){
+    if(S.mobSort==='name-asc')   return norm(a)<norm(b)?-1:norm(a)>norm(b)?1:0;
+    if(S.mobSort==='name-desc')  return norm(a)>norm(b)?-1:norm(a)<norm(b)?1:0;
+    if(S.mobSort==='count-desc') return S.mobState[b].count-S.mobState[a].count;
+    if(S.mobSort==='time-asc')   return (S.mobState[a].firstSeen||0)-(S.mobState[b].firstSeen||0);
+    if(S.mobSort==='time-desc')  return (S.mobState[b].firstSeen||0)-(S.mobState[a].firstSeen||0);
+    return 0;
+  });
+  return keys;
+}
+function renderMobList(){
+  var el=document.getElementById('mob-list'); if(!el) return;
+  var keys=sortedMobKeys();
+  // Show warning if any mobs are excluded
+  var anyExcluded = keys.some(function(m){ return S.mobState[m].excluded; });
+  var warn = document.getElementById('mob-excl-warn');
+  if(warn) warn.classList.toggle('hidden', !anyExcluded);
+  if(!keys.length){ el.innerHTML='<div class="empty">No mobs yet.</div>'; return; }
+  el.innerHTML=keys.map(function(mob){
+    var m=S.mobState[mob];
+    var safe=mob.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="mob-row'+(m.excluded?' excluded':'') +'">'
+      +'<label><input type="checkbox" '+(m.excluded?'':'checked')+' onchange="toggleMob(\''+safe+'\')">'
+      +esc(mob)+'</label>'
+      +'<span class="mob-count">'+m.count+' item'+(m.count!==1?'s':'')+'</span>'
+      +'</div>';
+  }).join('');
+}
+function toggleMob(mob){
+  if(!S.mobState[mob]) S.mobState[mob]={count:0,excluded:false,firstSeen:0};
+  S.mobState[mob].excluded=!S.mobState[mob].excluded;
+  savePrefs(); renderMobList(); renderTable();
+}
+function setAllMobs(on){
+  Object.keys(S.mobState).forEach(function(m){ S.mobState[m].excluded=!on; });
+  savePrefs(); renderMobList(); renderTable();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  ITEM LIST
+// ═══════════════════════════════════════════════════════════════════════
+function itemSortBy(mode){
+  S.itemSort=mode;
+  ['name-asc','name-desc','count-desc'].forEach(function(m){
+    var id={'name-asc':'is-na','name-desc':'is-nd','count-desc':'is-cd'}[m];
+    var btn=document.getElementById(id); if(!btn) return;
+    btn.classList.toggle('active-sort',m===mode);
+  });
+  renderItemList();
+}
+function renderItemList(){
+  var el=document.getElementById('item-list'); if(!el) return;
+  var keys=Object.keys(S.itemState);
+  keys.sort(function(a,b){
+    if(S.itemSort==='name-asc')   return norm(S.itemState[a].displayName)<norm(S.itemState[b].displayName)?-1:1;
+    if(S.itemSort==='name-desc')  return norm(S.itemState[a].displayName)>norm(S.itemState[b].displayName)?-1:1;
+    if(S.itemSort==='count-desc') return S.itemState[b].count-S.itemState[a].count;
+    return 0;
+  });
+  // Show warning if any items are excluded
+  var anyExcluded = keys.some(function(k){ return S.itemState[k].excluded; });
+  var warn = document.getElementById('item-excl-warn');
+  if(warn) warn.classList.toggle('hidden', !anyExcluded);
+
+  if(!keys.length){ el.innerHTML='<div class="empty">No items yet.</div>'; return; }
+  el.innerHTML=keys.map(function(nk){
+    var it=S.itemState[nk];
+    var safe=nk.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="mob-row'+(it.excluded?' excluded':'') +'">'
+      +'<label><input type="checkbox" '+(it.excluded?'':'checked')+' onchange="toggleItem(\''+safe+'\')">'
+      +esc(it.displayName)+'</label>'
+      +'<span class="mob-count">'+it.count+' drop'+(it.count!==1?'s':'')+'</span>'
+      +'</div>';
+  }).join('');
+}
+function toggleItem(nk){
+  if(!S.itemState[nk]) return;
+  S.itemState[nk].excluded=!S.itemState[nk].excluded;
+  savePrefs(); renderItemList(); renderTable();
+}
+function setAllItems(on){
+  Object.keys(S.itemState).forEach(function(nk){ S.itemState[nk].excluded=!on; });
+  savePrefs(); renderItemList(); renderTable();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════════════════════════════
+function switchTab(name,btn){
+  ['loot','summary','mobs','log','export'].forEach(function(t){
+    document.getElementById('tab-'+t).classList.toggle('hidden',t!==name);
+  });
+  document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  if(name==='log')     renderLogStream();
+  if(name==='export')  renderExport();
+  if(name==='summary') renderSummary();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  RESET
+// ═══════════════════════════════════════════════════════════════════════
+function doReset(){
+  if(S.rows.length>0 && !confirm('Clear all loot data for this session? Mob/item filter preferences are kept.')) return;
+  S.rows=[]; S.queues={}; S.noInterest=[]; S.playerState={};
+  S.sortCol='time'; S.sortDir='asc';
+  document.getElementById('search').value='';
+  document.getElementById('filt').value='';
+  updateSortHeaders();
+  renderAll();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  SUMMARY
+// ═══════════════════════════════════════════════════════════════════════
+function renderSummary(){
+  var active=S.rows.filter(function(r){ return !(r.mob!=="—"&&isMobExcl(r.mob))&&!isItemExcl(r.item); });
+  var confirmed  = active.filter(function(r){return getStatus(r)==="confirmed";});
+  var mismatches = active.filter(function(r){return getStatus(r)==="mismatch" && !r.leftOnCorpse;});
+  var leftRows   = active.filter(function(r){return r.leftOnCorpse;});
+  var pending    = active.filter(function(r){var s=getStatus(r);return (s==="given_only"||s==="rolled_only") && !r.leftOnCorpse && !r.looter;});
+  var unassigned = active.filter(function(r){return getStatus(r)==="looted_only" && !r.leftOnCorpse;});
+  var issues     = mismatches.length + pending.length;
+  var pct        = active.length ? Math.round(confirmed.length/active.length*100) : 0;
+
+  document.getElementById("sum-total").textContent            = active.length;
+  document.getElementById("sum-confirmed").textContent        = confirmed.length;
+  document.getElementById("sum-pct").textContent              = pct+"% confirmed";
+  document.getElementById("sum-issues").textContent           = issues;
+  document.getElementById("sum-left-count").textContent       = leftRows.length;
+  document.getElementById("sum-nointerest-count").textContent = S.noInterest.length;
+
+  var playerMap = {};
+  active.forEach(function(r){
+    var assignee = r.givenTo || r.rolledBy;
+    if(assignee){
+      if(!playerMap[assignee]) playerMap[assignee]={given:0,need:0,greed:0,left:0};
+      if(r.givenTo)  playerMap[assignee].given++;
+      if(r.rolledBy){
+        if(r.rollType==='greed') playerMap[assignee].greed++;
+        else                     playerMap[assignee].need++;
+      }
+    }
+    if(r.looter && r.leftOnCorpse){
+      if(!playerMap[r.looter]) playerMap[r.looter]={given:0,need:0,greed:0,left:0};
+      playerMap[r.looter].left++;
+    }
+  });
+  document.getElementById("sum-players").textContent = Object.keys(playerMap).length;
+  var playerKeys=Object.keys(playerMap).sort(function(a,b){
+    return (playerMap[b].given+playerMap[b].need+playerMap[b].greed)-(playerMap[a].given+playerMap[a].need+playerMap[a].greed);
+  });
+  var maxItems=playerKeys.length?Math.max.apply(null,playerKeys.map(function(k){
+    return playerMap[k].given+playerMap[k].need+playerMap[k].greed;
+  })):1;
+  var pEl=document.getElementById("sum-player-list");
+  if(!playerKeys.length){ pEl.innerHTML="<div class=\"empty\">No players yet.</div>"; }
+  else {
+    pEl.innerHTML=playerKeys.map(function(name){
+      var p=playerMap[name]; var total=p.given+p.need+p.greed;
+      var barPct=maxItems>0?Math.round(total/maxItems*100):0;
+      var detail="";
+      if(p.given)  detail+=" "+p.given+" given";
+      if(p.need)   detail+=" <span style=\"color:var(--cyan)\">"+p.need+" need</span>";
+      if(p.greed)  detail+=" <span style=\"color:var(--gold)\">"+p.greed+" greed</span>";
+      if(p.left)   detail+=" <span style=\"color:var(--red)\">"+p.left+" left</span>";
+      return "<div class=\"player-row\"><div class=\"player-name-cell\">"+esc(name)+"</div>"
+        +"<div class=\"player-bar-wrap\"><div class=\"player-bar\" style=\"width:"+barPct+"%\"></div></div>"
+        +"<div class=\"player-count\">"+total+"</div><div class=\"player-detail\">"+detail+"</div></div>";
+    }).join("");
+  }
+
+  var iEl=document.getElementById("sum-issue-list"); var issueHtml="";
+  mismatches.slice().reverse().forEach(function(r){
+    issueHtml+="<div class=\"issue-row iss-mm\"><div class=\"issue-item\">&#9888; "+esc(r.item)+"</div>"
+      +"<div class=\"issue-detail\">Given: "+esc(r.givenTo||r.rolledBy||"?")
+      +"  to  Looted by: "+esc(r.looter)+"  ("+esc(r.mob)+")</div></div>";
+  });
+  pending.slice().reverse().forEach(function(r){
+    var assignTime = r.givenTime || r.rolledTime;
+    issueHtml+="<div class=\"issue-row iss-pending\"><div class=\"issue-item\">&#9203; "+esc(r.item)+"</div>"
+      +"<div class=\"issue-detail\">Assigned: "+esc(r.givenTo||r.rolledBy||"?")
+      +(assignTime?" at <span style=\"color:var(--cyan)\">"+fmtTime(assignTime)+"</span>":"")
+      +"  &mdash; not yet looted</div></div>";
+  });
+  iEl.innerHTML = issueHtml || "<div class=\"empty\">No issues detected. &#10003;</div>";
+
+  var lEl=document.getElementById("sum-left-list");
+  if(!leftRows.length){ lEl.innerHTML="<div class=\"empty\">Nothing left on corpse. &#10003;</div>"; }
+  else {
+    lEl.innerHTML=leftRows.slice().reverse().map(function(r){
+      return "<div class=\"issue-row iss-left\"><div class=\"issue-item\">&#128128; "+esc(r.item)+"</div>"
+        +"<div class=\"issue-detail\">Left by: "+esc(r.looter)+"  on: "+esc(r.mob)
+        +(r.lootTime?"  at "+fmtTime(r.lootTime):"")+"</div></div>";
+    }).join("");
+  }
+
+  var nEl=document.getElementById("sum-nointerest-list");
+  if(!S.noInterest.length){ nEl.innerHTML="<div class=\"empty\">No unclaimed items.</div>"; }
+  else {
+    nEl.innerHTML=S.noInterest.slice().reverse().map(function(ni){
+      return "<div class=\"issue-row\" style=\"border-left:3px solid var(--text3)\">"
+        +"<div class=\"issue-item\" style=\"color:var(--text2)\">&#128564; "+esc(ni.item)
+        +(ni.qty>1?" <span style=\"color:var(--text3)\">x"+ni.qty+"</span>":"")+"</div>"
+        +"<div class=\"issue-detail\">No one rolled - available after corpse unlocks"
+        +(ni.ts?"  at "+fmtTime(ni.ts):"")+"</div></div>";
+    }).join("");
+  }
+
+  var mobMap={};
+  active.forEach(function(r){
+    var m=r.mob||"—"; if(m==="—") return;
+    if(!mobMap[m]) mobMap[m]={count:0,items:{}};
+    mobMap[m].count++;
+    mobMap[m].items[r.item]=(mobMap[m].items[r.item]||0)+1;
+  });
+  var mobKeys=Object.keys(mobMap).sort(function(a,b){return mobMap[b].count-mobMap[a].count;});
+  var mEl=document.getElementById("sum-mob-list");
+  if(!mobKeys.length){ mEl.innerHTML="<div class=\"empty\">No mob data yet.</div>"; }
+  else {
+    mEl.innerHTML=mobKeys.map(function(mob){
+      var m=mobMap[mob];
+      var itemList=Object.keys(m.items).map(function(item){
+        return item+(m.items[item]>1?" x"+m.items[item]:"");
+      }).join(", ");
+      return "<div class=\"mob-sum-row\"><div class=\"mob-sum-name\">"+esc(mob)+"</div>"
+        +"<div class=\"mob-sum-count\">"+m.count+"</div>"
+        +"<div class=\"mob-sum-items\" title=\""+esc(itemList)+"\">"+esc(itemList)+"</div></div>";
+    }).join("");
+  }
+
+  var uEl=document.getElementById("sum-unassigned-list");
+  if(!unassigned.length){ uEl.innerHTML="<div class=\"empty\">No unassigned loots. &#10003;</div>"; }
+  else {
+    uEl.innerHTML=unassigned.slice().reverse().map(function(r){
+      return "<div class=\"issue-row\"><div class=\"issue-item\">"+esc(r.item)+"</div>"
+        +"<div class=\"issue-detail\">Looted by: "+esc(r.looter)+"  ("+esc(r.mob)+")</div></div>";
+    }).join("");
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+//  PLAYER LIST
+// ═══════════════════════════════════════════════════════════════════════
+var S_playerSort = 'name-asc';
+function playerSortBy(mode){
+  S_playerSort=mode;
+  ['name-asc','name-desc','count-desc'].forEach(function(m){
+    var id={'name-asc':'ps-na','name-desc':'ps-nd','count-desc':'ps-cd'}[m];
+    var btn=document.getElementById(id); if(!btn) return;
+    btn.classList.toggle('active-sort',m===mode);
+  });
+  renderPlayerList();
+}
+function renderPlayerList(){
+  var el=document.getElementById('player-list'); if(!el) return;
+  var keys=Object.keys(S.playerState);
+  keys.sort(function(a,b){
+    if(S_playerSort==='name-asc')   return norm(S.playerState[a].displayName)<norm(S.playerState[b].displayName)?-1:1;
+    if(S_playerSort==='name-desc')  return norm(S.playerState[a].displayName)>norm(S.playerState[b].displayName)?-1:1;
+    if(S_playerSort==='count-desc') return S.playerState[b].count-S.playerState[a].count;
+    return 0;
+  });
+  var anyExcluded=keys.some(function(k){ return S.playerState[k].excluded; });
+  var warn=document.getElementById('player-excl-warn');
+  if(warn) warn.classList.toggle('hidden',!anyExcluded);
+  if(!keys.length){ el.innerHTML='<div class="empty">No players yet.</div>'; return; }
+  el.innerHTML=keys.map(function(nk){
+    var p=S.playerState[nk];
+    var safe=nk.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="mob-row'+(p.excluded?' excluded':'')+'">'
+      +'<label><input type="checkbox" '+(p.excluded?'':'checked')+' onchange="togglePlayer(\''+safe+'\')">'+esc(p.displayName)+'</label>'
+      +'<span class="mob-count">'+p.count+' item'+(p.count!==1?'s':'')+'</span>'
+      +'</div>';
+  }).join('');
+}
+function togglePlayer(nk){
+  if(!S.playerState[nk]) return;
+  S.playerState[nk].excluded=!S.playerState[nk].excluded;
+  savePrefs(); renderPlayerList(); renderTable();
+}
+function setAllPlayers(on){
+  Object.keys(S.playerState).forEach(function(nk){ S.playerState[nk].excluded=!on; });
+  savePrefs(); renderPlayerList(); renderTable();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  EXPORT
+// ═══════════════════════════════════════════════════════════════════════
+function buildExport(){
+  var active=S.rows.filter(function(r){ return !(r.mob!=='\u2014'&&isMobExcl(r.mob))&&!isItemExcl(r.item); });
+  if(!active.length) return 'No loot data yet.';
+  var mm  =active.filter(function(r){return getStatus(r)==='mismatch';});
+  var left=active.filter(function(r){return r.leftOnCorpse;});
+  var pend=active.filter(function(r){ var s=getStatus(r); return (s==='given_only'||s==='rolled_only')&&!r.looter; });
+  var conf=active.filter(function(r){return getStatus(r)==='confirmed';});
+  var noas=active.filter(function(r){return getStatus(r)==='looted_only';});
+  var fname = (typeof loadedFile!=='undefined'?loadedFile:'') || (S.logFile||'');
+  var L=['EQ LOOT TRACKER REPORT','='.repeat(60),
+    'Generated : '+new Date().toLocaleString(),
+    'File      : '+(fname||'\u2014'),
+    'Items     : '+active.length,''];
+  if(mm.length){
+    L.push('MISMATCHES ('+mm.length+'):');
+    mm.forEach(function(r){ L.push('  ['+r.item+']  Assigned: '+(r.givenTo||r.rolledBy||'?')+'  /  Looted by: '+r.looter+'  ('+r.mob+')'); });
+    L.push('');
+  }
+  if(left.length){
+    L.push('LEFT ON CORPSE ('+left.length+'):');
+    left.forEach(function(r){ L.push('  ['+r.item+']  by '+r.looter+'  ('+r.mob+')'); });
+    L.push('');
+  }
+  if(pend.length){
+    L.push('ASSIGNED \u2014 NOT YET LOOTED ('+pend.length+'):');
+    pend.forEach(function(r){ L.push('  ['+r.item+']  \u2192 '+(r.givenTo||r.rolledBy)); });
+    L.push('');
+  }
+  if(S.noInterest&&S.noInterest.length){
+    L.push('NO INTEREST ('+S.noInterest.length+'):');
+    S.noInterest.forEach(function(ni){ L.push('  ['+ni.item+']  x'+ni.qty); });
+    L.push('');
+  }
+  L.push('CONFIRMED ('+conf.length+'):');
+  conf.forEach(function(r){ L.push('  ['+r.item+']  '+(r.givenTo||r.rolledBy||r.looter)+'  ('+r.mob+')'); });
+  if(noas.length){
+    L.push('','LOOTED \u2014 NO ASSIGNMENT ('+noas.length+'):');
+    noas.forEach(function(r){ L.push('  ['+r.item+']  looted by '+r.looter+'  ('+r.mob+')'); });
+  }
+  L.push('','FULL LOG (by time):');
+  active.slice().sort(function(a,b){return rowTime(a)-rowTime(b);}).forEach(function(r){
+    L.push('  '+fmtTime(rowTime(r)).padEnd(12)
+      +' '+(r.item||'').padEnd(36)
+      +'  GIVEN: '+(r.givenTo||'\u2014').padEnd(14)
+      +'  ROLLED: '+(r.rolledBy||'\u2014').padEnd(14)
+      +'  LOOTED: '+(r.leftOnCorpse?'[LEFT]':(r.looter||'\u2014')).padEnd(14)
+      +'  ['+r.mob+']');
+  });
+  return L.join('\n');
+}
+
+function renderExport(){
+  var el=document.getElementById('export-pre');
+  if(el) el.textContent=buildExport();
+}
+
+function copyExport(){
+  navigator.clipboard.writeText(buildExport()).catch(function(){});
+}
+
+function dlExport(){
+  var b=new Blob([buildExport()],{type:'text/plain'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='eq-loot-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════════
+updateSortHeaders();
+renderTable();
+// file mode — no WebSocket needed
+</script>
+<style>
+.kos-footer { text-align:center; padding:18px; font-size:11px; color:#444; border-top:1px solid #1e1e38; margin-top:20px; letter-spacing:1px; transition: color 0.3s, border-color 0.3s; }
+body.light .kos-footer { color:#9a7a50; border-top-color:#c8a870; }
+</style>
+<div class="kos-footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+</script>
+</body>
+</html>

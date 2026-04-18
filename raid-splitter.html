@@ -1,0 +1,2856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EverQuest Raid Splitter</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c0f;--panel:#0f1318;--border:#1e2a35;
+  --gold:#c9923a;--gold2:#e8c070;--teal:#3a9c8c;--teal2:#5dd9c6;
+  --red:#c94040;--text:#d8cfc0;--muted:#6b7a88;--radius:6px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:16px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.header{background:linear-gradient(135deg,#0d1017,#111820,#0d1017);border-bottom:1px solid var(--gold);padding:16px 24px;display:flex;align-items:center;gap:14px}
+.header-icon{font-size:26px}
+.header-title{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold2);letter-spacing:.06em}
+.header-sub{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.tabs{display:flex;border-bottom:1px solid var(--border);background:#0c1016;flex-wrap:wrap}
+.tab{padding:11px 18px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;user-select:none;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--text);background:rgba(201,146,58,.04)}
+.tab.active{color:var(--gold2);border-bottom-color:var(--gold);background:rgba(201,146,58,.06)}
+.badge{background:var(--gold);color:#000;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px}
+.main{flex:1;padding:20px 24px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:18px}
+.panel-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.panel-title{font-family:'Cinzel',serif;font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+.panel-body{padding:16px}
+.hint{font-size:13px;color:var(--muted);margin-bottom:14px;font-style:italic;line-height:1.6}
+
+/* Drop zone */
+.dropzone{border:2px dashed var(--border);border-radius:var(--radius);padding:26px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#080b0e;margin-bottom:12px;position:relative;overflow:hidden}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--gold);background:rgba(201,146,58,.05)}
+.dropzone.loaded{border-color:var(--teal);border-style:solid;background:rgba(58,156,140,.05)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{font-size:26px;margin-bottom:6px}
+.dz-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold2);margin-bottom:3px}
+.dz-sub{font-size:12px;color:var(--muted)}
+.dz-ok{font-size:13px;color:var(--teal2);font-weight:600;margin-top:4px}
+
+/* Raw preview */
+.raw-preview{background:#050709;border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;font-family:monospace;font-size:11px;color:#8a9aaa;white-space:pre-wrap;word-break:break-all;max-height:120px;overflow-y:auto;margin-bottom:10px;display:none}
+.raw-preview.show{display:block}
+.raw-label{font-size:11px;color:var(--muted);margin-bottom:4px;font-family:'Cinzel',serif;letter-spacing:.06em;text-transform:uppercase}
+
+/* Paste toggle */
+.paste-toggle{font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;margin-bottom:8px;display:inline-block}
+.paste-toggle:hover{color:var(--text)}
+textarea{width:100%;background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:monospace;font-size:12px;padding:10px 12px;resize:vertical;outline:none;line-height:1.5;transition:border-color .2s}
+textarea:focus{border-color:var(--gold)}
+textarea::placeholder{color:var(--muted)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:none;border-radius:var(--radius);cursor:pointer;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;transition:all .18s;user-select:none}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#a8742a);color:#000}
+.btn-gold:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));transform:translateY(-1px);box-shadow:0 4px 14px rgba(201,146,58,.3)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn-teal{background:linear-gradient(135deg,var(--teal),#2d7a6c);color:#fff}
+.btn-teal:hover{background:linear-gradient(135deg,var(--teal2),var(--teal));transform:translateY(-1px)}
+.btn-danger{background:rgba(201,64,64,.15);color:var(--red);border:1px solid rgba(201,64,64,.3)}
+.btn-danger:hover{background:rgba(201,64,64,.25)}
+.btn-sm{padding:4px 11px;font-size:10px}
+.btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+
+/* Alerts */
+.alert{padding:10px 13px;border-radius:var(--radius);font-size:13px;margin-bottom:10px;line-height:1.5}
+.alert-warn{background:rgba(201,146,58,.1);border:1px solid rgba(201,146,58,.3);color:var(--gold2)}
+.alert-error{background:rgba(201,64,64,.1);border:1px solid rgba(201,64,64,.3);color:#e08080}
+.alert-ok{background:rgba(58,156,140,.1);border:1px solid rgba(58,156,140,.3);color:var(--teal2)}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:7px 11px;border-bottom:1px solid var(--border);text-align:left}
+.tbl td{padding:6px 11px;border-bottom:1px solid rgba(30,42,53,.5)}
+.tbl tr:hover td{background:rgba(201,146,58,.04)}
+.tbl tr:last-child td{border-bottom:none}
+.scroll{overflow-x:auto}
+
+/* Chips */
+.chip{display:inline-flex;align-items:center;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600}
+.chip-main{background:rgba(201,146,58,.15);color:var(--gold2);border:1px solid rgba(201,146,58,.3)}
+.chip-2nd{background:rgba(180,120,200,.12);color:#c8a0e0;border:1px solid rgba(180,120,200,.25)}
+.chip-alt{background:rgba(58,156,140,.12);color:var(--teal2);border:1px solid rgba(58,156,140,.25)}
+
+/* Class colors */
+.cls-WAR{color:#c8a46c}.cls-CLR{color:#a0c0ff}.cls-PAL{color:#b0d0b0}.cls-SHD{color:#9080a0}
+.cls-DRU{color:#80c080}.cls-MNK{color:#c0a080}.cls-BRD{color:#e0b060}.cls-ROG{color:#c0c060}
+.cls-SHM{color:#60c0b0}.cls-NEC{color:#b060b0}.cls-WIZ{color:#6080e0}.cls-MAG{color:#e06060}
+.cls-ENC{color:#c060c0}.cls-BST{color:#a08060}.cls-BER{color:#e08060}.cls-RNG{color:#80a060}
+
+/* Sep rules */
+.sep-list{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+.sep-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(201,64,64,.06);border:1px solid rgba(201,64,64,.2);border-radius:var(--radius);flex-wrap:wrap}
+.sep-row span{flex:1;font-size:13px;min-width:140px}
+input[type=text]{background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:14px;padding:7px 11px;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--gold)}
+
+/* Balance */
+.bal-wrap{margin:14px 0}
+.bal-label{display:flex;justify-content:space-between;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.bal-bar{height:7px;background:var(--border);border-radius:4px;overflow:hidden;display:flex}
+.bal-r1{background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s}
+.bal-r2{background:linear-gradient(90deg,var(--teal),var(--teal2));transition:width .4s}
+
+/* Split */
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){.split-grid{grid-template-columns:1fr}}
+.raid-card{background:var(--panel);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.raid-card-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.r1hdr{background:linear-gradient(135deg,rgba(201,146,58,.18),rgba(201,146,58,.04));border-bottom:2px solid var(--gold)}
+.r2hdr{background:linear-gradient(135deg,rgba(58,156,140,.18),rgba(58,156,140,.04));border-bottom:2px solid var(--teal)}
+.raid-name{font-family:'Cinzel',serif;font-size:14px;font-weight:700}
+.r1name{color:var(--gold2)}.r2name{color:var(--teal2)}
+.raid-count{font-size:12px;color:var(--muted)}
+.member-row{display:flex;align-items:center;padding:6px 16px;border-bottom:1px solid rgba(30,42,53,.4);gap:9px;font-size:13px}
+.member-row:last-child{border-bottom:none}
+.member-row:hover{background:rgba(255,255,255,.02)}
+.m-name{flex:1}.m-cls{font-size:11px;font-weight:700;font-family:'Cinzel',serif;min-width:30px}
+.m-type{font-size:10px;color:var(--muted);min-width:30px;text-align:right}
+.cls-pips{display:flex;flex-wrap:wrap;gap:5px;padding:12px 16px;border-top:1px solid var(--border)}
+.pip{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.05em;padding:2px 7px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--border)}
+
+/* Export */
+.export-doc{background:#fff;color:#1a1a1a;padding:36px;font-family:'Crimson Pro',Georgia,serif;border-radius:var(--radius);border:1px solid var(--border);margin-top:18px}
+.export-doc h1{font-family:'Cinzel',serif;font-size:20px;text-align:center;margin-bottom:4px}
+.export-doc .dsub{text-align:center;color:#666;font-size:12px;margin-bottom:24px}
+.export-doc .dcols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:680px){.export-doc .dcols{grid-template-columns:1fr}}
+.export-doc h2{font-family:'Cinzel',serif;font-size:14px;border-bottom:2px solid #222;padding-bottom:5px;margin-bottom:10px}
+.export-doc .drow{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;font-size:13px}
+.export-doc .dfooter{margin-top:24px;text-align:center;font-size:11px;color:#aaa}
+
+.grp-player{cursor:pointer;padding:4px 8px;border-radius:3px;font-size:12px;border:1px solid transparent;transition:all .15s;display:flex;align-items:center;gap:6px;user-select:none;}
+.grp-player:hover{background:rgba(201,146,58,.08);border-color:rgba(201,146,58,.3);}
+.grp-player.selected{background:rgba(201,146,58,.22);border-color:var(--gold);color:var(--gold2);font-weight:600;}
+.grp-player.fam-highlight{background:rgba(201,146,58,.08);border-color:rgba(201,146,58,.2);color:var(--gold2);}
+.grp-block{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:4px;margin-bottom:8px;overflow:hidden;}
+.grp-block-hdr{padding:5px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.grp-block-hdr:hover{background:rgba(255,255,255,.04);}
+.grp-block-hdr.drop-target{background:rgba(58,156,140,.15);border-color:var(--teal);}
+.grp-block-body{padding:4px 6px;}
+.oor-block{background:rgba(201,64,64,.05);border:1px dashed rgba(201,64,64,.3);border-radius:4px;margin-bottom:8px;overflow:hidden;}
+.oor-block-hdr{padding:5px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px dashed rgba(201,64,64,.2);cursor:pointer;transition:background .15s;}
+.oor-block-hdr:hover{background:rgba(201,64,64,.08);}
+.oor-block-hdr.drop-target{background:rgba(201,64,64,.15);border-color:var(--red);}
+.oor-block-body{padding:4px 6px;min-height:32px;}
+.role-subhdr{padding:7px 12px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);background:linear-gradient(135deg,rgba(201,146,58,.18),rgba(201,146,58,.06));border-top:1px solid rgba(201,146,58,.35);border-bottom:1px solid rgba(201,146,58,.35);display:flex;justify-content:space-between;align-items:center;font-weight:600;}
+.legend{display:flex;gap:14px;padding:6px 0 2px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
+.mp-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(58,156,140,.06);border:1px solid rgba(58,156,140,.2);border-radius:var(--radius);flex-wrap:wrap;}
+.mp-row span{flex:1;font-size:13px;}
+.hidden{display:none!important}
+.muted{color:var(--muted);font-size:13px}
+code{background:rgba(255,255,255,.07);padding:2px 5px;border-radius:3px;font-size:12px}
+
+/* ── LIGHT MODE ── */
+body.light {
+  --bg: #f0ebe0; --panel: #e8dcc8; --border: #c8a878;
+  --gold: #8a5a10; --gold2: #6a3a00; --teal: #1a7a6a; --teal2: #2a9a88;
+  --red: #a02020; --text: #2a1f0e; --muted: #7a6040;
+}
+body.light { background: #f0ebe0; color: #2a1f0e; }
+body.light .header { background: linear-gradient(135deg, #e8dcc8, #ddd0b8, #e8dcc8) !important; border-bottom-color: #8a5a10 !important; }
+body.light .header-title { color: #6a3a00 !important; }
+body.light .header-sub { color: #7a6040 !important; }
+body.light .tabs { background: #ede0cc !important; border-bottom-color: #c8a878 !important; }
+body.light .tab { color: #7a6040 !important; }
+body.light .tab:hover { background: rgba(138,90,16,0.06) !important; color: #2a1f0e !important; }
+body.light .tab.active { color: #6a3a00 !important; border-bottom-color: #8a5a10 !important; background: rgba(138,90,16,0.08) !important; }
+body.light .panel { background: #e8dcc8 !important; border-color: #c8a878 !important; }
+body.light .panel-hdr { border-bottom-color: #c8a878 !important; }
+body.light .panel-title { color: #1a4a8a !important; }
+body.light .hint { color: #7a6040 !important; }
+body.light .dropzone { background: #f0e8d8 !important; border-color: #c8a878 !important; }
+body.light .dropzone:hover, body.light .dropzone.drag-over { border-color: #8a5a10 !important; background: rgba(138,90,16,0.05) !important; }
+body.light .dropzone.loaded { border-color: #1a7a6a !important; background: rgba(26,122,106,0.05) !important; }
+body.light .dz-title { color: #6a3a00 !important; }
+body.light .dz-sub { color: #7a6040 !important; }
+body.light .dz-ok { color: #1a7a6a !important; }
+body.light .raw-preview { background: #f4ece0 !important; border-color: #c8a878 !important; color: #5a4a30 !important; }
+body.light textarea,
+body.light input,
+body.light select { background: #f4ece0 !important; border-color: #c8a878 !important; color: #2a1f0e !important; }
+body.light textarea:focus,
+body.light input:focus { border-color: #8a5a10 !important; }
+body.light .btn-ghost { color: #7a6040 !important; border-color: #c8a878 !important; }
+body.light .btn-ghost:hover { background: rgba(138,90,16,0.08) !important; color: #2a1f0e !important; }
+body.light code { background: rgba(0,0,0,0.06) !important; }
+body.light .mp-row { background: rgba(26,122,106,0.06) !important; border-color: rgba(26,122,106,0.2) !important; }
+body.light .badge { background: #8a5a10 !important; color: #fff !important; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <span class="header-icon">&#9876;&#65039;</span>
+    <div>
+      <div class="header-title">EverQuest Raid Splitter</div>
+      <div class="header-sub">Tactical Raid Division Engine</div>
+    </div>
+    <div style="margin-left:auto">
+      <button id="btn-reset" class="btn btn-danger btn-sm" title="Clear everything and start over">&#8635; Reset All</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="roster">&#128203; Roster <span id="b-roster" class="badge hidden"></span></div>
+    <div class="tab" data-tab="rules">&#9881; Raid Rules <span id="b-rules" class="badge hidden"></span></div>
+    <div class="tab" data-tab="dump">&#128481; Raid Dump <span id="b-dump" class="badge hidden"></span></div>
+    <div class="tab" data-tab="split">&#9878; Split Result <span id="b-split" class="badge hidden"></span></div>
+    <div class="tab hidden" data-tab="subsplit" id="tab-btn-subsplit" style="color:var(--teal2);">&#9876; Sub-Split <span id="b-subsplit" class="badge hidden" style="background:var(--teal);"></span></div>
+  </div>
+
+  <div class="main">
+
+    <!-- ══ ROSTER ══ -->
+    <div id="tab-roster">
+      <div class="panel">
+        <div class="panel-hdr">
+          <span class="panel-title">Step 1 — Load Master Roster</span>
+          <button id="btn-tmpl" class="btn btn-ghost btn-sm">Download Example CSV</button>
+        </div>
+        <div class="panel-body">
+          <p class="hint">
+            Build your roster in Excel with these 4 columns: <strong>Name, Class, Type, MainName</strong><br>
+            Type must be one of: <strong>Main</strong>, <strong>2ndMain</strong>, or <strong>Alt</strong><br>
+            For alts and 2nd mains, put the main character's name in the MainName column.<br>
+            Save as CSV (comma delimited) and drop the file below.
+          </p>
+          <div class="dropzone" id="dz-roster">
+            <input type="file" id="file-roster" accept=".csv,.txt,.xls,.xlsx"/>
+            <div class="dz-icon">&#128196;</div>
+            <div class="dz-title">Drop your CSV file here</div>
+            <div class="dz-sub">or click to browse &mdash; supports Excel CSV exports</div>
+            <div id="dz-roster-ok" class="dz-ok hidden"></div>
+          </div>
+
+          <div id="raw-label-roster" class="raw-label hidden">Raw file preview (first 300 characters):</div>
+          <div id="raw-preview-roster" class="raw-preview"></div>
+
+          <span id="paste-toggle-roster" class="paste-toggle">&#9660; Or paste CSV text manually</span>
+          <div id="paste-area-roster" class="hidden" style="margin-top:8px">
+            <textarea id="csv-text" rows="7" placeholder="Name,Class,Type,MainName&#10;Aerendil,CLR,Main,&#10;Zythrix,ENC,Alt,Aerendil"></textarea>
+          </div>
+
+          <div class="row">
+            <button id="btn-parse" class="btn btn-gold">&#9889; Parse Roster</button>
+            <span id="roster-ok" class="muted"></span>
+          </div>
+          <div id="roster-err" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <div id="roster-tbl-panel" class="panel hidden">
+        <div class="panel-hdr"><span id="roster-tbl-title" class="panel-title">Roster</span></div>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Name</th><th>Class</th><th>Role</th><th>Type</th><th>Main Anchor</th></tr></thead>
+            <tbody id="roster-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RULES ══ -->
+    <div id="tab-rules" class="hidden">
+
+      <!-- Must-Separate Rules -->
+      <div class="panel">
+        <div class="panel-hdr"><span class="panel-title">&#128683; Must-Separate Rules</span></div>
+        <div class="panel-body">
+          <p class="hint">Players here will NEVER share the same raid. Player A always goes to Raid 1, Player B to Raid 2. Their alts and 2nd mains travel with them. Use Main character names only.</p>
+          <div class="row" style="margin-top:0">
+            <input type="text" id="ms-a" placeholder="Player A (always Raid 1)" style="width:200px"/>
+            <span class="muted">never with</span>
+            <input type="text" id="ms-b" placeholder="Player B (always Raid 2)" style="width:200px"/>
+            <button id="btn-add-rule" class="btn btn-gold btn-sm">Add Rule</button>
+          </div>
+          <div id="rules-list"></div>
+        </div>
+      </div>
+
+      <!-- Manual Player Add -->
+      <div class="panel">
+        <div class="panel-hdr"><span class="panel-title">&#10133; Manual Player Add</span></div>
+        <div class="panel-body">
+          <p class="hint">Add players who are present but not in the raid log. If the name matches your master roster, class and type will auto-fill. They are treated identically to players found in the dump. Leave Main Anchor blank for Mains.</p>
+          <div class="row" style="margin-top:0;flex-wrap:wrap;gap:8px;">
+            <input type="text" id="mp-name" placeholder="Character name" style="width:150px"/>
+            <select id="mp-cls" style="background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:14px;padding:7px 10px;outline:none;">
+              <option value="">Class...</option>
+              <option>BER</option><option>BRD</option><option>BST</option>
+              <option>CLR</option><option>DRU</option><option>ENC</option>
+              <option>MAG</option><option>MNK</option><option>NEC</option>
+              <option>PAL</option><option>RNG</option><option>ROG</option>
+              <option>SHD</option><option>SHM</option><option>WAR</option><option>WIZ</option>
+            </select>
+            <select id="mp-type" style="background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:14px;padding:7px 10px;outline:none;">
+              <option value="main">Main</option>
+              <option value="2ndmain">2nd Main</option>
+              <option value="alt">Alt</option>
+            </select>
+            <input type="text" id="mp-anchor" placeholder="Main Anchor (if alt/2nd)" style="width:180px"/>
+            <button id="btn-add-player" class="btn btn-gold btn-sm">&#10133; Add Player</button>
+          </div>
+          <div id="mp-msg" style="font-size:12px;margin-top:6px;min-height:16px;"></div>
+          <div id="mp-list" style="margin-top:10px;display:flex;flex-direction:column;gap:7px;"></div>
+          <div id="mp-count" class="muted" style="margin-top:8px;font-size:12px;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ DUMP ══ -->
+    <div id="tab-dump" class="hidden">
+      <div class="panel">
+        <div class="panel-hdr"><span class="panel-title">Step 2 — Load Raid Dump</span></div>
+        <div class="panel-body">
+          <p class="hint">Drop your raid dump file or paste the text. Accepts <code>/raidwindow</code> exports, EQ log lines, or a plain name list — one name per line.</p>
+          <div class="dropzone" id="dz-dump">
+            <input type="file" id="file-dump" accept=".txt,.log,.csv"/>
+            <div class="dz-icon">&#128481;</div>
+            <div class="dz-title">Drop raid dump file here</div>
+            <div class="dz-sub">or click to browse</div>
+            <div id="dz-dump-ok" class="dz-ok hidden"></div>
+          </div>
+
+          <div id="raw-label-dump" class="raw-label hidden">Raw file preview (first 300 characters):</div>
+          <div id="raw-preview-dump" class="raw-preview"></div>
+
+          <span id="paste-toggle-dump" class="paste-toggle">&#9660; Or paste dump text manually</span>
+          <div id="paste-area-dump" class="hidden" style="margin-top:8px">
+            <textarea id="dump-text" rows="10" placeholder="Aerendil    CLR   65&#10;Moravel     WAR   65&#10;[Mon Jan 01] Lyndra is in the raid.&#10;-- or just one name per line --"></textarea>
+          </div>
+
+          <div class="row" style="margin-bottom:10px;align-items:center;">
+            <label style="font-size:13px;color:var(--muted);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;">Group Size:</label>
+            <select id="group-size-sel" style="background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:14px;padding:6px 10px;outline:none;width:70px;">
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6" selected>6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+            <span class="muted" style="font-size:12px;">players per group</span>
+          </div>
+          <div class="row">
+            <button id="btn-split" class="btn btn-gold">&#9876; Split Raid Now</button>
+            <span id="split-status" class="muted"></span>
+          </div>
+          <div id="dump-err" style="margin-top:8px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SPLIT ══ -->
+    <div id="tab-split" class="hidden">
+      <div id="split-empty" class="alert alert-warn">No split yet. Complete Steps 1 and 2, then click <strong>Split Raid Now</strong>.</div>
+      <div id="split-out" class="hidden"></div>
+      <div id="export-doc" class="hidden"></div>
+    </div>
+
+    <!-- ══ SUB-SPLIT TAB ══ -->
+    <div id="tab-subsplit" class="hidden">
+      <div id="subsplit-content">
+        <div class="alert alert-warn">No sub-splits yet. Go to the Split Result tab and click &#9876; Sub-Split on a raid card.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+var S = { roster:[], mustSplit:[], manualPlayers:[], rosterRaw:"", dumpRaw:"", splitResult:null, showExport:false, groupSize:6, subSplits:{} };
+
+// ── DOM helpers ───────────────────────────────────────────────────────────────
+function $(id){ return document.getElementById(id); }
+function mk(tag,cls,txt){
+  var n=document.createElement(tag);
+  if(cls) n.className=cls;
+  if(txt!=null) n.textContent=txt;
+  return n;
+}
+function showErr(containerId, msg){
+  var d=mk("div","alert alert-error"); d.innerHTML=msg;
+  $(containerId).appendChild(d);
+}
+function clearEl(id){ $(id).innerHTML=""; }
+
+function roleOf(c){
+  if(["WAR","PAL","SHD"].indexOf(c)>=0) return "Tank";
+  if(["CLR","DRU","SHM"].indexOf(c)>=0) return "Healer";
+  if(["BRD","ENC"].indexOf(c)>=0) return "Support";
+  return "DPS";
+}
+function copyText(t){
+  try{ navigator.clipboard.writeText(t); }
+  catch(e){ var x=document.createElement("textarea"); x.value=t; document.body.appendChild(x); x.select(); document.execCommand("copy"); document.body.removeChild(x); }
+}
+function flatMembers(groups){
+  var out=[];
+  for(var i=0;i<groups.length;i++) for(var j=0;j<groups[i].members.length;j++) out.push(groups[i].members[j]);
+  return out;
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+var TABS=["roster","rules","dump","split","subsplit"];
+function showTab(name){
+  TABS.forEach(function(t){
+    $("tab-"+t).classList.toggle("hidden",t!==name);
+    document.querySelector('[data-tab="'+t+'"]').classList.toggle("active",t===name);
+  });
+}
+document.querySelectorAll(".tab").forEach(function(t){
+  t.addEventListener("click",function(){ showTab(t.dataset.tab); });
+});
+
+// ── Paste toggles ─────────────────────────────────────────────────────────────
+function setupPasteToggle(tid, aid){
+  $(tid).addEventListener("click",function(){
+    var hidden=$(aid).classList.toggle("hidden");
+    $(tid).textContent=(hidden?"▼":"▲")+" Or paste text manually";
+  });
+}
+setupPasteToggle("paste-toggle-roster","paste-area-roster");
+setupPasteToggle("paste-toggle-dump","paste-area-dump");
+
+// ── Drop zones ────────────────────────────────────────────────────────────────
+function setupDZ(dzId, fileId, okId, rawLabelId, rawPreviewId, onText){
+  var dz=$(dzId), fi=$(fileId);
+  function readFile(file){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var text=e.target.result;
+      // Show raw preview
+      $(rawLabelId).classList.remove("hidden");
+      var preview=$(rawPreviewId);
+      preview.classList.add("show");
+      preview.textContent=text.slice(0,400)+(text.length>400?"...":"");
+      dz.classList.add("loaded");
+      $(okId).textContent="✓ Loaded: "+file.name+" ("+text.length+" chars)";
+      $(okId).classList.remove("hidden");
+      onText(text);
+    };
+    reader.readAsText(file, "UTF-8");
+  }
+  dz.addEventListener("dragover",function(e){ e.preventDefault(); dz.classList.add("drag-over"); });
+  dz.addEventListener("dragleave",function(){ dz.classList.remove("drag-over"); });
+  dz.addEventListener("drop",function(e){
+    e.preventDefault(); dz.classList.remove("drag-over");
+    if(e.dataTransfer.files.length) readFile(e.dataTransfer.files[0]);
+  });
+  fi.addEventListener("change",function(){ if(fi.files.length) readFile(fi.files[0]); });
+}
+
+setupDZ("dz-roster","file-roster","dz-roster-ok","raw-label-roster","raw-preview-roster",function(text){
+  S.rosterRaw=text;
+  $("csv-text").value=text;
+  $("paste-area-roster").classList.remove("hidden");
+  $("paste-toggle-roster").textContent="▲ Or paste text manually";
+});
+setupDZ("dz-dump","file-dump","dz-dump-ok","raw-label-dump","raw-preview-dump",function(text){
+  S.dumpRaw=text;
+  $("dump-text").value=text;
+  $("paste-area-dump").classList.remove("hidden");
+  $("paste-toggle-dump").textContent="▲ Or paste text manually";
+});
+
+$("csv-text").addEventListener("input",function(){ S.rosterRaw=$("csv-text").value; });
+$("dump-text").addEventListener("input",function(){ S.dumpRaw=$("dump-text").value; });
+
+// ── Class name normalizer ─────────────────────────────────────────────────────
+// Maps full class names (as typed in Excel) to standard 3-letter abbreviations
+var CLASS_MAP={
+  "warrior":"WAR","war":"WAR",
+  "cleric":"CLR","clr":"CLR",
+  "paladin":"PAL","pal":"PAL",
+  "shadowknight":"SHD","shadow knight":"SHD","shd":"SHD","sk":"SHD",
+  "druid":"DRU","dru":"DRU",
+  "monk":"MNK","mnk":"MNK",
+  "bard":"BRD","brd":"BRD",
+  "rogue":"ROG","rog":"ROG",
+  "shaman":"SHM","shm":"SHM",
+  "necromancer":"NEC","nec":"NEC","necro":"NEC",
+  "wizard":"WIZ","wiz":"WIZ",
+  "magician":"MAG","mag":"MAG","mage":"MAG",
+  "enchanter":"ENC","enc":"ENC",
+  "beastlord":"BST","bst":"BST",
+  "berserker":"BER","ber":"BER",
+  "ranger":"RNG","rng":"RNG"
+};
+function normalizeClass(raw){
+  var key=raw.toLowerCase().replace(/[^a-z ]/g,"").trim();
+  if(CLASS_MAP[key]) return CLASS_MAP[key];
+  // fallback: first 3 uppercase letters
+  return raw.toUpperCase().replace(/[^A-Z]/g,"").slice(0,3)||"???";
+}
+
+// ── BULLETPROOF CSV PARSER ────────────────────────────────────────────────────
+// Handles: BOM, semicolons, tabs, quoted fields, mixed line endings, extra spaces
+function parseCSV(raw){
+  // Strip BOM (Excel UTF-8 BOM: 0xEF 0xBB 0xBF)
+  raw=raw.replace(/^\uFEFF/,"");
+  // Normalise line endings
+  raw=raw.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+
+  var lines=raw.trim().split("\n").filter(function(l){ return l.trim()!==""; });
+  if(lines.length<2) return {records:[],errors:["Need a header row and at least one data row."]};
+
+  // Auto-detect delimiter: comma, semicolon, or tab
+  var firstLine=lines[0];
+  var delim=",";
+  if((firstLine.match(/;/g)||[]).length > (firstLine.match(/,/g)||[]).length) delim=";";
+  else if((firstLine.match(/\t/g)||[]).length > (firstLine.match(/,/g)||[]).length) delim="\t";
+
+  // Parse a single CSV line respecting quoted fields
+  function parseLine(line){
+    var cols=[], cur="", inQ=false;
+    for(var i=0;i<line.length;i++){
+      var ch=line[i];
+      if(ch==='"'){
+        if(inQ && line[i+1]==='"'){ cur+='"'; i++; }
+        else inQ=!inQ;
+      } else if(ch===delim && !inQ){
+        cols.push(cur.trim()); cur="";
+      } else {
+        cur+=ch;
+      }
+    }
+    cols.push(cur.trim());
+    return cols;
+  }
+
+  // Parse header — normalise to lowercase, strip spaces/quotes
+  var hdrCols=parseLine(lines[0]);
+  var hdr=hdrCols.map(function(h){ return h.toLowerCase().replace(/[^a-z0-9]/g,""); });
+
+  // Find column indices flexibly
+  function findCol(keywords){
+    for(var k=0;k<keywords.length;k++){
+      for(var i=0;i<hdr.length;i++){
+        if(hdr[i].indexOf(keywords[k])>=0) return i;
+      }
+    }
+    return -1;
+  }
+
+  var ni=findCol(["name","char","player","toon"]);
+  var ci=findCol(["class","cls"]);
+  var ti=findCol(["type","role","rank"]);
+  var mi=findCol(["mainname","main","anchor"]);
+  // if mainname and type share 'main', prefer the longer match for mainname
+  if(mi===ti) mi=-1; // fallback: don't confuse Type col with MainName col
+
+  if(ni<0) return {records:[],errors:["Could not find a <strong>Name</strong> column. Header found: <em>"+hdrCols.join(" | ")+"</em>"]};
+  if(ci<0) return {records:[],errors:["Could not find a <strong>Class</strong> column. Header found: <em>"+hdrCols.join(" | ")+"</em>"]};
+  if(ti<0) return {records:[],errors:["Could not find a <strong>Type</strong> column. Header found: <em>"+hdrCols.join(" | ")+"</em>"]};
+
+  var records=[], skipped=0;
+  for(var i=1;i<lines.length;i++){
+    var cols=parseLine(lines[i]);
+    var name=(cols[ni]||"").trim();
+    if(!name){ skipped++; continue; }
+    var rawType=((cols[ti]||"")).toLowerCase().trim();
+    var type="main";
+    if(rawType.indexOf("2nd")>=0||rawType.indexOf("second")>=0||rawType.indexOf("second")>=0) type="2ndmain";
+    else if(rawType.indexOf("alt")>=0) type="alt";
+    var mainName=mi>=0?(cols[mi]||"").trim():"";
+    var rawCls=(cols[ci]||"").trim();
+    var cls=normalizeClass(rawCls);
+    records.push({name:name, cls:cls, type:type, mainName:mainName});
+  }
+
+  if(!records.length){
+    return {records:[],errors:["Header was found (<em>"+hdrCols.join(" | ")+"</em>) but no data rows could be parsed. Check that your CSV has data below the header row and that it uses the same delimiter throughout."]};
+  }
+
+  return {records:records, errors:[], skipped:skipped, delimiter:delim};
+}
+
+// ── Raid dump parser ──────────────────────────────────────────────────────────
+function parseDump(raw){
+  var seen={}, out=[];
+  raw.replace(/^\uFEFF/,"").split(/\r?\n/).forEach(function(line){
+    // Strip EQ log timestamps like [Mon Jan 01 00:00:00 2024]
+    var clean=line.replace(/\[.*?\]/g,"").trim();
+    if(!clean) return;
+    // Split on tabs or multiple spaces to get columns
+    var cols=clean.split(/\t+|\s{2,}/);
+    // Check every column for a player name (capital letter, 2+ alpha chars)
+    for(var i=0;i<cols.length;i++){
+      var word=cols[i].trim();
+      if(/^[A-Z][a-zA-Z]{1,19}$/.test(word) && !seen[word]){
+        seen[word]=true; out.push(word); break;
+      }
+    }
+  });
+  return out;
+}
+
+// ── Build groups ──────────────────────────────────────────────────────────────
+function buildGroups(present){
+  var rMap={};
+  S.roster.forEach(function(r){ rMap[r.name.toLowerCase()]=r; });
+
+  // Merge manual players into present list and always inject into rMap
+  // so manual players override roster data (e.g. class or anchor corrections)
+  var presentMerged = present.slice();
+  S.manualPlayers.forEach(function(mp){
+    var lc=mp.name.toLowerCase();
+    // Always inject/override in rMap so manual settings take precedence
+    rMap[lc]={ name:mp.name, cls:normalizeClass(mp.cls), type:mp.type, mainName:mp.anchor||"" };
+    // Add to present list if not already there (from dump)
+    if(!presentMerged.some(function(n){ return n.toLowerCase()===lc; })){
+      presentMerged.push(mp.name);
+    }
+  });
+  present = presentMerged;
+
+  // Build a set of names actually present in the raid dump
+  var presentSet={};
+  present.forEach(function(name){ presentSet[name.toLowerCase()]=true; });
+
+  var groups={}, unmatched=[];
+  present.forEach(function(name){
+    var rec=rMap[name.toLowerCase()];
+    if(!rec){ unmatched.push(name); return; }
+
+    // Determine anchor:
+    // - Main: anchor is themselves
+    // - Alt or 2ndMain: anchor is their MainName from roster
+    //   BUT if their main is NOT in the raid dump, still use the main's name
+    //   as anchor so that if multiple alts/2nd-mains from the same family are
+    //   present, they all group together rather than becoming separate families.
+    var anchor;
+    if(rec.type==="main"){
+      anchor=rec.name;
+    } else {
+      // Use MainName from roster; fall back to self if MainName not set
+      anchor=(rec.mainName&&rec.mainName.trim())?rec.mainName:rec.name;
+    }
+
+    if(!groups[anchor]) groups[anchor]={mainName:anchor,members:[]};
+    groups[anchor].members.push(rec);
+  });
+
+  var arr=[]; for(var k in groups) arr.push(groups[k]);
+  return {groups:arr,unmatched:unmatched};
+}
+
+// ── Class / Role definitions ──────────────────────────────────────────────────
+// SHD = Shadow Knight (Tank), SHM = Shaman (Healer)
+var ROLE_ORDER=["Tank","Healer","DPS","Support"];
+function roleOf(c){
+  if(["WAR","PAL","SHD"].indexOf(c)>=0) return "Tank";
+  if(["CLR","DRU","SHM"].indexOf(c)>=0) return "Healer";
+  if(["BRD","ENC"].indexOf(c)>=0) return "Support";
+  return "DPS";
+}
+function isBard(m){ return m.cls==="BRD"; }
+function isHealer(m){ return ["CLR","DRU","SHM"].indexOf(m.cls)>=0; }
+function isTank(m){ return ["WAR","PAL","SHD"].indexOf(m.cls)>=0; }
+function isMeleeDPS(m){ return ["BER","ROG","MNK","RNG","BST"].indexOf(m.cls)>=0; }
+function familyHasBard(f){ for(var i=0;i<f.members.length;i++) if(isBard(f.members[i])) return true; return false; }
+function familyHasHealer(f){ for(var i=0;i<f.members.length;i++) if(isHealer(f.members[i])) return true; return false; }
+function classCount(things){
+  var m={};
+  things.forEach(function(g){
+    var list=g.members||[g];
+    list.forEach(function(mb){ if(mb.cls) m[mb.cls]=(m[mb.cls]||0)+1; });
+  });
+  return m;
+}
+function clsInRaid(raid,testFn){
+  var n=0; raid.forEach(function(f){ f.members.forEach(function(m){ if(testFn(m)) n++; }); }); return n;
+}
+function clsByName(raid,cls){
+  var n=0; raid.forEach(function(f){ f.members.forEach(function(m){ if(m.cls===cls) n++; }); }); return n;
+}
+function totalMem(raid){ var n=0; raid.forEach(function(f){ n+=f.members.length; }); return n; }
+function sortedClasses(c1,c2){
+  var set={}; for(var k in c1) set[k]=1; for(var k in c2) set[k]=1;
+  return Object.keys(set).sort(function(a,b){
+    var ra=ROLE_ORDER.indexOf(roleOf(a)), rb=ROLE_ORDER.indexOf(roleOf(b));
+    if(ra!==rb) return ra-rb;
+    return a<b?-1:a>b?1:0;
+  });
+}
+
+// ── SPLIT: per-class balanced across two raids ───────────────────────────────
+// For each unassigned family we compute a "class score" across ALL members
+// (not just the main), then assign to whichever raid produces the better
+// overall class balance. We use a weighted imbalance score so that tanks
+// and healers carry more weight than generic DPS.
+function doSplit(families){
+  var assigned={}, r1=[], r2=[];
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  // Count a specific class across a list of families
+  function clsCount(raid, cls){
+    var n=0;
+    raid.forEach(function(f){ f.members.forEach(function(m){ if(m.cls===cls) n++; }); });
+    return n;
+  }
+  // Count members matching testFn across families
+  function roleCount(raid, testFn){
+    var n=0;
+    raid.forEach(function(f){ f.members.forEach(function(m){ if(testFn(m)) n++; }); });
+    return n;
+  }
+  function headcount(raid){
+    var n=0; raid.forEach(function(f){ n+=f.members.length; }); return n;
+  }
+
+  // Compute a weighted imbalance score for (r1 vs r2) across all classes.
+  // Lower is better balanced. Bards/healers/tanks weighted more heavily.
+  function imbalanceScore(ra, rb){
+    var score=0;
+    var allCls=["BRD","CLR","DRU","SHM","WAR","PAL","SHD",
+                "ENC","MNK","ROG","RNG","BST","BER","NEC","WIZ","MAG"];
+    allCls.forEach(function(c){
+      var weight = (c==="BRD")?4 : (["CLR","DRU","SHM"].indexOf(c)>=0)?3 :
+                  (["WAR","PAL","SHD"].indexOf(c)>=0)?2 : 1;
+      score += weight * Math.abs(clsCount(ra,c) - clsCount(rb,c));
+    });
+    // Also penalise headcount imbalance
+    score += Math.abs(headcount(ra) - headcount(rb));
+    return score;
+  }
+
+  // ── 1. Must-split anchors ─────────────────────────────────────────────────
+  // Match against mainName OR any member name in the family
+  function famContainsName(f, name){
+    var lc=name.toLowerCase();
+    if(f.mainName.toLowerCase()===lc) return true;
+    for(var mi=0;mi<f.members.length;mi++){
+      if(f.members[mi].name.toLowerCase()===lc) return true;
+    }
+    return false;
+  }
+  S.mustSplit.forEach(function(rule){
+    families.forEach(function(f){
+      if(famContainsName(f,rule.a)&&!assigned[f.mainName]){ r1.push(f); assigned[f.mainName]=1; }
+      if(famContainsName(f,rule.b)&&!assigned[f.mainName]){ r2.push(f); assigned[f.mainName]=2; }
+    });
+  });
+
+  // ── 2. Sort unassigned: bards first, then healers, then tanks, then rest ──
+  // Within each tier sort by family size descending (largest first)
+  function familyTier(f){
+    var hasBard=false,hasHealer=false,hasTank=false;
+    f.members.forEach(function(m){
+      if(isBard(m)) hasBard=true;
+      if(isHealer(m)) hasHealer=true;
+      if(isTank(m)) hasTank=true;
+    });
+    if(hasBard) return 0;
+    if(hasHealer) return 1;
+    if(hasTank) return 2;
+    return 3;
+  }
+
+  var unassigned=[];
+  families.forEach(function(f){ if(!assigned[f.mainName]) unassigned.push(f); });
+  unassigned.sort(function(a,b){
+    var ta=familyTier(a), tb=familyTier(b);
+    if(ta!==tb) return ta-tb;
+    return b.members.length - a.members.length;
+  });
+
+  // ── 3. Assign each family to whichever raid produces less imbalance ───────
+  unassigned.forEach(function(f){
+    // Simulate adding to r1
+    r1.push(f);
+    var scoreIfR1 = imbalanceScore(r1, r2);
+    r1.pop();
+    // Simulate adding to r2
+    r2.push(f);
+    var scoreIfR2 = imbalanceScore(r1, r2);
+    r2.pop();
+    // Place in whichever raid gives the lower imbalance score
+    if(scoreIfR1 <= scoreIfR2){ r1.push(f); assigned[f.mainName]=1; }
+    else{ r2.push(f); assigned[f.mainName]=2; }
+  });
+
+  var g1=buildRaidGroups(r1, true);
+  var g2=buildRaidGroups(r2, false);
+  validateGroups(g1, "Raid1");
+  validateGroups(g2, "Raid2");
+  return { raid1:r1, raid2:r2, groups1:g1, groups2:g2 };
+}
+
+// ── BUILD IN-RAID GROUPS of 6 ─────────────────────────────────────────────────
+// Strategy: completely separate the "who goes in which group" decision from
+// the "keep families together" preference. We do it in 3 explicit passes:
+//
+// PASS 1 – Anchor assignment: hand out exactly one bard and one healer to
+//   each group. Each anchor is a single MEMBER (not their whole family).
+//   We deliberately skip alts here — if the bard's alt is a healer, the alt
+//   is treated as a healer and goes to a DIFFERENT group.
+//
+// PASS 2 – Tank distribution: one tank per group where possible.
+//
+// PASS 3 – Fill: remaining unassigned members. For each unassigned member,
+//   try to place them in the same group as their family anchor. If that group
+//   is full, put them in any group with space. Never add a second bard or
+//   healer to a group that already has one, as long as there is a group
+//   that still has none.
+//
+function buildRaidGroups(families, oddGroups){
+  var GS = S.groupSize||6;
+
+  // Flatten members into pool tagged with famKey — but we place WHOLE families
+  var total = 0;
+  families.forEach(function(f){ total += f.members.length; });
+  var numGroups = Math.ceil(total / GS);
+
+  // Initialise groups
+  var groups = [];
+  for(var i=0; i<numGroups; i++) groups.push({groupNum:0, members:[]});
+
+  var placed = {}; // famKey → true
+
+  function groupSize(gi){ return groups[gi].members.length; }
+  function groupHas(gi, testFn){ return groups[gi].members.some(testFn); }
+  function addFamily(gi, fam){
+    fam.members.forEach(function(m){
+      groups[gi].members.push({name:m.name,cls:m.cls,type:m.type,famKey:fam.mainName});
+    });
+    placed[fam.mainName] = true;
+  }
+
+  // Find the least-full group that satisfies a condition and has room for famSize members
+  function leastFullGroup(famSize, condFn){
+    var best=-1, bestSize=Infinity;
+    for(var gi=0; gi<numGroups; gi++){
+      if(groupSize(gi)+famSize > GS) continue;
+      if(condFn && !condFn(gi)) continue;
+      if(groupSize(gi) < bestSize){ bestSize=groupSize(gi); best=gi; }
+    }
+    return best;
+  }
+  // Least-full group with room, no condition
+  function leastFull(famSize){
+    return leastFullGroup(famSize, null);
+  }
+
+  // Separate families by type
+  var bardFams=[], healFams=[], meleeFams=[], restFams=[];
+  families.forEach(function(fam){
+    var hasBard=fam.members.some(isBard);
+    var hasHeal=fam.members.some(isHealer);
+    var hasMelee=fam.members.some(isMeleeDPS);
+    if(hasBard)       bardFams.push(fam);
+    else if(hasHeal)  healFams.push(fam);
+    else if(hasMelee) meleeFams.push(fam);
+    else              restFams.push(fam);
+  });
+  // Sort each bucket largest-first so big families get placed early
+  function bySize(a,b){ return b.members.length - a.members.length; }
+  bardFams.sort(bySize); healFams.sort(bySize);
+  meleeFams.sort(bySize); restFams.sort(bySize);
+
+  // ── ROUND 1: assign one bard family per group, round-robin ───────────────
+  // Go through groups 0,1,2... and assign the next bard family to each
+  // group that doesn't have a bard yet. One bard family per group.
+  bardFams.forEach(function(fam, idx){
+    // Target group index = idx (one bard per group in order)
+    var gi = idx < numGroups ? idx : -1;
+    // If that group is too full, find least-full group without a bard
+    if(gi >= 0 && groupSize(gi)+fam.members.length > GS){
+      gi = leastFullGroup(fam.members.length, function(g){ return !groupHas(g, isBard); });
+    }
+    if(gi < 0) gi = leastFull(fam.members.length); // overflow: just fit it somewhere
+    if(gi < 0) gi = 0; // absolute fallback
+    addFamily(gi, fam);
+  });
+
+  // ── ROUND 2: assign one healer family per group ───────────────────────────
+  // For each healer family, find the lowest-indexed group that has no healer yet
+  // and has room. This spreads healers one-per-group.
+  healFams.forEach(function(fam){
+    // First try: group with no healer yet, least full, with room
+    var gi = leastFullGroup(fam.members.length, function(g){ return !groupHas(g, isHealer); });
+    if(gi < 0){
+      // All groups have healers already — just least full with room
+      gi = leastFull(fam.members.length);
+    }
+    if(gi < 0) gi = 0;
+    addFamily(gi, fam);
+  });
+
+  // ── ROUND 3: melee DPS — prefer groups that already have a bard ──────────
+  meleeFams.forEach(function(fam){
+    // First try: group with a bard, least full, with room
+    var gi = leastFullGroup(fam.members.length, function(g){ return groupHas(g, isBard); });
+    if(gi < 0) gi = leastFull(fam.members.length);
+    if(gi < 0) gi = 0;
+    addFamily(gi, fam);
+  });
+
+  // ── ROUND 4: everyone else, least full ───────────────────────────────────
+  restFams.forEach(function(fam){
+    var gi = leastFull(fam.members.length);
+    if(gi < 0){
+      // Family is larger than any remaining space — split by member priority
+      // main first, then 2nd mains, then alts
+      var ordered = fam.members.slice().sort(function(a,b){
+        var rank = {main:0,"2ndmain":1,alt:2};
+        return (rank[a.type]||2)-(rank[b.type]||2);
+      });
+      ordered.forEach(function(m){
+        var tgi=-1, minSz=Infinity;
+        for(var g=0; g<numGroups; g++){
+          if(groupSize(g)<GS && groupSize(g)<minSz){ minSz=groupSize(g); tgi=g; }
+        }
+        if(tgi>=0) groups[tgi].members.push({name:m.name,cls:m.cls,type:m.type,famKey:fam.mainName});
+      });
+    } else {
+      addFamily(gi, fam);
+    }
+  });
+
+  // ── Assign group numbers ──────────────────────────────────────────────────
+  groups.forEach(function(g,i){
+    g.groupNum = oddGroups ? (i*2+1) : (i*2+2);
+  });
+
+  return groups.filter(function(g){ return g.members.length > 0; });
+}
+
+function raidText(label, raidGroups){
+  var lines=["=== "+label+" ===\n"];
+  raidGroups.forEach(function(grp){
+    lines.push("-- Group "+grp.groupNum+" --");
+    grp.members.forEach(function(m){
+      // Use tab separation — works in most chat clients and text editors
+      lines.push((m.name||"")+"\t"+(m.cls||"???")+"\t["+m.type+"]");
+    });
+    lines.push("");
+  });
+  return lines.join("\n");
+}
+
+// ── Template download ─────────────────────────────────────────────────────────
+$("btn-tmpl").addEventListener("click",function(){
+  var csv="Name,Class,Type,MainName\nAerendil,CLR,Main,\nMoravel,WAR,Main,\nZythrix,ENC,Alt,Moravel\nDraeven,ROG,Alt,Moravel\nLyndra,SHM,Main,\nKaeleth,NEC,2ndMain,\nVorrith,WIZ,Alt,Kaeleth\nThandus,PAL,Main,\nSorael,BRD,Main,\nGrymveil,DRU,Main,";
+  var blob=new Blob([csv],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="eq_roster_template.csv"; a.click();
+});
+
+// ── Parse roster ──────────────────────────────────────────────────────────────
+$("btn-parse").addEventListener("click",function(){
+  clearEl("roster-err"); $("roster-ok").textContent="";
+  var raw=S.rosterRaw||$("csv-text").value;
+  if(!raw.trim()){ showErr("roster-err","No data yet. Drop your CSV file or paste the text."); return; }
+  var res=parseCSV(raw);
+  if(res.errors.length){ res.errors.forEach(function(e){ showErr("roster-err",e); }); return; }
+
+  S.roster=res.records;
+  var mains=0,sec=0,alts=0;
+  res.records.forEach(function(r){ if(r.type==="main") mains++; else if(r.type==="2ndmain") sec++; else alts++; });
+
+  var delimitLabel=res.delimiter===","?"comma":res.delimiter==="\t"?"tab":"semicolon";
+  $("roster-ok").textContent="✓ "+res.records.length+" characters loaded ("+mains+" mains · "+sec+" 2nd mains · "+alts+" alts · "+delimitLabel+" delimited)";
+  $("b-roster").textContent=res.records.length; $("b-roster").classList.remove("hidden");
+
+  // Populate table
+  var tbody=$("roster-tbody"); tbody.innerHTML="";
+  res.records.forEach(function(r){
+    var tr=mk("tr");
+    var chipCls=r.type==="main"?"chip chip-main":r.type==="2ndmain"?"chip chip-2nd":"chip chip-alt";
+    var chipTxt=r.type==="main"?"Main":r.type==="2ndmain"?"2nd Main":"Alt";
+    var td1=mk("td","",r.name);
+    var td2=mk("td"); td2.appendChild(mk("span","m-cls cls-"+r.cls,r.cls||"?"));
+    var td3=mk("td","muted",roleOf(r.cls));
+    var td4=mk("td"); td4.appendChild(mk("span",chipCls,chipTxt));
+    var td5=mk("td","muted",r.mainName||"—");
+    [td1,td2,td3,td4,td5].forEach(function(td){ tr.appendChild(td); });
+    tbody.appendChild(tr);
+  });
+  $("roster-tbl-title").textContent="Roster — "+res.records.length+" Characters";
+  $("roster-tbl-panel").classList.remove("hidden");
+
+  if(res.skipped>0){
+    var w=mk("div","alert alert-warn","Note: "+res.skipped+" blank row(s) were skipped.");
+    w.style.marginTop="8px"; $("roster-err").appendChild(w);
+  }
+});
+
+// ── Rules ─────────────────────────────────────────────────────────────────────
+function renderRules(){
+  var c=$("rules-list"); c.innerHTML="";
+  if(!S.mustSplit.length){
+    $("b-rules").classList.add("hidden");
+    var w=mk("div","alert alert-warn","No rules yet. Add your raid leaders above."); w.style.marginTop="14px"; c.appendChild(w); return;
+  }
+  var rulesTotal=S.mustSplit.length+S.manualPlayers.length;
+  $("b-rules").textContent=rulesTotal; $("b-rules").classList.toggle("hidden",rulesTotal===0);
+  var list=mk("div","sep-list");
+  S.mustSplit.forEach(function(rule,idx){
+    var row=mk("div","sep-row");
+    var sA=mk("span"); sA.innerHTML="&#128308; <strong>"+rule.a+"</strong> &rarr; Raid 1";
+    var sB=mk("span"); sB.innerHTML="&#128309; <strong>"+rule.b+"</strong> &rarr; Raid 2";
+    var btn=mk("button","btn btn-danger btn-sm","Remove");
+    btn.addEventListener("click",function(){ S.mustSplit.splice(idx,1); renderRules(); });
+    row.appendChild(sA); row.appendChild(sB); row.appendChild(btn); list.appendChild(row);
+  });
+  c.appendChild(list);
+}
+renderRules();
+$("btn-add-rule").addEventListener("click",function(){
+  var a=$("ms-a").value.trim(),b=$("ms-b").value.trim();
+  if(!a||!b) return;
+  S.mustSplit.push({a:a,b:b}); $("ms-a").value=""; $("ms-b").value=""; renderRules();
+});
+$("ms-b").addEventListener("keydown",function(e){ if(e.key==="Enter") $("btn-add-rule").click(); });
+
+// ── Manual Player Add ─────────────────────────────────────────────────────────
+function mpMsg(msg, ok){
+  var el=$("mp-msg"); el.textContent=msg;
+  el.style.color=ok?"var(--teal2)":"var(--red)";
+}
+
+function renderManualPlayers(){
+  var list=$("mp-list"), count=$("mp-count");
+  list.innerHTML="";
+  if(!S.manualPlayers.length){ count.textContent=""; return; }
+  S.manualPlayers.forEach(function(mp,idx){
+    var row=mk("div","mp-row");
+    var chipCls=mp.type==="main"?"chip chip-main":mp.type==="2ndmain"?"chip chip-2nd":"chip chip-alt";
+    var chipTxt=mp.type==="main"?"Main":mp.type==="2ndmain"?"2nd Main":"Alt";
+    var info=mk("span");
+    info.innerHTML="<strong>"+mp.name+"</strong> &nbsp; <span class='m-cls cls-"+mp.cls+"'>"+mp.cls+"</span> &nbsp; <span class='"+chipCls+"'>"+chipTxt+"</span>"+
+      (mp.anchor?" &nbsp; <span style='color:var(--muted);font-size:11px;'>anchor: "+mp.anchor+"</span>":"");
+    var btn=mk("button","btn btn-danger btn-sm","✕");
+    btn.addEventListener("click",function(){ S.manualPlayers.splice(idx,1); renderManualPlayers(); });
+    row.appendChild(info); row.appendChild(btn);
+    list.appendChild(row);
+  });
+  count.textContent="✓ "+S.manualPlayers.length+" manual player"+(S.manualPlayers.length!==1?"s":"")+" will be included in the next split.";
+}
+
+// Auto-fill class/type from roster when name is typed
+$("mp-name").addEventListener("input", function(){
+  var lc=$("mp-name").value.trim().toLowerCase();
+  if(!lc) return;
+  var rec=null;
+  S.roster.forEach(function(r){ if(r.name.toLowerCase()===lc) rec=r; });
+  if(rec){
+    // Set class dropdown
+    var clsSel=$("mp-cls");
+    for(var i=0;i<clsSel.options.length;i++){
+      if(clsSel.options[i].value===rec.cls){ clsSel.selectedIndex=i; break; }
+    }
+    // Set type dropdown
+    var typeSel=$("mp-type");
+    for(var i=0;i<typeSel.options.length;i++){
+      if(typeSel.options[i].value===rec.type){ typeSel.selectedIndex=i; break; }
+    }
+    // Set anchor
+    $("mp-anchor").value=rec.mainName||"" ;
+    mpMsg("Auto-filled from roster.", true);
+  }
+});
+
+$("btn-add-player").addEventListener("click",function(){
+  var name=$("mp-name").value.trim();
+  var cls=$("mp-cls").value;
+  var type=$("mp-type").value;
+  var anchor=$("mp-anchor").value.trim();
+  if(!name){ mpMsg("Enter a character name.",false); return; }
+  if(!cls){ mpMsg("Select a class.",false); return; }
+  // Prevent duplicates
+  if(S.manualPlayers.some(function(p){ return p.name.toLowerCase()===name.toLowerCase(); })){
+    mpMsg("'"+name+"' is already in the manual list.",false); return;
+  }
+  S.manualPlayers.push({name:name, cls:cls, type:type, anchor:anchor});
+  $("mp-name").value=""; $("mp-cls").selectedIndex=0; $("mp-type").selectedIndex=0; $("mp-anchor").value="";
+  mpMsg("Added "+name+".", true);
+  renderManualPlayers();
+  // Update badge
+  var total=S.mustSplit.length+S.manualPlayers.length;
+  $("b-rules").textContent=total; $("b-rules").classList.toggle("hidden",total===0);
+});
+$("mp-name").addEventListener("keydown",function(e){ if(e.key==="Enter") $("btn-add-player").click(); });
+
+// ── Split ─────────────────────────────────────────────────────────────────────
+$("btn-split").addEventListener("click",function(){
+  clearEl("dump-err"); $("split-status").textContent="";
+  S.groupSize = parseInt($("group-size-sel").value)||6;
+  if(!S.roster.length){ showErr("dump-err","Roster not loaded. Go to Step 1, drop your CSV and click Parse Roster first."); return; }
+  var raw=S.dumpRaw||$("dump-text").value;
+  if(!raw.trim()){ showErr("dump-err","No raid dump found. Drop a file or paste the text."); return; }
+  var present=parseDump(raw);
+  if(!present.length){ showErr("dump-err","No character names found in dump. Names must start with a capital letter."); return; }
+  var built=buildGroups(present);
+  if(!built.groups.length){ showErr("dump-err","None of the "+present.length+" names in the dump matched your roster. Double-check that names are spelled the same in both files."); return; }
+  var warnings=[];
+  if(built.unmatched.length) warnings.push(built.unmatched.length+" name(s) in dump not found in roster (they were skipped): "+built.unmatched.slice(0,6).join(", ")+(built.unmatched.length>6?" and "+(built.unmatched.length-6)+" more":""));
+  S.splitResult=doSplit(built.groups);
+  renderSplit(S.splitResult, warnings);
+  $("b-split").textContent="✓"; $("b-split").classList.remove("hidden");
+  $("split-status").textContent="✓ Done — see Split Result tab";
+  showTab("split");
+});
+
+// ── Render split ──────────────────────────────────────────────────────────────
+function renderSplit(result, warnings){
+  $("split-empty").classList.add("hidden");
+  var out=$("split-out"); out.classList.remove("hidden"); out.innerHTML="";
+  var r1=result.raid1, r2=result.raid2;
+  var g1=result.groups1, g2=result.groups2;
+  var f1=flatMembers(r1), f2=flatMembers(r2);
+  var total=f1.length+f2.length, p1=total?Math.round(f1.length/total*100):50;
+  var c1=classCount(r1), c2=classCount(r2);
+  var cls=sortedClasses(c1,c2);
+  var diff=Math.abs(f1.length-f2.length);
+
+  warnings.forEach(function(w){ out.appendChild(mk("div","alert alert-warn","⚠ "+w)); });
+  out.appendChild(mk("div","alert alert-ok","✓ Split complete — Raid 1: "+f1.length+" ("+g1.length+" groups) · Raid 2: "+f2.length+" ("+g2.length+" groups) · Diff: "+diff));
+
+  // Balance bar
+  var bw=mk("div","bal-wrap");
+  var bl=mk("div","bal-label"); bl.appendChild(mk("span","","Raid 1 — "+f1.length)); bl.appendChild(mk("span","","Raid 2 — "+f2.length));
+  var bb=mk("div","bal-bar"); var b1=mk("div","bal-r1"); b1.style.width=p1+"%"; var b2=mk("div","bal-r2"); b2.style.width=(100-p1)+"%";
+  bb.appendChild(b1); bb.appendChild(b2); bw.appendChild(bl); bw.appendChild(bb); out.appendChild(bw);
+
+  // Class comparison table with role sub-headers
+  var cp=mk("div","panel"); cp.style.marginBottom="18px";
+  var ch=mk("div","panel-hdr"); ch.appendChild(mk("span","panel-title","Class Balance Comparison")); cp.appendChild(ch);
+  var cw=mk("div","scroll"); var ct=mk("table","tbl");
+  var thead=mk("thead"); var hr=mk("tr");
+  ["Class","Role","Raid 1","Raid 2","Raid 1 +/-","Raid 2 +/-"].forEach(function(h){ hr.appendChild(mk("th","",h)); });
+  thead.appendChild(hr); ct.appendChild(thead);
+  var ctb=mk("tbody");
+  var lastRole="";
+  cls.forEach(function(c){
+    var role=roleOf(c);
+    // Role sub-header row
+    if(role!==lastRole){
+      lastRole=role;
+      var rt1=0,rt2=0;
+      cls.forEach(function(cc){ if(roleOf(cc)===role){ rt1+=(c1[cc]||0); rt2+=(c2[cc]||0); } });
+      var ROW_STYLE="background:linear-gradient(135deg,rgba(201,146,58,.18),rgba(201,146,58,.06));border-top:1px solid rgba(201,146,58,.35);border-bottom:1px solid rgba(201,146,58,.35);";
+      var LBL_STYLE="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);padding:7px 11px;font-weight:700;";
+      var TOT_STYLE="font-size:11px;font-weight:700;padding:7px 11px;";
+      var EMPTY_STYLE="padding:7px 4px;";
+      var subTr=mk("tr"); subTr.style.cssText=ROW_STYLE;
+      var rdiff=rt1-rt2;
+      var s1=mk("td","",role);         s1.style.cssText=LBL_STYLE;
+      var s2=mk("td");                  s2.style.cssText=EMPTY_STYLE;
+      var s3=mk("td","",""+rt1);        s3.style.cssText=TOT_STYLE+"color:var(--gold2);";
+      var s4=mk("td","",""+rt2);        s4.style.cssText=TOT_STYLE+"color:var(--teal2);";
+      var s5=mk("td"); s5.style.cssText=TOT_STYLE;
+      var s6=mk("td"); s6.style.cssText=TOT_STYLE;
+      if(rdiff>0){ s5.textContent="+"+rdiff; s5.style.color="var(--gold2)"; s6.textContent="—"; s6.style.color="var(--muted)"; }
+      else if(rdiff<0){ s5.textContent="—"; s5.style.color="var(--muted)"; s6.textContent="+"+Math.abs(rdiff); s6.style.color="var(--teal2)"; }
+      else { s5.textContent="="; s5.style.color="var(--muted)"; s6.textContent="="; s6.style.color="var(--muted)"; }
+      [s1,s2,s3,s4,s5,s6].forEach(function(td){ subTr.appendChild(td); });
+      ctb.appendChild(subTr);
+    }
+    var a=c1[c]||0, b=c2[c]||0, diff=a-b; var tr=mk("tr");
+    var td1=mk("td"); td1.appendChild(mk("span","m-cls cls-"+c,c));
+    var td2=mk("td","muted",roleOf(c));
+    var td3=mk("td","",""+a); if(a>b) td3.style.color="var(--gold2)";
+    var td4=mk("td","",""+b); if(b>a) td4.style.color="var(--teal2)";
+    var td5=mk("td"), td6=mk("td");
+    if(diff>0){
+      td5.textContent="+"+diff; td5.style.cssText="font-weight:700;color:var(--gold2);";
+      td6.textContent="—"; td6.style.color="var(--muted)";
+    } else if(diff<0){
+      td5.textContent="—"; td5.style.color="var(--muted)";
+      td6.textContent="+"+Math.abs(diff); td6.style.cssText="font-weight:700;color:var(--teal2);";
+    } else {
+      td5.textContent="="; td5.style.color="var(--muted)";
+      td6.textContent="="; td6.style.color="var(--muted)";
+    }
+    [td1,td2,td3,td4,td5,td6].forEach(function(td){ tr.appendChild(td); }); ctb.appendChild(tr);
+  });
+  ct.appendChild(ctb); cw.appendChild(ct); cp.appendChild(cw); out.appendChild(cp);
+
+  // Copy / export buttons
+  var cr=mk("div","row"); cr.style.marginBottom="16px";
+  function mkCopy(lbl,txt){ var b=mk("button","btn btn-ghost btn-sm",lbl); b.addEventListener("click",function(){ copyText(txt); }); return b; }
+  cr.appendChild(mkCopy("Copy Raid 1", raidText("RAID 1 (Odd Groups)",g1)));
+  cr.appendChild(mkCopy("Copy Raid 2", raidText("RAID 2 (Even Groups)",g2)));
+  cr.appendChild(mkCopy("Copy Both",   raidText("RAID 1 (Odd Groups)",g1)+"\n\n"+raidText("RAID 2 (Even Groups)",g2)));
+  var exBtn=mk("button","btn btn-teal btn-sm","Show Export Doc");
+  exBtn.addEventListener("click",function(){ S.showExport=!S.showExport; exBtn.textContent=(S.showExport?"Hide":"Show")+" Export Doc"; renderExport(); });
+  cr.appendChild(exBtn);
+  out.appendChild(cr);
+
+  // Legend
+  var leg=mk("div","legend"); leg.style.marginBottom="14px";
+  var legItems=[
+    {dot:"◆",color:"var(--gold)",label:"Main"},
+    {dot:"◇",color:"#c8a0e0",label:"2nd Main"},
+    {dot:"└",color:"var(--muted)",label:"Alt"},
+  ];
+  legItems.forEach(function(li){
+    var item=mk("div","legend-item");
+    var dot=mk("span"); dot.style.cssText="font-size:12px;color:"+li.color; dot.textContent=li.dot;
+    item.appendChild(dot); item.appendChild(mk("span","",li.label));
+    leg.appendChild(item);
+  });
+  out.appendChild(leg);
+
+  // Side-by-side raid group cards
+  var grid=mk("div","split-grid");
+  [
+    {label:"RAID 1 — Odd Groups", raidGroups:g1, hdr:"r1hdr", nm:"r1name", raidKey2:"r1"},
+    {label:"RAID 2 — Even Groups", raidGroups:g2, hdr:"r2hdr", nm:"r2name", raidKey2:"r2"}
+  ].forEach(function(side){
+    var card=mk("div","raid-card");
+    var hdr=mk("div","raid-card-hdr "+side.hdr);
+    var memberCount=0; side.raidGroups.forEach(function(g){ memberCount+=g.members.length; });
+    hdr.appendChild(mk("span","raid-name "+side.nm, side.label));
+    var hdrRight=mk("div"); hdrRight.style.cssText="display:flex;align-items:center;gap:10px;";
+    hdrRight.appendChild(mk("span","raid-count", memberCount+" members · "+side.raidGroups.length+" groups"));
+    var ssBtn=mk("button","btn btn-ghost btn-sm","⚔ Sub-Split");
+    ssBtn.title="Split this raid further into two sub-raids";
+    (function(raidGroups, raidLabel, cardEl){
+      ssBtn.addEventListener("click",function(){
+        var existing=Object.keys(S.subSplits).length;
+        var labelA = existing===0?"Sub-Raid A":"Sub-Raid C";
+        var labelB = existing===0?"Sub-Raid B":"Sub-Raid D";
+        doSubSplit(raidGroups, raidLabel, cardEl, labelA, labelB);
+      });
+    })(side.raidGroups, side.label, card);
+    hdrRight.appendChild(ssBtn);
+    hdr.appendChild(hdrRight);
+    card.appendChild(hdr);
+
+    side.raidGroups.forEach(function(grp){
+      // Group header row
+      var ghdr=mk("div","group-hdr");
+      ghdr.style.cssText="padding:5px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;";
+      var bardInGrp=grp.members.filter(isBard).map(function(m){ return m.name; }).join(", ");
+      var healerInGrp=grp.members.filter(isHealer).map(function(m){ return m.name+" ["+m.cls+"]"; }).join(", ");
+      ghdr.appendChild(mk("span","","Group "+grp.groupNum+" ("+grp.members.length+"/"+(S.groupSize||6)+")"));
+      var tags=mk("span"); tags.style.cssText="display:flex;gap:6px;font-size:9px;";
+      if(bardInGrp){ var bt=mk("span","","♪ "+bardInGrp); bt.style.color="var(--gold2)"; tags.appendChild(bt); }
+      if(healerInGrp){ var ht=mk("span","","+ "+healerInGrp); ht.style.color="var(--teal2)"; tags.appendChild(ht); }
+      ghdr.appendChild(tags);
+      card.appendChild(ghdr);
+
+      // Members
+      grp.members.forEach(function(m){
+        var row=mk("div","member-row");
+        var dot=mk("span"); dot.style.cssText="font-size:10px;min-width:12px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)");
+        dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+        row.appendChild(dot);
+        row.appendChild(mk("span","m-name",m.name));
+        row.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+        var roleTag=mk("span","m-type",isHealer(m)?"heal":isBard(m)?"bard":"");
+        if(isHealer(m)) roleTag.style.color="var(--teal2)";
+        if(isBard(m)) roleTag.style.color="var(--gold2)";
+        row.appendChild(roleTag);
+        card.appendChild(row);
+      });
+    });
+
+    // Class pips at bottom
+    var pips=mk("div","cls-pips");
+    var cc=classCount(side.raidGroups.flatMap?side.raidGroups.flatMap(function(g){ return g.members.map(function(m){ return {cls:m.cls}; }); }):
+      (function(){ var a=[]; side.raidGroups.forEach(function(g){ g.members.forEach(function(m){ a.push({cls:m.cls}); }); }); return a; })()
+    );
+    Object.keys(cc).sort().forEach(function(c){ pips.appendChild(mk("span","pip cls-"+c,c+" x"+cc[c])); });
+    card.appendChild(pips);
+
+    grid.appendChild(card);
+  });
+  out.appendChild(grid);
+
+  // ── Single combined adjust panel below the grid ─────────────────────────
+  var adjPanel=mk("div","panel"); adjPanel.style.marginBottom="14px";
+  var adjHdr=mk("div","panel-hdr");
+  var adjTitle=mk("span","panel-title"); adjTitle.textContent="⚙ Adjust Raids";
+  var adjRerunBtn=mk("button","btn btn-gold btn-sm","⚡ Re-run Groups");
+  adjRerunBtn.addEventListener("click",function(){ rebuildGroups(); });
+  adjHdr.appendChild(adjTitle); adjHdr.appendChild(adjRerunBtn);
+  adjPanel.appendChild(adjHdr);
+  var adjBody=mk("div","panel-body");
+  adjPanel.appendChild(adjBody);
+  out.appendChild(adjPanel);
+  // Pass null as raidKey — renderInlineAdjust already shows both raids in the group mover
+  renderInlineAdjust(adjBody, null);
+}
+
+// ── Export doc ────────────────────────────────────────────────────────────────
+function renderExport(){
+  var doc=$("export-doc");
+  if(!S.showExport||!S.splitResult){ doc.classList.add("hidden"); return; }
+  doc.classList.remove("hidden"); doc.className="export-doc"; doc.innerHTML="";
+  var g1=S.splitResult.groups1, g2=S.splitResult.groups2;
+  var total=0;
+  g1.forEach(function(g){ total+=g.members.length; });
+  g2.forEach(function(g){ total+=g.members.length; });
+
+  doc.appendChild(mk("h1","","Raid Split Sheet"));
+  doc.appendChild(mk("div","dsub","Generated "+new Date().toLocaleString()+" · "+total+" total raiders · Odd groups = Raid 1 · Even groups = Raid 2"));
+
+  var cols=mk("div","dcols");
+  [{label:"RAID 1 — Odd Groups",groups:g1},{label:"RAID 2 — Even Groups",groups:g2}].forEach(function(side){
+    var col=mk("div");
+    var memberCount=0; side.groups.forEach(function(g){ memberCount+=g.members.length; });
+    col.appendChild(mk("h2","",side.label+" ("+memberCount+" members)"));
+    side.groups.forEach(function(grp){
+      // Group subheader
+      var gh=mk("div"); gh.style.cssText="font-family:'Cinzel',Georgia,serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin:10px 0 4px;color:#333;border-left:3px solid #888;padding-left:6px;";
+      gh.textContent="Group "+grp.groupNum;
+      col.appendChild(gh);
+      grp.members.forEach(function(m){
+        var row=mk("div","drow");
+        var ns=mk("span","",m.name); if(m.type==="main") ns.style.fontWeight="600";
+        var is=mk("span","",m.cls+(isHealer(m)?" [healer]":isBard(m)?" [bard]":"")); is.style.cssText="color:#777;font-size:12px";
+        row.appendChild(ns); row.appendChild(is); col.appendChild(row);
+      });
+    });
+    cols.appendChild(col);
+  });
+  doc.appendChild(cols);
+  doc.appendChild(mk("div","dfooter","EverQuest Raid Splitter · Odd groups = Raid 1 · Even groups = Raid 2 · "+new Date().toDateString()));
+}
+
+// ── Adjust tab ────────────────────────────────────────────────────────────────
+
+// Check if a mainName is locked by a must-split rule
+function isLocked(mainName){
+  var lc=mainName.toLowerCase();
+  for(var i=0;i<S.mustSplit.length;i++){
+    if(S.mustSplit[i].a.toLowerCase()===lc||S.mustSplit[i].b.toLowerCase()===lc) return true;
+  }
+  return false;
+}
+// Get which raid a mainName is locked to (1 or 2, or 0 if not locked)
+function lockedToRaid(mainName){
+  var lc=mainName.toLowerCase();
+  for(var i=0;i<S.mustSplit.length;i++){
+    if(S.mustSplit[i].a.toLowerCase()===lc) return 1;
+    if(S.mustSplit[i].b.toLowerCase()===lc) return 2;
+  }
+  return 0;
+}
+
+function adjMsg(id,msg,ok){
+  var el=$(id); if(!el) return;
+  el.textContent=msg;
+  el.style.color=ok?"var(--teal2)":"var(--red)";
+}
+
+
+// ── Group Mover ───────────────────────────────────────────────────────────────
+// State: selected = Set of member names; raidKey = "r1"|"r2"; fromGroupIdx = int|-1 (OOR=-1)
+var grpMoverState = { selected: new Set(), raidKey: null, fromGroupNum: null };
+
+// Out-of-raid storage: {r1:[], r2:[]}
+if(!S.splitResult) {}  // init guard
+function ensureOOR(){
+  if(!S.splitResult) return;
+  if(!S.splitResult.oor1) S.splitResult.oor1=[];
+  if(!S.splitResult.oor2) S.splitResult.oor2=[];
+}
+
+// Get family key for a member name across all groups + OOR
+function getFamKey(memberName, raidKey){
+  var groups = raidKey==="r1" ? S.splitResult.groups1 : S.splitResult.groups2;
+  for(var gi=0;gi<groups.length;gi++){
+    for(var mi=0;mi<groups[gi].members.length;mi++){
+      if(groups[gi].members[mi].name===memberName) return groups[gi].members[mi].famKey||null;
+    }
+  }
+  var oor = raidKey==="r1" ? S.splitResult.oor1 : S.splitResult.oor2;
+  for(var i=0;i<oor.length;i++) if(oor[i].name===memberName) return oor[i].famKey||null;
+  return null;
+}
+
+function renderGroupMover(){
+  // Group mover now rendered inline under each raid card via renderInlineAdjust
+  // This is kept as a no-op for any legacy calls
+}
+
+function renderGrpRaid(container, groups, oor, raidKey){
+  container.innerHTML="";
+  var icolor = raidKey==="r1"?"var(--gold2)":"var(--teal2)";
+  var selActive = grpMoverState.selected.size>0 && grpMoverState.raidKey===raidKey;
+
+  // Find family keys of all selected members for highlight
+  var selFamKeys=new Set();
+  if(selActive){
+    grpMoverState.selected.forEach(function(n){
+      var fk=getFamKey(n,raidKey); if(fk) selFamKeys.add(fk);
+    });
+  }
+
+  function makePlayerRow(m, srcGroupIdx){
+    var row=mk("div","grp-player");
+    var dot=mk("span"); dot.style.cssText="font-size:10px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)");
+    dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+    var nameSpan=mk("span","",m.name);
+    var clsSpan=mk("span","m-cls cls-"+m.cls,m.cls||"?"); clsSpan.style.fontSize="10px";
+    row.appendChild(dot); row.appendChild(nameSpan); row.appendChild(clsSpan);
+    // Highlight: selected = gold border, family member of selected = soft gold
+    if(grpMoverState.selected.has(m.name)) row.classList.add("selected");
+    else if(selActive && m.famKey && selFamKeys.has(m.famKey)) row.classList.add("fam-highlight");
+    // Click handler
+    (function(mn, sgi, rk){
+      row.addEventListener("click",function(e){
+        e.stopPropagation();
+        if(grpMoverState.raidKey && grpMoverState.raidKey!==rk){
+          // Clicking different raid clears selection
+          clearGrpSelection(); return;
+        }
+        grpMoverState.raidKey=rk;
+        grpMoverState.fromGroupIdx=sgi;
+        if(e.ctrlKey||e.metaKey){
+          // Ctrl+click: toggle this member
+          if(grpMoverState.selected.has(mn)) grpMoverState.selected.delete(mn);
+          else grpMoverState.selected.add(mn);
+        } else {
+          // Normal click: if already sole selection, deselect; else set
+          if(grpMoverState.selected.size===1&&grpMoverState.selected.has(mn)){
+            clearGrpSelection(); return;
+          }
+          grpMoverState.selected=new Set([mn]);
+        }
+        if(grpMoverState.selected.size===0){ clearGrpSelection(); return; }
+        var names=Array.from(grpMoverState.selected).join(", ");
+        
+        
+        renderGroupMover();
+      });
+    })(m.name, srcGroupIdx, raidKey);
+    return row;
+  }
+
+  // Regular groups
+  groups.forEach(function(grp, gIdx){
+    var block=mk("div","grp-block");
+    var hdr=mk("div","grp-block-hdr");
+    var hdrLeft=mk("span"); hdrLeft.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:"+icolor+";";
+    hdrLeft.textContent="Group "+grp.groupNum+" ("+grp.members.length+"/6)";
+    var hdrRight=mk("span"); hdrRight.style.cssText="font-size:10px;color:var(--muted);max-width:55%;text-align:right;";
+    var bard=grp.members.filter(isBard).map(function(m){return m.name;}).join(", ");
+    var heal=grp.members.filter(isHealer).map(function(m){return m.name+" ["+m.cls+"]";}).join(", ");
+    hdrRight.textContent=(bard?"♪ "+bard+" ":"")+( heal?"+ "+heal:"");
+    hdr.appendChild(hdrLeft); hdr.appendChild(hdrRight);
+    if(selActive) hdr.classList.add("drop-target");
+    (function(gi,rk){
+      hdr.addEventListener("click",function(){
+        if(!selActive) return;
+        if(grpMoverState.raidKey!==rk){
+          
+           return;
+        }
+        movePlayersToGroup(gi, rk, false);
+      });
+    })(gIdx, raidKey);
+    block.appendChild(hdr);
+    var body=mk("div","grp-block-body");
+    grp.members.forEach(function(m){ body.appendChild(makePlayerRow(m, gIdx)); });
+    block.appendChild(body);
+    container.appendChild(block);
+  });
+
+  // Out of Raid block
+  var oorBlock=mk("div","oor-block");
+  var oorHdr=mk("div","oor-block-hdr");
+  var oorLeft=mk("span"); oorLeft.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);";
+  oorLeft.textContent="Out of Raid ("+oor.length+")";
+  var oorRight=mk("span"); oorRight.style.cssText="font-size:10px;color:var(--muted);";
+  oorRight.textContent="click header to move here";
+  oorHdr.appendChild(oorLeft); oorHdr.appendChild(oorRight);
+  if(selActive) oorHdr.classList.add("drop-target");
+  (function(rk){
+    oorHdr.addEventListener("click",function(){
+      if(!selActive) return;
+      if(grpMoverState.raidKey!==rk){
+        
+         return;
+      }
+      movePlayersToOOR(rk);
+    });
+  })(raidKey);
+  oorBlock.appendChild(oorHdr);
+  var oorBody=mk("div","oor-block-body");
+  if(oor.length===0){
+    var empty=mk("span"); empty.style.cssText="font-size:11px;color:var(--muted);font-style:italic;padding:4px 8px;display:block;";
+    empty.textContent="Empty — move players here to bench them.";
+    oorBody.appendChild(empty);
+  } else {
+    oor.forEach(function(m){ oorBody.appendChild(makePlayerRow(m, -1)); });
+  }
+  oorBlock.appendChild(oorBody);
+  container.appendChild(oorBlock);
+}
+
+function clearGrpSelection(){
+  grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null;
+}
+
+function movePlayersToGroup(toIdx, raidKey, fromOOR){
+  ensureOOR();
+  var groups = raidKey==="r1" ? S.splitResult.groups1 : S.splitResult.groups2;
+  var oor    = raidKey==="r1" ? S.splitResult.oor1    : S.splitResult.oor2;
+  var toGrp=groups[toIdx];
+  var names=Array.from(grpMoverState.selected);
+  var moved=[], skipped=[];
+  names.forEach(function(memberName){
+    if(toGrp.members.length>=6){ skipped.push(memberName); return; }
+    // Remove from any group
+    var found=false;
+    for(var gi=0;gi<groups.length;gi++){
+      for(var mi=0;mi<groups[gi].members.length;mi++){
+        if(groups[gi].members[mi].name===memberName){
+          var m=groups[gi].members.splice(mi,1)[0];
+          toGrp.members.push(m); moved.push(memberName); found=true; break;
+        }
+      }
+      if(found) break;
+    }
+    // Remove from OOR if needed
+    if(!found){
+      for(var oi=0;oi<oor.length;oi++){
+        if(oor[oi].name===memberName){
+          var m=oor.splice(oi,1)[0];
+          toGrp.members.push(m); moved.push(memberName); break;
+        }
+      }
+    }
+  });
+  var msg=moved.length?"Moved "+moved.join(", ")+" to Group "+toGrp.groupNum+".":"";
+  if(skipped.length) msg+=" Group full — skipped: "+skipped.join(", ")+".";
+  clearGrpSelection();
+  
+  
+  renderSplit(S.splitResult,[]); renderAdjSnapshot(); renderGroupMover();
+}
+
+function movePlayersToOOR(raidKey){
+  ensureOOR();
+  var groups = raidKey==="r1" ? S.splitResult.groups1 : S.splitResult.groups2;
+  var oor    = raidKey==="r1" ? S.splitResult.oor1    : S.splitResult.oor2;
+  var names=Array.from(grpMoverState.selected);
+  var moved=[];
+  names.forEach(function(memberName){
+    for(var gi=0;gi<groups.length;gi++){
+      for(var mi=0;mi<groups[gi].members.length;mi++){
+        if(groups[gi].members[mi].name===memberName){
+          var m=groups[gi].members.splice(mi,1)[0];
+          oor.push(m); moved.push(memberName); break;
+        }
+      }
+    }
+  });
+  clearGrpSelection();
+  
+  
+  renderSplit(S.splitResult,[]); renderAdjSnapshot(); renderGroupMover();
+}
+
+// Refresh group mover whenever adjust tab opens
+// Sub-split tab click — just show it
+document.querySelector('[data-tab="subsplit"]').addEventListener("click",function(){ });
+
+function rebuildGroups(){
+  if(!S.splitResult) return;
+  var oor1=S.splitResult.oor1||[], oor2=S.splitResult.oor2||[];
+  S.splitResult.groups1=buildRaidGroups(S.splitResult.raid1,true);
+  S.splitResult.groups2=buildRaidGroups(S.splitResult.raid2,false);
+  validateGroups(S.splitResult.groups1,"Rebuild-Raid1");
+  validateGroups(S.splitResult.groups2,"Rebuild-Raid2");
+  S.splitResult.oor1=oor1; S.splitResult.oor2=oor2;
+  renderSplit(S.splitResult,[]);
+  $("b-split").textContent="✓"; $("b-split").classList.remove("hidden");
+  // Re-fire class selector change if a class was selected before rebuild
+  if(S._lastAdjCls){
+    var newSel=document.querySelector(".adj-cls-sel");
+    if(newSel){ newSel.value=S._lastAdjCls; newSel.dispatchEvent(new Event("change")); }
+  }
+}
+
+// Move a named player's family to the specified raid (1 or 2)
+function moveFamilyByName(name, toRaidNum){
+  if(!S.splitResult){ adjMsg("adj-name-msg","No split yet — run the split first.",false); return; }
+  var r1=S.splitResult.raid1, r2=S.splitResult.raid2;
+  var src = toRaidNum===1 ? r2 : r1;
+  var dst = toRaidNum===1 ? r1 : r2;
+  var lname=name.trim().toLowerCase();
+  if(!lname){ adjMsg("adj-name-msg","Enter a character name first.",false); return; }
+
+  // Find family in source by main name or any member name
+  var idx=-1;
+  for(var i=0;i<src.length;i++){
+    if(src[i].mainName.toLowerCase()===lname){ idx=i; break; }
+    for(var j=0;j<src[i].members.length;j++){
+      if(src[i].members[j].name.toLowerCase()===lname){ idx=i; break; }
+    }
+    if(idx>=0) break;
+  }
+
+  if(idx<0){
+    // Check if already in destination
+    var inDst=false;
+    for(var i=0;i<dst.length;i++){
+      if(dst[i].mainName.toLowerCase()===lname) inDst=true;
+      for(var j=0;j<dst[i].members.length;j++) if(dst[i].members[j].name.toLowerCase()===lname) inDst=true;
+    }
+    if(inDst) adjMsg("adj-name-msg","'"+name.trim()+"' is already in Raid "+toRaidNum+".",false);
+    else adjMsg("adj-name-msg","'"+name.trim()+"' not found in current split.",false);
+    return;
+  }
+
+  var fam=src[idx];
+  // Check lock
+  if(isLocked(fam.mainName)){
+    var lr=lockedToRaid(fam.mainName);
+
+    return;
+  }
+
+  src.splice(idx,1);
+  dst.push(fam);
+
+  rebuildGroups();
+}
+
+// Move a specific family (by mainName) to a specific raid
+function moveFamilyToRaid(mainName, toRaidNum){
+  if(!S.splitResult) return;
+  var r1=S.splitResult.raid1, r2=S.splitResult.raid2;
+  var src=toRaidNum===1?r2:r1, dst=toRaidNum===1?r1:r2;
+  var lc=mainName.toLowerCase();
+  var idx=-1;
+  for(var i=0;i<src.length;i++){ if(src[i].mainName.toLowerCase()===lc){ idx=i; break; } }
+  if(idx<0) return; // already in destination
+  if(isLocked(mainName)) return; // locked — silently skip
+  var fam=src.splice(idx,1)[0];
+  dst.push(fam);
+  rebuildGroups();
+}
+
+// Render the per-class player list panels
+function renderAdjClassLists(){
+  var container=$("adj-cls-lists");
+  container.innerHTML="";
+  var cls=$("adj-cls").value;
+  if(!cls||!S.splitResult){
+    container.innerHTML='<div style="color:var(--muted);font-size:13px;font-style:italic;">Select a class above.</div>';
+    return;
+  }
+  var r1=S.splitResult.raid1, r2=S.splitResult.raid2;
+
+  function buildRaidPanel(raid, raidNum, otherRaidNum, color, label){
+    var panel=mk("div");
+    var hdr=mk("div"); hdr.style.cssText="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:"+color+";margin-bottom:8px;font-weight:600;";
+    hdr.textContent=label;
+    panel.appendChild(hdr);
+
+    // Find all families with this class in this raid
+    var found=[];
+    raid.forEach(function(fam){
+      fam.members.forEach(function(m){
+        if(m.cls===cls) found.push({fam:fam, member:m});
+      });
+    });
+
+    if(!found.length){
+      var none=mk("div"); none.style.cssText="font-size:12px;color:var(--muted);font-style:italic;padding:6px 0;";
+      none.textContent="No "+cls+" in this raid.";
+      panel.appendChild(none);
+      return panel;
+    }
+
+    found.forEach(function(entry){
+      var row=mk("div"); row.style.cssText="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;margin-bottom:5px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:4px;gap:8px;";
+      var locked=isLocked(entry.fam.mainName);
+      var lRaid=lockedToRaid(entry.fam.mainName);
+
+      var nameSpan=mk("span"); nameSpan.style.cssText="flex:1;font-size:13px;";
+      // Build full family display: main name + all members listed
+      var famLines=entry.fam.members.map(function(m){
+        var tag=m.type==="main"?"":"2nd mains"===m.type?" [2nd]":" [alt]";
+        return m.name+tag;
+      }).join(", ");
+      nameSpan.textContent=famLines;
+      nameSpan.title="Family: "+famLines;
+      if(locked) nameSpan.style.color="var(--muted)";
+      row.appendChild(nameSpan);
+
+      if(locked){
+        var lockTag=mk("span"); lockTag.style.cssText="font-size:11px;color:var(--red);white-space:nowrap;";
+        lockTag.textContent="🔒 Locked to Raid "+lRaid;
+        row.appendChild(lockTag);
+      } else {
+        var btn=mk("button","btn btn-sm"); 
+        btn.style.cssText="padding:3px 10px;font-size:10px;white-space:nowrap;";
+        var famSize=entry.fam.members.length;
+        btn.textContent="→ Raid "+otherRaidNum+(famSize>1?" ("+famSize+")":"");
+        btn.style.background=otherRaidNum===1?"linear-gradient(135deg,var(--gold),#a8742a)":"linear-gradient(135deg,var(--teal),#2d7a6c)";
+        btn.style.color=otherRaidNum===1?"#000":"#fff";
+        var mn=entry.fam.mainName, trn=otherRaidNum;
+        btn.addEventListener("click",function(){ moveFamilyToRaid(mn,trn); });
+        row.appendChild(btn);
+      }
+      panel.appendChild(row);
+    });
+    return panel;
+  }
+
+  var p1=buildRaidPanel(r1,1,2,"var(--gold2)","Raid 1 — Odd Groups");
+  var p2=buildRaidPanel(r2,2,1,"var(--teal2)","Raid 2 — Even Groups");
+  container.appendChild(p1);
+  container.appendChild(p2);
+}
+
+function renderAdjSnapshot(){
+  var snap=$("adj-snapshot");
+  if(!S.splitResult){ snap.innerHTML='<p style="padding:14px;color:var(--muted);font-size:13px;">Run the split first.</p>'; return; }
+  snap.innerHTML="";
+  var r1=S.splitResult.raid1, r2=S.splitResult.raid2;
+  var c1=classCount(r1), c2=classCount(r2);
+  var allCls=sortedClasses(c1,c2);
+
+  // ── Class diff table ──────────────────────────────────────────────────────
+  var diffPanel=mk("div","panel"); diffPanel.style.marginBottom="14px";
+  var diffHdr=mk("div","panel-hdr"); diffHdr.appendChild(mk("span","panel-title","Class Balance — Raid Diff"));
+  diffPanel.appendChild(diffHdr);
+  var diffWrap=mk("div"); diffWrap.style.overflowX="auto";
+  var dtbl=mk("table","tbl"); dtbl.style.fontSize="12px";
+  var dthead=mk("thead"); var dhr=mk("tr");
+  ["Class","Role","Raid 1","Raid 2","Raid 1 +/-","Raid 2 +/-"].forEach(function(h){ dhr.appendChild(mk("th","",h)); });
+  dthead.appendChild(dhr); dtbl.appendChild(dthead);
+  var dtbody=mk("tbody");
+  allCls.forEach(function(c){
+    var a=c1[c]||0, b=c2[c]||0, diff=a-b;
+    var tr=mk("tr");
+    var td1=mk("td"); td1.appendChild(mk("span","m-cls cls-"+c,c));
+    var td2=mk("td","muted",roleOf(c));
+    var td3=mk("td","",""+a);
+    var td4=mk("td","",""+b);
+    // Raid 1 diff col: show +N if raid1 has more, blank if equal, — if less
+    var td5=mk("td");
+    var td6=mk("td");
+    if(diff>0){
+      td5.textContent="+"+diff;
+      td5.style.cssText="font-weight:700;color:var(--gold2);";
+      td6.textContent="—"; td6.style.color="var(--muted)";
+    } else if(diff<0){
+      td5.textContent="—"; td5.style.color="var(--muted)";
+      td6.textContent="+"+(Math.abs(diff));
+      td6.style.cssText="font-weight:700;color:var(--teal2);";
+    } else {
+      td5.textContent="="; td5.style.color="var(--muted)";
+      td6.textContent="="; td6.style.color="var(--muted)";
+    }
+    [td1,td2,td3,td4,td5,td6].forEach(function(td){ tr.appendChild(td); });
+    dtbody.appendChild(tr);
+  });
+  dtbl.appendChild(dtbody); diffWrap.appendChild(dtbl); diffPanel.appendChild(diffWrap);
+  snap.appendChild(diffPanel);
+
+  // ── Full roster table ─────────────────────────────────────────────────────
+  var rosterHdr=mk("div"); rosterHdr.style.cssText="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:4px 0 8px;";
+  rosterHdr.textContent="Full Roster";
+  snap.appendChild(rosterHdr);
+  var tbl=mk("table","tbl"); tbl.style.fontSize="12px";
+  var thead=mk("thead"); var hr=mk("tr");
+  ["Name","Class","Type","Raid","Lock"].forEach(function(h){ hr.appendChild(mk("th","",h)); });
+  thead.appendChild(hr); tbl.appendChild(thead);
+  var tbody=mk("tbody");
+  function addRows(families, raidLabel, color){
+    families.forEach(function(fam){
+      var locked=isLocked(fam.mainName);
+      var lr=lockedToRaid(fam.mainName);
+      fam.members.forEach(function(m){
+        var tr=mk("tr");
+        var td1=mk("td","",m.name);
+        var td2=mk("td"); td2.appendChild(mk("span","m-cls cls-"+m.cls,m.cls));
+        var td3=mk("td","muted",m.type);
+        var td4=mk("td"); td4.style.color=color; td4.style.fontWeight="600"; td4.textContent=raidLabel;
+        var td5=mk("td");
+        if(locked){ td5.textContent="🔒 R"+lr; td5.style.cssText="font-size:11px;color:var(--red);"; }
+        else { td5.textContent="—"; td5.style.color="var(--muted)"; }
+        [td1,td2,td3,td4,td5].forEach(function(td){ tr.appendChild(td); });
+        tbody.appendChild(tr);
+      });
+    });
+  }
+  addRows(r1,"Raid 1","var(--gold2)");
+  addRows(r2,"Raid 2","var(--teal2)");
+  tbl.appendChild(tbody); snap.appendChild(tbl);
+  $("b-adjust").textContent="✓"; $("b-adjust").classList.remove("hidden");
+}
+
+// Adjust listeners now wired inline via renderInlineAdjust()
+
+
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+$("btn-reset").addEventListener("click", function(){
+  if(!confirm("Reset everything? This will clear your roster, raid dump, rules and split results.")) return;
+
+  // ── Reset state ────────────────────────────────────────────────────────────
+  S.roster=[]; S.mustSplit=[]; S.manualPlayers=[]; S.rosterRaw=""; S.dumpRaw=""; S.splitResult=null; S.showExport=false;
+
+  // ── Clear text inputs ──────────────────────────────────────────────────────
+  $("csv-text").value="";
+  $("dump-text").value="";
+
+  // ── Reset paste toggle areas (hide them) ───────────────────────────────────
+  $("paste-area-roster").classList.add("hidden");
+  $("paste-area-dump").classList.add("hidden");
+  $("paste-toggle-roster").textContent="▼ Or paste CSV text manually";
+  $("paste-toggle-dump").textContent="▼ Or paste dump text manually";
+
+  // ── Reset dropzones ────────────────────────────────────────────────────────
+  ["dz-roster","dz-dump"].forEach(function(id){
+    var dz=$(id);
+    dz.classList.remove("loaded","drag-over");
+  });
+  ["dz-roster-ok","dz-dump-ok"].forEach(function(id){
+    var el=$(id); el.classList.add("hidden"); el.textContent="";
+  });
+  // Reset file inputs so same file can be re-dropped
+  ["file-roster","file-dump"].forEach(function(id){
+    var el=$(id); el.value="";
+  });
+  // Hide raw previews
+  ["raw-preview-roster","raw-preview-dump"].forEach(function(id){
+    var el=$(id); el.classList.remove("show"); el.textContent="";
+  });
+  ["raw-label-roster","raw-label-dump"].forEach(function(id){
+    $(id).classList.add("hidden");
+  });
+
+  // ── Reset roster panel ─────────────────────────────────────────────────────
+  $("roster-ok").textContent="";
+  $("roster-err").innerHTML="";
+  $("roster-tbody").innerHTML="";
+  $("roster-tbl-panel").classList.add("hidden");
+
+  // ── Reset dump panel ───────────────────────────────────────────────────────
+  $("split-status").textContent="";
+  $("dump-err").innerHTML="";
+
+  // ── Reset badges ───────────────────────────────────────────────────────────
+  ["b-roster","b-rules","b-dump","b-split","b-subsplit"].forEach(function(id){
+    var el=$(id); el.classList.add("hidden"); el.textContent="";
+  });
+
+  // ── Reset split tab ────────────────────────────────────────────────────────
+  $("split-empty").classList.remove("hidden");
+  $("split-out").classList.add("hidden"); $("split-out").innerHTML="";
+  $("export-doc").classList.add("hidden"); $("export-doc").innerHTML="";
+
+  // ── Reset rules tab ────────────────────────────────────────────────────────
+  renderRules();
+  renderManualPlayers();
+  $("mp-msg").textContent="";
+
+  // ── Reset sub-split tab ───────────────────────────────────────────────────
+  S.subSplits={};
+  $("tab-btn-subsplit").classList.add("hidden");
+  $("b-subsplit").classList.add("hidden"); $("b-subsplit").textContent="";
+  $("subsplit-content").innerHTML='<div class="alert alert-warn">No sub-splits yet. Go to the Split Result tab and click ⚔ Sub-Split on a raid card.</div>';
+  grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null;
+
+  // ── Return to Roster tab ───────────────────────────────────────────────────
+  showTab("roster");
+});
+
+// ── Inline Adjust Panel ──────────────────────────────────────────────────────
+// Renders all adjust tools inline inside a raid card's expand section
+function renderInlineAdjust(container, raidKey){
+  container.innerHTML="";
+  if(!S.splitResult){ container.innerHTML='<p class="muted">Run split first.</p>'; return; }
+
+  var SEL_STYLE="background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:13px;padding:6px 10px;outline:none;";
+  var INP_STYLE=SEL_STYLE+"flex:1;min-width:150px;";
+
+  function subHdr(txt){ var d=mk("div"); d.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px;"; d.textContent=txt; return d; }
+  function msg(txt,ok){ var d=mk("div"); d.style.cssText="font-size:11px;min-height:14px;margin-bottom:6px;color:"+(ok?"var(--teal2)":"var(--red)"); d.textContent=txt; return d; }
+
+  // ── Move by Name ───────────────────────────────────────────────────────────
+  container.appendChild(subHdr("Move Player by Name"));
+  var nameRow=mk("div"); nameRow.style.cssText="display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:4px;";
+  var nameIn=mk("input"); nameIn.type="text"; nameIn.placeholder="Character name..."; nameIn.style.cssText=INP_STYLE;
+  var btnR1=mk("button","btn btn-gold btn-sm","→ Raid 1");
+  var btnR2=mk("button","btn btn-teal btn-sm","→ Raid 2");
+  var nameMsg=msg("",true);
+  nameRow.appendChild(nameIn); nameRow.appendChild(btnR1); nameRow.appendChild(btnR2);
+  container.appendChild(nameRow); container.appendChild(nameMsg);
+  btnR1.addEventListener("click",function(){ moveFamilyByName(nameIn.value,1); nameMsg.textContent=""; setTimeout(function(){ renderInlineAdjust(container,raidKey); },50); });
+  btnR2.addEventListener("click",function(){ moveFamilyByName(nameIn.value,2); nameMsg.textContent=""; setTimeout(function(){ renderInlineAdjust(container,raidKey); },50); });
+
+  // ── Move by Class ──────────────────────────────────────────────────────────
+  container.appendChild(subHdr("Move Player by Class"));
+  var clsSel=mk("select"); clsSel.className="adj-cls-sel"; clsSel.style.cssText=SEL_STYLE+"margin-bottom:8px;";
+  var opts2=["","BER","BRD","BST","CLR","DRU","ENC","MAG","MNK","NEC","PAL","RNG","ROG","SHD","SHM","WAR","WIZ"];
+  opts2.forEach(function(c){ var o=mk("option","",c||"Select class..."); o.value=c; clsSel.appendChild(o); });
+  var clsListDiv=mk("div"); clsListDiv.style.marginBottom="6px";
+  var clsMsg=msg("",true);
+  container.appendChild(clsSel); container.appendChild(clsListDiv); container.appendChild(clsMsg);
+  clsSel.addEventListener("change",function(){
+    clsListDiv.innerHTML="";
+    var cls=clsSel.value; S._lastAdjCls=cls||null; if(!cls) return;
+    var r1=S.splitResult.raid1, r2=S.splitResult.raid2;
+    var grid2=mk("div"); grid2.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;";
+    [{label:"Raid 1",raid:r1,toNum:2,color:"var(--gold2)"},{label:"Raid 2",raid:r2,toNum:1,color:"var(--teal2)"}].forEach(function(side){
+      var col=mk("div");
+      var ch=mk("div"); ch.style.cssText="font-size:10px;font-family:'Cinzel',serif;letter-spacing:.06em;text-transform:uppercase;color:"+side.color+";margin-bottom:5px;"; ch.textContent=side.label; col.appendChild(ch);
+      var found=[];
+      side.raid.forEach(function(fam){ fam.members.forEach(function(m){ if(m.cls===cls) found.push({fam:fam,m:m}); }); });
+      if(!found.length){ var none=mk("div"); none.style.cssText="font-size:11px;color:var(--muted);font-style:italic;"; none.textContent="None."; col.appendChild(none); }
+      found.forEach(function(entry){
+        var row=mk("div"); row.style.cssText="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;margin-bottom:3px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:4px;gap:6px;";
+        var famSize=entry.fam.members.length;
+        var ns=mk("span"); ns.style.cssText="flex:1;font-size:12px;"; ns.textContent=entry.m.name+(famSize>1?" (+"+(famSize-1)+"alts)":"");
+        var locked=isLocked(entry.fam.mainName);
+        if(locked){ var lt=mk("span"); lt.style.cssText="font-size:10px;color:var(--red);"; lt.textContent="🔒"; row.appendChild(ns); row.appendChild(lt); }
+        else{
+          var btn=mk("button","btn btn-sm"); btn.style.cssText="padding:2px 8px;font-size:10px;white-space:nowrap;background:linear-gradient(135deg,"+(side.toNum===1?"var(--gold),#a8742a":"var(--teal),#2d7a6c")+");color:"+(side.toNum===1?"#000":"#fff")+";";
+          btn.textContent="→ Raid "+side.toNum;
+          var mn=entry.fam.mainName, tn=side.toNum;
+          btn.addEventListener("click",function(){
+            moveFamilyToRaid(mn,tn);
+            // Refresh just the class list without rebuilding the whole panel
+            setTimeout(function(){ clsSel.dispatchEvent(new Event("change")); },50);
+          });
+          row.appendChild(ns); row.appendChild(btn);
+        }
+        col.appendChild(row);
+      });
+      grid2.appendChild(col);
+    });
+    clsListDiv.appendChild(grid2);
+  });
+
+  // ── Move Between Groups ────────────────────────────────────────────────────
+  container.appendChild(subHdr("Move Between Groups"));
+  var grpStatusEl=mk("div"); grpStatusEl.style.cssText="font-size:11px;min-height:14px;margin-bottom:6px;color:var(--gold2);";
+  container.appendChild(grpStatusEl);
+  var grpGridEl=mk("div"); grpGridEl.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;";
+  container.appendChild(grpGridEl);
+
+  // Use the global grpMoverState but scoped to this container
+  function renderLocalGrpMover(){
+    grpGridEl.innerHTML="";
+    if(!S.splitResult) return;
+    [{groups:S.splitResult.groups1,key:"r1",color:"var(--gold2)",label:"Raid 1"},{groups:S.splitResult.groups2,key:"r2",color:"var(--teal2)",label:"Raid 2"}].forEach(function(side){
+      var col=mk("div");
+      var ch=mk("div"); ch.style.cssText="font-size:10px;font-family:'Cinzel',serif;letter-spacing:.06em;text-transform:uppercase;color:"+side.color+";margin-bottom:5px;"; ch.textContent=side.label; col.appendChild(ch);
+      var selActive=grpMoverState.selected.size>0&&grpMoverState.raidKey===side.key;
+      // Compute family keys of all selected members for family highlight
+      var selFamKeys2=new Set();
+      if(selActive){
+        var allGrpMembers=[];
+        side.groups.forEach(function(g){ g.members.forEach(function(m){ allGrpMembers.push(m); }); });
+        var oor2=side.key==="r1"?(S.splitResult.oor1||[]):(S.splitResult.oor2||[]);
+        oor2.forEach(function(m){ allGrpMembers.push(m); });
+        grpMoverState.selected.forEach(function(nm){
+          allGrpMembers.forEach(function(m){ if(m.name===nm&&m.famKey) selFamKeys2.add(m.famKey); });
+        });
+      }
+      side.groups.forEach(function(grp){
+        var block=mk("div"); block.style.cssText="background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:4px;margin-bottom:5px;overflow:hidden;";
+        var gh=mk("div"); gh.style.cssText="padding:4px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;"+(selActive?"background:rgba(58,156,140,.12);border-color:var(--teal);":"");
+        var ghL=mk("span"); ghL.style.cssText="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:"+side.color+";";
+        ghL.textContent="Group "+grp.groupNum+" ("+grp.members.length+"/"+(S.groupSize||6)+")";
+        var bi=grp.members.filter(isBard).map(function(m){ return m.name; }).join(", ");
+        var hi=grp.members.filter(isHealer).map(function(m){ return m.name+" ["+m.cls+"]"; }).join(", ");
+        var ghR=mk("span"); ghR.style.cssText="font-size:9px;color:var(--muted);max-width:55%;text-align:right;"; ghR.textContent=(bi?"♪ "+bi+" ":"")+(hi?"+ "+hi:"");
+        gh.appendChild(ghL); gh.appendChild(ghR);
+        (function(grpNum2, rk){
+          gh.addEventListener("click",function(){
+            if(!grpMoverState.selected.size) return;
+            if(grpMoverState.raidKey!==rk){ grpStatusEl.textContent="Can only move within the same raid."; grpStatusEl.style.color="var(--red)"; return; }
+            var gs=rk==="r1"?S.splitResult.groups1:S.splitResult.groups2;
+            var fromGrp=null,toGrp=null;
+            for(var gi=0;gi<gs.length;gi++){
+              if(gs[gi].groupNum===grpMoverState.fromGroupNum) fromGrp=gs[gi];
+              if(gs[gi].groupNum===grpNum2) toGrp=gs[gi];
+            }
+            if(!toGrp){ grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null; grpStatusEl.textContent=""; renderLocalGrpMover(); return; }
+            if(toGrp.members.length>=(S.groupSize||6)){ grpStatusEl.textContent="Group "+grpNum2+" is full."; grpStatusEl.style.color="var(--red)"; return; }
+            var oorArr=rk==="r1"?(S.splitResult.oor1||[]):(S.splitResult.oor2||[]);
+            var names=Array.from(grpMoverState.selected); var moved=[];
+            names.forEach(function(nm){
+              // Try removing from fromGrp first (normal group)
+              var found=false;
+              if(fromGrp){
+                var mi=-1; for(var i=0;i<fromGrp.members.length;i++){ if(fromGrp.members[i].name===nm){ mi=i; break; } }
+                if(mi>=0&&toGrp.members.length<(S.groupSize||6)){ var mv=fromGrp.members.splice(mi,1)[0]; toGrp.members.push(mv); moved.push(nm); found=true; }
+              }
+              // If not found in fromGrp, try OOR
+              if(!found){
+                var oi=-1; for(var i=0;i<oorArr.length;i++){ if(oorArr[i].name===nm){ oi=i; break; } }
+                if(oi>=0&&toGrp.members.length<(S.groupSize||6)){ var mv=oorArr.splice(oi,1)[0]; toGrp.members.push(mv); moved.push(nm); }
+              }
+            });
+            grpStatusEl.textContent="Moved "+moved.join(", ")+" to Group "+grpNum2+"."; grpStatusEl.style.color="var(--teal2)";
+            grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null;
+            renderSplit(S.splitResult,[]); renderInlineAdjust(container,raidKey);
+          });
+        })(grp.groupNum, side.key);
+        block.appendChild(gh);
+        var gb=mk("div"); gb.style.cssText="padding:3px 6px;";
+        grp.members.forEach(function(m){
+          var isSelMember=grpMoverState.selected.has(m.name);
+          var isFamMember=selActive&&!isSelMember&&m.famKey&&selFamKeys2.has(m.famKey);
+          var rowStyle="display:flex;align-items:center;gap:5px;padding:3px 4px;border-radius:3px;font-size:11px;cursor:pointer;border:1px solid transparent;transition:all .1s;";
+          if(isSelMember) rowStyle+="background:rgba(201,146,58,.2);border-color:var(--gold);color:var(--gold2);";
+          else if(isFamMember) rowStyle+="background:rgba(201,146,58,.08);border-color:rgba(201,146,58,.2);color:var(--gold2);";
+          var row=mk("div"); row.style.cssText=rowStyle;
+          var dot=mk("span"); dot.style.cssText="font-size:9px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)"); dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+          row.appendChild(dot); row.appendChild(mk("span","",m.name)); row.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+          (function(mn,grpNum3,rk){
+            row.addEventListener("click",function(e){
+              e.stopPropagation();
+              if(grpMoverState.raidKey&&grpMoverState.raidKey!==rk){ grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null; }
+              grpMoverState.raidKey=rk; grpMoverState.fromGroupNum=grpNum3;
+              if(e.ctrlKey||e.metaKey){ if(grpMoverState.selected.has(mn)) grpMoverState.selected.delete(mn); else grpMoverState.selected.add(mn); }
+              else{ if(grpMoverState.selected.size===1&&grpMoverState.selected.has(mn)){ grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null; grpStatusEl.textContent=""; renderLocalGrpMover(); return; } grpMoverState.selected=new Set([mn]); }
+              if(!grpMoverState.selected.size){ grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null; grpStatusEl.textContent=""; }
+              else { grpStatusEl.textContent="Selected: "+Array.from(grpMoverState.selected).join(", ")+" — click a group header."; grpStatusEl.style.color="var(--gold2)"; }
+              renderLocalGrpMover();
+            });
+          })(m.name, grp.groupNum, side.key);
+          gb.appendChild(row);
+        });
+        block.appendChild(gb); col.appendChild(block);
+      });
+      // OOR block
+      var oor=side.key==="r1"?(S.splitResult.oor1||[]):(S.splitResult.oor2||[]);
+      var oorBlock=mk("div"); oorBlock.style.cssText="background:rgba(201,64,64,.05);border:1px dashed rgba(201,64,64,.3);border-radius:4px;margin-bottom:5px;overflow:hidden;";
+      var oorHdr=mk("div"); oorHdr.style.cssText="padding:4px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px dashed rgba(201,64,64,.2);cursor:pointer;";
+      var oorL=mk("span"); oorL.style.cssText="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);"; oorL.textContent="Out of Raid ("+oor.length+")";
+      var oorR=mk("span"); oorR.style.cssText="font-size:9px;color:var(--muted);"; oorR.textContent="click to bench here";
+      oorHdr.appendChild(oorL); oorHdr.appendChild(oorR);
+      (function(rk){
+        oorHdr.addEventListener("click",function(){
+          if(!grpMoverState.selected.size) return;
+          if(grpMoverState.raidKey!==rk){ grpStatusEl.textContent="Can only bench within the same raid."; grpStatusEl.style.color="var(--red)"; return; }
+          if(!S.splitResult.oor1) S.splitResult.oor1=[];
+          if(!S.splitResult.oor2) S.splitResult.oor2=[];
+          var oorArr=rk==="r1"?S.splitResult.oor1:S.splitResult.oor2;
+          var gs=rk==="r1"?S.splitResult.groups1:S.splitResult.groups2;
+          var names=Array.from(grpMoverState.selected); var moved=[];
+          names.forEach(function(nm){
+            for(var gi=0;gi<gs.length;gi++){
+              var mi=-1; for(var i=0;i<gs[gi].members.length;i++){ if(gs[gi].members[i].name===nm){ mi=i; break; } }
+              if(mi>=0){ oorArr.push(gs[gi].members.splice(mi,1)[0]); moved.push(nm); break; }
+            }
+          });
+          grpStatusEl.textContent="Moved "+moved.join(", ")+" to Out of Raid."; grpStatusEl.style.color="var(--teal2)";
+          grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null;
+          renderSplit(S.splitResult,[]); renderInlineAdjust(container,raidKey);
+        });
+      })(side.key);
+      oorBlock.appendChild(oorHdr);
+      var oorBody=mk("div"); oorBody.style.cssText="padding:3px 6px;min-height:24px;";
+      if(!oor.length){ var oe=mk("span"); oe.style.cssText="font-size:10px;color:var(--muted);font-style:italic;padding:3px 6px;display:block;"; oe.textContent="Empty — bench players here."; oorBody.appendChild(oe); }
+      else{ oor.forEach(function(m){
+        var row=mk("div"); row.style.cssText="display:flex;align-items:center;gap:5px;padding:3px 4px;border-radius:3px;font-size:11px;cursor:pointer;border:1px solid transparent;transition:all .1s;"+(grpMoverState.selected.has(m.name)?"background:rgba(201,146,58,.2);border-color:var(--gold);color:var(--gold2);":"");
+        var dot=mk("span"); dot.style.cssText="font-size:9px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)"); dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+        row.appendChild(dot); row.appendChild(mk("span","",m.name)); row.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+        (function(mn, rk){
+          row.addEventListener("click",function(e){
+            e.stopPropagation(); grpMoverState.raidKey=rk; grpMoverState.fromGroupNum=-1;
+            if(e.ctrlKey||e.metaKey){ if(grpMoverState.selected.has(mn)) grpMoverState.selected.delete(mn); else grpMoverState.selected.add(mn); }
+            else{ if(grpMoverState.selected.size===1&&grpMoverState.selected.has(mn)){ grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null; grpStatusEl.textContent=""; renderLocalGrpMover(); return; } grpMoverState.selected=new Set([mn]); }
+            grpStatusEl.textContent="Selected: "+Array.from(grpMoverState.selected).join(", ")+" — click a group header."; grpStatusEl.style.color="var(--gold2)";
+            renderLocalGrpMover();
+          });
+        })(m.name, side.key);
+        oorBody.appendChild(row);
+      }); }
+      oorBlock.appendChild(oorBody); col.appendChild(oorBlock);
+      grpGridEl.appendChild(col);
+    });
+  }
+  renderLocalGrpMover();
+}
+
+// ── Group builder debug validator ─────────────────────────────────────────────
+// Called after buildRaidGroups to log any bard/healer violations
+function validateGroups(groups, label){
+  var issues=[];
+  var grpsWithBard=0, grpsWithHealer=0;
+  groups.forEach(function(g){
+    var b=g.members.filter(isBard).length;
+    var h=g.members.filter(isHealer).length;
+    if(b>0) grpsWithBard++;
+    if(h>0) grpsWithHealer++;
+    if(b>1) issues.push("Group "+g.groupNum+": "+b+" bards ("+g.members.filter(isBard).map(function(m){return m.name;}).join(",")+")");
+    if(h>1) issues.push("Group "+g.groupNum+": "+h+" healers ("+g.members.filter(isHealer).map(function(m){return m.name+"["+m.cls+"]";}).join(",")+")");
+    if(b===0&&groups.length>1) issues.push("Group "+g.groupNum+": NO bard");
+    if(h===0&&groups.length>1) issues.push("Group "+g.groupNum+": NO healer");
+  });
+  if(issues.length){
+    console.warn(label+" ISSUES:");
+    issues.forEach(function(i){ console.warn("  "+i); });
+  } else {
+    console.log(label+": OK — "+grpsWithBard+"/"+groups.length+" groups have bard, "+grpsWithHealer+"/"+groups.length+" have healer");
+  }
+  return issues;
+}
+
+// ── Sub-Split ─────────────────────────────────────────────────────────────────
+// Takes one raid's groups, re-runs the split algorithm on those families,
+// and renders the two sub-raids inline below the original raid card.
+function doSubSplit(raidGroups, raidLabel, parentCard, labelA, labelB){
+  labelA=labelA||"Sub-Raid A"; labelB=labelB||"Sub-Raid B";
+  // Generate ssId at the top so it's available to all closures including the close button
+  var ssId = "ss_"+Date.now();
+  // Collect families from these groups — rebuild family objects
+  var famMap={};
+  raidGroups.forEach(function(grp){
+    grp.members.forEach(function(m){
+      var key=m.famKey||m.name;
+      if(!famMap[key]) famMap[key]={mainName:key, members:[]};
+      // Avoid duplicates
+      if(!famMap[key].members.some(function(x){ return x.name===m.name; })){
+        famMap[key].members.push({name:m.name, cls:m.cls, type:m.type, mainName:m.famKey||m.name});
+      }
+    });
+  });
+  var families=Object.values(famMap);
+  if(!families.length) return;
+
+  // Run the split algorithm on these families
+  var subResult=doSplitFamilies(families);
+
+  // Collect the original group numbers from the parent raid in order
+  var parentGroupNums = raidGroups.map(function(g){ return g.groupNum; });
+
+  // Build sub-raid groups
+  subResult.groups1 = buildRaidGroups(subResult.raid1, true);
+  subResult.groups2 = buildRaidGroups(subResult.raid2, false);
+
+  // Assign the original group numbers back in order
+  // Sub-Raid A gets the first half of the parent numbers, Sub-Raid B gets the rest
+  // This keeps e.g. groups 1,3,5,7,9,11 split as A:1,3,5 and B:7,9,11
+  var allNums = parentGroupNums.slice().sort(function(a,b){ return a-b; });
+  var halfA = allNums.slice(0, subResult.groups1.length);
+  var halfB = allNums.slice(subResult.groups1.length, subResult.groups1.length + subResult.groups2.length);
+  subResult.groups1.forEach(function(g,i){ g.groupNum = halfA[i] !== undefined ? halfA[i] : g.groupNum; });
+  subResult.groups2.forEach(function(g,i){ g.groupNum = halfB[i] !== undefined ? halfB[i] : g.groupNum; });
+
+  // Remove any existing sub-split from this card
+  var existing=parentCard.querySelector(".sub-split-section");
+  if(existing) existing.remove();
+
+  // Build the sub-split display
+  var section=mk("div","sub-split-section");
+  section.style.cssText="border-top:2px solid var(--border);background:rgba(0,0,0,.15);";
+
+  var secHdr=mk("div"); secHdr.style.cssText="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.2);";
+  var secTitle=mk("span"); secTitle.style.cssText="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);";
+  secTitle.textContent="Sub-Split of "+raidLabel;
+  var closeBtn=mk("button","btn btn-ghost btn-sm","✕ Remove Sub-Split");
+  (function(id){ closeBtn.addEventListener("click",function(){
+    // Detach section from DOM before deleting from state
+    if(S.subSplits[id]&&S.subSplits[id].section&&S.subSplits[id].section.parentNode){
+      S.subSplits[id].section.parentNode.removeChild(S.subSplits[id].section);
+    }
+    delete S.subSplits[id];
+    renderSubSplitTab();
+    if(!Object.keys(S.subSplits).length){
+      showTab("split");
+    }
+  }); })(ssId);
+  var ssShowExport=false;
+  var ssExportDoc=mk("div","hidden"); ssExportDoc.className="export-doc hidden"; ssExportDoc.dataset.ssRole="exportdoc";
+  var ssExportBtn=mk("button","btn btn-ghost btn-sm","Show Export Doc");
+  ssExportBtn.style.marginLeft="8px";
+  function ssRenderExport(){
+    if(!ssShowExport){ ssExportDoc.classList.add("hidden"); return; }
+    var ss2=S.subSplits[ssId]; if(!ss2) return;
+    var lA=ss2.labelA||"Sub-Raid A", lB=ss2.labelB||"Sub-Raid B";
+    var total=0; ss2.groups1.forEach(function(g){ total+=g.members.length; }); ss2.groups2.forEach(function(g){ total+=g.members.length; });
+    ssExportDoc.classList.remove("hidden"); ssExportDoc.className="export-doc"; ssExportDoc.innerHTML="";
+    ssExportDoc.appendChild(mk("h1","","Sub-Split Sheet"));
+    ssExportDoc.appendChild(mk("div","dsub","Generated "+new Date().toLocaleString()+" · "+total+" total raiders · "+lA+" vs "+lB));
+    var cols2=mk("div","dcols");
+    [{label:lA,groups:ss2.groups1},{label:lB,groups:ss2.groups2}].forEach(function(side){
+      var col=mk("div");
+      var memberCount=0; side.groups.forEach(function(g){ memberCount+=g.members.length; });
+      col.appendChild(mk("h2","",side.label+" ("+memberCount+" members)"));
+      side.groups.forEach(function(grp){
+        var gh=mk("div"); gh.style.cssText="font-family:'Cinzel',Georgia,serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin:10px 0 4px;color:#333;border-left:3px solid #888;padding-left:6px;";
+        gh.textContent="Group "+grp.groupNum;
+        col.appendChild(gh);
+        grp.members.forEach(function(m){
+          var row=mk("div","drow");
+          var ns=mk("span","",m.name); if(m.type==="main") ns.style.fontWeight="600";
+          var is=mk("span","",m.cls+(isHealer(m)?" [healer]":isBard(m)?" [bard]":"")); is.style.cssText="color:#777;font-size:12px";
+          row.appendChild(ns); row.appendChild(is); col.appendChild(row);
+        });
+      });
+      cols2.appendChild(col);
+    });
+    ssExportDoc.appendChild(cols2);
+    ssExportDoc.appendChild(mk("div","dfooter","EverQuest Raid Splitter · "+lA+" / "+lB+" · "+new Date().toDateString()));
+  }
+  ssExportBtn.addEventListener("click",function(){
+    ssShowExport=!ssShowExport;
+    ssExportBtn.textContent=(ssShowExport?"Hide":"Show")+" Export Doc";
+    ssRenderExport();
+  });
+  section.addEventListener("ss-refresh-export",function(){ ssRenderExport(); });
+  var secHdrBtns=mk("div"); secHdrBtns.style.cssText="display:flex;gap:6px;align-items:center;";
+  secHdrBtns.appendChild(ssExportBtn); secHdrBtns.appendChild(closeBtn);
+  secHdr.appendChild(secTitle); secHdr.appendChild(secHdrBtns);
+  section.appendChild(secHdr);
+
+  // Sub-split class balance comparison table
+  var sc1=classCount(subResult.raid1), sc2=classCount(subResult.raid2);
+  var scls=sortedClasses(sc1,sc2);
+  var sf1=flatMembers(subResult.groups1), sf2=flatMembers(subResult.groups2);
+  var sdiff=Math.abs(sf1.length-sf2.length);
+
+  var scp=mk("div","panel"); scp.style.cssText="margin:12px 12px 0;";
+  var sch=mk("div","panel-hdr"); sch.appendChild(mk("span","panel-title","Sub-Split Class Balance"));
+  var sCountSpan=mk("span","raid-count",labelA+": "+sf1.length+" · "+labelB+": "+sf2.length+" · Diff: "+sdiff);
+  sch.appendChild(sCountSpan); scp.appendChild(sch);
+
+  // Balance bar
+  var sbw=mk("div","bal-wrap"); sbw.style.padding="10px 16px 0";
+  var sbl=mk("div","bal-label"); sbl.appendChild(mk("span","",labelA+" — "+sf1.length)); sbl.appendChild(mk("span","",labelB+" — "+sf2.length));
+  var sbb=mk("div","bal-bar");
+  var stotal=sf1.length+sf2.length;
+  var sp1=stotal?Math.round(sf1.length/stotal*100):50;
+  var sb1=mk("div","bal-r1"); sb1.style.width=sp1+"%";
+  var sb2=mk("div","bal-r2"); sb2.style.width=(100-sp1)+"%";
+  sbb.appendChild(sb1); sbb.appendChild(sb2); sbw.appendChild(sbl); sbw.appendChild(sbb); scp.appendChild(sbw);
+
+  var scw=mk("div","scroll"); var sct=mk("table","tbl"); sct.style.fontSize="12px";
+  var sthead=mk("thead"); var shr=mk("tr");
+  [["Class","Role",labelA,labelB,labelA.split("-")[1].trim()+" +/-",labelB.split("-")[1].trim()+" +/-"]].forEach(function(cols){ cols.forEach(function(h){ shr.appendChild(mk("th","",h)); }); });
+  sthead.appendChild(shr); sct.appendChild(sthead);
+  var sctb=mk("tbody");
+  var slastRole="";
+  scls.forEach(function(c){
+    var srole=roleOf(c);
+    if(srole!==slastRole){
+      slastRole=srole;
+      var srt1=0,srt2=0;
+      scls.forEach(function(cc){ if(roleOf(cc)===srole){ srt1+=(sc1[cc]||0); srt2+=(sc2[cc]||0); } });
+      var ssubTr=mk("tr");
+      var ssubTd=document.createElement("td"); ssubTd.colSpan=6; ssubTd.style.padding="0";
+      var ROW_STYLE="background:linear-gradient(135deg,rgba(201,146,58,.18),rgba(201,146,58,.06));border-top:1px solid rgba(201,146,58,.35);border-bottom:1px solid rgba(201,146,58,.35);";
+      var LBL_STYLE="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);padding:5px 11px;font-weight:700;";
+      var TOT_STYLE="font-size:10px;font-weight:700;padding:5px 11px;";
+      var ssubRow=mk("tr"); ssubRow.style.cssText=ROW_STYLE;
+      var ss1=mk("td","",srole); ss1.style.cssText=LBL_STYLE;
+      var ss2=mk("td");
+      var ss3=mk("td","",""+srt1); ss3.style.cssText=TOT_STYLE+"color:var(--gold2);";
+      var ss4=mk("td","",""+srt2); ss4.style.cssText=TOT_STYLE+"color:var(--teal2);";
+      var srdiff=srt1-srt2;
+      var ss5=mk("td"); ss5.style.cssText=TOT_STYLE;
+      var ss6=mk("td"); ss6.style.cssText=TOT_STYLE;
+      if(srdiff>0){ ss5.textContent="+"+srdiff; ss5.style.color="var(--gold2)"; ss6.textContent="—"; ss6.style.color="var(--muted)"; }
+      else if(srdiff<0){ ss5.textContent="—"; ss5.style.color="var(--muted)"; ss6.textContent="+"+Math.abs(srdiff); ss6.style.color="var(--teal2)"; }
+      else { ss5.textContent="="; ss5.style.color="var(--muted)"; ss6.textContent="="; ss6.style.color="var(--muted)"; }
+      [ss1,ss2,ss3,ss4,ss5,ss6].forEach(function(td){ ssubRow.appendChild(td); });
+      sctb.appendChild(ssubRow);
+    }
+    var a=sc1[c]||0, b=sc2[c]||0, diff=a-b; var str=mk("tr");
+    var std1=mk("td"); std1.appendChild(mk("span","m-cls cls-"+c,c));
+    var std2=mk("td","muted",roleOf(c));
+    var std3=mk("td","",""+a); if(a>b) std3.style.color="var(--gold2)";
+    var std4=mk("td","",""+b); if(b>a) std4.style.color="var(--teal2)";
+    var std5=mk("td"), std6=mk("td");
+    if(diff>0){ std5.textContent="+"+diff; std5.style.cssText="font-weight:700;color:var(--gold2);"; std6.textContent="—"; std6.style.color="var(--muted)"; }
+    else if(diff<0){ std5.textContent="—"; std5.style.color="var(--muted)"; std6.textContent="+"+Math.abs(diff); std6.style.cssText="font-weight:700;color:var(--teal2);"; }
+    else { std5.textContent="="; std5.style.color="var(--muted)"; std6.textContent="="; std6.style.color="var(--muted)"; }
+    [std1,std2,std3,std4,std5,std6].forEach(function(td){ str.appendChild(td); }); sctb.appendChild(str);
+  });
+  sct.appendChild(sctb); scw.appendChild(sct); scp.appendChild(scw);
+  section.appendChild(scp);
+
+  // Sub-raid grid
+  var subGrid=mk("div","split-grid"); subGrid.style.padding="12px";
+  [
+    {label:labelA, groups:subResult.groups1, color:"var(--gold2)", borderColor:"var(--gold)"},
+    {label:labelB, groups:subResult.groups2, color:"var(--teal2)", borderColor:"var(--teal)"}
+  ].forEach(function(sub){
+    var subCard=mk("div","raid-card"); subCard.style.cssText="border:1px solid var(--border);";
+    var subHdr=mk("div"); subHdr.style.cssText="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.03);border-bottom:2px solid "+sub.borderColor+";";
+    var subName=mk("span"); subName.style.cssText="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:"+sub.color+";";
+    subName.textContent=sub.label;
+    var subCount=mk("span","raid-count"); subCount.textContent=flatMembers(sub.groups).length+" members · "+sub.groups.length+" groups";
+    // Copy button
+    var copyBtn=mk("button","btn btn-ghost btn-sm","📋 Copy");
+    copyBtn.addEventListener("click",function(){ copyText(raidText(sub.label,sub.groups)); });
+    var subHdrRight=mk("div"); subHdrRight.style.cssText="display:flex;gap:8px;align-items:center;";
+    subHdrRight.appendChild(subCount); subHdrRight.appendChild(copyBtn);
+    subHdr.appendChild(subName); subHdr.appendChild(subHdrRight);
+    subCard.appendChild(subHdr);
+
+    sub.groups.forEach(function(grp){
+      var ghdr=mk("div");
+      ghdr.style.cssText="padding:4px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;";
+      var bardInGrp=grp.members.filter(isBard).map(function(m){ return m.name; }).join(", ");
+      var healerInGrp=grp.members.filter(isHealer).map(function(m){ return m.name+" ["+m.cls+"]"; }).join(", ");
+      ghdr.appendChild(mk("span","","Group "+grp.groupNum+" ("+grp.members.length+"/"+(S.groupSize||6)+")"));
+      var tags=mk("span"); tags.style.cssText="display:flex;gap:5px;font-size:9px;";
+      if(bardInGrp){ var bt=mk("span","","♪ "+bardInGrp); bt.style.color="var(--gold2)"; tags.appendChild(bt); }
+      if(healerInGrp){ var ht=mk("span","","+ "+healerInGrp); ht.style.color="var(--teal2)"; tags.appendChild(ht); }
+      ghdr.appendChild(tags);
+      subCard.appendChild(ghdr);
+      grp.members.forEach(function(m){
+        var row=mk("div","member-row");
+        var dot=mk("span"); dot.style.cssText="font-size:10px;min-width:12px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)");
+        dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+        row.appendChild(dot);
+        row.appendChild(mk("span","m-name",m.name));
+        row.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+        subCard.appendChild(row);
+      });
+    });
+
+    // Class pips
+    var pips=mk("div","cls-pips");
+    var cc={};
+    sub.groups.forEach(function(g){ g.members.forEach(function(m){ cc[m.cls]=(cc[m.cls]||0)+1; }); });
+    Object.keys(cc).sort().forEach(function(c){ pips.appendChild(mk("span","pip cls-"+c,c+" x"+cc[c])); });
+    subCard.appendChild(pips);
+    subGrid.appendChild(subCard);
+  });
+  section.appendChild(subGrid);
+
+  // ── Sub-split adjust panel ────────────────────────────────────────────────
+  // ssId was declared at the top of doSubSplit
+  S.subSplits[ssId] = subResult;
+  S.subSplits[ssId].parentLabel = raidLabel;
+  S.subSplits[ssId].labelA = labelA;
+  S.subSplits[ssId].labelB = labelB;
+  S.subSplits[ssId].oor1 = [];
+  S.subSplits[ssId].oor2 = [];
+
+  var adjPanel = mk("div","panel"); adjPanel.style.cssText="margin:0 12px 12px;"; adjPanel.dataset.ssRole="adjust";
+  var adjHdr = mk("div","panel-hdr");
+  adjHdr.appendChild(mk("span","panel-title","Adjust Sub-Split"));
+  adjPanel.appendChild(adjHdr);
+  var adjBody = mk("div","panel-body");
+
+  // ── Move by name ───────────────────────────────────────────────────────────
+  var nameHdr = mk("div"); nameHdr.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;";
+  nameHdr.textContent="Move Player by Name";
+  adjBody.appendChild(nameHdr);
+  var nameRow = mk("div"); nameRow.style.cssText="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px;";
+  var nameIn = mk("input"); nameIn.type="text"; nameIn.placeholder="Character name..."; nameIn.style.cssText="flex:1;min-width:160px;background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:13px;padding:6px 10px;outline:none;";
+  var btnA = mk("button","btn btn-gold btn-sm","→ "+labelA);
+  var btnB = mk("button","btn btn-teal btn-sm","→ "+labelB);
+  var nameMsg = mk("div"); nameMsg.style.cssText="font-size:11px;min-height:16px;margin-bottom:10px;";
+  nameRow.appendChild(nameIn); nameRow.appendChild(btnA); nameRow.appendChild(btnB);
+  adjBody.appendChild(nameRow); adjBody.appendChild(nameMsg);
+
+  // ── Move by class ──────────────────────────────────────────────────────────
+  var clsHdr = mk("div"); clsHdr.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;";
+  clsHdr.textContent="Move Player by Class";
+  adjBody.appendChild(clsHdr);
+  var clsRow = mk("div"); clsRow.style.cssText="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px;";
+  var clsSel = mk("select"); clsSel.style.cssText="background:#080b0e;border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Crimson Pro',serif;font-size:13px;padding:6px 10px;outline:none;";
+  var clsOpts = ["","BER","BRD","BST","CLR","DRU","ENC","MAG","MNK","NEC","PAL","RNG","ROG","SHD","SHM","WAR","WIZ"];
+  clsOpts.forEach(function(c){ var o=mk("option","",c||"Select class..."); o.value=c; clsSel.appendChild(o); });
+  var btnCA = mk("button","btn btn-gold btn-sm","→ "+labelA);
+  var btnCB = mk("button","btn btn-teal btn-sm","→ "+labelB);
+  var clsListDiv = mk("div"); clsListDiv.style.cssText="margin-top:8px;";
+  var clsMsg = mk("div"); clsMsg.style.cssText="font-size:11px;min-height:16px;margin-top:4px;";
+  clsRow.appendChild(clsSel); clsRow.appendChild(btnCA); clsRow.appendChild(btnCB);
+  adjBody.appendChild(clsRow); adjBody.appendChild(clsListDiv); adjBody.appendChild(clsMsg);
+
+  adjPanel.appendChild(adjBody);
+  section.appendChild(adjPanel);
+
+  // ── Wire up sub-split adjust actions ──────────────────────────────────────
+  function ssMsg(el, msg, ok){
+    el.textContent=msg; el.style.color=ok?"var(--teal2)":"var(--red)";
+  }
+
+  function ssMoveByName(name, toA){
+    var ss=S.subSplits[ssId];
+    if(!ss) return;
+    var src=toA?ss.raid2:ss.raid1, dst=toA?ss.raid1:ss.raid2;
+    var lc=name.trim().toLowerCase(); if(!lc){ ssMsg(nameMsg,"Enter a name.",false); return; }
+    var idx=-1;
+    for(var i=0;i<src.length;i++){
+      if(src[i].mainName.toLowerCase()===lc){ idx=i; break; }
+      for(var j=0;j<src[i].members.length;j++){
+        if(src[i].members[j].name.toLowerCase()===lc){ idx=i; break; }
+      }
+      if(idx>=0) break;
+    }
+    if(idx<0){
+      var inDst=dst.some(function(f){ return f.mainName.toLowerCase()===lc||f.members.some(function(m){ return m.name.toLowerCase()===lc; }); });
+      ssMsg(nameMsg, inDst?"Already in Sub-Raid "+(toA?"A":"B")+".":"'"+name.trim()+"' not found.",false); return;
+    }
+    if(isLocked(src[idx].mainName)){ ssMsg(nameMsg,"Locked by Separation Rule.",false); return; }
+    var fam=src.splice(idx,1)[0]; dst.push(fam);
+    ssMsg(nameMsg,"Moved "+fam.mainName+" to Sub-Raid "+(toA?"A":"B")+".",true);
+    ssRebuild(ssId, section, subResult, raidGroups, true);
+  }
+
+  function ssMoveByClass(cls, toA){
+    var ss=S.subSplits[ssId];
+    if(!ss||!cls){ ssMsg(clsMsg,"Select a class first.",false); return; }
+    var src=toA?ss.raid2:ss.raid1, dst=toA?ss.raid1:ss.raid2;
+    var idx=-1;
+    for(var i=0;i<src.length;i++){
+      if(src[i].members.some(function(m){ return m.cls===cls; })){ idx=i; break; }
+    }
+    if(idx<0){ ssMsg(clsMsg,"No "+cls+" found in Sub-Raid "+(toA?"B":"A")+".",false); return; }
+    if(isLocked(src[idx].mainName)){ ssMsg(clsMsg,"Locked by Separation Rule.",false); return; }
+    var fam=src.splice(idx,1)[0]; dst.push(fam);
+    ssMsg(clsMsg,"Moved "+fam.mainName+" ("+cls+") to Sub-Raid "+(toA?"A":"B")+".",true);
+    ssRebuild(ssId, section, subResult, raidGroups, true);
+  }
+
+  // Render class lists when class selected
+  function ssRenderClsLists(cls){
+    clsListDiv.innerHTML="";
+    if(!cls) return;
+    var ss=S.subSplits[ssId];
+    var grid2=mk("div"); grid2.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;";
+    [{label:labelA,raid:ss.raid1,toA:false,color:"var(--gold2)"},{label:labelB,raid:ss.raid2,toA:true,color:"var(--teal2)"}].forEach(function(side){
+      var col=mk("div");
+      var colHdr=mk("div"); colHdr.style.cssText="font-size:10px;font-family:'Cinzel',serif;letter-spacing:.06em;text-transform:uppercase;color:"+side.color+";margin-bottom:6px;";
+      colHdr.textContent=side.label; col.appendChild(colHdr);
+      var found=[];
+      side.raid.forEach(function(fam){ fam.members.forEach(function(m){ if(m.cls===cls) found.push({fam:fam,m:m}); }); });
+      if(!found.length){ var none=mk("div"); none.style.cssText="font-size:11px;color:var(--muted);font-style:italic;"; none.textContent="None."; col.appendChild(none); }
+      found.forEach(function(entry){
+        var row=mk("div"); row.style.cssText="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;margin-bottom:4px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:4px;gap:8px;";
+        var famSize=entry.fam.members.length;
+        var nameSpan=mk("span"); nameSpan.style.cssText="flex:1;font-size:12px;";
+        nameSpan.textContent=entry.m.name+(famSize>1?" (+"+(famSize-1)+" alt"+(famSize>2?"s":"")+")":" ");
+        var locked=isLocked(entry.fam.mainName);
+        if(locked){ var lt=mk("span"); lt.style.cssText="font-size:10px;color:var(--red);"; lt.textContent="🔒 Locked"; row.appendChild(nameSpan); row.appendChild(lt); }
+        else {
+          var btn=mk("button","btn btn-sm"); btn.style.cssText="padding:2px 8px;font-size:10px;white-space:nowrap;background:linear-gradient(135deg,"+(side.toA?"var(--gold),#a8742a":"var(--teal),#2d7a6c")+");color:"+(side.toA?"#000":"#fff")+";";
+          btn.textContent="→ "+(side.toA?"A":"B");
+          var mn=entry.fam.mainName, ta=side.toA;
+          btn.addEventListener("click",function(){ ssMoveByClass_direct(mn,ta); });
+          row.appendChild(nameSpan); row.appendChild(btn);
+        }
+        col.appendChild(row);
+      });
+      grid2.appendChild(col);
+    });
+    clsListDiv.appendChild(grid2);
+  }
+
+  function ssMoveByClass_direct(mainName, toA){
+    var ss=S.subSplits[ssId];
+    var src=toA?ss.raid2:ss.raid1, dst=toA?ss.raid1:ss.raid2;
+    var idx=-1; for(var i=0;i<src.length;i++){ if(src[i].mainName===mainName){ idx=i; break; } }
+    if(idx<0){ ssMsg(clsMsg,"Not found.",false); return; }
+    var fam=src.splice(idx,1)[0]; dst.push(fam);
+    ssMsg(clsMsg,"Moved "+fam.mainName+" to "+(toA?labelA:labelB)+".",true);
+    // Refresh class list only — keeps dropdown open
+    ssRenderClsLists(clsSel.value);
+    // Rebuild groups from updated raids
+    ssRebuild(ssId, section, subResult, raidGroups, true);
+  }
+
+  clsSel.addEventListener("change",function(){ ssMsg(clsMsg,"",""); ssRenderClsLists(clsSel.value); });
+  btnA.addEventListener("click",function(){ ssMoveByName(nameIn.value,true); });
+  btnB.addEventListener("click",function(){ ssMoveByName(nameIn.value,false); });
+  btnCA.addEventListener("click",function(){ ssMoveByClass(clsSel.value,true); });
+  btnCB.addEventListener("click",function(){ ssMoveByClass(clsSel.value,false); });
+
+  // ── Move between groups ────────────────────────────────────────────────────
+  var grpHdr = mk("div"); grpHdr.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 7px;";
+  grpHdr.textContent="Move Player Between Groups";
+  adjBody.appendChild(grpHdr);
+  var grpStatus = mk("div"); grpStatus.style.cssText="font-size:11px;min-height:16px;margin-bottom:6px;color:var(--gold2);";
+  adjBody.appendChild(grpStatus);
+  var grpGrid = mk("div"); grpGrid.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;";
+  adjBody.appendChild(grpGrid);
+
+  // Per-sub-split group mover state — name only, lookup by scan at move time
+  var ssGrpSel = { selected:new Set(), raidKey:null };
+
+  function ssRenderGrpMover(){
+    grpGrid.innerHTML="";
+    var ss=S.subSplits[ssId];
+    if(!ss) return;
+    [{label:labelA,groups:ss.groups1,oor:ss.oor1||[],key:"a",color:"var(--gold2)"},{label:labelB,groups:ss.groups2,oor:ss.oor2||[],key:"b",color:"var(--teal2)"}].forEach(function(side){
+      var col=mk("div");
+      var colHdr=mk("div"); colHdr.style.cssText="font-size:10px;font-family:'Cinzel',serif;letter-spacing:.06em;text-transform:uppercase;color:"+side.color+";margin-bottom:6px;";
+      colHdr.textContent=side.label; col.appendChild(colHdr);
+      var selActive=ssGrpSel.selected.size>0&&ssGrpSel.raidKey===side.key;
+      // Family keys of selected members
+      var ssFamKeys=new Set();
+      if(selActive){
+        var allM=[]; side.groups.forEach(function(g){ g.members.forEach(function(m){ allM.push(m); }); }); side.oor.forEach(function(m){ allM.push(m); });
+        ssGrpSel.selected.forEach(function(nm){ allM.forEach(function(m){ if(m.name===nm&&m.famKey) ssFamKeys.add(m.famKey); }); });
+      }
+
+      side.groups.forEach(function(grp){
+        var block=mk("div"); block.style.cssText="background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:4px;margin-bottom:6px;overflow:hidden;";
+        var gh=mk("div"); gh.style.cssText="padding:4px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;"+(selActive?"background:rgba(58,156,140,.12);border-color:var(--teal);":"");
+        var ghL=mk("span"); ghL.style.cssText="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:"+side.color+";";
+        ghL.textContent="Group "+grp.groupNum+" ("+grp.members.length+"/"+(S.groupSize||6)+")";
+        var bi=grp.members.filter(isBard).map(function(m){ return m.name; }).join(", ");
+        var hi=grp.members.filter(isHealer).map(function(m){ return m.name+" ["+m.cls+"]"; }).join(", ");
+        var ghR=mk("span"); ghR.style.cssText="font-size:9px;color:var(--muted);max-width:55%;text-align:right;";
+        ghR.textContent=(bi?"♪ "+bi+" ":"")+(hi?"+ "+hi:"");
+        gh.appendChild(ghL); gh.appendChild(ghR);
+        (function(targetGrp, rk){
+          gh.addEventListener("click",function(){
+            if(!ssGrpSel.selected.size) return;
+            if(ssGrpSel.raidKey!==rk){ grpStatus.textContent="Can only move within the same sub-raid."; grpStatus.style.color="var(--red)"; return; }
+            var ss2=S.subSplits[ssId]; if(!ss2) return;
+            var gs=rk==="a"?ss2.groups1:ss2.groups2;
+            var oorArr=rk==="a"?(ss2.oor1||(ss2.oor1=[])):(ss2.oor2||(ss2.oor2=[]));
+            var names=Array.from(ssGrpSel.selected); var moved=[];
+            // Find toGrp in live state
+            var toGrp=null; for(var gi=0;gi<gs.length;gi++){ if(gs[gi].groupNum===targetGrp.groupNum){ toGrp=gs[gi]; break; } }
+            if(!toGrp){ grpStatus.textContent="Target group not found."; grpStatus.style.color="var(--red)"; return; }
+            names.forEach(function(nm){
+              if(toGrp.members.length>=(S.groupSize||6)) return;
+              // Find in groups
+              var found=false;
+              for(var gi=0;gi<gs.length;gi++){
+                var mi=-1; for(var i=0;i<gs[gi].members.length;i++){ if(gs[gi].members[i].name===nm){ mi=i; break; } }
+                if(mi>=0&&gs[gi]!==toGrp){ toGrp.members.push(gs[gi].members.splice(mi,1)[0]); moved.push(nm); found=true; break; }
+              }
+              // Try OOR
+              if(!found){
+                var oi=-1; for(var i=0;i<oorArr.length;i++){ if(oorArr[i].name===nm){ oi=i; break; } }
+                if(oi>=0){ toGrp.members.push(oorArr.splice(oi,1)[0]); moved.push(nm); }
+              }
+            });
+            if(!moved.length){ grpStatus.textContent="Could not move players."; grpStatus.style.color="var(--red)"; ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null; ssRenderGrpMover(); return; }
+            grpStatus.textContent="Moved "+moved.join(", ")+" to Group "+toGrp.groupNum+"."; grpStatus.style.color="var(--teal2)";
+            ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null;
+            ssRebuild(ssId, section, subResult, raidGroups, false);
+            ssRenderGrpMover();
+          });
+        })(grp, side.key);
+        block.appendChild(gh);
+        var gbody=mk("div"); gbody.style.cssText="padding:3px 6px;";
+        grp.members.forEach(function(m){
+          var isSelM=ssGrpSel.selected.has(m.name)&&ssGrpSel.raidKey===side.key;
+          var isFamM=selActive&&!isSelM&&m.famKey&&ssFamKeys.has(m.famKey);
+          var rStyle="display:flex;align-items:center;gap:6px;padding:3px 4px;border-radius:3px;font-size:11px;cursor:pointer;border:1px solid transparent;transition:all .12s;";
+          if(isSelM) rStyle+="background:rgba(201,146,58,.2);border-color:var(--gold);color:var(--gold2);";
+          else if(isFamM) rStyle+="background:rgba(201,146,58,.08);border-color:rgba(201,146,58,.2);color:var(--gold2);";
+          var row=mk("div"); row.style.cssText=rStyle;
+          var dot=mk("span"); dot.style.cssText="font-size:9px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)");
+          dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+          row.appendChild(dot); row.appendChild(mk("span","",m.name)); row.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+          (function(mn, rk){
+            row.addEventListener("click",function(e){
+              e.stopPropagation();
+              if(ssGrpSel.raidKey&&ssGrpSel.raidKey!==rk){ ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null; }
+              ssGrpSel.raidKey=rk;
+              if(e.ctrlKey||e.metaKey){
+                if(ssGrpSel.selected.has(mn)) ssGrpSel.selected.delete(mn); else ssGrpSel.selected.add(mn);
+              } else {
+                if(ssGrpSel.selected.size===1&&ssGrpSel.selected.has(mn)){ ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null; grpStatus.textContent=""; ssRenderGrpMover(); return; }
+                ssGrpSel.selected=new Set([mn]);
+              }
+              if(!ssGrpSel.selected.size){ ssGrpSel.raidKey=null; grpStatus.textContent=""; }
+              else { grpStatus.textContent="Selected ("+ssGrpSel.selected.size+"): "+Array.from(ssGrpSel.selected).join(", ")+" — click a group header."; grpStatus.style.color="var(--gold2)"; }
+              ssRenderGrpMover();
+            });
+          })(m.name, side.key);
+          gbody.appendChild(row);
+        });
+        block.appendChild(gbody); col.appendChild(block);
+      });
+
+      // OOR block
+      var ssOor=side.oor;
+      var oorBlock=mk("div"); oorBlock.style.cssText="background:rgba(201,64,64,.05);border:1px dashed rgba(201,64,64,.3);border-radius:4px;margin-bottom:6px;overflow:hidden;";
+      var oorHdr=mk("div"); oorHdr.style.cssText="padding:4px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px dashed rgba(201,64,64,.2);cursor:pointer;";
+      var oorL=mk("span"); oorL.style.cssText="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);"; oorL.textContent="Out of Raid ("+ssOor.length+")";
+      var oorR=mk("span"); oorR.style.cssText="font-size:9px;color:var(--muted);"; oorR.textContent="click to bench here";
+      oorHdr.appendChild(oorL); oorHdr.appendChild(oorR);
+      (function(rk2){
+        oorHdr.addEventListener("click",function(){
+          if(!ssGrpSel.selected.size||ssGrpSel.raidKey!==rk2) return;
+          var ss3=S.subSplits[ssId]; if(!ss3) return;
+          var gs2=rk2==="a"?ss3.groups1:ss3.groups2;
+          var oorArr2=(rk2==="a"?(ss3.oor1||(ss3.oor1=[])):(ss3.oor2||(ss3.oor2=[])));
+          var names=Array.from(ssGrpSel.selected); var moved=[];
+          names.forEach(function(nm){
+            for(var gi3=0;gi3<gs2.length;gi3++){
+              var mi=-1; for(var mi2=0;mi2<gs2[gi3].members.length;mi2++){ if(gs2[gi3].members[mi2].name===nm){ mi=mi2; break; } }
+              if(mi>=0){ oorArr2.push(gs2[gi3].members.splice(mi,1)[0]); moved.push(nm); break; }
+            }
+          });
+          if(moved.length){ grpStatus.textContent="Moved "+moved.join(", ")+" to Out of Raid."; grpStatus.style.color="var(--teal2)"; }
+          ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null;
+          ssRebuild(ssId, section, subResult, raidGroups, false);
+          ssRenderGrpMover();
+        });
+      })(side.key);
+      oorBlock.appendChild(oorHdr);
+      var oorBody=mk("div"); oorBody.style.cssText="padding:3px 6px;min-height:20px;";
+      if(!ssOor.length){ var oe=mk("span"); oe.style.cssText="font-size:10px;color:var(--muted);font-style:italic;padding:3px 6px;display:block;"; oe.textContent="Empty — bench players here."; oorBody.appendChild(oe); }
+      else{ ssOor.forEach(function(m){
+        var isSel=ssGrpSel.selected.has(m.name)&&ssGrpSel.raidKey===side.key;
+        var isFamOOR=selActive&&!isSel&&m.famKey&&ssFamKeys.has(m.famKey);
+        var oStyle="display:flex;align-items:center;gap:5px;padding:3px 4px;border-radius:3px;font-size:11px;cursor:pointer;border:1px solid transparent;transition:all .1s;";
+        if(isSel) oStyle+="background:rgba(201,146,58,.2);border-color:var(--gold);color:var(--gold2);";
+        else if(isFamOOR) oStyle+="background:rgba(201,146,58,.08);border-color:rgba(201,146,58,.2);color:var(--gold2);";
+        var oorRow=mk("div"); oorRow.style.cssText=oStyle;
+        var dot=mk("span"); dot.style.cssText="font-size:9px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)"); dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+        oorRow.appendChild(dot); oorRow.appendChild(mk("span","",m.name)); oorRow.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+        (function(mn, rk3){
+          oorRow.addEventListener("click",function(e){
+            e.stopPropagation();
+            if(ssGrpSel.raidKey&&ssGrpSel.raidKey!==rk3){ ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null; }
+            ssGrpSel.raidKey=rk3;
+            if(e.ctrlKey||e.metaKey){
+              if(ssGrpSel.selected.has(mn)) ssGrpSel.selected.delete(mn); else ssGrpSel.selected.add(mn);
+            } else {
+              if(ssGrpSel.selected.size===1&&ssGrpSel.selected.has(mn)){ ssGrpSel.selected=new Set(); ssGrpSel.raidKey=null; grpStatus.textContent=""; ssRenderGrpMover(); return; }
+              ssGrpSel.selected=new Set([mn]);
+            }
+            if(!ssGrpSel.selected.size){ ssGrpSel.raidKey=null; grpStatus.textContent=""; }
+            else { grpStatus.textContent="Selected ("+ssGrpSel.selected.size+"): "+Array.from(ssGrpSel.selected).join(", ")+" — click a group header."; grpStatus.style.color="var(--gold2)"; }
+            ssRenderGrpMover();
+          });
+        })(m.name, side.key);
+        oorBody.appendChild(oorRow);
+      }); }
+      oorBlock.appendChild(oorBody); col.appendChild(oorBlock);
+      grpGrid.appendChild(col);
+    });
+  }
+  ssRenderGrpMover();
+  section.addEventListener("ss-rebuilt", function(){ ssRenderGrpMover(); });
+
+  // Append the export doc container at the bottom of the section
+  section.appendChild(ssExportDoc);
+
+  // Store in subSplits and render to sub-split tab (NOT inline on the card)
+  S.subSplits[ssId].section = section;
+  renderSubSplitTab();
+  // Do NOT append to parentCard — sub-split lives only in the sub-split tab
+}
+
+// Render all sub-splits into the sub-split tab
+function renderSubSplitTab(){
+  var tabContent=$("subsplit-content");
+  // Remove existing children without destroying them (they may be live section nodes)
+  while(tabContent.firstChild) tabContent.removeChild(tabContent.firstChild);
+  var keys=Object.keys(S.subSplits);
+  if(!keys.length){
+    var warn=mk("div","alert alert-warn","No sub-splits yet. Go to the Split Result tab and click ⚔ Sub-Split on a raid card.");
+    tabContent.appendChild(warn);
+    $("tab-btn-subsplit").classList.add("hidden");
+    $("b-subsplit").classList.add("hidden");
+    return;
+  }
+  keys.forEach(function(id){
+    var ss=S.subSplits[id];
+    if(!ss||!ss.section) return;
+    tabContent.appendChild(ss.section);
+  });
+  $("tab-btn-subsplit").classList.remove("hidden");
+  $("b-subsplit").textContent=keys.length; $("b-subsplit").classList.remove("hidden");
+  showTab("subsplit");
+}
+
+// Rebuild a sub-split's display section.
+// rebuildGroups=true: re-run group assignment from raid1/raid2 (use after raid-level moves)
+// rebuildGroups=false: just re-render, groups already mutated (use after group-level moves)
+function ssRebuild(ssId, section, subResult, parentRaidGroups, rebuildGroups){
+  var ss=S.subSplits[ssId];
+  if(!ss) return;
+  if(rebuildGroups){
+    ss.groups1=buildRaidGroups(ss.raid1,true);
+    ss.groups2=buildRaidGroups(ss.raid2,false);
+    var allNums=parentRaidGroups.map(function(g){ return g.groupNum; }).slice().sort(function(a,b){ return a-b; });
+    var halfA=allNums.slice(0,ss.groups1.length);
+    var halfB=allNums.slice(ss.groups1.length,ss.groups1.length+ss.groups2.length);
+    ss.groups1.forEach(function(g,i){ g.groupNum=halfA[i]!==undefined?halfA[i]:g.groupNum; });
+    ss.groups2.forEach(function(g,i){ g.groupNum=halfB[i]!==undefined?halfB[i]:g.groupNum; });
+  }
+  // Remove only the comparison panel and subGrid — keep secHdr, adjPanel, exportDoc
+  var adjPanelEl=section.querySelector("[data-ss-role='adjust']");
+  Array.from(section.children).forEach(function(child){
+    var role=child.dataset&&child.dataset.ssRole;
+    if(role==="adjust"||role==="exportdoc") return; // keep tagged elements
+    if(child===section.firstChild) return; // keep secHdr (title/buttons)
+    child.remove(); // remove comparison panel and subGrid
+  });
+  var newSection=mk("div"); // temp container
+  // Rebuild comparison table
+  var sc1=classCount(ss.raid1), sc2=classCount(ss.raid2);
+  var scls=sortedClasses(sc1,sc2);
+  var sf1=flatMembers(ss.groups1), sf2=flatMembers(ss.groups2);
+  var sdiff=Math.abs(sf1.length-sf2.length);
+  var scp2=mk("div","panel"); scp2.style.cssText="margin:12px 12px 0;";
+  var sch2=mk("div","panel-hdr"); sch2.appendChild(mk("span","panel-title","Sub-Split Class Balance"));
+  var rLabelA=ss.labelA||"Sub-Raid A", rLabelB=ss.labelB||"Sub-Raid B";
+  sch2.appendChild(mk("span","raid-count",rLabelA+": "+sf1.length+" · "+rLabelB+": "+sf2.length+" · Diff: "+sdiff));
+  scp2.appendChild(sch2);
+  var sbw2=mk("div","bal-wrap"); sbw2.style.padding="10px 16px 0";
+  var sbl2=mk("div","bal-label"); sbl2.appendChild(mk("span","",rLabelA+" — "+sf1.length)); sbl2.appendChild(mk("span","",rLabelB+" — "+sf2.length));
+  var sbb2=mk("div","bal-bar"); var stot2=sf1.length+sf2.length; var sp2=stot2?Math.round(sf1.length/stot2*100):50;
+  var sb1_2=mk("div","bal-r1"); sb1_2.style.width=sp2+"%"; var sb2_2=mk("div","bal-r2"); sb2_2.style.width=(100-sp2)+"%";
+  sbb2.appendChild(sb1_2); sbb2.appendChild(sb2_2); sbw2.appendChild(sbl2); sbw2.appendChild(sbb2); scp2.appendChild(sbw2);
+  var scw2=mk("div","scroll"); var sct2=mk("table","tbl"); sct2.style.fontSize="12px";
+  var sthead2=mk("thead"); var shr2=mk("tr");
+  ["Class","Role","Sub A","Sub B","A +/-","B +/-"].forEach(function(h){ shr2.appendChild(mk("th","",h)); });
+  sthead2.appendChild(shr2); sct2.appendChild(sthead2);
+  var sctb2=mk("tbody"); var slr2="";
+  scls.forEach(function(c){
+    var sr=roleOf(c);
+    if(sr!==slr2){
+      slr2=sr;
+      var srt1=0,srt2=0; scls.forEach(function(cc){ if(roleOf(cc)===sr){ srt1+=(sc1[cc]||0); srt2+=(sc2[cc]||0); } });
+      var sstr=mk("tr"); sstr.style.cssText="background:linear-gradient(135deg,rgba(201,146,58,.18),rgba(201,146,58,.06));border-top:1px solid rgba(201,146,58,.35);border-bottom:1px solid rgba(201,146,58,.35);";
+      var ss1=mk("td","",sr); ss1.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);padding:5px 11px;font-weight:700;";
+      var srdiff2=srt1-srt2;
+      var TOTS="font-size:10px;font-weight:700;padding:5px 11px;";
+      var ss2=mk("td"); var ss3=mk("td","",""+srt1); ss3.style.cssText=TOTS+"color:var(--gold2);";
+      var ss4=mk("td","",""+srt2); ss4.style.cssText=TOTS+"color:var(--teal2);";
+      var ss5=mk("td"); ss5.style.cssText=TOTS;
+      var ss6=mk("td"); ss6.style.cssText=TOTS;
+      if(srdiff2>0){ ss5.textContent="+"+srdiff2; ss5.style.color="var(--gold2)"; ss6.textContent="—"; ss6.style.color="var(--muted)"; }
+      else if(srdiff2<0){ ss5.textContent="—"; ss5.style.color="var(--muted)"; ss6.textContent="+"+Math.abs(srdiff2); ss6.style.color="var(--teal2)"; }
+      else { ss5.textContent="="; ss5.style.color="var(--muted)"; ss6.textContent="="; ss6.style.color="var(--muted)"; }
+      [ss1,ss2,ss3,ss4,ss5,ss6].forEach(function(td){ sstr.appendChild(td); }); sctb2.appendChild(sstr);
+    }
+    var a=sc1[c]||0,b=sc2[c]||0,diff=a-b; var str2=mk("tr");
+    var t1=mk("td"); t1.appendChild(mk("span","m-cls cls-"+c,c));
+    var t2=mk("td","muted",roleOf(c));
+    var t3=mk("td","",""+a); if(a>b) t3.style.color="var(--gold2)";
+    var t4=mk("td","",""+b); if(b>a) t4.style.color="var(--teal2)";
+    var t5=mk("td"),t6=mk("td");
+    if(diff>0){ t5.textContent="+"+diff; t5.style.cssText="font-weight:700;color:var(--gold2);"; t6.textContent="—"; t6.style.color="var(--muted)"; }
+    else if(diff<0){ t5.textContent="—"; t5.style.color="var(--muted)"; t6.textContent="+"+Math.abs(diff); t6.style.cssText="font-weight:700;color:var(--teal2);"; }
+    else { t5.textContent="="; t5.style.color="var(--muted)"; t6.textContent="="; t6.style.color="var(--muted)"; }
+    [t1,t2,t3,t4,t5,t6].forEach(function(td){ str2.appendChild(td); }); sctb2.appendChild(str2);
+  });
+  sct2.appendChild(sctb2); scw2.appendChild(sct2); scp2.appendChild(scw2);
+  section.insertBefore(scp2, adjPanelEl);
+  // Rebuild sub-grid
+  var subGrid2=mk("div","split-grid"); subGrid2.style.padding="12px";
+  [{label:rLabelA,groups:ss.groups1,color:"var(--gold2)",borderColor:"var(--gold)"},{label:rLabelB,groups:ss.groups2,color:"var(--teal2)",borderColor:"var(--teal)"}].forEach(function(sub){
+    var sc=mk("div","raid-card"); sc.style.cssText="border:1px solid var(--border);";
+    var sh=mk("div"); sh.style.cssText="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.03);border-bottom:2px solid "+sub.borderColor+";";
+    var sn=mk("span"); sn.style.cssText="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:"+sub.color+";"; sn.textContent=sub.label;
+    var sr2=mk("div"); sr2.style.cssText="display:flex;gap:8px;align-items:center;";
+    sr2.appendChild(mk("span","raid-count",flatMembers(sub.groups).length+" members · "+sub.groups.length+" groups"));
+    var cpBtn=mk("button","btn btn-ghost btn-sm","📋 Copy");
+    cpBtn.addEventListener("click",function(){ copyText(raidText(sub.label,sub.groups)); });
+    sr2.appendChild(cpBtn); sh.appendChild(sn); sh.appendChild(sr2); sc.appendChild(sh);
+    sub.groups.forEach(function(grp){
+      var gh=mk("div"); gh.style.cssText="padding:4px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;";
+      var bi=grp.members.filter(isBard).map(function(m){ return m.name; }).join(", ");
+      var hi=grp.members.filter(isHealer).map(function(m){ return m.name+" ["+m.cls+"]"; }).join(", ");
+      gh.appendChild(mk("span","","Group "+grp.groupNum+" ("+grp.members.length+"/"+(S.groupSize||6)+")"));
+      var tgs=mk("span"); tgs.style.cssText="display:flex;gap:5px;font-size:9px;";
+      if(bi){ var bt=mk("span","","♪ "+bi); bt.style.color="var(--gold2)"; tgs.appendChild(bt); }
+      if(hi){ var ht=mk("span","","+ "+hi); ht.style.color="var(--teal2)"; tgs.appendChild(ht); }
+      gh.appendChild(tgs); sc.appendChild(gh);
+      grp.members.forEach(function(m){
+        var row=mk("div","member-row");
+        var dot=mk("span"); dot.style.cssText="font-size:10px;min-width:12px;color:"+(m.type==="main"?"var(--gold)":m.type==="2ndmain"?"#c8a0e0":"var(--muted)");
+        dot.textContent=m.type==="main"?"◆":m.type==="2ndmain"?"◇":"└";
+        row.appendChild(dot); row.appendChild(mk("span","m-name",m.name)); row.appendChild(mk("span","m-cls cls-"+m.cls,m.cls||"?"));
+        sc.appendChild(row);
+      });
+    });
+    var pp=mk("div","cls-pips"); var pcc={};
+    sub.groups.forEach(function(g){ g.members.forEach(function(m){ pcc[m.cls]=(pcc[m.cls]||0)+1; }); });
+    Object.keys(pcc).sort().forEach(function(c){ pp.appendChild(mk("span","pip cls-"+c,c+" x"+pcc[c])); });
+    sc.appendChild(pp); subGrid2.appendChild(sc);
+  });
+  section.insertBefore(subGrid2, adjPanelEl);
+  // Signal that groups were rebuilt so the group mover can refresh
+  section.dispatchEvent(new CustomEvent("ss-rebuilt"));
+  // Refresh export doc if it's currently shown
+  var exportEl=section.querySelector(".export-doc");
+  if(exportEl&&!exportEl.classList.contains("hidden")){
+    var exportEvt=new CustomEvent("ss-refresh-export");
+    section.dispatchEvent(exportEvt);
+  }
+}
+
+// Stripped-down version of doSplit that takes pre-built families directly
+// (used by sub-split so it doesn't re-parse from dump)
+function doSplitFamilies(families){
+  var assigned={}, r1=[], r2=[];
+  // Honor must-split rules
+  S.mustSplit.forEach(function(rule){
+    families.forEach(function(f){
+      if(f.mainName.toLowerCase()===rule.a.toLowerCase()&&!assigned[f.mainName]){ r1.push(f); assigned[f.mainName]=1; }
+      if(f.mainName.toLowerCase()===rule.b.toLowerCase()&&!assigned[f.mainName]){ r2.push(f); assigned[f.mainName]=2; }
+    });
+  });
+  function clsC(raid,cls){ var n=0; raid.forEach(function(f){ f.members.forEach(function(m){ if(m.cls===cls) n++; }); }); return n; }
+  function hd(raid){ var n=0; raid.forEach(function(f){ n+=f.members.length; }); return n; }
+  function imbalance(ra,rb){
+    var score=0;
+    ["BRD","CLR","DRU","SHM","WAR","PAL","SHD","ENC","MNK","ROG","RNG","BST","BER","NEC","WIZ","MAG"].forEach(function(c){
+      var w=(c==="BRD")?4:(["CLR","DRU","SHM"].indexOf(c)>=0)?3:(["WAR","PAL","SHD"].indexOf(c)>=0)?2:1;
+      score+=w*Math.abs(clsC(ra,c)-clsC(rb,c));
+    });
+    score+=Math.abs(hd(ra)-hd(rb));
+    return score;
+  }
+  function famTier(f){
+    var b=false,h=false,t=false;
+    f.members.forEach(function(m){ if(isBard(m)) b=true; if(isHealer(m)) h=true; if(isTank(m)) t=true; });
+    return b?0:h?1:t?2:3;
+  }
+  var unassigned=[];
+  families.forEach(function(f){ if(!assigned[f.mainName]) unassigned.push(f); });
+  unassigned.sort(function(a,b){ var ta=famTier(a),tb=famTier(b); return ta!==tb?ta-tb:b.members.length-a.members.length; });
+  unassigned.forEach(function(f){
+    r1.push(f); var s1=imbalance(r1,r2); r1.pop();
+    r2.push(f); var s2=imbalance(r1,r2); r2.pop();
+    if(s1<=s2){ r1.push(f); assigned[f.mainName]=1; }
+    else{ r2.push(f); assigned[f.mainName]=2; }
+  });
+  return {raid1:r1, raid2:r2, groups1:[], groups2:[]};
+}
+</script>
+<style>
+.kos-footer { text-align:center; padding:18px; font-size:11px; color:#444; border-top:1px solid #1e1e38; margin-top:20px; letter-spacing:1px; transition: color 0.3s, border-color 0.3s; }
+body.light .kos-footer { color:#9a7a50; border-top-color:#c8a870; }
+</style>
+<div class="kos-footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+</script>
+</body>
+</html>

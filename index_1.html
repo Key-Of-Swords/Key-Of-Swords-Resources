@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key of Swords — Guild Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── DARK MODE (default) ── */
+body {
+  background: #0e0e1c;
+  color: #e0e0e0;
+  font-family: 'Crimson Text', Georgia, serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(200,160,40,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(100,40,120,0.08) 0%, transparent 60%);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── LIGHT MODE ── */
+body.light {
+  background: #f0ebe0;
+  color: #2a1f0e;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(200,140,40,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(140,80,20,0.06) 0%, transparent 60%);
+}
+
+/* ── TOGGLE SWITCH ── */
+.theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #554433;
+  cursor: pointer;
+  user-select: none;
+}
+body.light .theme-toggle { color: #7a5a30; }
+
+.toggle-track {
+  width: 36px;
+  height: 18px;
+  background: #2a2a4a;
+  border: 1px solid #4a4a6a;
+  border-radius: 9px;
+  position: relative;
+  transition: background 0.25s, border-color 0.25s;
+  flex-shrink: 0;
+}
+body.light .toggle-track {
+  background: #c8a060;
+  border-color: #a07840;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #e8a020;
+  transition: transform 0.25s;
+}
+body.light .toggle-thumb { transform: translateX(18px); }
+
+.toggle-icon { display: flex; align-items: center; font-size: 12px; }
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(180deg, #1a1030 0%, #12102a 100%);
+  border-bottom: 1px solid #3a2a10;
+  padding: 36px 40px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s, border-color 0.3s;
+}
+body.light .header {
+  background: linear-gradient(180deg, #e8dcc8 0%, #ddd0b8 100%);
+  border-bottom-color: #b89060;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 60px,
+    rgba(232,160,32,0.025) 60px,
+    rgba(232,160,32,0.025) 61px
+  );
+  pointer-events: none;
+}
+
+.header-crest {
+  margin: 0 auto 14px;
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: #cc2222;
+  letter-spacing: 5px;
+  text-shadow: 0 0 30px rgba(200,30,30,0.3);
+}
+
+.header-divider {
+  width: 180px; height: 1px;
+  background: linear-gradient(90deg, transparent, #e8a020, transparent);
+  margin: 10px auto;
+}
+
+.header p {
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  color: #998855;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-style: italic;
+}
+body.light .header p { color: #7a6030; }
+
+.server-tag {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  color: #5ba4f5;
+  border: 1px solid #1a4a7a;
+  background: rgba(13,33,55,0.8);
+  padding: 3px 16px;
+  border-radius: 2px;
+  letter-spacing: 2px;
+  transition: background 0.3s;
+}
+body.light .server-tag {
+  background: rgba(200,220,255,0.5);
+  border-color: #4a7aaa;
+  color: #1a4a8a;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  padding: 32px 40px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  color: #554433;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+}
+body.light .section-label { color: #9a7040; }
+
+/* ── CARD GRID ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 240px));
+  gap: 22px;
+  padding: 8px 40px 60px;
+  justify-content: center;
+}
+
+.card {
+  background: linear-gradient(160deg, #16213e 0%, #12182e 100%);
+  border: 1px solid #2a2a4a;
+  border-radius: 6px;
+  padding: 28px 18px 22px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  position: relative;
+}
+body.light .card {
+  background: linear-gradient(160deg, #e8dcc8 0%, #ddd0b4 100%);
+  border-color: #c0a878;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,160,32,0.3), transparent);
+}
+
+.card:hover {
+  border-color: #c8901c;
+  background: linear-gradient(160deg, #1e2a4a 0%, #181e3a 100%);
+  transform: translateY(-2px);
+}
+body.light .card:hover {
+  background: linear-gradient(160deg, #f4e8d0 0%, #ead8b8 100%);
+}
+
+.card:hover .card-icon { border-color: #c8901c; }
+.card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
+
+.future-card { opacity: 0.28; pointer-events: none; filter: saturate(0.3); }
+body.light .future-card { opacity: 0.4; }
+
+/* ── CARD ICON ── */
+.card-icon {
+  width: 76px; height: 76px;
+  border-radius: 4px;
+  border: 1px solid #2a2a4a;
+  margin: 0 auto 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s;
+  position: relative;
+}
+body.light .card-icon { border-color: #b09060; }
+
+.card-icon::before, .card-icon::after {
+  content: '';
+  position: absolute;
+  width: 6px; height: 6px;
+  border-color: #3a3060;
+  border-style: solid;
+}
+body.light .card-icon::before,
+body.light .card-icon::after { border-color: #c8a870; }
+.card-icon::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.card-icon::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+/* ── CARD TEXT ── */
+.card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; font-weight: 700;
+  color: #d4c090;
+  margin-bottom: 6px;
+  line-height: 1.35; letter-spacing: 0.5px;
+}
+body.light .card-title { color: #4a2e08; }
+
+.card-sub {
+  font-family: 'Crimson Text', serif;
+  font-size: 13px; color: #5a5878;
+  margin-bottom: 10px; line-height: 1.5;
+}
+body.light .card-sub { color: #7a6040; }
+
+.card-count {
+  font-family: 'Crimson Text', serif;
+  font-size: 12px; color: #3d3a5a;
+  margin-top: 6px; font-style: italic;
+}
+body.light .card-count { color: #9a7a50; }
+
+.card-arrow {
+  font-size: 14px; color: #e8a020;
+  margin-top: 14px; opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  display: block;
+}
+
+/* ── BADGES ── */
+.badge-active {
+  display: inline-block; font-family: 'Cinzel', serif;
+  font-size: 9px; padding: 2px 9px; border-radius: 2px;
+  font-weight: 700; letter-spacing: 1px;
+  background: #0a2016; color: #4ecb71; border: 1px solid #1a5a30;
+}
+body.light .badge-active {
+  background: #d0f0d8; color: #1a6030; border-color: #60b878;
+}
+
+.badge-future {
+  display: inline-block; font-family: 'Cinzel', serif;
+  font-size: 9px; padding: 2px 9px; border-radius: 2px;
+  font-weight: 700; letter-spacing: 1px;
+  background: #181818; color: #444; border: 1px solid #2a2a2a;
+}
+body.light .badge-future {
+  background: #e0d8c8; color: #9a8a70; border-color: #c0b090;
+}
+
+.badge-tools {
+  display: inline-block; font-family: 'Cinzel', serif;
+  font-size: 9px; padding: 2px 9px; border-radius: 2px;
+  font-weight: 700; letter-spacing: 1px;
+  background: #081830; color: #5ba4f5; border: 1px solid #1a3a6a;
+}
+body.light .badge-tools {
+  background: #d0e4f8; color: #1a4a8a; border-color: #6090c8;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center; padding: 18px;
+  font-family: 'Cinzel', serif; font-size: 10px;
+  color: #2a2840; border-top: 1px solid #1a1828;
+  letter-spacing: 2px; transition: color 0.3s, border-color 0.3s;
+}
+body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg class="toggle-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/>
+  </svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <span class="toggle-icon">☀</span>
+</div>
+
+<div class="header">
+  <!-- Crest SVG -->
+  <div class="header-crest">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shield shape -->
+      <path d="M32 4 L56 16 L56 38 Q56 54 32 62 Q8 54 8 38 L8 16 Z" fill="#1a1030" stroke="#8a5a10" stroke-width="1"/>
+      <!-- Inner shield border -->
+      <path d="M32 10 L50 20 L50 38 Q50 51 32 58 Q14 51 14 38 L14 20 Z" fill="none" stroke="#3a2a10" stroke-width="0.75"/>
+      <!-- Sword vertical -->
+      <line x1="32" y1="14" x2="32" y2="52" stroke="#c8901c" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Crossguard -->
+      <line x1="22" y1="28" x2="42" y2="28" stroke="#c8901c" stroke-width="2" stroke-linecap="round"/>
+      <!-- Pommel -->
+      <circle cx="32" cy="52" r="3" fill="#c8901c"/>
+      <!-- Tip -->
+      <polygon points="32,14 30,20 34,20" fill="#c8901c"/>
+      <!-- Corner flourishes -->
+      <circle cx="20" cy="20" r="1.5" fill="#5a3a08" opacity="0.8"/>
+      <circle cx="44" cy="20" r="1.5" fill="#5a3a08" opacity="0.8"/>
+      <!-- Stars -->
+      <circle cx="22" cy="38" r="1" fill="#e8a020" opacity="0.6"/>
+      <circle cx="42" cy="38" r="1" fill="#e8a020" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <h1>KEY OF SWORDS</h1>
+  <div class="header-divider"></div>
+  <p>Guild Tools &amp; Resources</p>
+  <span class="server-tag">Teek Server</span>
+</div>
+
+<div class="section-label">Select a Section</div>
+
+<div class="card-grid">
+
+  <!-- RESOURCES -->
+  <a class="card" href="resources.html">
+    <div class="card-icon" style="background:#060d1e; border-color:#1a3060;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <!-- Open tome / spellbook -->
+        <!-- Book spine -->
+        <rect x="20" y="7" width="3" height="30" rx="1" fill="#2a4a8a"/>
+        <!-- Left page -->
+        <path d="M20 9 Q10 10 8 12 L8 35 Q10 33 20 33 Z" fill="#1a3060" stroke="#2a4a8a" stroke-width="0.75"/>
+        <!-- Right page -->
+        <path d="M23 9 Q33 10 35 12 L35 35 Q33 33 23 33 Z" fill="#1a3060" stroke="#2a4a8a" stroke-width="0.75"/>
+        <!-- Left page lines -->
+        <line x1="10.5" y1="15" x2="18.5" y2="14.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.8"/>
+        <line x1="10.5" y1="18.5" x2="18.5" y2="18" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
+        <line x1="10.5" y1="22" x2="18.5" y2="21.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
+        <line x1="10.5" y1="25.5" x2="18.5" y2="25" stroke="#3a6aaa" stroke-width="0.75" opacity="0.4"/>
+        <!-- Right page lines -->
+        <line x1="24.5" y1="14.5" x2="33" y2="15" stroke="#3a6aaa" stroke-width="0.75" opacity="0.8"/>
+        <line x1="24.5" y1="18" x2="33" y2="18.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
+        <line x1="24.5" y1="21.5" x2="33" y2="22" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
+        <line x1="24.5" y1="25" x2="33" y2="25.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.4"/>
+        <!-- Glowing rune on right page -->
+        <text x="29" y="30" text-anchor="middle" font-size="7" font-weight="700" fill="#5ba4f5" opacity="0.9" font-family="serif">✦</text>
+        <!-- Clasp / bookmark ribbon -->
+        <rect x="20.5" y="5" width="2" height="6" rx="1" fill="#c8901c"/>
+      </svg>
+    </div>
+    <div class="card-title">Resources</div>
+    <div class="card-sub">General guild tools not specific to any expansion</div>
+    <div><span class="badge-tools">GUILD TOOLS</span></div>
+    <div class="card-count">1 tool available</div>
+    <span class="card-arrow">&#8594;</span>
+  </a>
+
+  <!-- SECRETS OF FAYDWER -->
+  <a class="card" href="sof.html">
+    <div class="card-icon" style="background:#0e0818; border-color:#3a1860;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <!-- Mechanotus gear/clockwork orb feel — arcane crystal -->
+        <!-- Outer glow ring -->
+        <circle cx="22" cy="22" r="16" fill="none" stroke="#4a2a80" stroke-width="0.75" stroke-dasharray="3,3"/>
+        <!-- Crystal facets -->
+        <polygon points="22,5 30,16 22,20 14,16" fill="#3c2870" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,20 30,16 32,28 22,32" fill="#2e1e58" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,20 14,16 12,28 22,32" fill="#261848" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,32 12,28 22,38 32,28" fill="#1e1040" stroke="#6a4ab0" stroke-width="0.75"/>
+        <!-- Inner light -->
+        <polygon points="22,10 27,18 22,22 17,18" fill="#7050c0" opacity="0.6"/>
+        <!-- Core gem -->
+        <circle cx="22" cy="20" r="3.5" fill="#b07af5"/>
+        <circle cx="22" cy="20" r="2" fill="#e8a020"/>
+        <circle cx="21" cy="19" r="0.8" fill="white" opacity="0.7"/>
+        <!-- Arcane sparks -->
+        <circle cx="12" cy="12" r="1" fill="#b07af5" opacity="0.5"/>
+        <circle cx="32" cy="10" r="0.75" fill="#e8a020" opacity="0.4"/>
+        <circle cx="34" cy="30" r="1" fill="#b07af5" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="card-title">Secrets of Faydwer</div>
+    <div class="card-sub">Level cap 80</div>
+    <div><span class="badge-active">ACTIVE</span></div>
+    <div class="card-count">3 tools available</div>
+    <span class="card-arrow">&#8594;</span>
+  </a>
+
+  <!-- SEEDS OF DESTRUCTION — future -->
+  <div class="card future-card">
+    <div class="card-icon" style="background:#0e0e1c; border-color:#222230;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <!-- Hourglass / time rift icon -->
+        <polygon points="12,8 32,8 26,22 32,36 12,36 18,22" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1"/>
+        <line x1="12" y1="8" x2="32" y2="8" stroke="#333" stroke-width="1.5"/>
+        <line x1="12" y1="36" x2="32" y2="36" stroke="#333" stroke-width="1.5"/>
+        <circle cx="22" cy="22" r="2" fill="#2a2a4a"/>
+      </svg>
+    </div>
+    <div class="card-title">Seeds of Destruction</div>
+    <div class="card-sub">Level cap 85</div>
+    <div><span class="badge-future">FUTURE</span></div>
+    <span class="card-arrow">&#8594;</span>
+  </div>
+
+  <!-- UNDERFOOT — future -->
+  <div class="card future-card">
+    <div class="card-icon" style="background:#0e0e1c; border-color:#222230;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <!-- Stone/rune circle -->
+        <circle cx="22" cy="22" r="14" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1"/>
+        <circle cx="22" cy="22" r="9" fill="none" stroke="#252535" stroke-width="1" stroke-dasharray="2,3"/>
+        <line x1="22" y1="10" x2="22" y2="34" stroke="#252535" stroke-width="0.75"/>
+        <line x1="10" y1="22" x2="34" y2="22" stroke="#252535" stroke-width="0.75"/>
+        <circle cx="22" cy="22" r="2" fill="#252535"/>
+      </svg>
+    </div>
+    <div class="card-title">Underfoot</div>
+    <div class="card-sub">Level cap 85</div>
+    <div><span class="badge-future">FUTURE</span></div>
+    <span class="card-arrow">&#8594;</span>
+  </div>
+
+</div>
+
+<div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+
+<script>
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+  // Restore preference on load
+  if (localStorage.getItem('kos-theme') === 'light') {
+    document.body.classList.add('light');
+  }
+</script>
+</body>
+</html>

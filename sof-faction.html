@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secrets of Faydwer — Faction Checklist</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 16px; font-size: 13px; }
+  h1 { text-align: center; color: #f0c060; font-size: 20px; margin-bottom: 4px; letter-spacing: 1px; text-shadow: 0 0 10px rgba(240,192,96,0.3); }
+  .subtitle { text-align: center; color: #888; font-size: 11px; margin-bottom: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 14px; background: #16213e; border: 1px solid #2a2a4a; border-radius: 6px; padding: 8px 16px; }
+  .legend-item { font-size: 12px; color: #aaa; }
+  #saveBar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  #saveStatus { font-size: 11px; padding: 3px 10px; border-radius: 4px; background: #1e3a1e; color: #6fcf6f; border: 1px solid #2e6a2e; min-width: 180px; text-align: center; }
+  #saveStatus.warn { background: #3a2a00; color: #f0c060; border-color: #806020; }
+  .save-btn { background: #0f3460; border: 1px solid #1a5aaa; color: #7ecfff; padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .save-btn:hover { background: #1a4a80; }
+  .overall-section { background: #16213e; border: 1px solid #2a3a5a; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: center; }
+  .overall-section h2 { color: #f0c060; font-size: 13px; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .controls button { background: #2a2a4a; border: 1px solid #444; color: #ccc; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .controls button:hover { background: #3a3a6a; color: #fff; }
+  .controls button.danger { border-color: #7a2020; color: #f08080; }
+  .controls button.danger:hover { background: #4a1010; color: #ffaaaa; }
+  .progress-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .prog-card { background: #0f1a38; border: 1px solid #2a2a4a; border-radius: 6px; padding: 7px 12px; min-width: 125px; text-align: center; cursor: pointer; }
+  .prog-card:hover { border-color: #7ecfff; }
+  .prog-card .char-name { color: #7ecfff; font-size: 12px; font-weight: 600; margin-bottom: 1px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .prog-card .group-label { color: #6090b0; font-size: 10px; font-style: italic; margin-bottom: 4px; min-height: 13px; }
+  .prog-bar-bg { background: #2a2a4a; border-radius: 4px; height: 7px; overflow: hidden; margin-bottom: 3px; }
+  .prog-bar-fill { height: 100%; border-radius: 4px; background: #4CAF50; transition: width 0.3s; }
+  .prog-text { color: #aaa; font-size: 10px; }
+  .sect-wrap { margin-bottom: 14px; border: 1px solid #2a3a5a; border-radius: 8px; overflow: hidden; }
+  .sect-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #16213e; cursor: pointer; user-select: none; border-bottom: 1px solid #2a3a5a; }
+  .sect-header:hover { background: #1c2a4a; }
+  .sect-title { color: #f0c060; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+  .sect-vendor { color: #6090b0; font-size: 10px; font-style: italic; margin-top: 2px; }
+  .sect-toggle { color: #f0c060; font-size: 16px; transition: transform 0.2s; }
+  .sect-toggle.collapsed { transform: rotate(-90deg); }
+  .sect-prog-row { background: #12192e; padding: 8px 14px; border-bottom: 1px solid #1a2a3a; text-align: center; }
+  .sect-prog-label { color: #888; font-size: 10px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sect-prog-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .sect-prog-card { min-width: 110px; text-align: center; }
+  .sect-prog-card .spc-name { color: #7ecfff; font-size: 10px; margin-bottom: 2px; }
+  .sect-prog-card .prog-bar-bg { height: 5px; margin-bottom: 2px; }
+  .sect-prog-card .prog-text { font-size: 9px; }
+  .sect-body { background: #131928; }
+  .rk3-banner { background: #1a2a1a; border-bottom: 1px solid #2a4a2a; padding: 6px 14px; font-size: 11px; color: #8aba8a; }
+  .rk3-banner span { color: #f0c060; font-weight: 600; }
+  .col-header-row { display: flex; align-items: center; padding: 4px 14px; background: #0f1828; border-bottom: 1px solid #1a2535; position: sticky; top: 0; z-index: 5; }
+  .col-header-spacer { flex: 1; }
+  .col-headers { display: flex; gap: 10px; }
+  .col-hdr { min-width: 36px; text-align: center; font-size: 10px; color: #7ecfff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sub-header { background: #141e32; color: #88aacc; font-size: 11px; font-style: italic; padding: 5px 20px; border-bottom: 1px solid #1a2030; }
+  .task-row { display: flex; align-items: flex-start; padding: 5px 14px; border-bottom: 1px solid #1a1f2e; gap: 6px; }
+  .task-row:hover { background: #1a2035; }
+  .task-row.all-done .task-text { color: #556; text-decoration: line-through; }
+  .task-icon { min-width: 22px; font-size: 13px; padding-top: 1px; }
+  .task-text { flex: 1; color: #ccc; line-height: 1.4; font-size: 12px; }
+  .task-text a { color: #7ecfff; text-decoration: none; border-bottom: 1px dotted #3a6a9a; }
+  .task-text a:hover { color: #f0c060; border-color: #f0c060; }
+  .task-text .note { color: #778; font-size: 11px; font-style: italic; }
+  .faction-gain { color: #4CAF50; font-size: 10px; font-weight: 600; white-space: nowrap; padding-top: 2px; min-width: 36px; text-align: right; }
+  .checkboxes { display: flex; gap: 10px; align-items: center; padding-top: 1px; }
+  .chk-wrap { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 36px; }
+  .chk-wrap input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #4CAF50; }
+  .chk-wrap.done { background: rgba(76,175,80,0.08); border-radius: 3px; padding: 1px 3px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: #1e2a50; border: 1px solid #3a5a9a; border-radius: 10px; padding: 24px 28px; min-width: 300px; max-width: 420px; width: 90%; }
+  .modal-box h2 { color: #f0c060; font-size: 15px; margin-bottom: 16px; }
+  .modal-field { margin-bottom: 14px; }
+  .modal-field label { display: block; color: #aaa; font-size: 11px; margin-bottom: 4px; }
+  .modal-field input { width: 100%; background: #0f1a38; border: 1px solid #3a5a8a; color: #e0e0e0; padding: 6px 10px; border-radius: 4px; font-size: 13px; }
+  .modal-field input:focus { outline: none; border-color: #f0c060; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal-actions button { padding: 6px 18px; border-radius: 4px; cursor: pointer; font-size: 12px; border: 1px solid #3a5a8a; }
+  .btn-save { background: #2a4060; color: #f0c060; }
+  .btn-save:hover { background: #3a5070; }
+  .btn-cancel { background: #2a2a4a; color: #aaa; }
+  .io-hint { color: #888; font-size: 11px; margin-top: 6px; }
+  #ioModal textarea { width: 100%; height: 110px; background: #0f1a38; border: 1px solid #3a5a8a; color: #e0e0e0; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 11px; resize: vertical; margin-top: 6px; }
+
+  /* ── LIGHT MODE ── */
+  body { transition: background 0.3s, color 0.3s; }
+  body.light { background: #f0ebe0 !important; color: #2a1f0e !important; }
+  body.light h1 { color: #7a4a08 !important; text-shadow: none !important; }
+  body.light .subtitle { color: #7a6040 !important; }
+  body.light .legend { background: #e8dcc8 !important; border-color: #c0a878 !important; }
+  body.light .legend-item { color: #5a4020 !important; }
+  body.light #saveBar #saveStatus { background: #d0f0d8 !important; color: #1a6030 !important; border-color: #60b878 !important; }
+  body.light #saveBar #saveStatus.warn { background: #f8ecc0 !important; color: #7a5000 !important; border-color: #c09020 !important; }
+  body.light .save-btn { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
+  body.light .save-btn:hover { background: #bcd4f0 !important; }
+  body.light .overall-section { background: #e8dcc8 !important; border-color: #c0a878 !important; }
+  body.light .overall-section h2 { color: #7a4a08 !important; }
+  body.light .controls button { background: #e0d4bc !important; border-color: #c0a878 !important; color: #3a2a10 !important; }
+  body.light .controls button:hover { background: #d0c4ac !important; color: #1a0a00 !important; }
+  body.light .controls button.danger { border-color: #c04040 !important; color: #a02020 !important; }
+  body.light .prog-card { background: #e0d4bc !important; border-color: #c0a878 !important; }
+  body.light .prog-card .char-name { color: #1a4a8a !important; }
+  body.light .prog-card .group-label { color: #7a6040 !important; }
+  body.light .prog-bar-bg { background: #c8b890 !important; }
+  body.light .prog-text { color: #5a4020 !important; }
+  body.light .sect-wrap { border-color: #c0a878 !important; }
+  body.light .sect-header { background: #e8dcc8 !important; border-bottom-color: #c0a878 !important; }
+  body.light .sect-header:hover { background: #f0e4d0 !important; }
+  body.light .sect-title { color: #7a4a08 !important; }
+  body.light .sect-vendor { color: #7a6040 !important; }
+  body.light .sect-toggle { color: #8a5a10 !important; }
+  body.light .sect-prog-row { background: #ede0cc !important; border-bottom-color: #c8a870 !important; }
+  body.light .sect-prog-label { color: #7a6040 !important; }
+  body.light .spc-name { color: #1a4a8a !important; }
+  body.light .sect-body { background: #f4ece0 !important; }
+  body.light .col-header-row { background: #e0d4bc !important; border-bottom-color: #c0a878 !important; }
+  body.light .col-hdr { color: #1a4a8a !important; }
+  body.light .sub-header { background: #ede0cc !important; color: #5a4a30 !important; border-bottom-color: #c8a870 !important; }
+  body.light .task-row { border-bottom-color: #d8cbb0 !important; }
+  body.light .task-row:hover { background: #f4e8d0 !important; }
+  body.light .task-text { color: #2a1f0e !important; }
+  body.light .task-row.all-done .task-text { color: #b0a090 !important; }
+  body.light .rk3-banner { background: #ddf0dd !important; border-bottom-color: #80c080 !important; color: #2a5a2a !important; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { position: fixed; top: 12px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
+  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
+  body.light .toggle-thumb { transform: translateX(18px); }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+<h1>⚗️ Secrets of Faydwer — Faction Checklist</h1>
+<p class="subtitle">Click character names to edit · All progress auto-saves to your browser</p>
+<div class="legend">
+  <span class="legend-item">⚔️ Raid Event</span>
+  <span class="legend-item">👥 Group Mission</span>
+  <span class="legend-item">🧝 Solo/Group Task</span>
+  <span class="legend-item">🔁 Repeatable</span>
+  <span class="legend-item">🔐 Required for Rk III</span>
+</div>
+<div id="saveBar">
+  <span id="saveStatus">✓ Auto-save active</span>
+  <button class="save-btn" onclick="exportSave()">Export Save</button>
+  <button class="save-btn" onclick="openImport()">Import Save</button>
+</div>
+<div class="overall-section">
+  <h2>⚗️ Overall Faction Progress</h2>
+  <div class="progress-grid" id="overallProgress"></div>
+</div>
+<div class="controls">
+  <button onclick="expandAll()">Expand All</button>
+  <button onclick="collapseAll()">Collapse All</button>
+  <button onclick="filterDone()">Hide Completed</button>
+  <button onclick="showAll()">Show All</button>
+  <button onclick="openResetConfirm()" class="danger">Reset All</button>
+</div>
+<div id="sectContainer"></div>
+<div id="editModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2>✏️ Edit Character Info</h2>
+    <div class="modal-field"><label>Character Name</label><input id="editCharName" type="text" maxlength="24"></div>
+    <div class="modal-field"><label>Group / Class Label</label><input id="editGroupName" type="text" maxlength="32"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-save" onclick="saveEditModal()">Save</button>
+    </div>
+  </div>
+</div>
+<div id="ioModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2 id="ioTitle">Export Save</h2>
+    <p class="io-hint" id="ioHint"></p>
+    <textarea id="ioTextarea"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeIOModal()">Close</button>
+      <button class="btn-save" id="ioCopyBtn" onclick="copyIO()">Copy to Clipboard</button>
+      <button class="btn-save" id="ioImportBtn" style="display:none" onclick="doImport()">Import</button>
+    </div>
+  </div>
+</div>
+<script>
+const DEFAULT_CHARS=['Player 1','Player 2','Player 3','Player 4','Player 5','Player 6'];
+const NUM_CHARS=6;
+const SAVE_KEY='sof_faction_v3';
+const ALLA='https://everquest.allakhazam.com/db/quest.html?quest=';
+const NPC='https://everquest.allakhazam.com/db/npc.html?id=';
+
+const SECTIONS=[
+  {id:'s0',icon:'⚙️',label:"Ak'Anon Strike Force V",
+   vendor:"Vendor: Automated Vending Unit II (Dragonscale Hills) | Elite: Ak'anon Supplier Mark LXXXVIII",
+   rk3:"Ally faction + Lost Lumpling + Oil Cans + Spy Reports"},
+  {id:'s1',icon:'🧟',label:"Bertoxxulous' Chosen",
+   vendor:"Vendor: Lanika Shadestepper (Hills of Shade) | Elite: Shelsy Shadestepper",
+   rk3:"Ally faction + Soulbleeder raid + all 8 tasks (The Power of Decay, The Perfect Omelette, Cartographical Nightmare, Bigger/Faster/Stronger/Dumber, I Would Exhume So, Recoup from the Coop, Making Up for Lost Time, One of Our Own)"},
+  {id:'s2',icon:'🍄',label:'Brownie Rebels',
+   vendor:'Vendor: Karri (Steam Factory) | Elite: Little Bo',
+   rk3:'Ally faction + defeat Meldrath the Malignant'},
+  {id:'s3',icon:'⚔️',label:'Camp Valor',
+   vendor:'Vendor: Hardrin (Hills of Shade) | Elite: A Mysterious Stranger',
+   rk3:'Ally faction + Every Rose Has its Thorns (complete Kirathus arc, Blackwater arc, and Scorn raid)'},
+  {id:'s4',icon:'🐉',label:'Crusaders of Veeshan',
+   vendor:'Vendors: Aring / Jashy / Tonas / Vesiss (Crystallos) | Elite: Sydria the Elder',
+   rk3:'Ally faction + ALL Crystallos raid events'},
+  {id:'s5',icon:'👥',label:'Fangbreakers',
+   vendor:'Vendor: Derak Fangbreaker (Loping Plains) | Elite: Brett of the Watch',
+   rk3:"Ally faction + The Bloodmoon, Walking Into Spider Webs, Bronzebeard's Fate, The Departed, The Dark Crystals, Moonfang, The Broodmother"},
+  {id:'s6',icon:'💡',label:'Ladies of Light',
+   vendor:'Vendor: Seridyn (Dragonscale Hills) | Elite: Alissa Saint Claire',
+   rk3:"Ally faction + Mash Brownies, Moonfires' Burning Desires, The Rescue, The Queen's Demise, The Festival of Nightmares, The Talking Tree, Vrald's Lost Brother + all 5 Mechamatic Guardian missions"},
+];
+
+// link = allakhazam quest ID, npc = allakhazam NPC ID (for Gearing Up)
+const ITEMS=[
+// ── S0: Ak'Anon Strike Force V ────────────────────────────────────────────
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Falrazim's Waggin Tongue",note:'Dragonscale Hills',gain:'+5',link:4345},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"I Can Fly",note:'Bristlebum, Dragonscale Hills',gain:'+100',link:4430},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Construction Junction, What's Your Function?",note:'Dragonscale Hills',gain:'+25',link:4378},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Rise of the Machines",note:'Dragonscale Hills',gain:'+20',link:4567},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Darwin's Award",note:'Dragonscale Hills',gain:'+25',link:4334},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Farm Clean Up - Crows",note:'Sigglik, Dragonscale Hills',gain:'+35',link:4393},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Farm Clean Up - Doombugs",note:'Sigglik, Dragonscale Hills',gain:'+35',link:4394},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Farm Clean Up - Scarecrows",note:'Sigglik, Dragonscale Hills',gain:'+35',link:4395},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Forgetful Nanzie",note:'Dragonscale Hills',gain:'+10',link:4343},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Mechamatic Spelunking",note:'Overvolt Rigster the IV, Dragonscale Hills — takes place inside Mechamatic Guardian',gain:'+100',link:4335},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"The Steamwork You're Looking For",note:'Dragonscale Hills',gain:'+75',link:4338},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Modulation!",note:'Dragonscale Hills',gain:'+100',link:4336},
+{s:0,sub:"One-Time Tasks — Dragonscale Hills",icon:'🧝',text:"Getting that Stabilizer",note:'Dragonscale Hills',gain:'+100',link:4337},
+{s:0,sub:"One-Time Tasks — Other Zones",icon:'🧝',text:"Creepfeet Thievery",note:'Loping Plains',gain:'+25',link:4346},
+{s:0,sub:"One-Time Tasks — Other Zones",icon:'🧝',text:"Endless Enemies",note:'Fortress Mechanotus',gain:'+47',link:4429},
+{s:0,sub:"One-Time Tasks — Other Zones",icon:'🧝',text:"Breaking Things Down",note:'Fortress Mechanotus',gain:'+12',link:4510},
+{s:0,sub:"One-Time Tasks — Other Zones",icon:'🧝',text:"Alloy Sampling",note:'Fortress Mechanotus',gain:'+12',link:4444},
+{s:0,sub:"One-Time Tasks — Other Zones",icon:'🧝',text:"Gearing Up, Part I - VIII",note:'Tabazin Gearflinger, Fortress Mechanotus — 8-part task series',gain:'+10',npc:27240},
+{s:0,sub:"One-Time Tasks — Required for Rk III",icon:'🔐',text:"Lost Lumpling",note:'Fortress Mechanotus — required for Rk III',gain:'+250',link:4443},
+{s:0,sub:"One-Time Tasks — Required for Rk III",icon:'🔐',text:"Oil Cans",note:'Fortress Mechanotus — required for Rk III',gain:'+62',link:4357},
+{s:0,sub:"One-Time Tasks — Required for Rk III",icon:'🔐',text:"Spy Reports",note:'Gurtrude the Spymaster, Fortress Mechanotus — required for Rk III',link:4482},
+{s:0,sub:"Group Missions — Mechamatic Guardian (+18 each)",icon:'👥',text:"Guardian #1: Disposing of Unwanted Things",note:'Overvolt Rigster the IV, Dragonscale Hills',gain:'+18',link:4382},
+{s:0,sub:"Group Missions — Mechamatic Guardian (+18 each)",icon:'👥',text:"Guardian #2: Engine Room Schematics",note:'Mechamatic Guardian',gain:'+18',link:4383},
+{s:0,sub:"Group Missions — Mechamatic Guardian (+18 each)",icon:'👥',text:"Guardian #3: Security? Yeah Right",note:'Mechamatic Guardian',gain:'+18',link:4486},
+{s:0,sub:"Group Missions — Mechamatic Guardian (+18 each)",icon:'👥',text:"Guardian #4: Tracking the Steamworks",note:'Mechamatic Guardian',gain:'+18',link:4521},
+{s:0,sub:"Group Missions — Mechamatic Guardian (+18 each)",icon:'👥',text:"Guardian #5: Mechamatic Memory Manipulation",note:'Mechamatic Guardian',gain:'+18',link:4522},
+{s:0,sub:"Group Missions — Gyrospire Beza (+18 each)",icon:'👥',text:"Beza #1: Scout Gyrospire Beza",note:'Gyrospire Beza',gain:'+18',link:4450},
+{s:0,sub:"Group Missions — Gyrospire Beza (+18 each)",icon:'👥',text:"Beza #2: How Does Your Garden Grow?",note:'Gyrospire Beza',gain:'+18',link:4461},
+{s:0,sub:"Group Missions — Gyrospire Beza (+18 each)",icon:'👥',text:"Beza #3: Sand in the Gears",note:'Gyrospire Beza',gain:'+18',link:4462},
+{s:0,sub:"Group Missions — Gyrospire Beza (+18 each)",icon:'👥',text:"Beza #4: End the Return",note:'Gyrospire Beza',gain:'+18',link:4463},
+{s:0,sub:"Group Missions — Gyrospire Beza (+18 each)",icon:'👥',text:"Beza #5: It's All in Your Head",note:'Gyrospire Beza',gain:'+18',link:4464},
+{s:0,sub:"Group Missions — Gyrospire Zeka (+25 each)",icon:'👥',text:"Zeka #1: Did We Forget the Cheese?",note:'Gyrospire Zeka',gain:'+25',link:4451},
+{s:0,sub:"Group Missions — Gyrospire Zeka (+25 each)",icon:'👥',text:"Zeka #2: To Climb a Spire",note:'Gyrospire Zeka',gain:'+25',link:4457},
+{s:0,sub:"Group Missions — Gyrospire Zeka (+25 each)",icon:'👥',text:"Zeka #3: Intelligence Gathering",note:'Gyrospire Zeka',gain:'+25',link:4458},
+{s:0,sub:"Group Missions — Gyrospire Zeka (+25 each)",icon:'👥',text:"Zeka #4: Cut Off the Head",note:'Gyrospire Zeka',gain:'+25',link:4459},
+{s:0,sub:"Group Missions — Gyrospire Zeka (+25 each)",icon:'👥',text:"Zeka #5: You Might Poke an Eye Out",note:'Gyrospire Zeka',gain:'+25',link:4460},
+{s:0,sub:"Group Missions — S.H.I.P. (+25 each)",icon:'👥',text:"S.H.I.P. #1: Deception and Interception",note:'S.H.I.P. Workshop',gain:'+25',link:4544},
+{s:0,sub:"Group Missions — S.H.I.P. (+25 each)",icon:'👥',text:"S.H.I.P. #2: S.H.I.P Sabotage!",note:'S.H.I.P. Workshop',gain:'+25',link:4545},
+{s:0,sub:"Group Missions — S.H.I.P. (+25 each)",icon:'👥',text:"S.H.I.P. #3: Mechalossus",note:'S.H.I.P. Workshop',gain:'+25',link:4546},
+{s:0,sub:"Group Missions — S.H.I.P. (+25 each)",icon:'👥',text:"S.H.I.P. #4: Tactical Teleportation",note:'S.H.I.P. Workshop',gain:'+25',link:4547},
+{s:0,sub:"Group Missions — S.H.I.P. (+25 each)",icon:'👥',text:"S.H.I.P. #5: Administrative Assassination",note:'S.H.I.P. Workshop',gain:'+25',link:4548},
+{s:0,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Ak'Anon Strike Force V",note:'Fenden Helter, Dragonscale Hills — kill 10 Steamworks in Mechamatic Guardian — 18hr lockout',link:4596},
+{s:0,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Ak'Anon Strike Force V",note:'Fenden Helter, Dragonscale Hills — collect 3 ground spawns in Fortress Mechanotus — 18hr lockout',gain:'+25',link:4587},
+
+// ── S1: Bertoxxulous' Chosen ─────────────────────────────────────────────
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"The Power of Decay",note:"Nastel Greygore — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+25',link:4379},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"The Perfect Omelette",note:"Banty Bourdizzle — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+50',link:4436},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"Cartographical Nightmare",note:"Banty Bourdizzle — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+25',link:4437},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"Bigger, Faster, Stronger, Dumber",note:"Arreles Bonescrounger — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+10',link:4392},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"I Would Exhume So",note:"Arreles Bonescrounger — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+10',link:4431},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"Recoup from the Coop (Bertox)",note:"Reaver Lebanezer — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+50',link:4363},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"Making Up for Lost Time",note:"Reaver Lebanezer — Bertoxxulous' Chosen camp, Hills of Shade",gain:'+75',link:4407},
+{s:1,sub:"One-Time Tasks (all required for Rk III)",icon:'🔐',text:"One of Our Own",note:"Reaver Lebanezer — requires Amiable faction + above tasks",gain:'+50',link:4520},
+{s:1,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Bertox's Chosen",note:'Fenden Helter, Dragonscale Hills — kill 10 Risen Ancestors in Hills of Shade — 18hr lockout',link:4598},
+{s:1,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Bertox's Chosen",note:'Fenden Helter, Dragonscale Hills — click Essence of Bertox at 6 locations in Hills of Shade — 18hr lockout',gain:'+25',link:4589},
+{s:1,sub:"Repeatable Faction",icon:'🔁',text:"Kill Aviaks and Crows",note:'West side of Hills of Shade'},
+{s:1,sub:"Repeatable Faction",icon:'🔁',text:"Kill Deathspore Sporalli",note:'Hills of Shade'},
+{s:1,sub:"Repeatable Faction",icon:'🔁',text:"Kill various Ancestors",note:'Hills of Shade'},
+
+// ── S2: Brownie Rebels ───────────────────────────────────────────────────
+{s:2,sub:"One-Time Tasks",icon:'🧝',text:"Aiding the Resistance",note:'Gymrie — Steam Factory',gain:'+50',link:4507},
+{s:2,sub:"One-Time Tasks",icon:'🧝',text:"Browniebot XVII",note:'Millick — Steam Factory',gain:'+30',link:4508},
+{s:2,sub:"One-Time Tasks",icon:'🧝',text:"Let My People Go",note:'Steam Factory',gain:'+50',link:4509},
+{s:2,sub:"Required for Rk III",icon:'🔐',text:"Defeat Meldrath the Malignant",note:'MMM Raid — required for Rk III unlock',link:4485},
+{s:2,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Brownie Rebels",note:'Fenden Helter, Dragonscale Hills — kill 10 Minotaurs — 18hr lockout',gain:'+35',link:4602},
+{s:2,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Brownie Rebels",note:'Fenden Helter, Dragonscale Hills — 6 location updates inside Minotaur fort — 18hr lockout',gain:'+25',link:4593},
+{s:2,sub:"Repeatable Faction",icon:'🔁',text:"Kill Minotaurs",note:'Dragonscale Hills'},
+{s:2,sub:"Repeatable Faction",icon:'🔁',text:"Kill Steamworks",note:'Fortress Mechanotus'},
+
+// ── S3: Camp Valor ───────────────────────────────────────────────────────
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Where Has Sister Donna Gone",note:'Sister Daria — Camp Valor, Hills of Shade',gain:'+25',link:4454},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"How the Mighty Have Fallen",note:'Sister Daria — Camp Valor, Hills of Shade — unlocks Undead Slayers from Grom',gain:'+25',link:4453},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Recycled Arms",note:'Brother Veras — Camp Valor, Hills of Shade — requires Eyes of Kirathus from Mysterious Stranger',gain:'+15',link:4481},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Recoup from the Coop (Camp Valor)",note:'Shearon — Camp Valor, Hills of Shade',gain:'+70',link:4474},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Grom #1: Undead Slayers",note:'Grom — Camp Valor — requires How the Mighty Have Fallen',gain:'+100',link:4512},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Grom #2: A Mysterious Bond",note:'Grom — Camp Valor — requires Undead Slayers',gain:'+50',link:4513},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Grom #3: An Extract Science",note:'Grom — Camp Valor — requires A Mysterious Bond',gain:'+50',link:4514},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Grom #4: The Spark of Life",note:'Grom — Camp Valor — requires An Extract Science',gain:'+10',link:4515},
+{s:3,sub:"One-Time Tasks",icon:'🧝',text:"Grom #5: Carrion My Wayward Sprout",note:'Grom — Camp Valor — requires Spark of Life',gain:'+50',link:4516},
+{s:3,sub:"Required for Rk III — Kirathus & Blackwater Quest Arcs",icon:'🧝',text:"Blackwater #1: Find Fendel",note:'Jarvis — Hills of Shade — start of Blackwater arc',link:4408},
+{s:3,sub:"Required for Rk III — Kirathus & Blackwater Quest Arcs",icon:'🧝',text:"The Invasion of the Defilers",note:'Jarvis — Hills of Shade — completes Blackwater arc',link:4526},
+{s:3,sub:"Required for Rk III — Final Step",icon:'🔐',text:"Every Rose Has its Thorns",note:'A Mysterious Stranger — requires completing BOTH Kirathus AND Blackwater quest arcs + Scorn raid',link:4527},
+{s:3,sub:"Required for Rk III — Scorn Raid",icon:'⚔️',text:"Scorn Raid",note:"Hills of Shade — Tier 3 difficulty raid mob, triggered with Thorned Rose from a Mysterious Stranger — required as part of Every Rose Has its Thorns",link:4527},
+{s:3,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Camp Valor",note:'Fenden Helter, Dragonscale Hills — kill 10 Crypt Ghouls or Crypt Guardians in Hills of Shade — 18hr lockout',gain:'+35',link:4599},
+{s:3,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Camp Valor",note:'Fenden Helter, Dragonscale Hills — deliver Camp Valor Supplies via Felwithe — 18hr lockout',gain:'+25',link:4590},
+{s:3,sub:"Repeatable Faction",icon:'🔁',text:"Kill Aviaks and Crows",note:'Hills of Shade'},
+{s:3,sub:"Repeatable Faction",icon:'🔁',text:"Kill various undead",note:'Hills of Shade'},
+{s:3,sub:"Repeatable Faction",icon:'🔁',text:"Kill trash inside Soulbleeder raid instance",note:'Crypt of Shade raid'},
+
+// ── S4: Crusaders of Veeshan ─────────────────────────────────────────────
+{s:4,sub:"One-Time Tasks — Gather the Essence (Dwindlix, Dragonscale Hills)",icon:'🧝',text:"Gather the Essence - Fire",note:'Dwindlix, Dragonscale Hills — collect 10 Fiery Essences from Elder mobs in Crystallos fire wing — prelootable',gain:'+40',link:4341},
+{s:4,sub:"One-Time Tasks — Gather the Essence (Dwindlix, Dragonscale Hills)",icon:'🧝',text:"Gather the Essence - Ice",note:'Dwindlix, Dragonscale Hills — collect 10 Icy Essences from Elder mobs in Crystallos ice wing — prelootable',gain:'+40',link:4342},
+{s:4,sub:"One-Time Tasks — Gather the Essence (Dwindlix, Dragonscale Hills)",icon:'🧝',text:"Gather the Essence - Earth",note:'Dwindlix, Dragonscale Hills — collect 10 Earthy Essences from Elder mobs in Crystallos earth wing — prelootable',gain:'+40',link:4340},
+{s:4,sub:"One-Time Tasks — Gather the Essence (Dwindlix, Dragonscale Hills)",icon:'🧝',text:"Gather the Essence - Air",note:'Dwindlix, Dragonscale Hills — collect 10 Airy Essences from Elder mobs in Crystallos air wing — prelootable',gain:'+40',link:4339},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Halls of Fire",note:'Crystallos raid',link:4529},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Keepers of Stone",note:'Crystallos raid',link:4530},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Ice Constructs",note:'Crystallos raid',link:4531},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Aerius Windfury",note:'Crystallos raid',link:4532},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Tjudawos",note:'Crystallos raid',link:4533},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Kildrukaun",note:'Crystallos raid',link:4534},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Zeixshi\`Kar",note:'Crystallos raid',link:4535},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Vyskudra",note:'Crystallos raid',link:4549},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Brood Mother Visziaj",note:'Crystallos raid',link:4550},
+{s:4,sub:"Crystallos Raid Events (Required for Rk III)",icon:'🔐',text:"Crystallos Event: Kerafyrm the Awakened",note:'Crystallos raid — Final Boss',link:4551},
+{s:4,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Crusaders of Veeshan",note:'Fenden Helter, Dragonscale Hills — kill 10 Slimes on path to Crystallos — 18hr lockout',gain:'+35',link:4601},
+{s:4,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Crusaders of Veeshan",note:'Fenden Helter, Dragonscale Hills — Crusader\'s Progress Report to Skyshrine — 18hr lockout',gain:'+25',link:4592},
+{s:4,sub:"Repeatable Faction",icon:'🔁',text:"Kill Crystallos trash mobs",note:'Crystallos group and raid — primary faction source'},
+
+// ── S5: Fangbreakers ─────────────────────────────────────────────────────
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"A Horse of Course",note:'Mamenil, Dragonscale Hills',gain:'+50',link:4426},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Evaluate the Bloodmoon",note:'Loping Plains',gain:'+25',link:4494},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"What Do the Spiders Eat",note:'Donart Rithkin, Loping Plains',link:4496},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"What Do the Worgs Eat",note:'Donart Rithkin, Loping Plains',link:4495},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Contact Bloodmoon Slaves",note:'Donart Rithkin, Loping Plains',link:4493},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Contact Bloodmoon Spirits",note:'Donart Rithkin, Loping Plains',link:4466},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"The Lost Elves",note:'Aendor Mistvale, Loping Plains',gain:'+50',link:4352},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Victim of the Minotaurs",note:'Fortunisa Nighthunter, Loping Plains',gain:'+25',link:4353},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Worked to the Bone",note:'Vendarg Brittlebrew, Loping Plains',gain:'+25',link:4351},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Cursed Saddlery",note:'Dannie Highwind, Loping Plains',gain:'+25',link:4420},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Taking Back the Night",note:'Aendurel Tethandras, Loping Plains',gain:'+25',link:4349},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Babeliyna #1: The Lost Husband",note:'Babeliyna, Loping Plains',gain:'+15',link:4329},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Babeliyna #2: The Daring Rescue",note:'Babeliyna, Loping Plains — requires The Lost Husband',gain:'+15',link:4330},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Fight or Flight",note:'Junwin, Loping Plains',gain:'+47',link:4348},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"The Enemy, My Enemy, My Friend",note:'Loping Plains',gain:'+25',link:4414},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Gathering from the Goblins",note:'Loping Plains',gain:'+25',link:4347},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Reducing the Threat - Goblins",note:'Loping Plains',gain:'+35',link:4400},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Reducing the Threat - Wereorcs",note:'Loping Plains',gain:'+35',link:4401},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Reducing the Threat - Worgs",note:'Loping Plains',gain:'+35',link:4402},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Rebuilding - Clay",note:'Ryveron, Loping Plains',gain:'+75',link:4389},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Rebuilding - Ore",note:'Ryveron, Loping Plains',gain:'+75',link:4387},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"Rebuilding - Wood",note:'Ryveron, Loping Plains',gain:'+75',link:4388},
+{s:5,sub:"One-Time Tasks",icon:'🧝',text:"The Lost Necklace",note:'Mengryl, Loping Plains',gain:'+5',link:4432},
+{s:5,sub:"One-Time Tasks — Spiritvoid Earring Chain (Bloodmoon Keep)",icon:'🧝',text:"Emyria #1: Spiritvoid Earring",note:'Auto-assigned when looting Spiritvoid Earring from Bloodmoon Keep trash',gain:'+50',link:4390},
+{s:5,sub:"One-Time Tasks — Spiritvoid Earring Chain (Bloodmoon Keep)",icon:'🧝',text:"Emyria #2: Calming the Spiritvoid Earring",note:'Acolyte Emyria, Bloodmoon Keep',gain:'+50',link:4391},
+{s:5,sub:"One-Time Tasks — Spiritvoid Earring Chain (Bloodmoon Keep)",icon:'🧝',text:"Emyria #3: Repairing the Spiritlight Earring",note:'Acolyte Emyria, Bloodmoon Keep',gain:'+100',link:4483},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Fang Breakers Group #1: The Bloodmoon",note:'Larquin Fangbreaker, Loping Plains — keyword: "Something"',gain:'+40',link:4354},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Fang Breakers Group #2: Walking Into Spider Webs",note:'Larquin Fangbreaker — keyword: "Else" — requires Mission 1',gain:'+20',link:4359},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Fang Breakers Group #3: Bronzebeard's Fate",note:'Larquin Fangbreaker — keyword: "Favor" — requires Mission 2',gain:'+20',link:4360},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Fang Breakers Group #4: The Departed",note:'Maria Starforge — requires Mission 3',gain:'+40',link:4361},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Fang Breakers Group #5: The Dark Crystals",note:'Maria Starforge — requires Mission 4',gain:'+40',link:4376},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Bloodmoon Raid #1: The Fanged Moon",note:'Larquin Fangbreaker',gain:'+40',link:4370},
+{s:5,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"The Broodmother",note:'Kadara Fangbreaker — 12-man mini-raid — not required to request Bloodmoon Raids',gain:'+40',link:4358},
+{s:5,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Fang Breakers",note:'Fenden Helter, Dragonscale Hills — kill 10 Wereorcs in Loping Plains — 18hr lockout',gain:'+25',link:4597},
+{s:5,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Fang Breakers",note:'Fenden Helter, Dragonscale Hills — deliver Fangbreaker\'s Progress Report — 18hr lockout',gain:'+25',link:4588},
+{s:5,sub:"Repeatable Faction",icon:'🔁',text:"Kill rare spawn mobs",note:'Loping Plains'},
+
+// ── S6: Ladies of Light ──────────────────────────────────────────────────
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"Mash Brownies",note:'Erradien, Dragonscale Hills',gain:'+25',link:4333},
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"The Moonfires' Burning Desires",note:'Qandieal Lightshine, Dragonscale Hills',gain:'+25',link:4332},
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"The Rescue",note:'Kaerra of the Light, Dragonscale Hills — requires Kindly faction',gain:'+25',link:4410},
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"The Queen's Demise",note:'Kaerra of the Light, Dragonscale Hills — requires Warmly faction',gain:'+15',link:4403},
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"The Festival of Nightmares",note:'Patron of the Arts, Loping Plains',gain:'+25',link:4421},
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"The Talking Tree",note:'Tissidrelle Windracer, Loping Plains',gain:'+15',link:4425},
+{s:6,sub:"One-Time Tasks (Required for Rk III)",icon:'🔐',text:"Vrald's Lost Brother",note:'Vrald, Loping Plains',link:4355},
+{s:6,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Guardian #1: Disposing of Unwanted Things",note:'Overvolt Rigster the IV, Dragonscale Hills — Mechamatic Guardian',link:4382},
+{s:6,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Guardian #2: Engine Room Schematics",note:'Mechamatic Guardian',link:4383},
+{s:6,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Guardian #3: Security? Yeah Right",note:'Mechamatic Guardian',link:4486},
+{s:6,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Guardian #4: Tracking the Steamworks",note:'Mechamatic Guardian',link:4521},
+{s:6,sub:"Group Missions (Repeatable, Required for Rk III)",icon:'🔐',text:"Guardian #5: Mechamatic Memory Manipulation",note:'Mechamatic Guardian',link:4522},
+{s:6,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Attack - Ladies of the Light",note:'Fenden Helter, Dragonscale Hills — kill 10 Wind Nymphs — 18hr lockout',gain:'+50',link:4600},
+{s:6,sub:"Repeatable Faction",icon:'🔁',text:"A Quick Errand - Ladies of the Light",note:'Fenden Helter, Dragonscale Hills — click Peace Offering in brownie village — 18hr lockout',gain:'+25',link:4591},
+{s:6,sub:"Repeatable Faction",icon:'🔁',text:"Kill Brownies",note:'Dragonscale Hills'},
+{s:6,sub:"Repeatable Faction",icon:'🔁',text:"Kill Wind Nymphs",note:'Dragonscale Hills'},
+{s:6,sub:"Repeatable Faction",icon:'🔁',text:"Kill trash inside Mechamatic Guardian",note:'Dragonscale Hills instanced zone'},
+];
+
+ITEMS.forEach((it,i)=>{it.idx=i;});
+const TOTAL=ITEMS.length;
+let charNames=[...DEFAULT_CHARS];
+let groupNames=['','','','','',''];
+let checks={};
+let sectOpen=SECTIONS.map(()=>true);
+let hideDone=false;
+let editingCI=-1;
+
+function saveToStorage(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({checks,charNames,groupNames,sectOpen}));setStatus('✓ Saved — '+new Date().toLocaleTimeString(),false);}catch(e){setStatus('⚠ localStorage unavailable — use Export to save',true);}}
+function loadFromStorage(){try{const s=localStorage.getItem(SAVE_KEY);if(s){const o=JSON.parse(s);if(o.checks)checks=o.checks;if(o.charNames)charNames=o.charNames;if(o.groupNames)groupNames=o.groupNames;if(o.sectOpen)sectOpen=o.sectOpen;setStatus('✓ Loaded from browser storage',false);}else{setStatus('✓ Auto-save active',false);}}catch(e){setStatus('⚠ localStorage unavailable',true);}}
+function setStatus(msg,warn){const el=document.getElementById('saveStatus');el.textContent=msg;el.className=warn?'warn':'';}
+function serialize(){return JSON.stringify({checks,charNames,groupNames,sectOpen});}
+function deserialize(s){try{const o=JSON.parse(s);if(o.checks)checks=o.checks;if(o.charNames)charNames=o.charNames;if(o.groupNames)groupNames=o.groupNames;if(o.sectOpen)sectOpen=o.sectOpen;return true;}catch(e){return false;}}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function makeLink(item,text){
+  if(item.link) return`<a href="${ALLA}${item.link}" target="_blank" rel="noopener">${esc(text)}</a>`;
+  if(item.npc) return`<a href="${NPC}${item.npc}" target="_blank" rel="noopener">${esc(text)}</a>`;
+  return esc(text);
+}
+
+function build(){buildOverall();buildSections();}
+
+function buildOverall(){
+  const c=document.getElementById('overallProgress');c.innerHTML='';
+  for(let ci=0;ci<NUM_CHARS;ci++){
+    let done=0;for(let i=0;i<TOTAL;i++)if(checks[`${i}-${ci}`])done++;
+    const pct=Math.round(done/TOTAL*100);
+    const card=document.createElement('div');card.className='prog-card';card.title='Click to edit';card.onclick=()=>openEditModal(ci);
+    card.innerHTML=`<div class="char-name">${esc(charNames[ci])} <span style="font-size:10px;opacity:.5">✎</span></div><div class="group-label">${esc(groupNames[ci])||'&nbsp;'}</div><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div><div class="prog-text">${done} / ${TOTAL} (${pct}%)</div>`;
+    c.appendChild(card);
+  }
+}
+
+function buildSections(){
+  const container=document.getElementById('sectContainer');container.innerHTML='';
+  SECTIONS.forEach((sect,si)=>{
+    const sectItems=ITEMS.filter(it=>it.s===si);
+    const wrap=document.createElement('div');wrap.className='sect-wrap';wrap.id='sect-'+si;
+    const hdr=document.createElement('div');hdr.className='sect-header';hdr.onclick=()=>toggleSect(si);
+    hdr.innerHTML=`<div><div class="sect-title">${sect.icon} ${esc(sect.label)}</div><div class="sect-vendor">${esc(sect.vendor)}</div></div><span class="sect-toggle${sectOpen[si]?'':' collapsed'}">▼</span>`;
+    wrap.appendChild(hdr);
+    const banner=document.createElement('div');banner.className='rk3-banner';banner.id='banner-'+si;banner.style.display=sectOpen[si]?'':'none';
+    banner.innerHTML=`<span>Rk III Unlock:</span> ${esc(sect.rk3)}`;
+    wrap.appendChild(banner);
+    const progRow=document.createElement('div');progRow.className='sect-prog-row';progRow.id='sect-prog-'+si;progRow.style.display=sectOpen[si]?'':'none';
+    progRow.innerHTML=buildSectProgHTML(si,sectItems);wrap.appendChild(progRow);
+    const body=document.createElement('div');body.className='sect-body';body.id='sect-body-'+si;body.style.display=sectOpen[si]?'':'none';
+    const colHdr=document.createElement('div');colHdr.className='col-header-row';
+    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,8))}</div>`).join('')}</div>`;
+    body.appendChild(colHdr);
+    let lastSub=null;
+    sectItems.forEach(item=>{
+      if(item.sub!==lastSub){if(item.sub){const sh=document.createElement('div');sh.className='sub-header';sh.textContent=item.sub;body.appendChild(sh);}lastSub=item.sub;}
+      const row=document.createElement('div');row.className='task-row';row.id='row-'+item.idx;
+      if(charNames.every((_,ci)=>!!checks[`${item.idx}-${ci}`]))row.classList.add('all-done');
+      const gainHTML=item.gain?`<div class="faction-gain">${esc(item.gain)}</div>`:'<div class="faction-gain"></div>';
+      row.innerHTML=`<div class="task-icon">${item.icon}</div><div class="task-text">${makeLink(item,item.text)}${item.note?`<br><span class="note">${esc(item.note)}</span>`:''}</div>${gainHTML}<div class="checkboxes" id="chk-${item.idx}"></div>`;
+      body.appendChild(row);
+      const chkC=row.querySelector(`#chk-${item.idx}`);
+      charNames.forEach((_,ci)=>{
+        const w=document.createElement('div');w.className='chk-wrap';if(checks[`${item.idx}-${ci}`])w.classList.add('done');
+        const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!checks[`${item.idx}-${ci}`];
+        cb.addEventListener('change',function(){checks[`${item.idx}-${ci}`]=this.checked;w.classList.toggle('done',this.checked);updateRowStyle(item.idx);buildOverall();updateSectProgress(si,sectItems);saveToStorage();if(hideDone)applyHideDone();});
+        w.appendChild(cb);chkC.appendChild(w);
+      });
+    });
+    wrap.appendChild(body);container.appendChild(wrap);
+  });
+}
+
+function buildSectProgHTML(si,sectItems){
+  let html=`<div class="sect-prog-label">Section Progress</div><div class="sect-prog-grid" id="spg-${si}">`;
+  for(let ci=0;ci<NUM_CHARS;ci++){
+    let done=0;sectItems.forEach(it=>{if(checks[`${it.idx}-${ci}`])done++;});
+    const total=sectItems.length,pct=total?Math.round(done/total*100):0;
+    html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci].substring(0,10))}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
+  }
+  return html+'</div>';
+}
+function updateSectProgress(si,sectItems){for(let ci=0;ci<NUM_CHARS;ci++){let done=0;sectItems.forEach(it=>{if(checks[`${it.idx}-${ci}`])done++;});const total=sectItems.length,pct=total?Math.round(done/total*100):0;const f=document.getElementById(`spf-${si}-${ci}`),t=document.getElementById(`spt-${si}-${ci}`);if(f)f.style.width=pct+'%';if(t)t.textContent=`${done}/${total} (${pct}%)`;}}
+function updateRowStyle(idx){const row=document.getElementById('row-'+idx);if(!row)return;row.classList.toggle('all-done',charNames.every((_,ci)=>!!checks[`${idx}-${ci}`]));}
+function toggleSect(si){sectOpen[si]=!sectOpen[si];document.getElementById('sect-body-'+si).style.display=sectOpen[si]?'':'none';document.getElementById('sect-prog-'+si).style.display=sectOpen[si]?'':'none';document.getElementById('banner-'+si).style.display=sectOpen[si]?'':'none';document.querySelector(`#sect-${si} .sect-toggle`).classList.toggle('collapsed',!sectOpen[si]);saveToStorage();}
+function expandAll(){SECTIONS.forEach((_,si)=>{if(!sectOpen[si])toggleSect(si);});}
+function collapseAll(){SECTIONS.forEach((_,si)=>{if(sectOpen[si])toggleSect(si);});}
+function filterDone(){hideDone=true;applyHideDone();}
+function applyHideDone(){ITEMS.forEach(item=>{const row=document.getElementById('row-'+item.idx);if(!row)return;row.style.display=(hideDone&&charNames.every((_,ci)=>!!checks[`${item.idx}-${ci}`]))?'none':'';});}
+function showAll(){hideDone=false;ITEMS.forEach(item=>{const r=document.getElementById('row-'+item.idx);if(r)r.style.display='';});}
+function openResetConfirm(){if(!confirm('Reset ALL checkboxes? Character names and group labels will be kept.\n\nThis cannot be undone.'))return;checks={};saveToStorage();build();}
+function openEditModal(ci){editingCI=ci;document.getElementById('editCharName').value=charNames[ci];document.getElementById('editGroupName').value=groupNames[ci];document.getElementById('editModal').classList.add('open');document.getElementById('editCharName').focus();}
+function closeEditModal(){document.getElementById('editModal').classList.remove('open');editingCI=-1;}
+function saveEditModal(){if(editingCI<0)return;charNames[editingCI]=document.getElementById('editCharName').value.trim()||DEFAULT_CHARS[editingCI];groupNames[editingCI]=document.getElementById('editGroupName').value.trim();closeEditModal();saveToStorage();build();}
+document.getElementById('editModal').addEventListener('click',e=>{if(e.target===document.getElementById('editModal'))closeEditModal();});
+document.getElementById('editCharName').addEventListener('keydown',e=>{if(e.key==='Enter')saveEditModal();if(e.key==='Escape')closeEditModal();});
+document.getElementById('editGroupName').addEventListener('keydown',e=>{if(e.key==='Enter')saveEditModal();if(e.key==='Escape')closeEditModal();});
+function exportSave(){document.getElementById('ioTitle').textContent='Export Save';document.getElementById('ioHint').textContent='Copy this text and keep it safe. Use Import Save to restore progress.';document.getElementById('ioCopyBtn').style.display='inline-block';document.getElementById('ioImportBtn').style.display='none';document.getElementById('ioTextarea').value=serialize();document.getElementById('ioModal').classList.add('open');}
+function openImport(){document.getElementById('ioTitle').textContent='Import Save';document.getElementById('ioHint').textContent='Paste your previously exported save data below, then click Import.';document.getElementById('ioCopyBtn').style.display='none';document.getElementById('ioImportBtn').style.display='inline-block';document.getElementById('ioTextarea').value='';document.getElementById('ioModal').classList.add('open');document.getElementById('ioTextarea').focus();}
+function closeIOModal(){document.getElementById('ioModal').classList.remove('open');}
+function copyIO(){const ta=document.getElementById('ioTextarea');ta.select();try{navigator.clipboard.writeText(ta.value).catch(()=>document.execCommand('copy'));}catch(e){document.execCommand('copy');}document.getElementById('ioCopyBtn').textContent='Copied!';setTimeout(()=>{document.getElementById('ioCopyBtn').textContent='Copy to Clipboard';},2000);}
+function doImport(){const val=document.getElementById('ioTextarea').value.trim();if(!val)return;if(deserialize(val)){closeIOModal();saveToStorage();build();setStatus('✓ Import successful — '+new Date().toLocaleTimeString(),false);}else{alert('Import failed — save data appears invalid or corrupted.');}}
+document.getElementById('ioModal').addEventListener('click',e=>{if(e.target===document.getElementById('ioModal'))closeIOModal();});
+
+loadFromStorage();
+build();
+</script>
+<style>
+.kos-footer { text-align:center; padding:18px; font-size:11px; color:#444; border-top:1px solid #1e1e38; margin-top:20px; letter-spacing:1px; transition: color 0.3s, border-color 0.3s; }
+body.light .kos-footer { color:#9a7a50; border-top-color:#c8a870; }
+</style>
+<div class="kos-footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+  function toggleTheme(){
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

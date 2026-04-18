@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key of Swords — SoF Random Loot Tracker</title>
+<script>
+  (function(){
+    const t = localStorage.getItem('kos-theme');
+    if(t === 'light') document.documentElement.setAttribute('data-theme','light');
+  })();
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html[data-theme="dark"] {
+  --bg-page:    #1a1a2e;
+  --bg-panel:   #16213e;
+  --bg-input:   #0f0f1e;
+  --bg-input2:  #1a1a3e;
+  --bg-row:     #1e1e38;
+  --bg-thead:   #0f0f23;
+  --border:     #2a2a4a;
+  --border2:    #e8a020;
+  --text-pri:   #e0e0e0;
+  --text-sec:   #888;
+  --text-muted: #555;
+  --text-mob:   #ccc;
+  --text-norm:  #888;
+  --gold:       #e8a020;
+  --blue-mob:   #5ba4f5;
+  --count-bg:   #2a2a4a;
+  --count-txt:  #aaa;
+  --xtier-c:    #e8a020;
+  --hl-bg:      #4a3800;
+  --hl-txt:     #ffd060;
+  --same-txt:   #666;
+  --toggle-bg:  #16213e;
+  --toggle-bd:  #2a2a4a;
+  --toggle-txt: #e8a020;
+}
+html[data-theme="light"] {
+  --bg-page:    #f4f4f8;
+  --bg-panel:   #ffffff;
+  --bg-input:   #f9f9fc;
+  --bg-input2:  #eeeef8;
+  --bg-row:     #f0f0f6;
+  --bg-thead:   #f0f0f8;
+  --border:     #d0d0e0;
+  --border2:    #b8860b;
+  --text-pri:   #1a1a2e;
+  --text-sec:   #555;
+  --text-muted: #999;
+  --text-mob:   #333;
+  --text-norm:  #666;
+  --gold:       #b8860b;
+  --blue-mob:   #1a5fa5;
+  --count-bg:   #e0e0f0;
+  --count-txt:  #555;
+  --xtier-c:    #b8860b;
+  --hl-bg:      #fff3cc;
+  --hl-txt:     #7a5000;
+  --same-txt:   #999;
+  --toggle-bg:  #ffffff;
+  --toggle-bd:  #d0d0e0;
+  --toggle-txt: #b8860b;
+}
+
+body { background: var(--bg-page); color: var(--text-pri); font-family: Arial, sans-serif; min-height: 100vh; transition: background 0.2s, color 0.2s; }
+
+.header { background: var(--bg-panel); border-bottom: 2px solid var(--gold); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.header-left h1 { font-size: 18px; font-weight: 700; color: #cc2222; letter-spacing: 1px; }
+.header-left p { font-size: 12px; color: var(--text-sec); margin-top: 3px; }
+.header-right { display: flex; gap: 20px; align-items: center; }
+.stat-pill { text-align: center; }
+.stat-pill .val { font-size: 22px; font-weight: 700; color: var(--gold); }
+.stat-pill .lbl { font-size: 11px; color: var(--text-sec); }
+
+.toggle-btn { background: var(--toggle-bg); border: 1px solid var(--toggle-bd); color: var(--toggle-txt); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+.toggle-btn:hover { border-color: var(--gold); }
+
+.legend { display: flex; gap: 10px; flex-wrap: wrap; padding: 8px 20px; background: var(--bg-panel); border-bottom: 1px solid var(--border); align-items: center; }
+.legend-note { font-size: 11px; color: var(--text-muted); margin-left: 8px; }
+
+.bucket-badge { display: inline-block; font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 700; white-space: nowrap; }
+html[data-theme="dark"] .b-rt1 { background:#1e0d2b; color:#b07af5; border:1px solid #4a1a7a; }
+html[data-theme="dark"] .b-rt2 { background:#2b0d1e; color:#f07ab0; border:1px solid #7a1a50; }
+html[data-theme="dark"] .b-rt3 { background:#0d2b25; color:#40d4b8; border:1px solid #1a6a58; }
+html[data-theme="dark"] .b-rt4 { background:#2b1800; color:#f0a040; border:1px solid #7a4000; }
+html[data-theme="light"] .b-rt1 { background:#ede0ff; color:#4a1a7a; border:1px solid #c0a0e8; }
+html[data-theme="light"] .b-rt2 { background:#ffe0ee; color:#880e4f; border:1px solid #e0a0c0; }
+html[data-theme="light"] .b-rt3 { background:#d0f5ec; color:#0a5040; border:1px solid #80d4b8; }
+html[data-theme="light"] .b-rt4 { background:#fff0d8; color:#7a3800; border:1px solid #e0b060; }
+
+.controls { background: var(--bg-panel); padding: 10px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+.search-wrap { display: table; width: 100%; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.search-wrap:focus-within { border-color: var(--gold); }
+.search-wrap input { display: table-cell; width: 100%; background: var(--bg-input); border: none; color: var(--text-pri); padding: 0 14px; font-size: 14px; outline: none; height: 42px; }
+.search-wrap input::placeholder { color: var(--text-muted); }
+.search-wrap select { display: table-cell; width: 140px; background: var(--bg-input2); border: none; border-left: 1px solid var(--border); color: var(--gold); padding: 0 14px; font-size: 13px; outline: none; cursor: pointer; font-weight: 700; height: 42px; }
+.filters-row { display: flex; gap: 8px; width: 100%; }
+select.filt { flex: 1; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-pri); border-radius: 6px; padding: 0 10px; font-size: 13px; outline: none; cursor: pointer; height: 34px; }
+select.filt:focus { border-color: var(--gold); }
+
+.result-count { font-size: 12px; color: var(--text-muted); padding: 4px 20px; background: var(--bg-panel); border-bottom: 1px solid var(--border); text-align: right; }
+
+.tbl-wrap { overflow-x: auto; padding: 0 20px 40px; }
+table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+thead th { background: var(--bg-thead); color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--gold); white-space: nowrap; position: sticky; top: 0; z-index: 1; }
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:hover { background: var(--bg-row); }
+td { padding: 10px 12px; vertical-align: top; color: var(--text-mob); line-height: 1.5; }
+td.item-cell { color: var(--text-pri); font-weight: 500; }
+
+.xtier-flag { display: inline-block; font-size: 10px; color: var(--xtier-c); border: 1px solid var(--xtier-c); border-radius: 3px; padding: 1px 5px; margin-top: 4px; font-weight: 700; letter-spacing: 0.05em; }
+.mob-line { display: block; line-height: 1.9; }
+.mob-diff { color: var(--blue-mob); }
+.count-badge { display: inline-block; font-size: 10px; background: var(--count-bg); border-radius: 8px; padding: 1px 6px; margin-left: 4px; color: var(--count-txt); }
+.same-bucket { font-size: 12px; color: var(--same-txt); line-height: 1.9; }
+.empty { text-align: center; padding: 60px; color: var(--text-muted); font-size: 15px; }
+.highlight { background: var(--hl-bg); border-radius: 2px; color: var(--hl-txt); padding: 0 1px; }
+
+.back-btn { display: inline-flex; align-items: center; gap: 6px; margin: 10px 20px 0; font-size: 13px; color: var(--gold); text-decoration: none; border: 1px solid var(--border); background: var(--bg-panel); padding: 5px 12px; border-radius: 6px; }
+.back-btn:hover { border-color: var(--gold); }
+
+.footer { text-align: center; padding: 16px; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>KEY OF SWORDS &mdash; SoF RANDOM LOOT TRACKER</h1>
+    <p>Teek Server &nbsp;&middot;&nbsp; Secrets of Faydwer &nbsp;&middot;&nbsp; Raid Loot Only</p>
+  </div>
+  <div class="header-right">
+    <div class="stat-pill"><div class="val" id="s-items">0</div><div class="lbl">Items</div></div>
+    <div class="stat-pill"><div class="val" id="s-drops">0</div><div class="lbl">Total Drops</div></div>
+    <div class="stat-pill"><div class="val" id="s-xtier">0</div><div class="lbl">Cross-tier</div></div>
+    <div class="stat-pill"><div class="val" id="s-nights">0</div><div class="lbl">Raid Nights</div></div>
+    <button class="toggle-btn" onclick="toggleTheme()" id="toggle-btn">&#9788; Light</button>
+  </div>
+</div>
+
+<a class="back-btn" href="sof.html">&#8592; Secrets of Faydwer</a>
+
+<div class="legend">
+  <span style="font-size:11px;color:var(--text-muted);margin-right:4px;">Buckets:</span>
+  <span class="bucket-badge b-rt1">Raid T1</span>
+  <span class="bucket-badge b-rt2">Raid T2</span>
+  <span class="bucket-badge b-rt3">Raid T3</span>
+  <span class="bucket-badge b-rt4">Raid T4</span>
+  <span class="legend-note">Blue mob name = dropped by a different mob than normal source &nbsp;&middot;&nbsp; CROSS-TIER DROP = item dropped from a different raid tier than normal</span>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search..." oninput="render()">
+    <select id="scope" onchange="render()">
+      <option value="item">Item name</option>
+      <option value="mob">Mob name</option>
+      <option value="all">All fields</option>
+    </select>
+  </div>
+  <div class="filters-row">
+    <select class="filt" id="f-bucket" onchange="render()">
+      <option value="">All raid tiers</option>
+      <option value="Raid T1">Raid T1</option>
+      <option value="Raid T2">Raid T2</option>
+      <option value="Raid T3">Raid T3</option>
+      <option value="Raid T4">Raid T4</option>
+    </select>
+    <select class="filt" id="f-xtier" onchange="render()">
+      <option value="">All drops</option>
+      <option value="1">Cross-tier only</option>
+    </select>
+    <select class="filt" id="f-sort" onchange="render()">
+      <option value="item">Sort: Item name</option>
+      <option value="bucket">Sort: Raid tier</option>
+      <option value="drops">Sort: Times dropped (most first)</option>
+    </select>
+  </div>
+</div>
+
+<div class="result-count" id="rcount"></div>
+
+<div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%">Item name</th>
+        <th style="width:10%">Raid tier</th>
+        <th style="width:18%">Normal source</th>
+        <th style="width:22%">Dropped by on Teek</th>
+        <th style="width:6%">Drops</th>
+        <th style="width:22%">Same bucket mobs</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server</div>
+
+<script>
+const RAID_NIGHTS = [];
+
+const DATA = [
+  {
+    item: "Wirlem's War Axe",
+    bucket: "Raid T1",
+    normal: "Wirlem",
+    teek: [{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Octa the Collector","Boneshard Brothers","Scorn","Wirlem"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Octa's Spiked Collar",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Octa the Collector", count:2}],
+    xtier: false,
+    same: ["Wirlem","Boneshard Brothers","Scorn","Crazok Moonfang"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Gyrospire Defender's Chestguard",
+    bucket: "Raid T2",
+    normal: "Chief Mechanic Clankwrench",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: ["Spindlecrank","Big Bynn I","Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Mechanotus Steam Bracers",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:2}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench","Mining Behemoth","Big Bynn I","Overseer Gakkor Deepscar"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Bynn's Reinforced Gauntlets",
+    bucket: "Raid T2",
+    normal: "Big Bynn I",
+    teek: [{mob:"Big Bynn I", count:3}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench","Mining Behemoth","Spindlecrank","Overseer Gakkor Deepscar"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Behemoth Crushplate Shoulders",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench","Spindlecrank","Big Bynn I","Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Meldrath's Arcane Hood",
+    bucket: "Raid T3",
+    normal: "Meldrath the Malignant",
+    teek: [{mob:"Meldrath the Malignant", count:2}],
+    xtier: false,
+    same: ["S.H.I.P. Workshop raid named","Steam Factory raid named"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Forged Gnomework Girdle",
+    bucket: "Raid T3",
+    normal: "Meldrath the Malignant",
+    teek: [{mob:"Meldrath the Malignant", count:1},{mob:"Overseer Gakkor Deepscar", count:1}],
+    xtier: true,
+    same: ["S.H.I.P. Workshop raid named","Steam Factory raid named"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Kerafyrm's Shard of Power",
+    bucket: "Raid T4",
+    normal: "Kerafyrm the Awakened",
+    teek: [{mob:"Kerafyrm the Awakened", count:1}],
+    xtier: false,
+    same: ["Crystallos raid named"],
+    nights: ["4/25"]
+  },
+];
+
+const BCLS = {
+  "Raid T1":"b-rt1","Raid T2":"b-rt2","Raid T3":"b-rt3","Raid T4":"b-rt4"
+};
+
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  document.getElementById('toggle-btn').textContent = isDark ? '\u263D Dark' : '\u2688 Light';
+  localStorage.setItem('kos-theme', newTheme === 'light' ? 'light' : 'dark');
+}
+
+function totalDrops(r){ return r.teek.reduce((a,b)=>a+b.count, 0); }
+
+function escHtml(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function highlight(text, term){
+  if(!term) return escHtml(text);
+  const idx = text.toLowerCase().indexOf(term.toLowerCase());
+  if(idx === -1) return escHtml(text);
+  return escHtml(text.slice(0,idx))
+    + '<span class="highlight">' + escHtml(text.slice(idx, idx+term.length)) + '</span>'
+    + escHtml(text.slice(idx+term.length));
+}
+
+function computeStats(){
+  const allNights = new Set();
+  DATA.forEach(r => (r.nights||[]).forEach(n => allNights.add(n)));
+  RAID_NIGHTS.forEach(n => allNights.add(n));
+  document.getElementById('s-items').textContent  = DATA.length;
+  document.getElementById('s-drops').textContent  = DATA.reduce((a,r)=>a+totalDrops(r), 0);
+  document.getElementById('s-xtier').textContent  = DATA.filter(r=>r.xtier).length;
+  document.getElementById('s-nights').textContent = allNights.size;
+}
+
+function render(){
+  const search = document.getElementById('search').value.trim();
+  const scope  = document.getElementById('scope').value;
+  const fb     = document.getElementById('f-bucket').value;
+  const fx     = document.getElementById('f-xtier').value;
+  const sort   = document.getElementById('f-sort').value;
+  const term   = search.toLowerCase();
+
+  let rows = DATA.filter(r => {
+    if(fb && r.bucket !== fb) return false;
+    if(fx === '1' && !r.xtier) return false;
+    if(term){
+      let hay = '';
+      if(scope === 'item')     hay = r.item;
+      else if(scope === 'mob') hay = [r.normal, ...r.teek.map(t=>t.mob)].join(' ');
+      else                     hay = [r.item, r.bucket, r.normal, ...r.teek.map(t=>t.mob), ...(r.same||[])].join(' ');
+      if(!hay.toLowerCase().includes(term)) return false;
+    }
+    return true;
+  });
+
+  rows.sort((a,b) => {
+    if(sort === 'item')   return a.item.localeCompare(b.item);
+    if(sort === 'bucket') return a.bucket.localeCompare(b.bucket);
+    if(sort === 'drops')  return totalDrops(b) - totalDrops(a);
+    return 0;
+  });
+
+  document.getElementById('rcount').textContent = rows.length + ' of ' + DATA.length + ' items';
+
+  const tbody = document.getElementById('tbody');
+  if(!rows.length){
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No items match your search.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(r => {
+    const showItemHL = scope==='item' || scope==='all';
+    const showMobHL  = scope==='mob'  || scope==='all';
+    const itemDisp   = showItemHL ? highlight(r.item, search) : escHtml(r.item);
+    const normDisp   = showMobHL  ? highlight(r.normal, search) : escHtml(r.normal);
+    const teekHtml = r.teek.map(t => {
+      const diff  = t.mob !== r.normal;
+      const mDisp = showMobHL ? highlight(t.mob, search) : escHtml(t.mob);
+      return `<span class="mob-line${diff?' mob-diff':''}">${mDisp}<span class="count-badge">${t.count}x</span></span>`;
+    }).join('');
+    const sameHtml = (r.same||[]).map(m =>
+      `<span class="mob-line">${escHtml(m)}</span>`
+    ).join('');
+    return `<tr>
+      <td class="item-cell">
+        ${itemDisp}
+        ${r.xtier ? '<br><span class="xtier-flag">CROSS-TIER DROP</span>' : ''}
+      </td>
+      <td><span class="bucket-badge ${BCLS[r.bucket]||''}">${escHtml(r.bucket)}</span></td>
+      <td style="color:var(--text-norm)">${normDisp}</td>
+      <td>${teekHtml}</td>
+      <td style="font-weight:700;color:var(--gold);text-align:center">${totalDrops(r)}</td>
+      <td class="same-bucket">${sameHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+computeStats();
+render();
+// Sync toggle button label to current theme
+(function(){
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const btn = document.getElementById('toggle-btn');
+  if(btn) btn.textContent = isDark ? '\u2688 Light' : '\u263D Dark';
+})();
+</script>
+<div style="text-align:center;padding:18px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:20px;letter-spacing:1px;">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+</body>
+</html>

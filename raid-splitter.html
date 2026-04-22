@@ -226,7 +226,7 @@ body.light .badge { background: #8a5a10 !important; color: #fff !important; }
       <div class="panel">
         <div class="panel-hdr">
           <span class="panel-title">Step 1 — Load Master Roster</span>
-          <button id="btn-tmpl" class="btn btn-ghost btn-sm">Download Example CSV</button>
+          <button id="btn-tmpl" class="btn btn-ghost btn-sm">&#8595; Download Master Roster</button>
         </div>
         <div class="panel-body">
           <p class="hint">
@@ -955,10 +955,10 @@ function raidText(label, raidGroups){
 
 // ── Template download ─────────────────────────────────────────────────────────
 $("btn-tmpl").addEventListener("click",function(){
-  var csv="Name,Class,Type,MainName\nAerendil,CLR,Main,\nMoravel,WAR,Main,\nZythrix,ENC,Alt,Moravel\nDraeven,ROG,Alt,Moravel\nLyndra,SHM,Main,\nKaeleth,NEC,2ndMain,\nVorrith,WIZ,Alt,Kaeleth\nThandus,PAL,Main,\nSorael,BRD,Main,\nGrymveil,DRU,Main,";
+  var csv="Name,Class,Type,Main\nAdhoc,Rogue,Main,\nAlkar,Enchanter,Main,\nAlyah,Wizard,Main,\nArchon,Cleric,Alt,Dragonsbane\nArlack,Wizard,2nd Main,Dagnabit\nBameldar,Monk,Main,\nBlaznbeats,Bard,Main,\nBonaduce,Cleric,2nd Main,Gromph\nBowls,Wizard,Main,\nBrillo,Cleric,2nd Main,Mica\nCareem,Cleric,Main,\nChuglox,Warrior,Main,\nCroissant,Bard,Main,\nDagnabit,Magician,Main,\nDarkesthour,Shadow Knight,Alt,Gimlet\nDarthdaddy,Shadow Knight,2nd Main,Holdmybeer\nDarthmood,Ranger,2nd Main,Holdmybeer\nDecep,Ranger,Main,\nDragonsbane,Shadow Knight,Main,\nDuffers,Beastlord,Main,\nDupre,Cleric,Main,\nEkks,Shaman,Main,\nEquilibrium,Shadow Knight,Main,\nFlopchop,Monk,Alt,Guumba\nFluteloops,Bard,Alt,Temujin\nGaara,Monk,,\nGelar,Shaman,Main,\nGimlet,Berserker,2nd Main,Mezcal\nGinjer,Rogue,Main,\nGladin,Cleric,2nd Main,Prothion\nGneissic,Enchanter,2nd Main,Mica\nGrohl,Monk,2nd Main,Ekks\nGromph,Wizard,Main,\nGulbok,Shaman,2nd Main,Oumgulbok\nGuumba,Cleric,Main,\nGyat,Ranger,Main,\nHardwell,Bard,2nd Main,Holdmybeer\nHealyew,Cleric,Alt,Tokersham\nHealza,Cleric,Main,\nHoldmybeer,Monk,Main,\nHunchy,Warrior,2nd Main,Mica\nHyzer,Shaman,2nd Main,Chuglox\nJael,Shadow Knight,2nd Main,Ekks\nJaksis,Shadow Knight,Main,\nJaska,Shaman,2nd Main,Venros\nKaldayen,Rogue,Main,\nKarzach,Berserker,Main,\nKhulan,Shaman,2nd Main,Temujin\nKletus,Monk,Main,\nKreed,Paladin,Main,\nKurnol,Warrior,Main,\nLawdawg,Cleric,2nd Main,Phiveooh\nLionuhl,Beastlord,Main,\nLitacow,Cleric,Main,\nLizardnuts,Magician,2nd Main,Holdmybeer\nLucifina,Wizard,Main,\nMagilicious,Magician,Main,\nMedicous,Cleric,2nd Main,Kurnol\nMelodia,Bard,2nd Main,Gaara\nMerrida,Druid,Alt,Lionuhl\nMezcal,Bard,Main,\nMica,Necromancer,Main,Hunchy\nMiffical,Beastlord,2nd Main,Guumba\nMozie,Rogue,Main,\nNeyt,Druid,Main,\nNightngale,Cleric,2nd Main,Holdmybeer\nNiladdar,Ranger,Main,\nOrfantal,Shadow Knight,Main,\nOumgulbok,Berserker,Main,\nPercacet,Cleric,Main,\nPhiveooh,Paladin,Main,\nProthion,Wizard,Main,\nRalfein,Monk,Main,\nRavenhawk,Magician,Main,\nRedeker,Shadow Knight,Main,\nRyeson,Ranger,Main,\nRyza,Shadow Knight,Main,\nSardilan,Bard,2nd Main,Karzach\nSarienna,Cleric,Main,\nSdrawkcab,Enchanter,Main,\nSelenity,Necromancer,Main,\nSertraline,Bard,Main,\nShawtz,Ranger,2nd Main,Venros\nShrenya,Bard,Main,\nSimma,Bard,2nd Main,Venros\nSolkar,Cleric,2nd Main,Alkar\nSteelclaws,Beastlord,Main,\nTallos,Enchanter,Main,\nTemujin,Warrior,Main,\nTetrius,Paladin,2nd Main,Shrenya\nTinkee,Magician,Main,\nTokersham,Shaman,Main,\nTronamur,Magician,Main,\nTruesong,Bard,2nd Main,Dragonsbane\nTurtlepuncher,Warrior,2nd Main,Niladdar\nTurval,Warrior,Main,\nTwohanded,Berserker,2nd Main,Twohanded\nVanion,Cleric,2nd Main,Kletus\nVenros,Paladin,Main,\nVermouth,Magician,Main,\nXendak,Enchanter,Main,\nYewsless,Shadow Knight,Main,\nYmir,Shaman,Main,\nZeddi,Warrior,Main,\nZennyfur,Rogue,Main,\nZhaman,Shaman,2nd Main,Redeker\nZongzi,Monk,2nd Main,Croissant";
   var blob=new Blob([csv],{type:"text/csv"});
   var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
-  a.download="eq_roster_template.csv"; a.click();
+  a.download="KOS_Master_Roster.csv"; a.click();
 });
 
 // ── Parse roster ──────────────────────────────────────────────────────────────

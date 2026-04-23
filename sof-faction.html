@@ -439,7 +439,7 @@ function buildSections(){
     progRow.innerHTML=buildSectProgHTML(si,sectItems);wrap.appendChild(progRow);
     const body=document.createElement('div');body.className='sect-body';body.id='sect-body-'+si;body.style.display=sectOpen[si]?'':'none';
     const colHdr=document.createElement('div');colHdr.className='col-header-row';
-    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n)}</div>`).join('')}</div>`;
+    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,16))}</div>`).join('')}</div>`;
     body.appendChild(colHdr);
     let lastSub=null;
     sectItems.forEach(item=>{

@@ -54,7 +54,7 @@
   .col-header-row { display: flex; align-items: center; padding: 4px 14px; background: #0f1828; border-bottom: 1px solid #1a2535; position: sticky; top: 0; z-index: 5; }
   .col-header-spacer { flex: 1; }
   .col-headers { display: flex; gap: 10px; }
-  .col-hdr { min-width: 36px; text-align: center; font-size: 10px; color: #7ecfff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-hdr { min-width: 60px; text-align: center; font-size: 10px; color: #7ecfff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sub-header { background: #141e32; color: #88aacc; font-size: 11px; font-style: italic; padding: 5px 20px; border-bottom: 1px solid #1a2030; }
   .task-row { display: flex; align-items: flex-start; padding: 5px 14px; border-bottom: 1px solid #1a1f2e; gap: 6px; }
   .task-row:hover { background: #1a2035; }
@@ -66,7 +66,7 @@
   .task-text .note { color: #778; font-size: 11px; font-style: italic; }
   .faction-gain { color: #4CAF50; font-size: 10px; font-weight: 600; white-space: nowrap; padding-top: 2px; min-width: 36px; text-align: right; }
   .checkboxes { display: flex; gap: 10px; align-items: center; padding-top: 1px; }
-  .chk-wrap { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 36px; }
+  .chk-wrap { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 60px; }
   .chk-wrap input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #4CAF50; }
   .chk-wrap.done { background: rgba(76,175,80,0.08); border-radius: 3px; padding: 1px 3px; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; }
@@ -439,7 +439,7 @@ function buildSections(){
     progRow.innerHTML=buildSectProgHTML(si,sectItems);wrap.appendChild(progRow);
     const body=document.createElement('div');body.className='sect-body';body.id='sect-body-'+si;body.style.display=sectOpen[si]?'':'none';
     const colHdr=document.createElement('div');colHdr.className='col-header-row';
-    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,8))}</div>`).join('')}</div>`;
+    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n)}</div>`).join('')}</div>`;
     body.appendChild(colHdr);
     let lastSub=null;
     sectItems.forEach(item=>{
@@ -466,7 +466,7 @@ function buildSectProgHTML(si,sectItems){
   for(let ci=0;ci<NUM_CHARS;ci++){
     let done=0;sectItems.forEach(it=>{if(checks[`${it.idx}-${ci}`])done++;});
     const total=sectItems.length,pct=total?Math.round(done/total*100):0;
-    html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci].substring(0,10))}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
+    html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci])}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
   }
   return html+'</div>';
 }

@@ -205,89 +205,412 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 <div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server</div>
 
 <script>
-const RAID_NIGHTS = [];
+const RAID_NIGHTS = ["4/23"];
 
 const DATA = [
+
+  // ── DEEPSCAR CHEST (19:40) ────────────────────────────────────────────────
   {
-    item: "Wirlem's War Axe",
-    bucket: "Raid T1",
-    normal: "Wirlem",
-    teek: [{mob:"Crazok Moonfang", count:1}],
-    xtier: true,
-    same: ["Octa the Collector","Boneshard Brothers","Scorn","Wirlem"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Octa's Spiked Collar",
-    bucket: "Raid T1",
-    normal: "Octa the Collector",
-    teek: [{mob:"Octa the Collector", count:2}],
-    xtier: false,
-    same: ["Wirlem","Boneshard Brothers","Scorn","Crazok Moonfang"],
-    nights: ["4/23","4/25"]
-  },
-  {
-    item: "Gyrospire Defender's Chestguard",
+    item: "Ancient Hardened Gauntlets",
     bucket: "Raid T2",
-    normal: "Chief Mechanic Clankwrench",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Mining Behemoth", count:1}],
+    normal: "Overseer Gakkor Deepscar",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
     xtier: false,
-    same: ["Spindlecrank","Big Bynn I","Overseer Gakkor Deepscar"],
+    same: [],
     nights: ["4/23"]
   },
   {
-    item: "Mechanotus Steam Bracers",
+    item: "Ancient Scaled Coif",
     bucket: "Raid T2",
     normal: "Spindlecrank",
-    teek: [{mob:"Spindlecrank", count:2}],
+    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
     xtier: false,
-    same: ["Chief Mechanic Clankwrench","Mining Behemoth","Big Bynn I","Overseer Gakkor Deepscar"],
-    nights: ["4/25"]
+    same: ["Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
   },
   {
-    item: "Bynn's Reinforced Gauntlets",
+    item: "Bloodseeker's Veil",
     bucket: "Raid T2",
-    normal: "Big Bynn I",
-    teek: [{mob:"Big Bynn I", count:3}],
+    normal: "Overseer Gakkor Deepscar",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
     xtier: false,
-    same: ["Chief Mechanic Clankwrench","Mining Behemoth","Spindlecrank","Overseer Gakkor Deepscar"],
-    nights: ["4/23","4/25"]
+    same: [],
+    nights: ["4/23"]
   },
   {
-    item: "Behemoth Crushplate Shoulders",
+    item: "Claw-Blessed Cloak",
+    bucket: "Raid T2",
+    normal: "Overseer Gakkor Deepscar",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Filigreed Starburst Stud",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: ["Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Moonblade of the Bloodcrazed",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Shimmering Pearlescent Earstud",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
+    xtier: false,
+    same: ["Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Threaded Satin Sleeves",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Plate Breastplate",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon / Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Mining Behemoth", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar","Mining Behemoth"],
+    nights: ["4/23"]
+  },
+
+  // ── MINING BEHEMOTH CHEST (21:06) ─────────────────────────────────────────
+  {
+    item: "Ancient Hardened Vambraces",
     bucket: "Raid T2",
     normal: "Mining Behemoth",
     teek: [{mob:"Mining Behemoth", count:1}],
     xtier: false,
-    same: ["Chief Mechanic Clankwrench","Spindlecrank","Big Bynn I","Overseer Gakkor Deepscar"],
+    same: [],
     nights: ["4/23"]
   },
   {
-    item: "Meldrath's Arcane Hood",
-    bucket: "Raid T3",
-    normal: "Meldrath the Malignant",
-    teek: [{mob:"Meldrath the Malignant", count:2}],
+    item: "Ancient Scaled Sleeves",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
     xtier: false,
-    same: ["S.H.I.P. Workshop raid named","Steam Factory raid named"],
-    nights: ["4/25"]
+    same: [],
+    nights: ["4/23"]
   },
   {
-    item: "Forged Gnomework Girdle",
-    bucket: "Raid T3",
-    normal: "Meldrath the Malignant",
-    teek: [{mob:"Meldrath the Malignant", count:1},{mob:"Overseer Gakkor Deepscar", count:1}],
+    item: "Ancient Velvet Robe",
+    bucket: "Raid T2",
+    normal: "Spindlecrank / Mining Behemoth / Power Station",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Bloodrime Pauldrons",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Pneumatic Powerblade",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Scarlet-Lined Bloodsash",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Plate Vambraces",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Mining Behemoth", count:1}],
     xtier: true,
-    same: ["S.H.I.P. Workshop raid named","Steam Factory raid named"],
-    nights: ["4/25"]
+    same: ["Mining Behemoth"],
+    nights: ["4/23"]
   },
   {
-    item: "Kerafyrm's Shard of Power",
-    bucket: "Raid T4",
-    normal: "Kerafyrm the Awakened",
-    teek: [{mob:"Kerafyrm the Awakened", count:1}],
+    item: "Visage of the Grand Engineer",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
     xtier: false,
-    same: ["Crystallos raid named"],
-    nights: ["4/25"]
+    same: [],
+    nights: ["4/23"]
+  },
+
+  // ── CLANKWRENCH CHEST (21:50) ─────────────────────────────────────────────
+  {
+    item: "Ancient Hardened Bracer",
+    bucket: "Raid T2",
+    normal: "Overseer Gakkor Deepscar / Big Bynn I",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Velvet Slippers",
+    bucket: "Raid T2",
+    normal: "Big Bynn I",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Clockwork Medic's Defibrillator",
+    bucket: "Raid T2",
+    normal: "Big Bynn I",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:2},{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench","Spindlecrank"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Crimson Throat-Gem",
+    bucket: "Raid T2",
+    normal: "Chief Mechanic Clankwrench",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Inventor's Jagged Ring",
+    bucket: "Raid T2",
+    normal: "Chief Mechanic Clankwrench",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Mantle of Grand Plans",
+    bucket: "Raid T2",
+    normal: "Chief Mechanic Clankwrench",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Mask of the Unrequited",
+    bucket: "Raid T2",
+    normal: "Chief Mechanic Clankwrench",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Scepter of Dark Clouds",
+    bucket: "Raid T1",
+    normal: "Scorn",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Studded Leather Boots",
+    bucket: "Raid T1",
+    normal: "Scorn",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Studded Leather Leggings",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Studded Leather Wristguard",
+    bucket: "Raid T1",
+    normal: "Octa the Collector / Scorn / Wirlem",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Threaded Satin Slippers",
+    bucket: "Raid T1",
+    normal: "Scorn",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Plate Bracer",
+    bucket: "Raid T1",
+    normal: "Octa the Collector / Scorn / Wirlem",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Ringmail Leggings",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ticka, Greatblade of the Ravager",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+
+  // ── SPINDLECRANK CHEST (22:21) ────────────────────────────────────────────
+  {
+    item: "Ancient Hardened Helm",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Husk Cowl",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Husk Wristguard",
+    bucket: "Raid T2",
+    normal: "Overseer Gakkor Deepscar / Big Bynn I",
+    teek: [{mob:"Spindlecrank", count:2}],
+    xtier: false,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Velvet Hat",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Velvet Wristband",
+    bucket: "Raid T2",
+    normal: "Overseer Gakkor Deepscar / Big Bynn I",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Bladetwisting Backplate",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:2}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Glittering Gem of Focus",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Loop of Cruel Ingenuity",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Slick Oil-Ring of Protection",
+    bucket: "Raid T2",
+    normal: "Spindlecrank",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steam-Powered Disc of Command",
+    bucket: "Raid T2",
+    normal: "Big Bynn I",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Threaded Satin Gloves",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: true,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Plate Gauntlets",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: true,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
   },
 ];
 

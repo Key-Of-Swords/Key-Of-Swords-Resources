@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secrets of Faydwer — Raid Strategy Vault</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('kos-light');</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 
@@ -865,6 +863,11 @@
         <a href="#vyskudra" onclick="document.getElementById('vyskudra').classList.remove('collapsed')">Vyskudra — Air Wing (Hish`Itar + Drake Waves)</a>
         <span class="tier-label">Tier 4</span>
         — Crystallos
+      </li>
+      <li>
+        <a href="#broodmother" onclick="document.getElementById('broodmother').classList.remove('collapsed')">Brood Mother Visziaj</a>
+        <span class="tier-label">Tier 4</span>
+        — Crystallos (Basement)
       </li>
     </ol>
     <p class="toc-hint">Click any raid header to collapse or expand it.</p>
@@ -5332,20 +5335,196 @@
     </div><!-- /raid-card-body -->
   </article><!-- /vyskudra -->
 
+  <!-- ════════════════════════════════════════════════
+       RAID: BROOD MOTHER VISZIAJ — CRYSTALLOS BASEMENT
+  ════════════════════════════════════════════════ -->
+  <article class="raid-card" id="broodmother">
+
+    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
+      <div>
+        <div class="boss-name">Brood Mother Visziaj — Crystallos Basement</div>
+        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
+        <div class="boss-meta">
+          <span><strong>Zone:</strong> Crystallos, Lair of the Awakened — Basement</span>
+          <span><strong>Requirements:</strong> Complete all 8 Crystallos wing events first</span>
+          <span><strong>Entry:</strong> Same portal used to enter instanced Crystallos — takes you to the basement</span>
+        </div>
+        <div class="badges" style="margin-top:10px;">
+          <span class="badge badge-red">Tier 4 Raid</span>
+          <span class="badge badge-red">Perma-Rooted (When Active)</span>
+          <span class="badge badge-red">Line-of-Sight Add Mechanic</span>
+          <span class="badge badge-amber">Corruption Cures (50 counters)</span>
+          <span class="badge badge-blue">Levitate Required</span>
+        </div>
+      </div>
+      <span class="collapse-chevron">▼</span>
+    </div>
+
+    <div class="raid-card-body">
+
+      <!-- STATS + SETUP + LOOT -->
+      <div class="section-grid">
+
+        <div class="info-block">
+          <h3>Brood Mother Stats</h3>
+          <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-Rooted when active</span></div>
+          <div class="stat-row"><span class="label">Line-of-Sight</span><span class="value danger">Killing adds in her sight powers her up</span></div>
+          <div class="stat-row"><span class="label">Spell Aura</span><span class="value danger">Visziaj's Presence — spell dmg -70% to 0%</span></div>
+          <div class="stat-row"><span class="label">Despawn on death?</span><span class="value safe">Yes — all adds despawn</span></div>
+        </div>
+
+        <div class="info-block">
+          <h3>Zone Layout</h3>
+          <ul>
+            <li><strong>Room 1:</strong> Dar`Kelor (wyvern)</li>
+            <li><strong>Room 2:</strong> Hatchery — Brood Mother Visziaj</li>
+            <li><strong>Room 3:</strong> Ki`Mrash (wyvern)</li>
+            <li>Hug the left wall through the hatchery to avoid aggroing Brood Mother</li>
+            <li><strong>Levitate required</strong></li>
+          </ul>
+        </div>
+
+        <div class="info-block">
+          <h3>Loot</h3>
+          <ul>
+            <li>Tier 4 loot <em>(confirm)</em></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- WYVERN GUARDIANS -->
+      <div class="phase-header">Phase 1 — Wyvern Guardians</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠</span>
+        <div class="callout-text">
+          <strong>Dar`Kelor and Ki`Mrash must be debuffed ASAP</strong> — both can put out significant DPS. Kill Dar`Kelor first, then hug the left wall through the hatchery to reach and kill Ki`Mrash. Avoid aggroing Brood Mother while moving through.
+        </div>
+      </div>
+
+      <table class="spells-table">
+        <thead><tr><th style="width:20%">Mob</th><th style="width:80%">Abilities</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Dar`Kelor</td>
+            <td>Hits for <strong>8,000</strong>. Flurries. Debuff immediately.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Ki`Mrash</td>
+            <td>Casts <strong>Wing Blast</strong>. Debuff immediately.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- HATCHERY PHASE -->
+      <div class="phase-header">Phase 2 — The Hatchery Event</div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">⚡</span>
+        <div class="callout-text">
+          <strong>Critical rule:</strong> No adds may be killed within Brood Mother's line of sight. Pull all adds into the hallways before killing them. If she sees an add die she temporarily powers up.<br><br>
+          Emote: <em>"Brood Mother Visziaj goes berserk at the death of one of her young."</em><br>
+          Emote: <em>"Brood Mother Visziaj begins to regain control of herself."</em>
+        </div>
+      </div>
+
+      <div class="phase-block phase-blue">
+        <h4>Hatchery Sequence</h4>
+        <ul>
+          <li>Four <strong>drake egg tenders</strong> (unattackable) path into the two wyvern rooms (2 per room) and hatch the eggs there.</li>
+          <li>Brood Mother (unattackable during this phase) walks around the hatchery hatching her own eggs — six types of young dragons: <strong>blue, gold, black, white, green, red</strong>. No special abilities.</li>
+          <li>These hatchery drakes have low HP but various AEs/auras: <strong>snares, DoTs, minor mana drain, spell slows, and ~8,000 DD.</strong></li>
+          <li>After <strong>2–4 minutes</strong> Brood Mother walks back to her platform and becomes active (perma-rooted).</li>
+        </ul>
+      </div>
+
+      <div class="phase-block" style="border-left:3px solid var(--text-muted); background:var(--panel-bg);">
+        <h4>Tunnel Group Assignments</h4>
+        <ul>
+          <li><strong>3 DPS groups</strong> stationed in the hallways leading out of Dar`Kelor's and Ki`Mrash's rooms.</li>
+          <li><strong>2 groups in the South hallway</strong> — expects 3–4 drakes at a time.</li>
+          <li><strong>1 group in the North hallway</strong> — expects 1–2 drakes at a time.</li>
+          <li><strong>1 backup group</strong> assists tunnel groups if needed.</li>
+          <li>Tunnel groups kill egg-tender adds <strong>before they path into Brood Mother's room.</strong></li>
+          <li><strong>All kills must happen out of Brood Mother's line of sight.</strong></li>
+          <li>Remaining raid kills Brood Mother's own hatchery drakes until she becomes active.</li>
+        </ul>
+      </div>
+
+      <!-- BOSS ABILITIES -->
+      <div class="phase-header">Brood Mother Abilities</div>
+
+      <table class="spells-table">
+        <thead><tr><th style="width:24%">Spell</th><th style="width:18%">Type</th><th style="width:58%">Effect</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Meteor Shower</td>
+            <td>Targeted AE</td>
+            <td><strong>10,000 DD + stun.</strong></td>
+          </tr>
+          <tr>
+            <td class="spell-name">Corruption of the Brood Mother</td>
+            <td>AE Debuff</td>
+            <td>Reduces melee and spell damage. <strong>50 corruption counters</strong> — cure immediately.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Crystal Chill Vapors</td>
+            <td>PBAE (18 range)</td>
+            <td><strong>1,250 DD + 750 DoT.</strong> Stay spread to minimize exposure.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Siphon of Visziaj</td>
+            <td>Multi-Target</td>
+            <td><strong>4,000 DD + 2,000 mana/end drain.</strong> Cast on multiple targets simultaneously.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Visziaj's Presence</td>
+            <td>Aura (later in fight)</td>
+            <td><strong>Spell damage -70% to 0%.</strong> Appears later in the fight — casters aware.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="phase-block phase-blue" style="margin-top:0.5rem;">
+        <h4>Directional Emotes (No Damage — Informational)</h4>
+        <ul>
+          <li><em>"Brood Mother Visziaj raises her left claw, preparing to rake her enemies."</em></li>
+          <li><em>"Brood Mother Visziaj rears back and inhales, preparing to unleash a cone of ice."</em></li>
+          <li><em>"Brood Mother Visziaj begins to lash her tail, preparing to attack the intruders behind her."</em></li>
+        </ul>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px; font-style:italic;">These three emotes do not appear to trigger any damage — informational only.</p>
+      </div>
+
+      <!-- STRATEGY -->
+      <div class="ornament-divider">Strategy</div>
+
+      <div class="strategy-box">
+        <h3>Raid Leader Strategy</h3>
+        <ol>
+          <li><strong>Levitate up.</strong> Enter through the Crystallos instance portal — this takes you to the basement.</li>
+          <li><strong>Kill Dar`Kelor</strong> in Room 1. Debuff immediately — he hits hard.</li>
+          <li><strong>Hug the left wall</strong> through the hatchery to reach Room 3. Kill <strong>Ki`Mrash</strong>. Debuff immediately. Do not aggro Brood Mother.</li>
+          <li><strong>Station tunnel groups:</strong> 2 DPS groups in the South hallway, 1 in the North, 1 backup on standby.</li>
+          <li>Tunnel groups intercept and kill egg-tender adds in the hallways <strong>before they enter the hatchery.</strong> All kills must be out of Brood Mother's line of sight.</li>
+          <li>Main raid kills low-HP hatchery drakes spawned by Brood Mother as she walks the room. Pull them out of LoS before finishing.</li>
+          <li>After 2–4 minutes Brood Mother returns to her platform and becomes active. <strong>Burn Brood Mother.</strong></li>
+          <li>Cure <strong>Corruption of the Brood Mother</strong> — 50 corruption counters. Watch for Visziaj's Presence aura (spell dmg heavily reduced) later in the fight.</li>
+          <li><strong>All adds despawn on Brood Mother's death.</strong></li>
+        </ol>
+      </div>
+
+    </div><!-- /raid-card-body -->
+  </article><!-- /broodmother -->
+
 </main>
 
 <footer class="site-footer">
-  Secrets of Faydwer Raid Strategy Vault &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek
+  Secrets of Faydwer Raid Strategy Vault — Teek Server — Updated April 2026
 </footer>
 
 <script>
   document.querySelectorAll('.raid-card').forEach(c => c.classList.add('collapsed'));
-
-  // Sync with site-wide kos-theme localStorage
-  if(document.documentElement.classList.contains('kos-light')){
-    document.documentElement.classList.remove('kos-light');
-    document.body.classList.add('light-mode');
-  }
 </script>
 </body>
 </html>

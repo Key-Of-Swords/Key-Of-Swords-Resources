@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="favicon.png">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secrets of Faydwer — Progression Checklist</title>
-<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 16px; font-size: 13px; }
@@ -52,7 +49,7 @@
   .col-header-row { display: flex; align-items: center; padding: 4px 14px; background: #0f1828; border-bottom: 1px solid #1a2535; position: sticky; top: 0; z-index: 5; }
   .col-header-spacer { flex: 1; }
   .col-headers { display: flex; gap: 10px; }
-  .col-hdr { min-width: 60px; text-align: center; font-size: 10px; color: #7ecfff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-hdr { min-width: 36px; text-align: center; font-size: 10px; color: #7ecfff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sub-header { background: #141e32; color: #88aacc; font-size: 11px; font-style: italic; padding: 5px 20px; border-bottom: 1px solid #1a2030; }
   .task-row { display: flex; align-items: flex-start; padding: 5px 14px; border-bottom: 1px solid #1a1f2e; gap: 6px; }
   .task-row:hover { background: #1a2035; }
@@ -64,7 +61,7 @@
   .task-text .note { color: #778; font-size: 11px; font-style: italic; }
   .task-text .note.key { color: #8a9a6a; }
   .checkboxes { display: flex; gap: 10px; align-items: center; padding-top: 1px; }
-  .chk-wrap { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 60px; }
+  .chk-wrap { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 36px; }
   .chk-wrap input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #4CAF50; }
   .chk-wrap.done { background: rgba(76,175,80,0.08); border-radius: 3px; padding: 1px 3px; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; }
@@ -82,64 +79,9 @@
   .btn-cancel { background: #2a2a4a; color: #aaa; }
   .io-hint { color: #888; font-size: 11px; margin-top: 6px; }
   #ioModal textarea { width: 100%; height: 110px; background: #0f1a38; border: 1px solid #3a5a8a; color: #e0e0e0; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 11px; resize: vertical; margin-top: 6px; }
-
-  /* ── LIGHT MODE ── */
-  body { transition: background 0.3s, color 0.3s; }
-  body.light { background: #f0ebe0 !important; color: #2a1f0e !important; }
-  body.light h1 { color: #7a4a08 !important; text-shadow: none !important; }
-  body.light .subtitle { color: #7a6040 !important; }
-  body.light .legend { background: #e8dcc8 !important; border-color: #c0a878 !important; }
-  body.light .legend-item { color: #5a4020 !important; }
-  body.light #saveBar #saveStatus { background: #d0f0d8 !important; color: #1a6030 !important; border-color: #60b878 !important; }
-  body.light #saveBar #saveStatus.warn { background: #f8ecc0 !important; color: #7a5000 !important; border-color: #c09020 !important; }
-  body.light .save-btn { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
-  body.light .save-btn:hover { background: #bcd4f0 !important; }
-  body.light .overall-section { background: #e8dcc8 !important; border-color: #c0a878 !important; }
-  body.light .overall-section h2 { color: #7a4a08 !important; }
-  body.light .controls button { background: #e0d4bc !important; border-color: #c0a878 !important; color: #3a2a10 !important; }
-  body.light .controls button:hover { background: #d0c4ac !important; color: #1a0a00 !important; }
-  body.light .controls button.danger { border-color: #c04040 !important; color: #a02020 !important; }
-  body.light .prog-card { background: #e0d4bc !important; border-color: #c0a878 !important; }
-  body.light .prog-card .char-name { color: #1a4a8a !important; }
-  body.light .prog-card .group-label { color: #7a6040 !important; }
-  body.light .prog-bar-bg { background: #c8b890 !important; }
-  body.light .prog-text { color: #5a4020 !important; }
-  body.light .sect-wrap { border-color: #c0a878 !important; }
-  body.light .sect-header { background: #e8dcc8 !important; border-bottom-color: #c0a878 !important; }
-  body.light .sect-header:hover { background: #f0e4d0 !important; }
-  body.light .sect-title { color: #7a4a08 !important; }
-  body.light .sect-zone { color: #7a6040 !important; }
-  body.light .sect-toggle { color: #8a5a10 !important; }
-  body.light .sect-prog-row { background: #ede0cc !important; border-bottom-color: #c8a870 !important; }
-  body.light .sect-prog-label { color: #7a6040 !important; }
-  body.light .spc-name { color: #1a4a8a !important; }
-  body.light .sect-body { background: #f4ece0 !important; }
-  body.light .col-header-row { background: #e0d4bc !important; border-bottom-color: #c0a878 !important; }
-  body.light .col-hdr { color: #1a4a8a !important; }
-  body.light .sub-header { background: #ede0cc !important; color: #5a4a30 !important; border-bottom-color: #c8a870 !important; }
-  body.light .task-row { border-bottom-color: #d8cbb0 !important; }
-  body.light .task-row:hover { background: #f4e8d0 !important; }
-  body.light .task-text { color: #2a1f0e !important; }
-  body.light .task-text a { color: #1a4a8a !important; border-bottom-color: #6090c8 !important; }
-  body.light .task-text a:hover { color: #8a5a10 !important; }
-  body.light .task-row.all-done .task-text { color: #b0a090 !important; }
-
-  /* ── THEME TOGGLE ── */
-  .theme-toggle { position: fixed; top: 12px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
-  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
-  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
-  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
-  body.light .toggle-thumb { transform: translateX(18px); }
 </style>
 </head>
 <body>
-
-<!-- Theme toggle -->
-<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
-  <div class="toggle-track"><div class="toggle-thumb"></div></div>
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
-</div>
 <h1>⚙️ Secrets of Faydwer — Progression Checklist</h1>
 <p class="subtitle">Click character names to edit · All progress auto-saves to your browser</p>
 <div class="legend">
@@ -211,17 +153,21 @@ const SECTIONS = [
 
 const ITEMS = [
   // S0 MMM Key Chain
-  {s:0,sub:'',icon:'🧝',text:'The Search for the Ultimate Story',note:'Gimblefixx — keyword: "It\'s a deal"',link:4344},
+  {s:0,sub:'',icon:'🧝',text:'The Search for the Ultimate Story',note:'Gimblefixx — keyword: "It\'s a deal" — loc: 0, 0, 60',link:4344},
   {s:0,sub:'',icon:'🔐',text:'Loot 3 minotaur drops: Crank Handle, Silverthread Sack, Silver Clockwork Device → give to Gimblefixx → receive Clockwork Key',isKey:true},
-  {s:0,sub:'',icon:'🔐',text:'Give Clockwork Key to King Ak\'Anon → receive Clockwork Seal of Ak\'Anon → say "leave"',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Hail King Ak\'Anon and go through text',note:'King Ak\'Anon — loc: 2640, -2553',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Give Clockwork Key to King Ak\'Anon → receive Clockwork Seal of Ak\'Anon → say "leave"',note:'King Ak\'Anon — loc: 2640, -2553',isKey:true},
   {s:0,sub:'',icon:'🔐',text:'Return to Gimblefixx → Hail Clockwork Warmarshal',note:'Fortress Mechanotus',isKey:true},
-  {s:0,sub:'',icon:'🔐',text:'Hail Gurtrude the Spymaster → say "Warmarshal sent me"',note:'Fortress Mechanotus',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Hail Clockwork Warmarshal',note:'Fortress Mechanotus — loc: 161, -1403, 398',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Hail Gurtrude the Spymaster → say "Warmarshal sent me"',note:'Fortress Mechanotus — loc: 208, 1565, 401',isKey:true},
   {s:0,sub:'',icon:'🧝',text:'Disrupt the Workshop',note:'Gurtrude the Spymaster — keyword: "Alone" — needed for spy disguise in S.H.I.P.',link:4446},
   {s:0,sub:'',icon:'🔐',text:'Get spy disguise from steamwork spy mk-I → locate injured spy in S.H.I.P. → receive Spy Report → return to Gurtrude',isKey:true},
   {s:0,sub:'',icon:'🔐',text:'Kill Technician Masterwork → loot Spy Report',note:'Gyrospire Zeka — near top of spire',isKey:true},
   {s:0,sub:'',icon:'🔐',text:'Kill Engineer Gyrzim → loot Spy Report',note:'Gyrospire Beza — one level up from external ramps',isKey:true},
   {s:0,sub:'',icon:'🔐',text:'Loot Piece of Scrap Metal',note:'Any clockwork in Fortress Mechanotus — ~1 in 10 drop rate',isKey:true},
-  {s:0,sub:'',icon:'🔐',text:'Give both Spy Reports + Scrap Metal + Clockwork Seal to Gurtrude → receive Clockwork Key',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Give both Spy Reports to Gurtrude',note:'Gurtrude the Spymaster — loc: 208, 1565, 401',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Give Scrap Metal + Clockwork Seal to Gurtrude → receive Clockwork Key',note:'Gurtrude the Spymaster — loc: 208, 1565, 401',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Speak with Clockwork Warmarshal',note:'Fortress Mechanotus — loc: 161, -1403, 398',isKey:true},
   {s:0,sub:'',icon:'🔐',text:'Configure Clockwork Key (8-tooth puzzle at MMM door) → Zone into Meldrath\'s Majestic Mansion',note:'Static access permanently granted — key goes to keyring',isKey:true},
 
   // S1 MMM Raid Flagging
@@ -264,7 +210,7 @@ const ITEMS = [
   {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Decay + Essence of Life in Clear Crystal Base → Clear Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
   {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Water + Essence of Thunder + Essence of Arcana in Cloudy Crystal Base → Cloudy Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
   {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Fire + Essence of Icicles in Glowing Crystal Base → Glowing Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
-  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Rage + Essence of Sadness + Essence of Mana in Light Blue Crystal Base → Light Blue Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
+  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Rage + Essence of Light + Essence of Mana in Light Blue Crystal Base → Light Blue Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
   {s:4,sub:'Crystal Combines',icon:'🔐',text:'Obtain Master Crystal Base from Laiyken → combine all 4 crystals → Prismatic Crystal Charm',note:'Crystallos group access granted — you must have all 4 crystals on your person',isKey:true},
 
   // S5 Crystallos Raid Access
@@ -358,7 +304,7 @@ function buildSections(){
     progRow.innerHTML=buildSectProgHTML(si,sectItems); wrap.appendChild(progRow);
     const body=document.createElement('div'); body.className='sect-body'; body.id='sect-body-'+si; body.style.display=sectOpen[si]?'':'none';
     const colHdr=document.createElement('div'); colHdr.className='col-header-row';
-    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,16))}</div>`).join('')}</div>`;
+    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,8))}</div>`).join('')}</div>`;
     body.appendChild(colHdr);
     let lastSub=null;
     sectItems.forEach(item=>{
@@ -388,7 +334,7 @@ function buildSectProgHTML(si,sectItems){
   for(let ci=0;ci<NUM_CHARS;ci++){
     let done=0; sectItems.forEach(it=>{ if(checks[`${it.idx}-${ci}`]) done++; });
     const total=sectItems.length,pct=total?Math.round(done/total*100):0;
-    html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci])}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
+    html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci].substring(0,10))}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
   }
   return html+'</div>';
 }
@@ -423,21 +369,6 @@ document.getElementById('ioModal').addEventListener('click',e=>{ if(e.target===d
 
 loadFromStorage();
 build();
-</script>
-<style>
-.kos-footer { text-align:center; padding:18px; font-size:11px; color:#444; border-top:1px solid #1e1e38; margin-top:20px; letter-spacing:1px; transition: color 0.3s, border-color 0.3s; }
-body.light .kos-footer { color:#9a7a50; border-top-color:#c8a870; }
-</style>
-<div class="kos-footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
-<script>
-  if(document.documentElement.classList.contains('light')){
-    document.documentElement.classList.remove('light');
-    document.body.classList.add('light');
-  }
-  function toggleTheme(){
-    const isLight = document.body.classList.toggle('light');
-    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
-  }
 </script>
 </body>
 </html>

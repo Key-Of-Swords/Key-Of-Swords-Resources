@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secrets of Faydwer — Progression Checklist</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 16px; font-size: 13px; }
+  h1 { text-align: center; color: #f0c060; font-size: 20px; margin-bottom: 4px; letter-spacing: 1px; text-shadow: 0 0 10px rgba(240,192,96,0.3); }
+  .subtitle { text-align: center; color: #888; font-size: 11px; margin-bottom: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 14px; background: #16213e; border: 1px solid #2a2a4a; border-radius: 6px; padding: 8px 16px; }
+  .legend-item { font-size: 12px; color: #aaa; }
+  #saveBar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  #saveStatus { font-size: 11px; padding: 3px 10px; border-radius: 4px; background: #1e3a1e; color: #6fcf6f; border: 1px solid #2e6a2e; min-width: 180px; text-align: center; }
+  #saveStatus.warn { background: #3a2a00; color: #f0c060; border-color: #806020; }
+  .save-btn { background: #0f3460; border: 1px solid #1a5aaa; color: #7ecfff; padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .save-btn:hover { background: #1a4a80; }
+  .overall-section { background: #16213e; border: 1px solid #2a3a5a; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: center; }
+  .overall-section h2 { color: #f0c060; font-size: 13px; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .controls button { background: #2a2a4a; border: 1px solid #444; color: #ccc; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .controls button:hover { background: #3a3a6a; color: #fff; }
+  .controls button.danger { border-color: #7a2020; color: #f08080; }
+  .controls button.danger:hover { background: #4a1010; color: #ffaaaa; }
+  .progress-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .prog-card { background: #0f1a38; border: 1px solid #2a2a4a; border-radius: 6px; padding: 7px 12px; min-width: 125px; text-align: center; cursor: pointer; }
+  .prog-card:hover { border-color: #7ecfff; }
+  .prog-card .char-name { color: #7ecfff; font-size: 12px; font-weight: 600; margin-bottom: 1px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .prog-card .group-label { color: #6090b0; font-size: 10px; font-style: italic; margin-bottom: 4px; min-height: 13px; }
+  .prog-bar-bg { background: #2a2a4a; border-radius: 4px; height: 7px; overflow: hidden; margin-bottom: 3px; }
+  .prog-bar-fill { height: 100%; border-radius: 4px; background: #4CAF50; transition: width 0.3s; }
+  .prog-text { color: #aaa; font-size: 10px; }
+  .sect-wrap { margin-bottom: 14px; border: 1px solid #2a3a5a; border-radius: 8px; overflow: hidden; }
+  .sect-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #16213e; cursor: pointer; user-select: none; border-bottom: 1px solid #2a3a5a; }
+  .sect-header:hover { background: #1c2a4a; }
+  .sect-title { color: #f0c060; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+  .sect-zone { color: #6090b0; font-size: 10px; font-style: italic; margin-top: 2px; }
+  .sect-toggle { color: #f0c060; font-size: 16px; transition: transform 0.2s; }
+  .sect-toggle.collapsed { transform: rotate(-90deg); }
+  .sect-prog-row { background: #12192e; padding: 8px 14px; border-bottom: 1px solid #1a2a3a; text-align: center; }
+  .sect-prog-label { color: #888; font-size: 10px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sect-prog-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .sect-prog-card { min-width: 110px; text-align: center; }
+  .sect-prog-card .spc-name { color: #7ecfff; font-size: 10px; margin-bottom: 2px; }
+  .sect-prog-card .prog-bar-bg { height: 5px; margin-bottom: 2px; }
+  .sect-prog-card .prog-text { font-size: 9px; }
+  .sect-body { background: #131928; }
+  .col-header-row { display: flex; align-items: center; padding: 4px 14px; background: #0f1828; border-bottom: 1px solid #1a2535; position: sticky; top: 0; z-index: 5; }
+  .col-header-spacer { flex: 1; }
+  .col-headers { display: flex; gap: 10px; }
+  .col-hdr { min-width: 36px; text-align: center; font-size: 10px; color: #7ecfff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sub-header { background: #141e32; color: #88aacc; font-size: 11px; font-style: italic; padding: 5px 20px; border-bottom: 1px solid #1a2030; }
+  .task-row { display: flex; align-items: flex-start; padding: 5px 14px; border-bottom: 1px solid #1a1f2e; gap: 6px; }
+  .task-row:hover { background: #1a2035; }
+  .task-row.all-done .task-text { color: #556; text-decoration: line-through; }
+  .task-icon { min-width: 22px; font-size: 13px; padding-top: 1px; }
+  .task-text { flex: 1; color: #ccc; line-height: 1.4; font-size: 12px; }
+  .task-text a { color: #7ecfff; text-decoration: none; border-bottom: 1px dotted #3a6a9a; }
+  .task-text a:hover { color: #f0c060; border-color: #f0c060; }
+  .task-text .note { color: #778; font-size: 11px; font-style: italic; }
+  .task-text .note.key { color: #8a9a6a; }
+  .checkboxes { display: flex; gap: 10px; align-items: center; padding-top: 1px; }
+  .chk-wrap { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 36px; }
+  .chk-wrap input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #4CAF50; }
+  .chk-wrap.done { background: rgba(76,175,80,0.08); border-radius: 3px; padding: 1px 3px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: #1e2a50; border: 1px solid #3a5a9a; border-radius: 10px; padding: 24px 28px; min-width: 300px; max-width: 420px; width: 90%; }
+  .modal-box h2 { color: #f0c060; font-size: 15px; margin-bottom: 16px; }
+  .modal-field { margin-bottom: 14px; }
+  .modal-field label { display: block; color: #aaa; font-size: 11px; margin-bottom: 4px; }
+  .modal-field input { width: 100%; background: #0f1a38; border: 1px solid #3a5a8a; color: #e0e0e0; padding: 6px 10px; border-radius: 4px; font-size: 13px; }
+  .modal-field input:focus { outline: none; border-color: #f0c060; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal-actions button { padding: 6px 18px; border-radius: 4px; cursor: pointer; font-size: 12px; border: 1px solid #3a5a8a; }
+  .btn-save { background: #2a4060; color: #f0c060; }
+  .btn-save:hover { background: #3a5070; }
+  .btn-cancel { background: #2a2a4a; color: #aaa; }
+  .io-hint { color: #888; font-size: 11px; margin-top: 6px; }
+  #ioModal textarea { width: 100%; height: 110px; background: #0f1a38; border: 1px solid #3a5a8a; color: #e0e0e0; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 11px; resize: vertical; margin-top: 6px; }
+</style>
+</head>
+<body>
+<h1>⚙️ Secrets of Faydwer — Progression Checklist</h1>
+<p class="subtitle">Click character names to edit · All progress auto-saves to your browser</p>
+<div class="legend">
+  <span class="legend-item">⚔️ Raid Event</span>
+  <span class="legend-item">👥 Group Mission</span>
+  <span class="legend-item">🧝 Solo/Group Task</span>
+  <span class="legend-item">🔐 Key/Access Step</span>
+</div>
+<div id="saveBar">
+  <span id="saveStatus">✓ Auto-save active</span>
+  <button class="save-btn" onclick="exportSave()">Export Save</button>
+  <button class="save-btn" onclick="openImport()">Import Save</button>
+</div>
+<div class="overall-section">
+  <h2>⚗️ Overall Progression</h2>
+  <div class="progress-grid" id="overallProgress"></div>
+</div>
+<div class="controls">
+  <button onclick="expandAll()">Expand All</button>
+  <button onclick="collapseAll()">Collapse All</button>
+  <button onclick="filterDone()">Hide Completed</button>
+  <button onclick="showAll()">Show All</button>
+  <button onclick="openResetConfirm()" class="danger">Reset All</button>
+</div>
+<div id="sectContainer"></div>
+
+<div id="editModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2>✏️ Edit Character Info</h2>
+    <div class="modal-field"><label>Character Name</label><input id="editCharName" type="text" maxlength="24"></div>
+    <div class="modal-field"><label>Group / Class Label</label><input id="editGroupName" type="text" maxlength="32"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-save" onclick="saveEditModal()">Save</button>
+    </div>
+  </div>
+</div>
+<div id="ioModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2 id="ioTitle">Export Save</h2>
+    <p class="io-hint" id="ioHint"></p>
+    <textarea id="ioTextarea"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeIOModal()">Close</button>
+      <button class="btn-save" id="ioCopyBtn" onclick="copyIO()">Copy to Clipboard</button>
+      <button class="btn-save" id="ioImportBtn" style="display:none" onclick="doImport()">Import</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DEFAULT_CHARS = ['Player 1','Player 2','Player 3','Player 4','Player 5','Player 6'];
+const NUM_CHARS = 6;
+const SAVE_KEY = 'sof_prog_v7';
+const ALLA = 'https://everquest.allakhazam.com/db/quest.html?quest=';
+
+const SECTIONS = [
+  { id:'s0', icon:'🗝️',  label:'MMM Key Chain',             zone:'Dragonscale Hills · Fortress Mechanotus · Gyrospires · S.H.I.P.' },
+  { id:'s1', icon:'🔑',  label:'MMM Raid Flagging',          zone:"MMM · Deepscar's Den · Dragonscale Hills · Fortress Mechanotus" },
+  { id:'s2', icon:'⚙️',  label:'Steam Factory Raids',        zone:'Steam Factory' },
+  { id:'s3', icon:'🏰',  label:'MMM Raids',                  zone:"Meldrath's Majestic Mansion" },
+  { id:'s4', icon:'💎',  label:'Crystallos Key Chain',       zone:'Dragonscale Hills · Loping Plains · Hills of Shade · MMM' },
+  { id:'s5', icon:'🔮',  label:'Crystallos Raid Access',     zone:'Crystallos, Lair of the Awakened' },
+  { id:'s6', icon:'🐉',  label:'Crystallos Raids',           zone:'Crystallos, Lair of the Awakened' },
+  { id:'s7', icon:'👥',  label:'Fangbreaker Group Missions', zone:'Loping Plains · Bloodmoon Keep' },
+  { id:'s8', icon:'⚔️',  label:'Bloodmoon Raids',            zone:'Loping Plains · Bloodmoon Keep' },
+  { id:'s9', icon:'🧟',  label:'Crypt of Shade',             zone:'Hills of Shade · Crypt of Shade' },
+];
+
+const ITEMS = [
+  // S0 MMM Key Chain
+  {s:0,sub:'',icon:'🧝',text:'The Search for the Ultimate Story',note:'Gimblefixx — keyword: "It\'s a deal" — loc: 0, 0, 60',link:4344},
+  {s:0,sub:'',icon:'🔐',text:'Loot 3 minotaur drops: Crank Handle, Silverthread Sack, Silver Clockwork Device → give to Gimblefixx → receive Clockwork Key',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Hail King Ak\'Anon and go through text',note:'King Ak\'Anon — loc: 2640, -2553',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Give Clockwork Key to King Ak\'Anon → receive Clockwork Seal of Ak\'Anon → say "leave"',note:'King Ak\'Anon — loc: 2640, -2553',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Return to Gimblefixx → Hail Clockwork Warmarshal',note:'Fortress Mechanotus',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Hail Clockwork Warmarshal',note:'Fortress Mechanotus — loc: 161, -1403, 398',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Hail Gurtrude the Spymaster → say "Warmarshal sent me"',note:'Fortress Mechanotus — loc: 208, 1565, 401',isKey:true},
+  {s:0,sub:'',icon:'🧝',text:'Disrupt the Workshop',note:'Gurtrude the Spymaster — keyword: "Alone" — needed for spy disguise in S.H.I.P.',link:4446},
+  {s:0,sub:'',icon:'🔐',text:'Get spy disguise from steamwork spy mk-I → locate injured spy in S.H.I.P. → receive Spy Report → return to Gurtrude',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Kill Technician Masterwork → loot Spy Report',note:'Gyrospire Zeka — near top of spire',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Kill Engineer Gyrzim → loot Spy Report',note:'Gyrospire Beza — one level up from external ramps',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Loot Piece of Scrap Metal',note:'Any clockwork in Fortress Mechanotus — ~1 in 10 drop rate',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Give both Spy Reports + Scrap Metal + Clockwork Seal to Gurtrude → receive Clockwork Key',isKey:true},
+  {s:0,sub:'',icon:'🔐',text:'Configure Clockwork Key (8-tooth puzzle at MMM door) → Zone into Meldrath\'s Majestic Mansion',note:'Static access permanently granted — key goes to keyring',isKey:true},
+
+  // S1 MMM Raid Flagging
+  {s:1,sub:'',icon:'🧝',text:'Exploring the Mansion',note:'Clockwork Warmarshal — 5 location updates inside MMM',link:4465},
+  {s:1,sub:'',icon:'🔐',text:'Oil Fountain location update',note:'Straight in from zone in',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Glass Wall location update',note:'North through Oil Fountain room',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Steam Stage location update',note:'East ramp → 2nd floor → elevator up → SE room',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Compression Room location update',note:'Zone in from Steam Factory → head west then south',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Steamwork Graveyard location update',note:'Continue west from Compression Room',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Return to Clockwork Warmarshal after all 5 updates',isKey:true},
+  {s:1,sub:'',icon:'⚔️',text:"Deepscar's Den Raid",note:'Loot Cryptic Timetable — 24 per kill, prelootable',link:4386},
+  {s:1,sub:'',icon:'⚔️',text:'Big Bynn I Raid',note:'Dragonscale Hills — loot Coded Log Sheet — 24 per kill, prelootable',link:4381},
+  {s:1,sub:'',icon:'🔐',text:'Kill Oxidilus the Junk Collector (group named, Fortress Mechanotus loc 2355, 922) OR Octa the Collector (Fortress Mechanotus raid) → loot Prototype Decoder',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Combine Cryptic Timetable + Coded Log Sheet inside Prototype Decoder → Codified Prototype Decoder',isKey:true},
+  {s:1,sub:'',icon:'🔐',text:'Return to Clockwork Warmarshal',isKey:true},
+
+  // S2 Steam Factory Raids
+  {s:2,sub:'',icon:'⚔️',text:'Spindlecrank',note:'Loot Notebook Page — 24 per kill',link:4413},
+  {s:2,sub:'',icon:'⚔️',text:'Mining Behemoth',note:'Loot Notebook Page — 24 per kill',link:4412},
+  {s:2,sub:'',icon:'⚔️',text:'Chief Mechanic Clankwrench',note:'Power Station event — loot Notebook Page — 24 per kill',link:4411},
+  {s:2,sub:'',icon:'🔐',text:'Combine one of each Notebook Page inside Codified Prototype Decoder',isKey:true},
+  {s:2,sub:'',icon:'🔐',text:'Hail Clockwork Warmarshal → MMM Raid access granted',isKey:true},
+
+  // S3 MMM Raids
+  {s:3,sub:'',icon:'⚔️',text:'Breakneck, Master at Arms',link:4468},
+  {s:3,sub:'',icon:'⚔️',text:'Krond the Longhorn',link:4467},
+  {s:3,sub:'',icon:'⚔️',text:'Battle Room',link:4469},
+  {s:3,sub:'',icon:'⚔️',text:'Doctor Brinda Sprockets',link:4484},
+  {s:3,sub:'',icon:'⚔️',text:'Seneschal Bargangle Tinkerson',link:4470},
+  {s:3,sub:'',icon:'⚔️',text:'Meldrath the Malignant',note:'Loot Oil Stained Crystal — 24-36 per kill — required for Crystallos Raid Access',link:4485},
+
+  // S4 Crystallos Key Chain
+  {s:4,sub:'',icon:'🧝',text:'Beyond the Barrier',note:'Aring / Jashy / Tonas / Vesiss — pick up all 4 Our Lost Brother tasks simultaneously',link:4364},
+  {s:4,sub:'',icon:'🧝',text:'Our Lost Brother — Find the Container I',note:'Tonas — ground spawn NW Dragonscale Hills at 3900, 2050',link:4365},
+  {s:4,sub:'',icon:'🧝',text:'Our Lost Brother — Find the Container II',note:'Jashy — minotaur cave, Loping Plains at -100, -2700',link:4366},
+  {s:4,sub:'',icon:'🧝',text:'Our Lost Brother — Find the Container III',note:'Aring — deep in crypts, Hills of Shade at -320, 490',link:4367},
+  {s:4,sub:'',icon:'🧝',text:'Our Lost Brother — Find the Container IV',note:'Vesiss — graveyard in MMM at 700, 55 — requires MMM access',link:4368},
+  {s:4,sub:'',icon:'🔐',text:'Hail all 4 brothers after collecting containers → receive 4 new combine tasks',isKey:true},
+  {s:4,sub:'',icon:'🔐',text:'Kill all 10 Pool Golems on path to Crystallos',note:'Dragonscale Hills — Thistlethought · Furyfire · Wheel of Fists · Leaudevie · Thundarrak · Prancer of Pain · Pussule · Searzar · Glacian · Pedurrutharenafarokidon',isKey:true},
+  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Decay + Essence of Life in Clear Crystal Base → Clear Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
+  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Water + Essence of Thunder + Essence of Arcana in Cloudy Crystal Base → Cloudy Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
+  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Fire + Essence of Icicles in Glowing Crystal Base → Glowing Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
+  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Combine Essence of Rage + Essence of Light + Essence of Mana in Light Blue Crystal Base → Light Blue Crystal',note:'Essences cannot be prelooted (confirm)',isKey:true},
+  {s:4,sub:'Crystal Combines',icon:'🔐',text:'Obtain Master Crystal Base from Laiyken → combine all 4 crystals → Prismatic Crystal Charm',note:'Crystallos group access granted — you must have all 4 crystals on your person',isKey:true},
+
+  // S5 Crystallos Raid Access
+  {s:5,sub:'',icon:'🧝',text:'Exploring Crystallos',note:'Visit all 4 elemental wings, return to Laiyken — granted after Crystallos group access',link:4385},
+  {s:5,sub:'',icon:'🔐',text:'Give Oil Stained Crystal to Laiyken → Crystallos Raid access granted',isKey:true},
+
+  // S6 Crystallos Raids
+  {s:6,sub:'',icon:'⚔️',text:'Halls of Fire',link:4529},
+  {s:6,sub:'',icon:'⚔️',text:'Keepers of Stone',link:4530},
+  {s:6,sub:'',icon:'⚔️',text:'Ice Constructs',link:4531},
+  {s:6,sub:'',icon:'⚔️',text:'Aerius Windfury',link:4532},
+  {s:6,sub:'',icon:'⚔️',text:'Tjudawos',link:4533},
+  {s:6,sub:'',icon:'⚔️',text:'Kildrukaun',link:4534},
+  {s:6,sub:'',icon:'⚔️',text:'Zeixshi\`Kar',link:4535},
+  {s:6,sub:'',icon:'⚔️',text:'Vyskudra',link:4549},
+  {s:6,sub:'',icon:'⚔️',text:'Brood Mother Visziaj',link:4550},
+  {s:6,sub:'',icon:'⚔️',text:'Kerafyrm the Awakened',note:'Final Boss',link:4551},
+
+  // S7 Fangbreaker Group Missions
+  {s:7,sub:'',icon:'👥',text:'Mission 1: The Bloodmoon',note:'Larquin Fangbreaker — keyword: "Something"',link:4354},
+  {s:7,sub:'',icon:'👥',text:'Mission 2: Walking Into Spider Webs',note:'Larquin Fangbreaker — keyword: "Else" — requires Mission 1',link:4359},
+  {s:7,sub:'',icon:'⚔️',text:'The Broodmother',note:'Kadara Fangbreaker — 12-man mini-raid — requires Mission 2 — not required to request Bloodmoon Raids',link:4358},
+  {s:7,sub:'',icon:'👥',text:"Mission 3: Bronzebeard's Fate",note:'Larquin Fangbreaker — keyword: "Favor" — requires Mission 2',link:4360},
+  {s:7,sub:'',icon:'👥',text:'Mission 4: The Departed',note:'Maria Starforge — requires Mission 3',link:4361},
+  {s:7,sub:'',icon:'👥',text:'Mission 5: The Dark Crystals',note:'Maria Starforge — requires Mission 4',link:4376},
+
+  // S8 Bloodmoon Raids
+  {s:8,sub:'',icon:'⚔️',text:'Bloodmoon Raid #1: The Fanged Moon',note:'Larquin Fangbreaker — requires all 5 group missions',link:4370},
+  {s:8,sub:'',icon:'⚔️',text:'Bloodmoon Raid #2: Crazok Moonfang',note:'Larquin Fangbreaker — requires Raid #1',link:4369},
+  {s:8,sub:'',icon:'⚔️',text:"Bloodmoon Raid #3: Ralkor's Crystals",note:'Maria Starforge — requires Raid #2',link:4371},
+
+  // S9 Crypt of Shade
+  {s:9,sub:'',icon:'🔐',text:"Achieve Ally faction with Bertoxxulous' Chosen",note:'Required to REQUEST The Soulbleeder Must Bleed only — not required to join',isKey:true},
+  {s:9,sub:'Cursed Obsidian Shard Task Line',icon:'🧝',text:'The Power of Decay',note:"Nastel Greygore — Bertoxxulous' Chosen camp, Hills of Shade",link:4379},
+  {s:9,sub:'Cursed Obsidian Shard Task Line',icon:'🧝',text:'Bigger, Faster, Stronger, Dumber',note:"Arreles Bonescrounger — Bertoxxulous' Chosen camp, Hills of Shade",link:4392},
+  {s:9,sub:'Cursed Obsidian Shard Task Line',icon:'🧝',text:'I Would Exhume So',note:"Arreles Bonescrounger — Bertoxxulous' Chosen camp, Hills of Shade",link:4431},
+  {s:9,sub:'Cursed Obsidian Shard Task Line',icon:'🧝',text:'Making Up for Lost Time',note:"Reaver Lebanezer — Bertoxxulous' Chosen camp, Hills of Shade",link:4407},
+  {s:9,sub:'',icon:'🧝',text:'One of Our Own',note:"Reaver Lebanezer — requires Amiable faction + Power of Decay, Bigger/Faster/Stronger/Dumber, I Would Exhume So, Making Up for Lost Time",link:4520},
+  {s:9,sub:'',icon:'⚔️',text:'The Soulbleeder Must Bleed',note:"Reaver Lebanezer — requires One of Our Own + Ally faction to REQUEST — no flag needed to join",link:4503},
+];
+
+ITEMS.forEach((it,i)=>{ it.idx=i; });
+const TOTAL = ITEMS.length;
+
+let charNames  = [...DEFAULT_CHARS];
+let groupNames = ['','','','','',''];
+let checks     = {};
+let sectOpen   = SECTIONS.map(()=>true);
+let hideDone   = false;
+let editingCI  = -1;
+
+function saveToStorage() {
+  try { localStorage.setItem(SAVE_KEY,JSON.stringify({checks,charNames,groupNames,sectOpen})); setStatus('✓ Saved — '+new Date().toLocaleTimeString(),false); }
+  catch(e) { setStatus('⚠ localStorage unavailable — use Export to save',true); }
+}
+function loadFromStorage() {
+  try {
+    const s=localStorage.getItem(SAVE_KEY);
+    if(s){ const o=JSON.parse(s); if(o.checks) checks=o.checks; if(o.charNames) charNames=o.charNames; if(o.groupNames) groupNames=o.groupNames; if(o.sectOpen) sectOpen=o.sectOpen; setStatus('✓ Loaded from browser storage',false); }
+    else { setStatus('✓ Auto-save active',false); }
+  } catch(e){ setStatus('⚠ localStorage unavailable',true); }
+}
+function setStatus(msg,warn){ const el=document.getElementById('saveStatus'); el.textContent=msg; el.className=warn?'warn':''; }
+function serialize(){ return JSON.stringify({checks,charNames,groupNames,sectOpen}); }
+function deserialize(s){ try{ const o=JSON.parse(s); if(o.checks) checks=o.checks; if(o.charNames) charNames=o.charNames; if(o.groupNames) groupNames=o.groupNames; if(o.sectOpen) sectOpen=o.sectOpen; return true; }catch(e){ return false; } }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function lnk(id,text){ return id?`<a href="${ALLA}${id}" target="_blank" rel="noopener">${esc(text)}</a>`:esc(text); }
+
+function build(){ buildOverall(); buildSections(); }
+
+function buildOverall(){
+  const c=document.getElementById('overallProgress'); c.innerHTML='';
+  for(let ci=0;ci<NUM_CHARS;ci++){
+    let done=0; for(let i=0;i<TOTAL;i++) if(checks[`${i}-${ci}`]) done++;
+    const pct=Math.round(done/TOTAL*100);
+    const card=document.createElement('div'); card.className='prog-card'; card.title='Click to edit'; card.onclick=()=>openEditModal(ci);
+    card.innerHTML=`<div class="char-name">${esc(charNames[ci])} <span style="font-size:10px;opacity:.5">✎</span></div><div class="group-label">${esc(groupNames[ci])||'&nbsp;'}</div><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div><div class="prog-text">${done} / ${TOTAL} (${pct}%)</div>`;
+    c.appendChild(card);
+  }
+}
+
+function buildSections(){
+  const container=document.getElementById('sectContainer'); container.innerHTML='';
+  SECTIONS.forEach((sect,si)=>{
+    const sectItems=ITEMS.filter(it=>it.s===si);
+    const wrap=document.createElement('div'); wrap.className='sect-wrap'; wrap.id='sect-'+si;
+    const hdr=document.createElement('div'); hdr.className='sect-header'; hdr.onclick=()=>toggleSect(si);
+    hdr.innerHTML=`<div><div class="sect-title">${sect.icon} ${esc(sect.label)}</div><div class="sect-zone">${esc(sect.zone)}</div></div><span class="sect-toggle${sectOpen[si]?'':' collapsed'}">▼</span>`;
+    wrap.appendChild(hdr);
+    const progRow=document.createElement('div'); progRow.className='sect-prog-row'; progRow.id='sect-prog-'+si; progRow.style.display=sectOpen[si]?'':'none';
+    progRow.innerHTML=buildSectProgHTML(si,sectItems); wrap.appendChild(progRow);
+    const body=document.createElement('div'); body.className='sect-body'; body.id='sect-body-'+si; body.style.display=sectOpen[si]?'':'none';
+    const colHdr=document.createElement('div'); colHdr.className='col-header-row';
+    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,8))}</div>`).join('')}</div>`;
+    body.appendChild(colHdr);
+    let lastSub=null;
+    sectItems.forEach(item=>{
+      if(item.sub!==lastSub){
+        if(item.sub){ const sh=document.createElement('div'); sh.className='sub-header'; sh.textContent=item.sub; body.appendChild(sh); }
+        lastSub=item.sub;
+      }
+      const row=document.createElement('div'); row.className='task-row'; row.id='row-'+item.idx;
+      if(charNames.every((_,ci)=>!!checks[`${item.idx}-${ci}`])) row.classList.add('all-done');
+      const nc=item.isKey?'note key':'note';
+      row.innerHTML=`<div class="task-icon">${item.icon}</div><div class="task-text">${item.link?lnk(item.link,item.text):esc(item.text)}${item.note?`<br><span class="${nc}">${esc(item.note)}</span>`:''}</div><div class="checkboxes" id="chk-${item.idx}"></div>`;
+      body.appendChild(row);
+      const chkC=row.querySelector(`#chk-${item.idx}`);
+      charNames.forEach((_,ci)=>{
+        const w=document.createElement('div'); w.className='chk-wrap'; if(checks[`${item.idx}-${ci}`]) w.classList.add('done');
+        const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=!!checks[`${item.idx}-${ci}`];
+        cb.addEventListener('change',function(){ checks[`${item.idx}-${ci}`]=this.checked; w.classList.toggle('done',this.checked); updateRowStyle(item.idx); buildOverall(); updateSectProgress(si,sectItems); saveToStorage(); if(hideDone) applyHideDone(); });
+        w.appendChild(cb); chkC.appendChild(w);
+      });
+    });
+    wrap.appendChild(body); container.appendChild(wrap);
+  });
+}
+
+function buildSectProgHTML(si,sectItems){
+  let html=`<div class="sect-prog-label">Section Progress</div><div class="sect-prog-grid" id="spg-${si}">`;
+  for(let ci=0;ci<NUM_CHARS;ci++){
+    let done=0; sectItems.forEach(it=>{ if(checks[`${it.idx}-${ci}`]) done++; });
+    const total=sectItems.length,pct=total?Math.round(done/total*100):0;
+    html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci].substring(0,10))}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
+  }
+  return html+'</div>';
+}
+function updateSectProgress(si,sectItems){
+  for(let ci=0;ci<NUM_CHARS;ci++){
+    let done=0; sectItems.forEach(it=>{ if(checks[`${it.idx}-${ci}`]) done++; });
+    const total=sectItems.length,pct=total?Math.round(done/total*100):0;
+    const f=document.getElementById(`spf-${si}-${ci}`),t=document.getElementById(`spt-${si}-${ci}`);
+    if(f) f.style.width=pct+'%'; if(t) t.textContent=`${done}/${total} (${pct}%)`;
+  }
+}
+function updateRowStyle(idx){ const row=document.getElementById('row-'+idx); if(!row) return; row.classList.toggle('all-done',charNames.every((_,ci)=>!!checks[`${idx}-${ci}`])); }
+function toggleSect(si){ sectOpen[si]=!sectOpen[si]; document.getElementById('sect-body-'+si).style.display=sectOpen[si]?'':'none'; document.getElementById('sect-prog-'+si).style.display=sectOpen[si]?'':'none'; document.querySelector(`#sect-${si} .sect-toggle`).classList.toggle('collapsed',!sectOpen[si]); saveToStorage(); }
+function expandAll(){ SECTIONS.forEach((_,si)=>{ if(!sectOpen[si]) toggleSect(si); }); }
+function collapseAll(){ SECTIONS.forEach((_,si)=>{ if(sectOpen[si]) toggleSect(si); }); }
+function filterDone(){ hideDone=true; applyHideDone(); }
+function applyHideDone(){ ITEMS.forEach(item=>{ const row=document.getElementById('row-'+item.idx); if(!row) return; row.style.display=(hideDone&&charNames.every((_,ci)=>!!checks[`${item.idx}-${ci}`]))?'none':''; }); }
+function showAll(){ hideDone=false; ITEMS.forEach(item=>{ const r=document.getElementById('row-'+item.idx); if(r) r.style.display=''; }); }
+function openResetConfirm(){ if(!confirm('Reset ALL checkboxes? Character names and group labels will be kept.\n\nThis cannot be undone.')) return; checks={}; saveToStorage(); build(); }
+function openEditModal(ci){ editingCI=ci; document.getElementById('editCharName').value=charNames[ci]; document.getElementById('editGroupName').value=groupNames[ci]; document.getElementById('editModal').classList.add('open'); document.getElementById('editCharName').focus(); }
+function closeEditModal(){ document.getElementById('editModal').classList.remove('open'); editingCI=-1; }
+function saveEditModal(){ if(editingCI<0) return; charNames[editingCI]=document.getElementById('editCharName').value.trim()||DEFAULT_CHARS[editingCI]; groupNames[editingCI]=document.getElementById('editGroupName').value.trim(); closeEditModal(); saveToStorage(); build(); }
+document.getElementById('editModal').addEventListener('click',e=>{ if(e.target===document.getElementById('editModal')) closeEditModal(); });
+document.getElementById('editCharName').addEventListener('keydown',e=>{ if(e.key==='Enter') saveEditModal(); if(e.key==='Escape') closeEditModal(); });
+document.getElementById('editGroupName').addEventListener('keydown',e=>{ if(e.key==='Enter') saveEditModal(); if(e.key==='Escape') closeEditModal(); });
+function exportSave(){ document.getElementById('ioTitle').textContent='Export Save'; document.getElementById('ioHint').textContent='Copy this text and keep it safe. Use Import Save to restore progress.'; document.getElementById('ioCopyBtn').style.display='inline-block'; document.getElementById('ioImportBtn').style.display='none'; document.getElementById('ioTextarea').value=serialize(); document.getElementById('ioModal').classList.add('open'); }
+function openImport(){ document.getElementById('ioTitle').textContent='Import Save'; document.getElementById('ioHint').textContent='Paste your previously exported save data below, then click Import.'; document.getElementById('ioCopyBtn').style.display='none'; document.getElementById('ioImportBtn').style.display='inline-block'; document.getElementById('ioTextarea').value=''; document.getElementById('ioModal').classList.add('open'); document.getElementById('ioTextarea').focus(); }
+function closeIOModal(){ document.getElementById('ioModal').classList.remove('open'); }
+function copyIO(){ const ta=document.getElementById('ioTextarea'); ta.select(); try{ navigator.clipboard.writeText(ta.value).catch(()=>document.execCommand('copy')); }catch(e){ document.execCommand('copy'); } document.getElementById('ioCopyBtn').textContent='Copied!'; setTimeout(()=>{ document.getElementById('ioCopyBtn').textContent='Copy to Clipboard'; },2000); }
+function doImport(){ const val=document.getElementById('ioTextarea').value.trim(); if(!val) return; if(deserialize(val)){ closeIOModal(); saveToStorage(); build(); setStatus('✓ Import successful — '+new Date().toLocaleTimeString(),false); } else { alert('Import failed — save data appears invalid or corrupted.'); } }
+document.getElementById('ioModal').addEventListener('click',e=>{ if(e.target===document.getElementById('ioModal')) closeIOModal(); });
+
+loadFromStorage();
+build();
+</script>
+</body>
+</html>

@@ -176,8 +176,9 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
       <option value="Raid T4">Raid T4</option>
     </select>
     <select class="filt" id="f-xtier" onchange="render()">
-      <option value="">All drops</option>
-      <option value="1">Cross-tier only</option>
+      <option value="">All items</option>
+      <option value="seen">Dropped items</option>
+      <option value="1">Cross-tier items</option>
     </select>
     <select class="filt" id="f-sort" onchange="sortDir='asc';render()">
       <option value="item">Sort: Item name</option>
@@ -1441,6 +1442,7 @@ function render(){
   let rows = DATA.filter(r => {
     if(fb && r.bucket !== fb) return false;
     if(fx === '1' && !r.xtier) return false;
+    if(fx === 'seen' && r.teek.length === 0) return false;
     if(term){
       let hay = '';
       if(scope === 'item')     hay = r.item;

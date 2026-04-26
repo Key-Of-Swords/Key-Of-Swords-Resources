@@ -108,7 +108,10 @@ select.filt:focus { border-color: var(--gold); }
 
 .tbl-wrap { overflow-x: auto; padding: 0 20px 40px; }
 table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-thead th { background: var(--bg-thead); color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--gold); white-space: nowrap; position: sticky; top: 0; z-index: 1; }
+thead th { background: var(--bg-thead); color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--gold); white-space: nowrap; position: sticky; top: 0; z-index: 1; cursor: pointer; user-select: none; }
+thead th:hover { color: #fff; }
+thead th.sort-asc::after  { content: ' ▲'; font-size: 9px; }
+thead th.sort-desc::after { content: ' ▼'; font-size: 9px; }
 tbody tr { border-bottom: 1px solid var(--border); }
 tbody tr:hover { background: var(--bg-row); }
 td { padding: 10px 12px; vertical-align: top; color: var(--text-mob); line-height: 1.5; }
@@ -176,10 +179,13 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
       <option value="">All drops</option>
       <option value="1">Cross-tier only</option>
     </select>
-    <select class="filt" id="f-sort" onchange="render()">
+    <select class="filt" id="f-sort" onchange="sortDir='asc';render()">
       <option value="item">Sort: Item name</option>
       <option value="bucket">Sort: Raid tier</option>
-      <option value="drops">Sort: Times dropped (most first)</option>
+      <option value="normal">Sort: Normal source</option>
+      <option value="teek">Sort: Dropped by on Teek</option>
+      <option value="drops">Sort: Times dropped</option>
+      <option value="same">Sort: Same bucket mobs</option>
     </select>
   </div>
 </div>
@@ -190,12 +196,12 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
   <table>
     <thead>
       <tr>
-        <th style="width:22%">Item name</th>
-        <th style="width:10%">Raid tier</th>
-        <th style="width:18%">Normal source</th>
-        <th style="width:22%">Dropped by on Teek</th>
-        <th style="width:6%">Drops</th>
-        <th style="width:22%">Same bucket mobs</th>
+        <th data-sort="item"   style="width:22%">Item name</th>
+        <th data-sort="bucket" style="width:10%">Raid tier</th>
+        <th data-sort="normal" style="width:18%">Normal source</th>
+        <th data-sort="teek"   style="width:22%">Dropped by on Teek</th>
+        <th data-sort="drops"  style="width:6%">Drops</th>
+        <th data-sort="same"   style="width:22%">Same bucket mobs</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -205,229 +211,146 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 <div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server</div>
 
 <script>
-const RAID_NIGHTS = ["4/23"];
+const RAID_NIGHTS = ["4/23","4/25"];
+
+// Source: SOF_Master_Loot (authoritative)
+// Tier rule: bucket = tier of the mob that NORMALLY drops the item
+// xtier = true when dropping mob's tier differs from item's normal source tier
+//
+// T1 bosses: Octa the Collector, Scorn, Wirlem, The Fanged Moon, Crazok Moonfang, Ralkor's Crystals
+// T2 bosses: Big Bynn's Return, Deepscar's Den, Mining Behemoth, Power Station, Spindlecrank, Soulbleeder
+// T3 bosses: Breakneck, Krond, Battle Room, Brinda Sprockets, Seneschal Bargangle Tinkerson, Meldrath
+// T4 bosses: Keepers of Stone, Halls of Fire, Ice Constructs, Aerius Windfury, Kildrukaun,
+//            Tjudawos, Zeixshi`Kar, Vyskudra, Brood Mother Visziaj, Kerafyrm the Awakened
+//
+// 4/23 events: Deepscar's Den, Big Bynn's Return, Mining Behemoth, Power Station, Spindlecrank
+// 4/25 events: The Fanged Moon (19:42), Crazok Moonfang (20:18),
+//              Ralkor's Crystals (21:15), Soulbleeder (22:18), Octa the Collector (22:50)
 
 const DATA = [
 
-  // ── DEEPSCAR CHEST (19:40) ────────────────────────────────────────────────
-  {
-    item: "Ancient Hardened Gauntlets",
-    bucket: "Raid T2",
-    normal: "Overseer Gakkor Deepscar",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Ancient Scaled Coif",
-    bucket: "Raid T2",
-    normal: "Spindlecrank",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
-    xtier: false,
-    same: ["Overseer Gakkor Deepscar"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Bloodseeker's Veil",
-    bucket: "Raid T2",
-    normal: "Overseer Gakkor Deepscar",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Claw-Blessed Cloak",
-    bucket: "Raid T2",
-    normal: "Overseer Gakkor Deepscar",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Filigreed Starburst Stud",
-    bucket: "Raid T2",
-    normal: "Spindlecrank",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Spindlecrank", count:1}],
-    xtier: false,
-    same: ["Overseer Gakkor Deepscar"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Moonblade of the Bloodcrazed",
-    bucket: "Raid T1",
-    normal: "Crazok Moonfang",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
-    xtier: true,
-    same: ["Overseer Gakkor Deepscar"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Shimmering Pearlescent Earstud",
-    bucket: "Raid T2",
-    normal: "Spindlecrank",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
-    xtier: false,
-    same: ["Overseer Gakkor Deepscar"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Steel-Threaded Satin Sleeves",
-    bucket: "Raid T1",
-    normal: "Crazok Moonfang",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
-    xtier: true,
-    same: ["Overseer Gakkor Deepscar"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Steel-Welded Plate Breastplate",
-    bucket: "Raid T1",
-    normal: "The Fanged Moon / Crazok Moonfang",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Mining Behemoth", count:1}],
-    xtier: true,
-    same: ["Overseer Gakkor Deepscar","Mining Behemoth"],
-    nights: ["4/23"]
-  },
+  // ══════════════════════════════════════════════════════════════════════════
+  // RAID T1
+  // ══════════════════════════════════════════════════════════════════════════
 
-  // ── MINING BEHEMOTH CHEST (21:06) ─────────────────────────────────────────
+  // ── Octa the Collector drops ──────────────────────────────────────────────
   {
-    item: "Ancient Hardened Vambraces",
-    bucket: "Raid T2",
-    normal: "Mining Behemoth",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Ancient Scaled Sleeves",
-    bucket: "Raid T2",
-    normal: "Mining Behemoth",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Ancient Velvet Robe",
-    bucket: "Raid T2",
-    normal: "Spindlecrank / Mining Behemoth / Power Station",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Bloodrime Pauldrons",
-    bucket: "Raid T2",
-    normal: "Mining Behemoth",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Pneumatic Powerblade",
-    bucket: "Raid T2",
-    normal: "Mining Behemoth",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Scarlet-Lined Bloodsash",
-    bucket: "Raid T2",
-    normal: "Mining Behemoth",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-  {
-    item: "Steel-Welded Plate Vambraces",
+    item: "Glittering Gem of Focus",
     bucket: "Raid T1",
-    normal: "Crazok Moonfang",
-    teek: [{mob:"Mining Behemoth", count:1}],
+    normal: "Octa the Collector",
+    teek: [{mob:"Spindlecrank", count:1}],
     xtier: true,
-    same: ["Mining Behemoth"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Visage of the Grand Engineer",
-    bucket: "Raid T2",
-    normal: "Mining Behemoth",
-    teek: [{mob:"Mining Behemoth", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/23"]
-  },
-
-  // ── CLANKWRENCH CHEST (21:50) ─────────────────────────────────────────────
-  {
-    item: "Ancient Hardened Bracer",
-    bucket: "Raid T2",
-    normal: "Overseer Gakkor Deepscar / Big Bynn I",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: false,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Ancient Velvet Slippers",
-    bucket: "Raid T2",
-    normal: "Big Bynn I",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: false,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Clockwork Medic's Defibrillator",
-    bucket: "Raid T2",
-    normal: "Big Bynn I",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:2},{mob:"Spindlecrank", count:1}],
-    xtier: false,
-    same: ["Chief Mechanic Clankwrench","Spindlecrank"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Crimson Throat-Gem",
-    bucket: "Raid T2",
-    normal: "Chief Mechanic Clankwrench",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: false,
-    same: [],
+    same: ["Spindlecrank"],
     nights: ["4/23"]
   },
   {
     item: "Inventor's Jagged Ring",
-    bucket: "Raid T2",
-    normal: "Chief Mechanic Clankwrench",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: false,
-    same: [],
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Octa the Collector", count:2}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Loop of Cruel Ingenuity",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: true,
+    same: ["Spindlecrank"],
     nights: ["4/23"]
   },
   {
     item: "Mantle of Grand Plans",
-    bucket: "Raid T2",
-    normal: "Chief Mechanic Clankwrench",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
     teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: false,
-    same: [],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
     nights: ["4/23"]
   },
   {
-    item: "Mask of the Unrequited",
-    bucket: "Raid T2",
-    normal: "Chief Mechanic Clankwrench",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    item: "Steel-Studded Leather Gloves",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [],
     xtier: false,
     same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Studded Leather Wristguard",
+    bucket: "Raid T1",
+    normal: "Octa the Collector / Scorn / Wirlem",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Threaded Satin Gloves",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Spindlecrank", count:1},{mob:"Octa the Collector", count:1}],
+    xtier: true,
+    same: ["Spindlecrank"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Steel-Threaded Satin Wristband",
+    bucket: "Raid T1",
+    normal: "Octa the Collector / Scorn / Wirlem",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Welded Plate Bracer",
+    bucket: "Raid T1",
+    normal: "Octa the Collector / Scorn / Wirlem",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Octa the Collector", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Steel-Welded Plate Gauntlets",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: true,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Ringmail Gauntlets",
+    bucket: "Raid T1",
+    normal: "Octa the Collector",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Welded Ringmail Wristguard",
+    bucket: "Raid T1",
+    normal: "Octa the Collector / Scorn / Wirlem",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ── Scorn drops ───────────────────────────────────────────────────────────
+  {
+    item: "Mask of the Unrequited",
+    bucket: "Raid T1",
+    normal: "Scorn",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: true,
+    same: ["Chief Mechanic Clankwrench"],
     nights: ["4/23"]
   },
   {
@@ -449,24 +372,6 @@ const DATA = [
     nights: ["4/23"]
   },
   {
-    item: "Steel-Studded Leather Leggings",
-    bucket: "Raid T1",
-    normal: "The Fanged Moon",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: true,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
-  },
-  {
-    item: "Steel-Studded Leather Wristguard",
-    bucket: "Raid T1",
-    normal: "Octa the Collector / Scorn / Wirlem",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
-    xtier: true,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
-  },
-  {
     item: "Steel-Threaded Satin Slippers",
     bucket: "Raid T1",
     normal: "Scorn",
@@ -476,13 +381,152 @@ const DATA = [
     nights: ["4/23"]
   },
   {
-    item: "Steel-Welded Plate Bracer",
+    item: "Steel-Welded Plate Boots",
     bucket: "Raid T1",
-    normal: "Octa the Collector / Scorn / Wirlem",
+    normal: "Scorn",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Welded Ringmail Boots",
+    bucket: "Raid T1",
+    normal: "Scorn",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ── Wirlem drops ──────────────────────────────────────────────────────────
+  {
+    item: "Steel-Studded Leather Cowl",
+    bucket: "Raid T1",
+    normal: "Wirlem",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Threaded Satin Hat",
+    bucket: "Raid T1",
+    normal: "Wirlem",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Welded Plate Helm",
+    bucket: "Raid T1",
+    normal: "Wirlem",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Welded Ringmail Coif",
+    bucket: "Raid T1",
+    normal: "Wirlem",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ── The Fanged Moon drops ─────────────────────────────────────────────────
+  {
+    item: "Crimson Throat-Gem",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [{mob:"The Fanged Moon", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/25"]
+  },
+  {
+    item: "Shroud of the Moonlight Curse",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [{mob:"The Fanged Moon", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/25"]
+  },
+  {
+    item: "Sinew-Wrapped Ballista",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Studded Leather Leggings",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
     teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
     xtier: true,
     same: ["Chief Mechanic Clankwrench"],
     nights: ["4/23"]
+  },
+  {
+    item: "Steel-Studded Leather Tunic",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon / Crazok Moonfang",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Threaded Satin Pantaloons",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Threaded Satin Robe",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon / Crazok Moonfang",
+    teek: [{mob:"Octa the Collector", count:1}],
+    xtier: false,
+    same: ["Octa the Collector"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Steel-Welded Plate Breastplate",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon / Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Mining Behemoth", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar","Mining Behemoth"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Plate Greaves",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon / Crazok Moonfang",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steel-Welded Ringmail Coat",
+    bucket: "Raid T1",
+    normal: "The Fanged Moon / Crazok Moonfang",
+    teek: [{mob:"Octa the Collector", count:1}],
+    xtier: false,
+    same: ["Octa the Collector"],
+    nights: ["4/25"]
   },
   {
     item: "Steel-Welded Ringmail Leggings",
@@ -497,13 +541,513 @@ const DATA = [
     item: "Ticka, Greatblade of the Ravager",
     bucket: "Raid T1",
     normal: "The Fanged Moon",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    teek: [{mob:"The Fanged Moon", count:1},{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Octa the Collector", count:1}],
     xtier: true,
+    same: ["Chief Mechanic Clankwrench","Octa the Collector"],
+    nights: ["4/23","4/25"]
+  },
+
+  // ── Crazok Moonfang drops ─────────────────────────────────────────────────
+  {
+    item: "Bloodrime Pauldrons",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Mining Behemoth", count:1},{mob:"The Fanged Moon", count:1}],
+    xtier: true,
+    same: ["Mining Behemoth","The Fanged Moon"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Bloodseeker's Veil",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"The Fanged Moon", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar","The Fanged Moon"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Moonblade of the Bloodcrazed",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Scarlet-Lined Bloodsash",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: true,
+    same: ["Mining Behemoth"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Studded Leather Armwraps",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"The Fanged Moon", count:1}],
+    xtier: false,
+    same: ["The Fanged Moon"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Steel-Threaded Satin Sleeves",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"The Fanged Moon", count:1}],
+    xtier: true,
+    same: ["Overseer Gakkor Deepscar","The Fanged Moon"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Steel-Welded Plate Vambraces",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: true,
+    same: ["Mining Behemoth"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Steel-Welded Ringmail Sleeves",
+    bucket: "Raid T1",
+    normal: "Crazok Moonfang",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // RAID T2
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // ── Big Bynn's Return drops ───────────────────────────────────────────────
+  {
+    item: "Ancient Hardened Boots",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Hardened Bracer",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
     same: ["Chief Mechanic Clankwrench"],
     nights: ["4/23"]
   },
+  {
+    item: "Ancient Husk Boots",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Husk Wristguard",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Spindlecrank", count:1},{mob:"Crazok Moonfang", count:1}],
+    xtier: false,
+    same: ["Spindlecrank","Crazok Moonfang"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Ancient Scaled Boots",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Scaled Wristguard",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Velvet Slippers",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench"],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Velvet Wristband",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Spindlecrank", count:1},{mob:"Crazok Moonfang", count:1}],
+    xtier: false,
+    same: ["Spindlecrank","Crazok Moonfang"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Clockwork Medic's Defibrillator",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Chief Mechanic Clankwrench", count:2},{mob:"Spindlecrank", count:1},{mob:"Crazok Moonfang", count:1}],
+    xtier: false,
+    same: ["Chief Mechanic Clankwrench","Spindlecrank","Crazok Moonfang"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Coilsteam Mechanomantle",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Crazok Moonfang"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Linked Cloak of Bladeturning",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Silvered Earstud of the Sanguine",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Steam-Powered Disc of Command",
+    bucket: "Raid T2",
+    normal: "Big Bynn's Return",
+    teek: [{mob:"Spindlecrank", count:1}],
+    xtier: false,
+    same: ["Spindlecrank"],
+    nights: ["4/23"]
+  },
 
-  // ── SPINDLECRANK CHEST (22:21) ────────────────────────────────────────────
+  // ── Deepscar's Den drops ──────────────────────────────────────────────────
+  {
+    item: "Ancient Hardened Gauntlets",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Husk Gloves",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Scaled Coif",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Scaled Gauntlets",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Scaled Wristguard",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den / Big Bynn's Return",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Velvet Gloves",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Claw-Blessed Cloak",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Claw-Sigiled Waistloop",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Deepscar Painsmasher",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Dragonscar Facemask",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Shiny Runed Metallic Cape",
+    bucket: "Raid T2",
+    normal: "Deepscar's Den",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ── Mining Behemoth drops ─────────────────────────────────────────────────
+  {
+    item: "Ancient Hardened Breastplate",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth / Spindlecrank / Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Hardened Vambraces",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Husk Armwraps",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Husk Tunic",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth / Spindlecrank",
+    teek: [{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Crazok Moonfang"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Ancient Scaled Coat",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth / Spindlecrank / Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Scaled Leggings",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth / Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Scaled Sleeves",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1},{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Crazok Moonfang"],
+    nights: ["4/23","4/25"]
+  },
+  {
+    item: "Ancient Velvet Robe",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth / Spindlecrank / Power Station",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Ancient Velvet Sleeves",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Crazok Moonfang"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Glowing Facemask of Mending",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Crazok Moonfang"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Jagged Alloy Repeato-Shiv",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Pneumatic Powerblade",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Visage of the Grand Engineer",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: false,
+    same: [],
+    nights: ["4/23"]
+  },
+  {
+    item: "Winged Gem of Command",
+    bucket: "Raid T2",
+    normal: "Mining Behemoth",
+    teek: [{mob:"Crazok Moonfang", count:1}],
+    xtier: true,
+    same: ["Crazok Moonfang"],
+    nights: ["4/25"]
+  },
+
+  // ── Power Station drops ───────────────────────────────────────────────────
+  {
+    item: "Ancient Hardened Greaves",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Husk Leggings",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ancient Velvet Pantaloons",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [{mob:"The Fanged Moon", count:2}],
+    xtier: true,
+    same: ["The Fanged Moon"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Battery-Powered Choker",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Benevolent Mender's Mantle",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Industrial Tinkered Drillbore",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [{mob:"The Fanged Moon", count:2}],
+    xtier: true,
+    same: ["The Fanged Moon"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Metallic Spark-Shawl",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Power-Infused Steamcleaver",
+    bucket: "Raid T2",
+    normal: "Power Station",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ── Spindlecrank drops ────────────────────────────────────────────────────
   {
     item: "Ancient Hardened Helm",
     bucket: "Raid T2",
@@ -523,12 +1067,12 @@ const DATA = [
     nights: ["4/23"]
   },
   {
-    item: "Ancient Husk Wristguard",
+    item: "Ancient Scaled Coif",
     bucket: "Raid T2",
-    normal: "Overseer Gakkor Deepscar / Big Bynn I",
-    teek: [{mob:"Spindlecrank", count:2}],
+    normal: "Deepscar's Den / Spindlecrank",
+    teek: [{mob:"Overseer Gakkor Deepscar", count:2}],
     xtier: false,
-    same: ["Spindlecrank"],
+    same: [],
     nights: ["4/23"]
   },
   {
@@ -541,15 +1085,6 @@ const DATA = [
     nights: ["4/23"]
   },
   {
-    item: "Ancient Velvet Wristband",
-    bucket: "Raid T2",
-    normal: "Overseer Gakkor Deepscar / Big Bynn I",
-    teek: [{mob:"Spindlecrank", count:1}],
-    xtier: false,
-    same: ["Spindlecrank"],
-    nights: ["4/23"]
-  },
-  {
     item: "Bladetwisting Backplate",
     bucket: "Raid T2",
     normal: "Spindlecrank",
@@ -559,21 +1094,21 @@ const DATA = [
     nights: ["4/23"]
   },
   {
-    item: "Glittering Gem of Focus",
+    item: "Filigreed Starburst Stud",
     bucket: "Raid T2",
     normal: "Spindlecrank",
-    teek: [{mob:"Spindlecrank", count:1}],
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Spindlecrank", count:1}],
     xtier: false,
-    same: [],
+    same: ["Overseer Gakkor Deepscar"],
     nights: ["4/23"]
   },
   {
-    item: "Loop of Cruel Ingenuity",
+    item: "Shimmering Pearlescent Earstud",
     bucket: "Raid T2",
     normal: "Spindlecrank",
-    teek: [{mob:"Spindlecrank", count:1}],
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
     xtier: false,
-    same: [],
+    same: ["Overseer Gakkor Deepscar"],
     nights: ["4/23"]
   },
   {
@@ -586,31 +1121,130 @@ const DATA = [
     nights: ["4/23"]
   },
   {
-    item: "Steam-Powered Disc of Command",
+    item: "Tempered Steamwound Pummeler",
     bucket: "Raid T2",
-    normal: "Big Bynn I",
-    teek: [{mob:"Spindlecrank", count:1}],
+    normal: "Spindlecrank",
+    teek: [],
     xtier: false,
-    same: ["Spindlecrank"],
-    nights: ["4/23"]
+    same: [],
+    nights: []
+  },
+
+  // ── Soulbleeder drops ─────────────────────────────────────────────────────
+  {
+    item: "Black Shroud of Penance",
+    bucket: "Raid T2",
+    normal: "Soulbleeder",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
   },
   {
-    item: "Steel-Threaded Satin Gloves",
-    bucket: "Raid T1",
-    normal: "Octa the Collector",
-    teek: [{mob:"Spindlecrank", count:1}],
-    xtier: true,
-    same: ["Spindlecrank"],
-    nights: ["4/23"]
+    item: "Corrupted Spectral Shoulderguards",
+    bucket: "Raid T2",
+    normal: "Soulbleeder",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
   },
   {
-    item: "Steel-Welded Plate Gauntlets",
-    bucket: "Raid T1",
-    normal: "Octa the Collector",
-    teek: [{mob:"Spindlecrank", count:1}],
+    item: "Dark Redeemer's Bludgeon",
+    bucket: "Raid T2",
+    normal: "Soulbleeder",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Earstud of Darkest Shadow",
+    bucket: "Raid T2",
+    normal: "Soulbleeder",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+  {
+    item: "Ghostly Whisper Earring",
+    bucket: "Raid T2",
+    normal: "Soulbleeder",
+    teek: [],
+    xtier: false,
+    same: [],
+    nights: []
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // RAID T3 — Meldrath's Majestic Mansion
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // ── Battle Room drops ─────────────────────────────────────────────────────
+  {
+    item: "Gear-Linked Cloak",
+    bucket: "Raid T3",
+    normal: "Battle Room",
+    teek: [{mob:"Soulbleeder", count:1}],
     xtier: true,
-    same: ["Spindlecrank"],
-    nights: ["4/23"]
+    same: ["Soulbleeder"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Tiny Tinkermusic Box-o-Matic",
+    bucket: "Raid T3",
+    normal: "Battle Room",
+    teek: [{mob:"Soulbleeder", count:1}],
+    xtier: true,
+    same: ["Soulbleeder"],
+    nights: ["4/25"]
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // RAID T4 — Crystallos
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // ── Aerius Windfury drops ─────────────────────────────────────────────────
+  {
+    item: "Circular Magmatic Disc",
+    bucket: "Raid T4",
+    normal: "Aerius Windfury",
+    teek: [{mob:"Soulbleeder", count:1}],
+    xtier: true,
+    same: ["Soulbleeder"],
+    nights: ["4/25"]
+  },
+  {
+    item: "Jewel of Resolute Obedience",
+    bucket: "Raid T4",
+    normal: "Aerius Windfury",
+    teek: [{mob:"Soulbleeder", count:1}],
+    xtier: true,
+    same: ["Soulbleeder"],
+    nights: ["4/25"]
+  },
+
+  // ── Tjudawos drops ────────────────────────────────────────────────────────
+  {
+    item: "Chain Gorget of the Scaleborn",
+    bucket: "Raid T4",
+    normal: "Tjudawos",
+    teek: [{mob:"Ralkor's Crystals", count:1}],
+    xtier: true,
+    same: ["Ralkor's Crystals"],
+    nights: ["4/25"]
+  },
+
+  // ── Kildrukaun drops ──────────────────────────────────────────────────────
+  {
+    item: "Facemask of Cleansing",
+    bucket: "Raid T4",
+    normal: "Kildrukaun",
+    teek: [{mob:"Ralkor's Crystals", count:2}],
+    xtier: true,
+    same: ["Ralkor's Crystals"],
+    nights: ["4/25"]
   },
 ];
 
@@ -652,6 +1286,8 @@ function computeStats(){
   document.getElementById('s-nights').textContent = allNights.size;
 }
 
+let sortDir = 'asc';
+
 function render(){
   const search = document.getElementById('search').value.trim();
   const scope  = document.getElementById('scope').value;
@@ -674,10 +1310,21 @@ function render(){
   });
 
   rows.sort((a,b) => {
-    if(sort === 'item')   return a.item.localeCompare(b.item);
-    if(sort === 'bucket') return a.bucket.localeCompare(b.bucket);
-    if(sort === 'drops')  return totalDrops(b) - totalDrops(a);
-    return 0;
+    const dir = sortDir === 'asc' ? 1 : -1;
+    let cmp = 0;
+    if(sort === 'item')   cmp = a.item.localeCompare(b.item);
+    if(sort === 'bucket') cmp = a.bucket.localeCompare(b.bucket);
+    if(sort === 'normal') cmp = a.normal.localeCompare(b.normal);
+    if(sort === 'teek')   cmp = (a.teek[0]?.mob||'').localeCompare(b.teek[0]?.mob||'');
+    if(sort === 'drops')  cmp = totalDrops(a) - totalDrops(b);
+    if(sort === 'same')   cmp = (a.same[0]||'').localeCompare(b.same[0]||'');
+    return cmp !== 0 ? cmp * dir : a.item.localeCompare(b.item);
+  });
+
+  // Update header sort indicators
+  document.querySelectorAll('thead th[data-sort]').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+    if(th.dataset.sort === sort) th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
   });
 
   document.getElementById('rcount').textContent = rows.length + ' of ' + DATA.length + ' items';
@@ -709,7 +1356,7 @@ function render(){
       <td><span class="bucket-badge ${BCLS[r.bucket]||''}">${escHtml(r.bucket)}</span></td>
       <td style="color:var(--text-norm)">${normDisp}</td>
       <td>${teekHtml}</td>
-      <td style="font-weight:700;color:var(--gold);text-align:center">${totalDrops(r)}</td>
+      <td style="font-weight:700;color:var(--gold);text-align:center">${totalDrops(r)||'—'}</td>
       <td class="same-bucket">${sameHtml}</td>
     </tr>`;
   }).join('');
@@ -717,6 +1364,22 @@ function render(){
 
 computeStats();
 render();
+
+// Column header click-to-sort
+document.querySelectorAll('thead th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.sort;
+    const sel = document.getElementById('f-sort');
+    if(sel.value === col) {
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      sel.value = col;
+      sortDir = 'asc';
+    }
+    render();
+  });
+});
+
 // Sync toggle button label to current theme
 (function(){
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';

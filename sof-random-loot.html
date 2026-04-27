@@ -180,16 +180,19 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
       <option value="seen">Dropped items</option>
       <option value="1">Cross-tier items</option>
     </select>
-    <select class="filt" id="f-sort" onchange="sortDir='asc';render()">
-      <option value="item">Sort: Item name</option>
-      <option value="bucket">Sort: Raid tier</option>
-      <option value="normal">Sort: Normal source</option>
-      <option value="teek">Sort: Dropped by on Teek</option>
-      <option value="drops">Sort: Times dropped</option>
-      <option value="same">Sort: Same bucket mobs</option>
+    <select class="filt" id="f-mob" onchange="render()">
+      <option value="">All mobs</option>
     </select>
   </div>
 </div>
+<select id="f-sort" style="display:none">
+  <option value="item">item</option>
+  <option value="bucket">bucket</option>
+  <option value="normal">normal</option>
+  <option value="teek">teek</option>
+  <option value="drops">drops</option>
+  <option value="same">same</option>
+</select>
 
 <div class="result-count" id="rcount"></div>
 
@@ -1429,6 +1432,19 @@ function computeStats(){
   document.getElementById('s-nights').textContent = allNights.size;
 }
 
+function populateMobDropdown(){
+  const mobs = [...new Set(DATA.map(r => r.normal).filter(Boolean))].sort((a,b) => {
+    // Extract first mob name for sorting when normal has multiple sources
+    return a.split('/')[0].trim().localeCompare(b.split('/')[0].trim());
+  });
+  const sel = document.getElementById('f-mob');
+  mobs.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    sel.appendChild(o);
+  });
+}
+
 let sortDir = 'asc';
 
 function render(){
@@ -1436,6 +1452,7 @@ function render(){
   const scope  = document.getElementById('scope').value;
   const fb     = document.getElementById('f-bucket').value;
   const fx     = document.getElementById('f-xtier').value;
+  const fmob   = document.getElementById('f-mob').value;
   const sort   = document.getElementById('f-sort').value;
   const term   = search.toLowerCase();
 
@@ -1443,6 +1460,7 @@ function render(){
     if(fb && r.bucket !== fb) return false;
     if(fx === '1' && !r.xtier) return false;
     if(fx === 'seen' && r.teek.length === 0) return false;
+    if(fmob && r.normal !== fmob) return false;
     if(term){
       let hay = '';
       if(scope === 'item')     hay = r.item;
@@ -1507,6 +1525,7 @@ function render(){
 }
 
 computeStats();
+populateMobDropdown();
 render();
 
 // Column header click-to-sort

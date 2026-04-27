@@ -1106,13 +1106,7 @@
           <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to 8,000</span></div>
           <div class="stat-row"><span class="label">Activates</span><span class="value">First — lowest HP of the four</span></div>
           <div class="stat-row"><span class="label">Adds</span><span class="value danger">6× mezzable worgs</span></div>
-          <div class="stat-row"><span class="label">Kill order</span><span class="value">Kill first</span></div>
-        </div>
-        <div class="info-block">
-          <h3>Korvak Stonefire</h3>
-          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to 8,000</span></div>
-          <div class="stat-row"><span class="label">Aura</span><span class="value danger">Moving aura — chain nukes anyone inside for 6,000</span></div>
-          <div class="stat-row"><span class="label">Kill order</span><span class="value">Kill after Harlos</span></div>
+          <div class="stat-row"><span class="label">Kill order</span><span class="value">Kill Grendol first</span></div>
         </div>
         <div class="info-block">
           <h3>Harlos Stonethunder</h3>
@@ -1120,6 +1114,12 @@
           <div class="stat-row"><span class="label">Aura</span><span class="value danger">Moving AE aura — 3,500 AE, scales with people inside (2 people = 2 AEs each, etc.)</span></div>
           <div class="stat-row"><span class="label">Joint Aura</span><span class="value danger">While Korvak OR Harlos alive: 3rd aura — 4,500 DD + snare</span></div>
           <div class="stat-row"><span class="label">Kill order</span><span class="value">Kill before Korvak</span></div>
+        </div>
+        <div class="info-block">
+          <h3>Korvak Stonefire</h3>
+          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to 8,000</span></div>
+          <div class="stat-row"><span class="label">Aura</span><span class="value danger">Moving aura — chain nukes anyone inside for 6,000</span></div>
+          <div class="stat-row"><span class="label">Kill order</span><span class="value">Kill after Harlos</span></div>
         </div>
       </div>
 
@@ -1485,7 +1485,7 @@
         <h4>Event Timeline</h4>
         <ul>
           <li><strong>Entering Soulbleeder's room starts the event.</strong></li>
-          <li>Immediately: <strong>2× a ravenous ghoul lord</strong> (NOT mezzable) + several <strong>a ghoulish minion</strong> (mezzable) spawn and attack.</li>
+          <li>Immediately: <strong>2× a ravenous ghoul lord</strong> (NOT mezzable) + several <strong>a ghoulish minion</strong> spawn and attack. <strong>Ghoulish minions are untargetable until all ravenous ghoul lords are dead.</strong> Mez them once targetable, then kill.</li>
           <li><strong>3 minutes later:</strong> 2× <strong>a severed shadow</strong> spawn. When killed, each splits into two. If splits are not killed quickly enough they reform into a severed shadow. Kill splits immediately.</li>
           <li><strong>~3 minutes after severed shadows:</strong> <strong>Bimbalicus the Soulbleeder</strong> + 2× <strong>a soul leech spirit</strong> spawn.</li>
           <li>Soul leech spirits proc a <strong>de-aggro + mana drain</strong> and cast a <strong>15-range AE spin stun.</strong> Kill spirits promptly.</li>
@@ -1496,10 +1496,8 @@
       <table class="spells-table">
         <thead><tr><th style="width:22%">Spell</th><th style="width:18%">Type</th><th style="width:60%">Effect</th></tr></thead>
         <tbody>
-          <tr><td class="spell-name">Soul Drain</td><td>Single Target</td><td>Lifetap — drains HP to heal Bimbalicus.</td></tr>
-          <tr><td class="spell-name">Soul Wrench</td><td>Single Target</td><td>Soul wrench effect.</td></tr>
-          <tr><td class="spell-name">Lifetap Proc</td><td>Proc</td><td><strong>10,000 lifetap.</strong></td></tr>
-          <tr><td class="spell-name">AE</td><td>AE (75 range)</td><td><strong>12,000 DD.</strong></td></tr>
+          <tr><td class="spell-name">Soul Drain</td><td>Single Target</td><td><strong>10,000 Lifetap Proc.</strong></td></tr>
+          <tr><td class="spell-name">Soul Wrench</td><td>PBAE (75 range) Single Target</td><td><strong>Decrease Hitpoints by 12,000.</strong></td></tr>
         </tbody>
       </table>
 
@@ -1516,10 +1514,10 @@
       <table class="spells-table">
         <thead><tr><th style="width:22%">Spell</th><th style="width:18%">Type</th><th style="width:60%">Effect</th></tr></thead>
         <tbody>
-          <tr><td class="spell-name">Backlash</td><td>—</td><td>Bimbalicus 2.0 ability.</td></tr>
-          <tr><td class="spell-name">Jagged Shards</td><td>—</td><td>Bimbalicus 2.0 ability.</td></tr>
-          <tr><td class="spell-name">Soul Drain</td><td>Single Target</td><td>Lifetap.</td></tr>
-          <tr><td class="spell-name">Soul Wrench</td><td>Single Target</td><td>Soul wrench effect.</td></tr>
+          <tr><td class="spell-name">Backlash</td><td>Self</td><td>1: Increase Spell Damage Shield by 500. 2: 99 Corruption counters.</td></tr>
+          <tr><td class="spell-name">Jagged Shards</td><td>Self</td><td>1: Increase Damage Shield by 50. 2: 99 Corruption counters.</td></tr>
+          <tr><td class="spell-name">Soul Drain</td><td>Single Target</td><td><strong>10,000 Lifetap Proc.</strong></td></tr>
+          <tr><td class="spell-name">Soul Wrench</td><td>PBAE (75 range) Single Target</td><td><strong>Decrease Hitpoints by 12,000.</strong></td></tr>
           <tr><td class="spell-name">Damage Shields</td><td>Self-Buff (alternating)</td><td>Alternates between <strong>50-point melee DS</strong> and <strong>500-point spell DS.</strong></td></tr>
         </tbody>
       </table>
@@ -1531,9 +1529,9 @@
         <h3>Raid Leader Strategy</h3>
         <ol>
           <li><strong>Clear ALL zone trash</strong> before approaching Soulbleeder's room.</li>
-          <li><strong>Mez all 4 coffins</strong> outside the boss room with Bards — unmezzed coffins spawn skeleton adds.</li>
+          <li><strong>Mez all 4 coffins</strong> outside the boss room with Bards — unmezzed coffins spawn skeleton adds. <strong>Note: the center two coffins go active when Bimbalicus the Manysoul spawns.</strong></li>
           <li><strong>Enter the room</strong> to trigger the event.</li>
-          <li><strong>Kill the two ghoul lords first</strong> (not mezzable). Mez the ghoulish minions, then kill them.</li>
+          <li><strong>Kill the two ghoul lords first</strong> (not mezzable). <strong>Ghoulish minions are untargetable until all ghoul lords are dead</strong> — mez them once targetable, then kill.</li>
           <li><strong>Kill the two severed shadows.</strong> Kill the first one and all its splits before killing the second one — splits that survive will reform into a full severed shadow.</li>
           <li>When <strong>Bimbalicus and the soul leech spirits</strong> spawn — kill the soul leech spirits first, then kill Bimbalicus. <strong>Warrior on Bimbalicus.</strong> Bimbalicus will summon at 100% — be ready.</li>
           <li><strong>Phase 2 — Bimbalicus the Manysoul spawns.</strong> Ignore the corrupted souls — they are non-aggro.</li>

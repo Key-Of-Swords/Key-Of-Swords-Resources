@@ -805,17 +805,7 @@
         — Meldrath's Majestic Mansion
       </li>
       <li>
-        <a href="#battleroom" onclick="document.getElementById('battleroom').classList.remove('collapsed')">Battle Room — Tactical Prototype XXVII</a>
-        <span class="tier-label">Tier 3</span>
-        — Meldrath's Majestic Mansion
-      </li>
-      <li>
         <a href="#krond" onclick="document.getElementById('krond').classList.remove('collapsed')">Krond the Longhorn</a>
-        <span class="tier-label">Tier 3</span>
-        — Meldrath's Majestic Mansion
-      </li>
-      <li>
-        <a href="#bargangle" onclick="document.getElementById('bargangle').classList.remove('collapsed')">Seneschal Bargangle Tinkerson</a>
         <span class="tier-label">Tier 3</span>
         — Meldrath's Majestic Mansion
       </li>
@@ -823,6 +813,16 @@
         <a href="#brinda" onclick="document.getElementById('brinda').classList.remove('collapsed')">Doctor Brinda Sprockets</a>
         <span class="tier-label">Tier 3</span>
         — Meldrath's Majestic Mansion (M.E.G. Room)
+      </li>
+      <li>
+        <a href="#battleroom" onclick="document.getElementById('battleroom').classList.remove('collapsed')">Battle Room — Tactical Prototype XXVII</a>
+        <span class="tier-label">Tier 3</span>
+        — Meldrath's Majestic Mansion
+      </li>
+      <li>
+        <a href="#bargangle" onclick="document.getElementById('bargangle').classList.remove('collapsed')">Seneschal Bargangle Tinkerson</a>
+        <span class="tier-label">Tier 3</span>
+        — Meldrath's Majestic Mansion
       </li>
       <li>
         <a href="#meldrath" onclick="document.getElementById('meldrath').classList.remove('collapsed')">Meldrath the Malignant</a>
@@ -2498,6 +2498,7 @@
           <div class="stat-row"><span class="label">AE Rampage</span><span class="value">Yes — mitigated ~2,000</span></div>
           <div class="stat-row"><span class="label">Spawns</span><span class="value danger">5 total — killable on 5th</span></div>
           <div class="stat-row"><span class="label">Movement</span><span class="value">Stance-dependent (see below)</span></div>
+          <div class="stat-row"><span class="label">Floor</span><span class="value">3rd Floor</span></div>
         </div>
 
         <div class="info-block">
@@ -2524,8 +2525,13 @@
         <div class="info-block">
           <h3>Loot</h3>
           <ul>
-            <li><strong>24×</strong> progression flags <em>(confirm item name after first kill)</em></li>
             <li>Notable drop: <strong>Gyroscopic Combat Assistant Mk. I</strong> (evolving item)</li>
+            <li><strong>2×</strong> from the following:</li>
+            <li style="padding-left:22px;">Steam-Valve Girdle</li>
+            <li style="padding-left:22px;">Cruel Mechanic's Shawl</li>
+            <li style="padding-left:22px;">Alloy-Coated Back Protector</li>
+            <li style="padding-left:22px;">Steamgineer's Trinket of Station</li>
+            <li style="padding-left:22px;">Sharpened Steamworker's Screwdriver</li>
           </ul>
         </div>
 
@@ -2625,7 +2631,7 @@
       <div class="callout callout-amber">
         <span class="callout-icon">⚡</span>
         <div class="callout-text">
-          <strong>Mechanic:</strong> Each Breakneck spawn triggers a wave of adds on top of the raid. Breakneck must remain aggro'd by the spawn group while the raid kills the adds. Once all adds in the wave are dead, Breakneck despawns. Each wave adds <strong>+1 Goregouger Elite every 2 minutes</strong> while the wave is active — kill fast.
+          <strong>Mechanic:</strong> Each Breakneck spawn triggers a wave of adds on top of the raid. Breakneck must remain aggro'd by the spawn group while the raid kills the adds. Once all adds in the wave are dead, Breakneck despawns. Each wave adds <strong>+1 Goregouger Elite every 2 minutes</strong> while the wave is active — kill fast. <strong>Goregouger Elites are immune to mez. Goregouger Troopers are mezzable.</strong>
         </div>
       </div>
 
@@ -2686,8 +2692,8 @@
           <li><strong>Waves 1–3:</strong> Spawn group opens doors to trigger each wave. Bard/SK keeps Breakneck aggro'd at all times — event resets if aggro drops. Raid kills all adds (elites first, mez troopers). Breakneck despawns after each wave is cleared.</li>
           <li><strong>After wave 3:</strong> Raid moves to the <strong>third floor near Breakneck's room</strong>. Elevators will lock after wave 4 spawns — raid must be in position before this happens.</li>
           <li><strong>Wave 4:</strong> Spawn group triggers the 4th wave from below. If an add spawns on the spawn group, they fade/flop so the add warps up to the raid. Once wave 4 adds are dead, Mage COTHs the spawn group up. <em>Spawn group must keep Breakneck on aggro until all adds in wave 4 are dead.</em></li>
-          <li><strong>Final fight — Spawn #5:</strong> Breakneck spawns perma-rooted north of the east elevator. Pull him into the <strong>room east of his spawn point</strong> for kiting room. Face him away from the raid.</li>
-          <li><strong>Every 10%:</strong> Raid gets off Breakneck when adds spawn. Follow MA — kill 2 Elites first, then handle Troopers (mez or kill). Once adds are down, return DPS to Breakneck. Repeat down to 30–20%.</li>
+          <li><strong>Final fight — Spawn #5:</strong> Breakneck spawns perma-rooted north of the east elevator, engage him there. Pull him into the room east of his spawn point for kiting room once he is no longer perma-rooted. Face him away from the raid. <strong>Raid sets up on the West wall. Kite Breakneck on the East side of the room.</strong></li>
+          <li><strong>Every 10%:</strong> Raid gets off Breakneck when adds spawn. Follow MA — kill 2 Elites first, then handle Troopers (mez or kill). Once adds are down, return DPS to Breakneck. Repeat down to 30–20%. <strong>Do not over DPS Breakneck.</strong></li>
           <li><strong>At 30–20%:</strong> Full burn on Breakneck. Kite or mez remaining adds. All adds despawn on his death.</li>
           <li><strong>Mallet emote:</strong> Duck immediately when "hoists an arm back" fires. Wait for "mallet passes harmlessly overhead" before resuming.</li>
           <li><strong>Charge emote:</strong> Personal target runs away from raid. Get a DA from a Cleric if possible. Rampage list resets after every DT emote.</li>
@@ -2717,6 +2723,635 @@
 
     </div><!-- /raid-card-body -->
   </article><!-- /breakneck -->
+
+
+
+  <!-- ════════════════════════════════════════════════
+       RAID 8: KROND THE LONGHORN (MMM)
+  ════════════════════════════════════════════════ -->
+  <article class="raid-card" id="krond">
+
+    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
+      <div>
+        <div class="boss-name">Krond the Longhorn</div>
+        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
+        <div class="boss-meta">
+          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — bedroom next to the maze</span>
+          <span><strong>Trigger:</strong> Attack him — he sleeps until 95% health, then wakes</span>
+        </div>
+        <div class="badges" style="margin-top:10px;">
+          <span class="badge badge-purple">Tier 3 Raid</span>
+          <span class="badge badge-green">No Rampage</span>
+          <span class="badge badge-green">No Flurry (unless provoked)</span>
+          <span class="badge badge-red">Perma-Rooted (while attacking)</span>
+          <span class="badge badge-red">Charm Add Mechanic</span>
+        </div>
+      </div>
+      <span class="collapse-chevron">▼</span>
+    </div>
+
+    <div class="raid-card-body">
+
+      <!-- STATS + SETUP + LOOT -->
+      <div class="section-grid">
+
+        <div class="info-block">
+          <h3>Boss Stats</h3>
+          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to ~13,000</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">Flurry</span><span class="value">No — unless provoked</span></div>
+          <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-rooted while attacking; moves to weapon racks between attacks</span></div>
+          <div class="stat-row"><span class="label">Wakes at</span><span class="value danger">95% HP</span></div>
+          <div class="stat-row"><span class="label">Floor</span><span class="value">2nd Floor</span></div>
+        </div>
+
+        <div class="info-block">
+          <h3>Pre-Fight Setup</h3>
+          <ul>
+            <li><strong>Clear the entire maze</strong> before engaging — none of the mobs in the room are aggro until the event starts</li>
+            <li><strong>Clear first two buff slots</strong> on all raiders — put two junk buffs in slots 1 and 2: <em>Talisman of the Tribunal</em> and <em>Protection of Seasons</em></li>
+            <li>Fully <strong>debuff Krond while he is still sleeping</strong> — he won't react until 95%</li>
+          </ul>
+        </div>
+
+        <div class="info-block">
+          <h3>Loot</h3>
+          <ul>
+            <li>Notable drop: <strong>Blastertron Mechano-Pylon Mk. I</strong> (evolving item)</li>
+            <li><strong>2×</strong> from the following:</li>
+            <li style="padding-left:22px;">Greasy Steam-Pauldrons</li>
+            <li style="padding-left:22px;">Steamwork Engineer's Waistband</li>
+            <li style="padding-left:22px;">Ring of Molten Alloy</li>
+            <li style="padding-left:22px;">Chain-Powered Longcutter</li>
+            <li style="padding-left:22px;">Steam-Honed Impaler</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- WEAPON RACK MECHANIC -->
+      <div class="phase-header">Weapon Rack Mechanic — Active Throughout</div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">⚡</span>
+        <div class="callout-text">
+          <strong>Mechanic:</strong> Randomly, Krond stops attacking, moves to one of four weapon racks, and equips a new set of weapons. The MT must match weapon loadout to whichever rack Krond visits. Mismatched weapons will cause him to flurry.
+        </div>
+      </div>
+
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th style="width:20%">Rack Location</th>
+            <th style="width:20%">Weapons</th>
+            <th style="width:60%">MT Must Equip</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Westernmost</strong></td>
+            <td>Swords</td>
+            <td><strong>1HB + 1HS</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Middle West</strong></td>
+            <td>Axes</td>
+            <td><strong>2HS</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Middle East</strong></td>
+            <td>Gears</td>
+            <td><strong>1HS + 1HS</strong> (dual wield)</td>
+          </tr>
+          <tr>
+            <td><strong>Easternmost</strong></td>
+            <td>Spears</td>
+            <td><strong>1-hander + Shield</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- CRUEL SLAVERS -->
+      <div class="phase-header">Cruel Slavers — Spawn from 95% Onward</div>
+
+      <div class="phase-block phase-red">
+        <h4>Slavers Spawn One at a Time — Continuous</h4>
+        <ul>
+          <li>From the moment Krond wakes, Cruel Slavers spawn one at a time throughout the fight.</li>
+          <li>They cast <strong>Enslave</strong>: unresistable single-target charm on random raid members.</li>
+          <li>If left alive, a slaver will walk the charmed player through the maze to the final room — charm wears off there, but the slaver then kills the player.</li>
+          <li>Slavers <strong>can be killed</strong> (hit for ~4,500 when provoked) or the charm can be <strong>dispelled</strong> from the affected player.</li>
+          <li><strong>Everyone except MT and healers</strong> kills slavers or dispels the charmed player.</li>
+        </ul>
+      </div>
+
+      <!-- HENCHOTAURS -->
+      <div class="phase-header">Henchotaurs — Spawn Randomly (1–3 Times per Fight)</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠</span>
+        <div class="callout-text">
+          <strong>Emote:</strong> <em>"Krond the Longhorn roars angrily, 'Henchotaurs charge these pests, trample them beneath your hooves, gore them with your horns, revel in their slaughter!'"</em> — Four Henchotaurs in the corner of the room activate and begin moving toward Krond. <strong>Everyone except MT, next tank, and healers must run in front of the Henchotaurs to block them.</strong>
+        </div>
+      </div>
+
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th style="width:22%">Spell</th>
+            <th style="width:18%">Type</th>
+            <th style="width:60%">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Gored</td>
+            <td>Single Target</td>
+            <td><strong>5,000 DD + 5-second stun.</strong> Unresistable. Cast on blockers who successfully stop a Henchotaur. Accept this — it means the block worked.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Hoof Stomp</td>
+            <td>PBAE (400 range)</td>
+            <td><strong>4,000 DD + Silence.</strong> (-250). Cast when a Henchotaur reaches Krond unblocked. <em>Do not let them through.</em></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="phase-block phase-blue">
+        <h4>After Blocking</h4>
+        <p>Successfully blocked Henchotaurs cast Gored (5k + stun) on their blocker, then walk back to their spawn corner. Henchotaurs that are not blocked reach Krond and AE Hoof Stomp (4k + silence) on the entire raid.</p>
+      </div>
+
+      <!-- STRATEGY -->
+      <div class="ornament-divider">Strategy</div>
+
+      <div class="strategy-box">
+        <h3>Raid Leader Strategy</h3>
+        <ol>
+          <li><strong>Pre-fight:</strong> Clear the entire maze. All raiders clear their first two buff slots and fill them with Talisman of the Tribunal and Protection of Seasons.</li>
+          <li><strong>Pre-pull debuffs:</strong> Fully debuff Krond while he is sleeping — he will not react until he reaches 95% HP.</li>
+          <li><strong>DPS to 95%.</strong> At 95%, back off and let the tank build aggro as Krond wakes up. He will be perma-rooted at his current position — tank him wherever he stops.</li>
+          <li><strong>Cruel Slavers:</strong> Everyone except MT and healers either kills slavers as they spawn or dispels the charmed player. Do not let a slaver walk a player into the maze.</li>
+          <li><strong>Weapon rack changes:</strong> When Krond stops attacking and moves to a rack, MT watches which rack he visits and swaps weapons accordingly. Mismatched weapons = flurry.</li>
+          <li><strong>Henchotaur emote:</strong> When the emote fires, everyone except MT, next tank, and healers runs in front of the Henchotaurs immediately. Blockers will take 5k DD + stun (Gored) — this is expected and means the block succeeded. Do not let any Henchotaur reach Krond.</li>
+          <li><strong>Burn Krond down.</strong> Slavers and Henchotaur phases will recur — respond to each as it arrives and return DPS to Krond immediately after.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">📋</span>
+        <div class="callout-text">
+          <strong>Buff slot reminder:</strong> Slots 1 and 2 must have Talisman of the Tribunal and Protection of Seasons before the pull. Enslave lands in the first available slot — this protects your critical buffs from being overwritten.
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">ℹ</span>
+        <div class="callout-text">
+          <strong>Progression Note:</strong> Krond is the third of five named events in Meldrath's Majestic Mansion. Notable evolving item drop: <strong>Blastertron Mechano-Pylon Mk. I</strong>.
+        </div>
+      </div>
+
+    </div><!-- /raid-card-body -->
+  </article><!-- /krond -->  <!-- ════════════════════════════════════════════════
+       RAID 10: DOCTOR BRINDA SPROCKETS (MMM)
+  ════════════════════════════════════════════════ -->
+  <article class="raid-card" id="brinda">
+
+    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
+      <div>
+        <div class="boss-name">Doctor Brinda Sprockets</div>
+        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
+        <div class="boss-meta">
+          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — M.E.G. Room (northwest, 2nd floor)</span>
+          <span><strong>Trigger:</strong> Dialog with Brinda until <strong>"We'll force you!"</strong></span>
+        </div>
+        <div class="badges" style="margin-top:10px;">
+          <span class="badge badge-purple">Tier 3 Raid</span>
+          <span class="badge badge-red">Fire AEs (tripled by Oil Slick)</span>
+          <span class="badge badge-green">No Rampage</span>
+          <span class="badge badge-green">No Flurry</span>
+          <span class="badge badge-green">No Summon</span>
+          <span class="badge badge-amber">Root/Snare = Yes</span>
+          <span class="badge badge-gray">3-Phase Password Event</span>
+        </div>
+      </div>
+      <span class="collapse-chevron">▼</span>
+    </div>
+
+    <div class="raid-card-body">
+
+      <!-- OVERVIEW -->
+      <div class="callout callout-amber" style="margin-bottom:1.2rem;">
+        <span class="callout-icon">⚡</span>
+        <div class="callout-text">
+          <strong>Core concept:</strong> Brinda is not a kill target — killing her does nothing, she just respawns. The event is won by completing three password phases. Each phase: kill 3 specific M.E.G. Enforcers in numerical order → loot their Password Fragments → /say passwords to M.E.G. in sequence within 5 minutes. <strong>Root Brinda in a far corner immediately and keep her there the entire event.</strong>
+        </div>
+      </div>
+
+      <!-- STATS + ROLES + LOOT -->
+      <div class="section-grid">
+
+        <div class="info-block">
+          <h3>Brinda Stats</h3>
+          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to ~15,000</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">Summons</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">Rootable/Snareable</span><span class="value safe">Yes — use Paladins</span></div>
+          <div class="stat-row"><span class="label">Killable?</span><span class="value">Respawns — not the objective</span></div>
+        </div>
+
+        <div class="info-block">
+          <h3>Required Cures</h3>
+          <ul>
+            <li><strong>Radiant Cure</strong> — Oil Slick (corruption counters)</li>
+            <li><strong>Corruption Cure</strong> — RC in every group if possible (2 per group ideal)</li>
+            <li>Oil Slick triples fire damage from Brinda's AEs — it is nearly unavoidable, curing it is critical</li>
+          </ul>
+        </div>
+
+        <div class="info-block">
+          <h3>Loot</h3>
+          <ul>
+            <li>Notable evolving: <strong>Version XI Serial Translatron</strong></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- BRINDA ABILITIES -->
+      <div class="phase-header">Brinda's Abilities</div>
+
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th style="width:22%">Spell</th>
+            <th style="width:18%">Type</th>
+            <th style="width:60%">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Mathmatron Mallet</td>
+            <td>Targeted AE (200 range)</td>
+            <td><strong>15,000 DD + 5-second stun.</strong> Fire (-500). Most dangerous spell — tripled by Oil Slick debuff.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Blowtorch Burn</td>
+            <td>Multi-target (4 targets)</td>
+            <td><strong>8,000 DD × 4 targets.</strong></td>
+          </tr>
+          <tr>
+            <td class="spell-name">Verminate</td>
+            <td>Summon</td>
+            <td>Summons <strong>6× SwarmVerminate</strong> pets for 18 seconds. Assign DPS to kill them quickly.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Conical Burns (×8)</td>
+            <td>Directional (500 range, 60°)</td>
+            <td><strong>3,500 DD + Flux</strong> each. Eight directional AEs radiating outward. Active in phases 2 and 3. Stay away from Brinda's front arc.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- OIL SLICK -->
+      <div class="phase-header">Oil Slick — Untargetable, Active Throughout All Phases</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠</span>
+        <div class="callout-text">
+          <strong>Oil Slick</strong> — Untargetable slicks spawn around the room and chain-cast this unresistable debuff. It is nearly impossible to avoid entirely.
+          <br><br>
+          <strong>Effect:</strong> +200% incoming spell damage (fire) · -600 Fire Resist · +24 Corruption counters per application.<br>
+          <strong>Result:</strong> Any fire spell from Brinda — including Mathmatron Mallet — hits for <em>triple damage</em> while this is active.<br>
+          <strong>Cure with Radiant Cure immediately.</strong> 2 RCers per group is ideal.
+        </div>
+      </div>
+
+      <!-- PASSWORD MECHANIC -->
+      <div class="phase-header">Password Mechanic — 3 Waves, 5-Minute Timer Each</div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">ℹ</span>
+        <div class="callout-text">
+          <strong>How it works:</strong> Each wave spawns 10 M.E.G. Enforcers with Roman numerals in their names. Kill the <strong>three enforcers whose Roman numeral ends in the correct ones digit</strong>. Loot a Password Fragment from each. Target M.E.G. (the giant head) and /say the three passwords in order — wait for M.E.G. to reply between each. You have <strong>5 minutes</strong> to say all three or the event resets. Wrong password also resets the event.
+        </div>
+      </div>
+
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th style="width:10%">Wave</th>
+            <th style="width:30%">Target Enforcers (ones digits)</th>
+            <th style="width:60%">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Wave 1</strong></td>
+            <td>XLI (41) · LXXII (72) · CXIII (113)<br><em>Ones digits: 1, 2, 3</em></td>
+            <td>Kill all 10 enforcers (or mez the other 7) before triggering passwords. Loot fragments from XLI, LXXII, CXIII. Say password 1, wait for reply, say 2, wait, say 3.</td>
+          </tr>
+          <tr>
+            <td><strong>Wave 2</strong></td>
+            <td>CLXXXIV (184) · XXV (25) · DLXXVI (576)<br><em>Ones digits: 4, 5, 6</em></td>
+            <td>Same process. Clear or mez wave 1 remnants before triggering wave 2 passwords. New 10 spawn instantly on password entry.</td>
+          </tr>
+          <tr>
+            <td><strong>Wave 3</strong></td>
+            <td>XCVII (97) · DVIII (508) · CMXCIX (999)<br><em>Ones digits: 7, 8, 9</em></td>
+            <td>Final phase. Say the 3 passwords correctly → everything despawns including Brinda → chest spawns.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- PASSWORD LIST -->
+      <div class="phase-header">Password Fragment List — 20 Possible Words</div>
+
+      <div class="phase-block phase-blue">
+        <h4>All Possible Password Fragment Words</h4>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:4px 12px; font-size:0.88rem; color:var(--text-secondary); font-family:'Crimson Pro',serif;">
+          <span>Array</span><span>Binary</span><span>Core</span><span>Driveshaft</span><span>Error</span>
+          <span>Ferralitic</span><span>Graphite</span><span>Hologram</span><span>Indeterminate</span><span>Juxtapose</span>
+          <span>Killswitch</span><span>Luminescent</span><span>Mechanotus</span><span>Nevermind</span><span>Omniscient</span>
+          <span>Pinion</span><span>Quietus</span><span>Retry</span><span>System</span><span>Tautology</span>
+        </div>
+        <p style="margin-top:8px; font-size:0.82rem; color:var(--text-muted); font-style:italic;">Each enforcer drops one word at random. If multiple enforcers of the same target number drop — use the last one looted. Assign a single dedicated looter to stay organized.</p>
+      </div>
+
+      <!-- STRATEGY -->
+      <div class="ornament-divider">Strategy</div>
+
+      <div class="strategy-box">
+        <h3>Raid Leader Strategy</h3>
+        <ol>
+          <li><strong>Trigger:</strong> Go through Brinda's dialog until "We'll force you!" fires the event.</li>
+          <li><strong>Immediately:</strong> Paladins root Brinda in the far corner opposite the raid. Paladins will then move back to the raid to avoid the 200 range AE. Keep her rooted there for the entire event. She is a hazard to contain, not kill.</li>
+          <li><strong>Oil Slick:</strong> RC assigned players in every group cure Oil Slick continuously. 2 Radiant Curers per group is ideal. Tripled fire damage from uncured Oil Slick is raid-ending.</li>
+          <li><strong>Wave 1 — Enforcers spawn:</strong> Assign 3–6 players to pull XLI, LXXII, and CXIII to the raid. Mez or OT the other 7 enforcers while priority kills are made. Kill all 10 before triggering passwords. Assign <strong>one dedicated looter</strong> — loot Password Fragments from XLI, LXXII, CXIII in order.</li>
+          <li><strong>Password entry:</strong> Target M.E.G. and /say Fragment 1 word → wait for reply → /say Fragment 2 → wait → /say Fragment 3. Must complete within 5 minutes. Wrong password = full event reset.</li>
+          <li><strong>Wave 2 immediately spawns</strong> — repeat same process with CLXXXIV, XXV, DLXXVI (ones digits 4, 5, 6).</li>
+          <li><strong>Wave 3:</strong> XCVII, DVIII, CMXCIX (ones digits 7, 8, 9). Say passwords correctly → event ends, Brinda despawns, chest spawns.</li>
+          <li><strong>Verminate:</strong> When Brinda casts, kill the 6 SwarmVerminate pets immediately to prevent pile-up.</li>
+          <li><strong>Reset recovery:</strong> If a wipe is imminent, intentionally say a wrong password to force a controlled reset rather than a chaotic wipe.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">📋</span>
+        <div class="callout-text">
+          <strong>Enforcer kill priority per wave:</strong> Pull ones-digit targets first (assign 3–6 pullers). Mez or OT the other 7. After the 3 priority kills and fragment looting, clear the remaining 7 before entering passwords — prevents two waves being active simultaneously.
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠</span>
+        <div class="callout-text">
+          <strong>Intentional reset:</strong> Saying a wrong password triggers a full event reset. If your raid is about to wipe uncontrollably, deliberately say a wrong password to reset cleanly rather than losing the attempt to chaos.
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">ℹ</span>
+        <div class="callout-text">
+          <strong>Progression Note:</strong> Doctor Brinda Sprockets is the fifth and final named event in Meldrath's Majestic Mansion. Completing all five opens the path to Meldrath the Malignant. Notable evolving item drop: <strong>Version XI Serial Translatron</strong>.
+        </div>
+      </div>
+
+    </div><!-- /raid-card-body -->
+  </article><!-- /brinda -->
+
+  <!-- ════════════════════════════════════════════════
+       RAID 9: SENESCHAL BARGANGLE TINKERSON (MMM)
+  ════════════════════════════════════════════════ -->
+  <article class="raid-card" id="bargangle">
+
+    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
+      <div>
+        <div class="boss-name">Seneschal Bargangle Tinkerson</div>
+        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
+        <div class="boss-meta">
+          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — Steam Stage room</span>
+          <span><strong>Trigger:</strong> Aggro Assistant Fudindle — he paths to the event room where Geartop waits</span>
+        </div>
+        <div class="badges" style="margin-top:10px;">
+          <span class="badge badge-purple">Tier 3 Raid</span>
+          <span class="badge badge-red">AE Rampage (Bargangle)</span>
+          <span class="badge badge-red">Multi-Phase Event</span>
+          <span class="badge badge-amber">Summoned Mobs</span>
+        </div>
+      </div>
+      <span class="collapse-chevron">▼</span>
+    </div>
+
+    <div class="raid-card-body">
+
+      <!-- OVERVIEW CALLOUT -->
+      <div class="callout callout-blue" style="margin-bottom:1.2rem;">
+        <span class="callout-icon">ℹ</span>
+        <div class="callout-text">
+          <strong>Summoned mob note:</strong> Most mobs in this event are considered <strong>summoned</strong> — anti-summoned spells work against them. <em>Exceptions: Tinytops and Patch are not summoned.</em>
+        </div>
+      </div>
+
+      <!-- PHASE OVERVIEW -->
+      <div class="section-grid">
+        <div class="info-block">
+          <h3>Event Phase Order</h3>
+          <ul>
+            <li><strong>Phase 1:</strong> Kill Fudindle, then Geartop (use SKs)</li>
+            <li><strong>Phase 2:</strong> Kill ABSs (Designation Blue → Red) while OT holds Geartop</li>
+            <li><strong>Phase 3:</strong> Kill Geartop — rez raid before kill</li>
+            <li><strong>Phase 4:</strong> Patch + Bargangle enter — kill Patch, kill Bargangle</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h3>Bargangle Stats</h3>
+          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to 14,000</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes — max melee range</span></div>
+          <div class="stat-row"><span class="label">Overheat</span><span class="value danger">~60–50% — 200→350 damage shield</span></div>
+        </div>
+        <div class="info-block">
+          <h3>Loot</h3>
+          <ul>
+            <li><strong>2×</strong> Gyro Cores (Legs slot)</li>
+            <li><strong>2×</strong> Rune (Lv77/78, rarely 79/80)</li>
+            <li>Chance for <strong>Prismatic Faycite</strong></li>
+            <li>2× additional random loot</li>
+            <li>Notable evolving: <strong>Auto-Aiming Steamcoiled Recurvinator</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PHASE 1: FUDINDLE + GEARTOP -->
+      <div class="phase-header">Phase 1 — Fudindle &amp; Geartop</div>
+
+      <div class="phase-block phase-amber" style="border-left-color:var(--amber-light);">
+        <h4>Fudindle → Geartop Sequence</h4>
+        <ul>
+          <li>Aggro <strong>Assistant Fudindle</strong> to trigger. He paths to the event room where <strong>Geartop</strong> is waiting.</li>
+          <li><strong>Kill Fudindle first, then engage Geartop.</strong> Use SKs for both.</li>
+          <li>Geartop hits for <strong>8,000</strong>, flurries, and procs a <strong>6,000 DD + 1,000 DoT</strong>.</li>
+          <li>Geartop spawns <strong>Tinytops</strong> adds on a <strong>timed interval</strong>. They start hitting weak but scale up the longer they stay alive — even mezzed Tinytops continue to power up. <strong>Kill Tinytops immediately as they spawn.</strong></li>
+        </ul>
+      </div>
+
+      <!-- PHASE 2: ABS -->
+      <div class="phase-header">Phase 2 — Autonomic Battle Systems (ABS)</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠</span>
+        <div class="callout-text">
+          <strong>No DoTs on Geartop until after the first ABS is dead.</strong> ABSs spawn at <strong>80% and 60% of Geartop's HP</strong> — over-DPSing Geartop can cause both ABSs to be up simultaneously. Hold DPS on Geartop while each ABS is killed. Tinytops spawn on a <strong>timed interval</strong> — kill them immediately regardless of what else is happening.
+        </div>
+      </div>
+
+      <div class="phase-block phase-red">
+        <h4>ABS Activation</h4>
+        <ul>
+          <li>At <strong>80% Geartop HP</strong> — <strong>Designation Blue</strong> (first ABS) spawns. Pull it away from Geartop and burn it down. OT holds Geartop. <strong>Do not DPS Geartop to 60% until Blue is dead.</strong></li>
+          <li>At <strong>60% Geartop HP</strong> — <strong>Designation Red</strong> (second ABS) spawns. Raid gets off Geartop and kills Red before resuming.</li>
+          <li>ABSs have <strong>a lot of HP</strong> — assign full DPS. Kill one at a time.</li>
+          <li>Once <strong>both ABSs are dead</strong>, kill Geartop.</li>
+          <li><strong>Rez all dead raiders before killing Geartop</strong> — Geartop's death triggers a <strong>10,000 HP heal and full mana refresh</strong> for the raid.</li>
+        </ul>
+      </div>
+
+      <!-- PHASE 3/4: PATCH + BARGANGLE -->
+      <div class="phase-header">Phase 3 — Patch &amp; Bargangle Enter</div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">⚡</span>
+        <div class="callout-text">
+          <strong>Positioning:</strong> After Geartop dies, <strong>Patch</strong> spawns in the NE corner and <strong>Bargangle</strong> spawns in the SE corner. Kill Patch first while OT holds Bargangle. Adds do not despawn when Bargangle dies — clean up or burn through them.
+        </div>
+      </div>
+
+      <!-- BARGANGLE SPELLS -->
+      <div class="phase-header">Bargangle Abilities</div>
+
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th style="width:20%">Spell</th>
+            <th style="width:18%">Type</th>
+            <th style="width:62%">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Face Slam</td>
+            <td>Proc</td>
+            <td><strong>2,000 DD + 2,000 DoT + Blindness.</strong></td>
+          </tr>
+          <tr>
+            <td class="spell-name">Belch of Fire</td>
+            <td>Frontal AE</td>
+            <td><strong>18,000 DD.</strong> Face Bargangle away from the raid at all times.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Steam Burst</td>
+            <td>Targeted AE</td>
+            <td><strong>12,000 DD.</strong></td>
+          </tr>
+          <tr>
+            <td class="spell-name">Overheat</td>
+            <td>Passive</td>
+            <td>At ~60–50%, Bargangle gains a <strong>damage shield starting at 200, scaling to 350</strong>. Melee take reflected damage on each hit.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Death Explosion</td>
+            <td>AE (on death)</td>
+            <td>When Bargangle dies: <strong>15,000 AE + 6,000 AE + 10,000 mana drain</strong> all fire simultaneously. Brace for impact.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- PATCH ADDS -->
+      <div class="phase-header">Patch — Kill ASAP to Stop Add Spawns</div>
+
+      <div class="phase-block phase-red">
+        <h4>Patch Spawns Adds While Alive</h4>
+        <ul>
+          <li>Kill Patch as quickly as possible — every moment he's alive he is spawning adds.</li>
+          <li>Kill adds when Patch spawns them, then return DPS to Patch immediately.</li>
+          <li><strong>Patch will spawn a twin</strong> that tries to heal him. Either kill the twin or keep it mezzed/stun-locked. <em>(Effectiveness unconfirmed — test it.)</em></li>
+          <li>Once Patch is dead, kill Bargangle.</li>
+          <li><strong>Adds do not despawn</strong> on Bargangle's death.</li>
+        </ul>
+      </div>
+
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th style="width:28%">Add Type</th>
+            <th style="width:10%">Level</th>
+            <th style="width:62%">Abilities &amp; Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">a steamwork firestorm</td>
+            <td>80</td>
+            <td>Mezzable, stunable. Casts: <strong>10,000 DD + 2,000 DoT + 6,000 mana drain + 1,300 mana/tick DoT.</strong> Mez until fight is over or chain-stun while killing.</td>
+          </tr>
+          <tr>
+            <td class="spell-name" style="color:#e07060;">uncontrollable firestorm</td>
+            <td>80</td>
+            <td>Same as above but <strong>immune to mez.</strong> <span class="unresistable">Kill immediately.</span></td>
+          </tr>
+          <tr>
+            <td class="spell-name">a steamwork geargrinder</td>
+            <td>85</td>
+            <td>Snare/rootable. No AE.</td>
+          </tr>
+          <tr>
+            <td class="spell-name" style="color:#e07060;">uncontrollable geargrinder</td>
+            <td>85</td>
+            <td>Immune to root, can flurry. <span class="unresistable">Kill immediately.</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- STRATEGY -->
+      <div class="ornament-divider">Strategy</div>
+
+      <div class="strategy-box">
+        <h3>Raid Leader Strategy</h3>
+        <ol>
+          <li><strong>Trigger:</strong> Aggro Assistant Fudindle. He paths to the Steam Stage room. Follow.</li>
+          <li><strong>Kill Fudindle, then engage Geartop</strong> using SKs. Kill Tinytops the instant they spawn — even mezzed ones keep scaling up in damage.</li>
+          <li><strong>No DoTs on Geartop.</strong> DPS to 80% then hold. Designation Blue ABS activates — pull it away and burn it down with full DPS. OT holds Geartop.</li>
+          <li>After Blue is dead, resume DPS on Geartop to 60%. Raid backs off Geartop — Designation Red ABS activates. Kill Red. Do not let both ABSs up simultaneously.</li>
+          <li><strong>Rez all dead raiders before killing Geartop.</strong> Geartop's death fires a 10k HP heal + full mana refresh for the whole raid.</li>
+          <li><strong>Kill Geartop.</strong> Bargangle and Patch enter the room. Bargangle goes SE corner, Patch goes NE corner.</li>
+          <li><strong>OT picks up Bargangle</strong> (face away from raid — 18k frontal AE). <strong>Full raid burns Patch first.</strong> Kill adds as Patch spawns them, return to Patch. If his twin spawns, kill or mez/stun-lock it.</li>
+          <li><strong>Once Patch is dead, full burn on Bargangle.</strong> Use Servants for this fight (unless saving for another event).</li>
+          <li><strong>When Bargangle dies:</strong> Brace — 15k AE + 6k AE + 10k mana drain all fire at once. Healers pre-heal if possible.</li>
+          <li><strong>Remaining adds do not despawn</strong> — clean them up after Bargangle is dead, or burn through them mid-fight if DPS allows.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">📋</span>
+        <div class="callout-text">
+          <strong>Add kill priority:</strong> Uncontrollable Firestormer (kill) → Uncontrollable Geargrinder (kill) → Tinytops (kill immediately) → Steamwork Firestormer (mez or stun-kill) → Steamwork Geargrinder (snare/kill). Always return to Patch between add waves.
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">ℹ</span>
+        <div class="callout-text">
+          <strong>Progression Note:</strong> Seneschal Bargangle Tinkerson is the fourth of five named events in Meldrath's Majestic Mansion. Completing all five opens the path to Meldrath the Malignant. Notable evolving item drop: <strong>Auto-Aiming Steamcoiled Recurvinator</strong>.
+        </div>
+      </div>
+
+    </div><!-- /raid-card-body -->
+  </article><!-- /bargangle -->
 
   <!-- ════════════════════════════════════════════════
        RAID 7: BATTLE ROOM — TACTICAL PROTOTYPE XXVII
@@ -2753,6 +3388,7 @@
           <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes — constant, full damage</span></div>
           <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-Rooted</span></div>
+          <div class="stat-row"><span class="label">Floor</span><span class="value">3rd Floor</span></div>
         </div>
 
         <div class="info-block">
@@ -2999,631 +3635,6 @@
   </article><!-- /battleroom -->
 
   <!-- ════════════════════════════════════════════════
-       RAID 8: KROND THE LONGHORN (MMM)
-  ════════════════════════════════════════════════ -->
-  <article class="raid-card" id="krond">
-
-    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
-      <div>
-        <div class="boss-name">Krond the Longhorn</div>
-        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
-        <div class="boss-meta">
-          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — bedroom next to the maze</span>
-          <span><strong>Trigger:</strong> Attack him — he sleeps until 95% health, then wakes</span>
-        </div>
-        <div class="badges" style="margin-top:10px;">
-          <span class="badge badge-purple">Tier 3 Raid</span>
-          <span class="badge badge-green">No Rampage</span>
-          <span class="badge badge-green">No Flurry (unless provoked)</span>
-          <span class="badge badge-red">Perma-Rooted (while attacking)</span>
-          <span class="badge badge-red">Charm Add Mechanic</span>
-        </div>
-      </div>
-      <span class="collapse-chevron">▼</span>
-    </div>
-
-    <div class="raid-card-body">
-
-      <!-- STATS + SETUP + LOOT -->
-      <div class="section-grid">
-
-        <div class="info-block">
-          <h3>Boss Stats</h3>
-          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to ~13,000</span></div>
-          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">Flurry</span><span class="value">No — unless provoked</span></div>
-          <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-rooted while attacking; moves to weapon racks between attacks</span></div>
-          <div class="stat-row"><span class="label">Wakes at</span><span class="value danger">95% HP</span></div>
-        </div>
-
-        <div class="info-block">
-          <h3>Pre-Fight Setup</h3>
-          <ul>
-            <li><strong>Clear the entire maze</strong> before engaging — none of the mobs in the room are aggro until the event starts</li>
-            <li><strong>Clear first two buff slots</strong> on all raiders — put two junk buffs in slots 1 and 2: <em>Talisman of the Tribunal</em> and <em>Protection of Seasons</em></li>
-            <li>Fully <strong>debuff Krond while he is still sleeping</strong> — he won't react until 95%</li>
-          </ul>
-        </div>
-
-        <div class="info-block">
-          <h3>Loot</h3>
-          <ul>
-            <li><strong>24×</strong> progression flags <em>(confirm item name after first kill)</em></li>
-            <li>Notable drop: <strong>Self-Retracting Gearplate Mk. I</strong> (evolving item)</li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- WEAPON RACK MECHANIC -->
-      <div class="phase-header">Weapon Rack Mechanic — Active Throughout</div>
-
-      <div class="callout callout-amber">
-        <span class="callout-icon">⚡</span>
-        <div class="callout-text">
-          <strong>Mechanic:</strong> Randomly, Krond stops attacking, moves to one of four weapon racks, and equips a new set of weapons. While he is moving, <strong>only Warriors may continue attacking</strong>. The MT must match weapon loadout to whichever rack Krond visits. Mismatched weapons will cause him to flurry.
-        </div>
-      </div>
-
-      <table class="spells-table">
-        <thead>
-          <tr>
-            <th style="width:20%">Rack Location</th>
-            <th style="width:20%">Weapons</th>
-            <th style="width:60%">MT Must Equip</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Easternmost</strong></td>
-            <td>Spears</td>
-            <td><strong>1-hander + Shield</strong></td>
-          </tr>
-          <tr>
-            <td><strong>Middle East</strong></td>
-            <td>Gears</td>
-            <td><strong>1HS + 1HS</strong> (dual wield)</td>
-          </tr>
-          <tr>
-            <td><strong>Middle West</strong></td>
-            <td>Axes</td>
-            <td><strong>2-hander</strong></td>
-          </tr>
-          <tr>
-            <td><strong>Westernmost</strong></td>
-            <td>Swords</td>
-            <td><strong>1HB + 1HS</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- CRUEL SLAVERS -->
-      <div class="phase-header">Cruel Slavers — Spawn from 95% Onward</div>
-
-      <div class="phase-block phase-red">
-        <h4>Slavers Spawn One at a Time — Continuous</h4>
-        <ul>
-          <li>From the moment Krond wakes, Cruel Slavers spawn one at a time throughout the fight.</li>
-          <li>They cast <strong>Enslave</strong>: unresistable single-target charm on random raid members.</li>
-          <li>If left alive, a slaver will walk the charmed player through the maze to the final room — charm wears off there, but the slaver then kills the player.</li>
-          <li>Slavers <strong>can be killed</strong> (hit for ~4,500 when provoked) or the charm can be <strong>dispelled</strong> from the affected player.</li>
-          <li><strong>Everyone except MT and healers</strong> kills slavers or dispels the charmed player.</li>
-          <li>The pre-filled junk buff slots (Talisman of Tribunal / Protection of Seasons) protect your important buffs from being overwritten by Enslave.</li>
-        </ul>
-      </div>
-
-      <!-- HENCHOTAURS -->
-      <div class="phase-header">Henchotaurs — Spawn Randomly (1–3 Times per Fight)</div>
-
-      <div class="callout">
-        <span class="callout-icon">⚠</span>
-        <div class="callout-text">
-          <strong>Emote:</strong> <em>"Krond the Longhorn roars angrily, 'Henchotaurs charge these pests, trample them beneath your hooves, gore them with your horns, revel in their slaughter!'"</em> — Four Henchotaurs in the corner of the room activate and begin moving toward Krond. <strong>Everyone except MT, next tank, and healers must run in front of the Henchotaurs to block them.</strong>
-        </div>
-      </div>
-
-      <table class="spells-table">
-        <thead>
-          <tr>
-            <th style="width:22%">Spell</th>
-            <th style="width:18%">Type</th>
-            <th style="width:60%">Effect</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="spell-name">Gored</td>
-            <td>Single Target</td>
-            <td><strong>5,000 DD + 5-second stun.</strong> Unresistable. Cast on blockers who successfully stop a Henchotaur. Accept this — it means the block worked.</td>
-          </tr>
-          <tr>
-            <td class="spell-name">Hoof Stomp</td>
-            <td>PBAE (400 range)</td>
-            <td><strong>4,000 DD + Silence.</strong> (-250). Cast when a Henchotaur reaches Krond unblocked. <em>Do not let them through.</em></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="phase-block phase-blue">
-        <h4>After Blocking</h4>
-        <p>Successfully blocked Henchotaurs cast Gored (5k + stun) on their blocker, then walk back to their spawn corner. Henchotaurs that are not blocked reach Krond and AE Hoof Stomp (4k + silence) on the entire raid.</p>
-      </div>
-
-      <!-- STRATEGY -->
-      <div class="ornament-divider">Strategy</div>
-
-      <div class="strategy-box">
-        <h3>Raid Leader Strategy</h3>
-        <ol>
-          <li><strong>Pre-fight:</strong> Clear the entire maze. All raiders clear their first two buff slots and fill them with Talisman of the Tribunal and Protection of Seasons.</li>
-          <li><strong>Pre-pull debuffs:</strong> Fully debuff Krond while he is sleeping — he will not react until he reaches 95% HP.</li>
-          <li><strong>DPS to 95%.</strong> At 95%, back off and let the tank build aggro as Krond wakes up. He will perma-root at his current position — tank him wherever he stops.</li>
-          <li><strong>Cruel Slavers:</strong> Everyone except MT and healers either kills slavers as they spawn or dispels the charmed player. Do not let a slaver walk a player into the maze.</li>
-          <li><strong>Weapon rack changes:</strong> When Krond stops attacking and moves to a rack, only Warriors may continue hitting him. MT watches which rack he visits and swaps weapons accordingly. Mismatched weapons = flurry.</li>
-          <li><strong>Henchotaur emote:</strong> When the emote fires, everyone except MT, next tank, and healers runs in front of the Henchotaurs immediately. Blockers will take 5k DD + stun (Gored) — this is expected and means the block succeeded. Do not let any Henchotaur reach Krond.</li>
-          <li><strong>Burn Krond down.</strong> Slavers and Henchotaur phases will recur — respond to each as it arrives and return DPS to Krond immediately after.</li>
-        </ol>
-      </div>
-
-      <div class="callout callout-amber">
-        <span class="callout-icon">📋</span>
-        <div class="callout-text">
-          <strong>Buff slot reminder:</strong> Slots 1 and 2 must have Talisman of the Tribunal and Protection of Seasons before the pull. Enslave lands in the first available slot — this protects your critical buffs from being overwritten.
-        </div>
-      </div>
-
-      <div class="callout callout-blue">
-        <span class="callout-icon">ℹ</span>
-        <div class="callout-text">
-          <strong>Progression Note:</strong> Krond is the third of five named events in Meldrath's Majestic Mansion. Notable evolving item drop: <strong>Self-Retracting Gearplate Mk. I</strong>.
-        </div>
-      </div>
-
-    </div><!-- /raid-card-body -->
-  </article><!-- /krond -->
-
-  <!-- ════════════════════════════════════════════════
-       RAID 9: SENESCHAL BARGANGLE TINKERSON (MMM)
-  ════════════════════════════════════════════════ -->
-  <article class="raid-card" id="bargangle">
-
-    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
-      <div>
-        <div class="boss-name">Seneschal Bargangle Tinkerson</div>
-        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
-        <div class="boss-meta">
-          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — Steam Stage room</span>
-          <span><strong>Trigger:</strong> Aggro Assistant Fudindle — he paths to the event room where Geartop waits</span>
-        </div>
-        <div class="badges" style="margin-top:10px;">
-          <span class="badge badge-purple">Tier 3 Raid</span>
-          <span class="badge badge-red">AE Rampage (Bargangle)</span>
-          <span class="badge badge-red">Multi-Phase Event</span>
-          <span class="badge badge-amber">Summoned Mobs</span>
-        </div>
-      </div>
-      <span class="collapse-chevron">▼</span>
-    </div>
-
-    <div class="raid-card-body">
-
-      <!-- OVERVIEW CALLOUT -->
-      <div class="callout callout-blue" style="margin-bottom:1.2rem;">
-        <span class="callout-icon">ℹ</span>
-        <div class="callout-text">
-          <strong>Summoned mob note:</strong> Most mobs in this event are considered <strong>summoned</strong> — anti-summoned spells work against them. <em>Exceptions: Tinytops and Patch are not summoned.</em>
-        </div>
-      </div>
-
-      <!-- PHASE OVERVIEW -->
-      <div class="section-grid">
-        <div class="info-block">
-          <h3>Event Phase Order</h3>
-          <ul>
-            <li><strong>Phase 1:</strong> Kill Fudindle, then Geartop (use SKs)</li>
-            <li><strong>Phase 2:</strong> Kill ABSs (Designation Blue → Red) while OT holds Geartop</li>
-            <li><strong>Phase 3:</strong> Kill Geartop — rez raid before kill</li>
-            <li><strong>Phase 4:</strong> Patch + Bargangle enter — kill Patch, kill Bargangle</li>
-          </ul>
-        </div>
-        <div class="info-block">
-          <h3>Bargangle Stats</h3>
-          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to 14,000</span></div>
-          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes — max melee range</span></div>
-          <div class="stat-row"><span class="label">Overheat</span><span class="value danger">~60–50% — 200→350 damage shield</span></div>
-        </div>
-        <div class="info-block">
-          <h3>Loot</h3>
-          <ul>
-            <li><strong>2×</strong> Gyro Cores (Legs slot)</li>
-            <li><strong>2×</strong> Rune (Lv77/78, rarely 79/80)</li>
-            <li>Chance for <strong>Prismatic Faycite</strong></li>
-            <li>2× additional random loot</li>
-            <li>Notable evolving: <strong>Auto-Aiming Steamcoiled Recurvinator</strong></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- PHASE 1: FUDINDLE + GEARTOP -->
-      <div class="phase-header">Phase 1 — Fudindle &amp; Geartop</div>
-
-      <div class="phase-block phase-amber" style="border-left-color:var(--amber-light);">
-        <h4>Fudindle → Geartop Sequence</h4>
-        <ul>
-          <li>Aggro <strong>Assistant Fudindle</strong> to trigger. He paths to the event room where <strong>Geartop</strong> is waiting.</li>
-          <li><strong>Kill Fudindle first, then engage Geartop.</strong> Use SKs for both.</li>
-          <li>Geartop hits for <strong>8,000</strong>, flurries, and procs a <strong>6,000 DD + 1,000 DoT</strong>.</li>
-          <li>Geartop spawns <strong>Tinytops</strong> adds on a <strong>timed interval</strong>. They start hitting weak but scale up the longer they stay alive — even mezzed Tinytops continue to power up. <strong>Kill Tinytops immediately as they spawn.</strong></li>
-        </ul>
-      </div>
-
-      <!-- PHASE 2: ABS -->
-      <div class="phase-header">Phase 2 — Autonomic Battle Systems (ABS)</div>
-
-      <div class="callout">
-        <span class="callout-icon">⚠</span>
-        <div class="callout-text">
-          <strong>No DoTs on Geartop until after the first ABS is dead.</strong> ABSs spawn at <strong>80% and 60% of Geartop's HP</strong> — over-DPSing Geartop can cause both ABSs to be up simultaneously. Hold DPS on Geartop while each ABS is killed. Tinytops spawn on a <strong>timed interval</strong> — kill them immediately regardless of what else is happening.
-        </div>
-      </div>
-
-      <div class="phase-block phase-red">
-        <h4>ABS Activation</h4>
-        <ul>
-          <li>At <strong>80% Geartop HP</strong> — <strong>Designation Blue</strong> (first ABS) spawns. Pull it away from Geartop and burn it down. OT holds Geartop. <strong>Do not DPS Geartop to 60% until Blue is dead.</strong></li>
-          <li>At <strong>60% Geartop HP</strong> — <strong>Designation Red</strong> (second ABS) spawns. Raid gets off Geartop and kills Red before resuming.</li>
-          <li>ABSs have <strong>a lot of HP</strong> — assign full DPS. Kill one at a time.</li>
-          <li>Once <strong>both ABSs are dead</strong>, kill Geartop.</li>
-          <li><strong>Rez all dead raiders before killing Geartop</strong> — Geartop's death triggers a <strong>10,000 HP heal and full mana refresh</strong> for the raid.</li>
-        </ul>
-      </div>
-
-      <!-- PHASE 3/4: PATCH + BARGANGLE -->
-      <div class="phase-header">Phase 3 — Patch &amp; Bargangle Enter</div>
-
-      <div class="callout callout-amber">
-        <span class="callout-icon">⚡</span>
-        <div class="callout-text">
-          <strong>Positioning:</strong> After Geartop dies, <strong>Patch</strong> spawns in the NE corner and <strong>Bargangle</strong> spawns in the SE corner. Kill Patch first while OT holds Bargangle. Adds do not despawn when Bargangle dies — clean up or burn through them.
-        </div>
-      </div>
-
-      <!-- BARGANGLE SPELLS -->
-      <div class="phase-header">Bargangle Abilities</div>
-
-      <table class="spells-table">
-        <thead>
-          <tr>
-            <th style="width:20%">Spell</th>
-            <th style="width:18%">Type</th>
-            <th style="width:62%">Effect</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="spell-name">Face Slam</td>
-            <td>Proc</td>
-            <td><strong>2,000 DD + 2,000 DoT + Blindness.</strong></td>
-          </tr>
-          <tr>
-            <td class="spell-name">Belch of Fire</td>
-            <td>Frontal AE</td>
-            <td><strong>18,000 DD.</strong> Face Bargangle away from the raid at all times.</td>
-          </tr>
-          <tr>
-            <td class="spell-name">Steam Burst</td>
-            <td>Targeted AE</td>
-            <td><strong>12,000 DD.</strong></td>
-          </tr>
-          <tr>
-            <td class="spell-name">Overheat</td>
-            <td>Passive</td>
-            <td>At ~60–50%, Bargangle gains a <strong>damage shield starting at 200, scaling to 350</strong>. Melee take reflected damage on each hit.</td>
-          </tr>
-          <tr>
-            <td class="spell-name">Death Explosion</td>
-            <td>AE (on death)</td>
-            <td>When Bargangle dies: <strong>15,000 AE + 6,000 AE + 10,000 mana drain</strong> all fire simultaneously. Brace for impact.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- PATCH ADDS -->
-      <div class="phase-header">Patch — Kill ASAP to Stop Add Spawns</div>
-
-      <div class="phase-block phase-red">
-        <h4>Patch Spawns Adds While Alive</h4>
-        <ul>
-          <li>Kill Patch as quickly as possible — every moment he's alive he is spawning adds.</li>
-          <li>Kill adds when Patch spawns them, then return DPS to Patch immediately.</li>
-          <li><strong>Patch will spawn a twin</strong> that tries to heal him. Either kill the twin or keep it mezzed/stun-locked. <em>(Effectiveness unconfirmed — test it.)</em></li>
-          <li>Once Patch is dead, kill Bargangle.</li>
-          <li><strong>Adds do not despawn</strong> on Bargangle's death.</li>
-        </ul>
-      </div>
-
-      <table class="spells-table">
-        <thead>
-          <tr>
-            <th style="width:28%">Add Type</th>
-            <th style="width:10%">Level</th>
-            <th style="width:62%">Abilities &amp; Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="spell-name">a steamwork firestorm</td>
-            <td>80</td>
-            <td>Mezzable, stunable. Casts: <strong>10,000 DD + 2,000 DoT + 6,000 mana drain + 1,300 mana/tick DoT.</strong> Mez until fight is over or chain-stun while killing.</td>
-          </tr>
-          <tr>
-            <td class="spell-name" style="color:#e07060;">uncontrollable firestorm</td>
-            <td>80</td>
-            <td>Same as above but <strong>immune to mez.</strong> <span class="unresistable">Kill immediately.</span></td>
-          </tr>
-          <tr>
-            <td class="spell-name">a steamwork geargrinder</td>
-            <td>85</td>
-            <td>Snare/rootable. No AE.</td>
-          </tr>
-          <tr>
-            <td class="spell-name" style="color:#e07060;">uncontrollable geargrinder</td>
-            <td>85</td>
-            <td>Immune to root, can flurry. <span class="unresistable">Kill immediately.</span></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- STRATEGY -->
-      <div class="ornament-divider">Strategy</div>
-
-      <div class="strategy-box">
-        <h3>Raid Leader Strategy</h3>
-        <ol>
-          <li><strong>Trigger:</strong> Aggro Assistant Fudindle. He paths to the Steam Stage room. Follow.</li>
-          <li><strong>Kill Fudindle, then engage Geartop</strong> using SKs. Kill Tinytops the instant they spawn — even mezzed ones keep scaling up in damage.</li>
-          <li><strong>No DoTs on Geartop.</strong> DPS to 80% then hold. Designation Blue ABS activates — pull it away and burn it down with full DPS. OT holds Geartop.</li>
-          <li>After Blue is dead, resume DPS on Geartop to 60%. Raid backs off Geartop — Designation Red ABS activates. Kill Red. Do not let both ABSs up simultaneously.</li>
-          <li><strong>Rez all dead raiders before killing Geartop.</strong> Geartop's death fires a 10k HP heal + full mana refresh for the whole raid.</li>
-          <li><strong>Kill Geartop.</strong> Bargangle and Patch enter the room. Bargangle goes SE corner, Patch goes NE corner.</li>
-          <li><strong>OT picks up Bargangle</strong> (face away from raid — 18k frontal AE). <strong>Full raid burns Patch first.</strong> Kill adds as Patch spawns them, return to Patch. If his twin spawns, kill or mez/stun-lock it.</li>
-          <li><strong>Once Patch is dead, full burn on Bargangle.</strong> Use Servants for this fight (unless saving for another event).</li>
-          <li><strong>When Bargangle dies:</strong> Brace — 15k AE + 6k AE + 10k mana drain all fire at once. Healers pre-heal if possible.</li>
-          <li><strong>Remaining adds do not despawn</strong> — clean them up after Bargangle is dead, or burn through them mid-fight if DPS allows.</li>
-        </ol>
-      </div>
-
-      <div class="callout callout-amber">
-        <span class="callout-icon">📋</span>
-        <div class="callout-text">
-          <strong>Add kill priority:</strong> Uncontrollable Firestormer (kill) → Uncontrollable Geargrinder (kill) → Tinytops (kill immediately) → Steamwork Firestormer (mez or stun-kill) → Steamwork Geargrinder (snare/kill). Always return to Patch between add waves.
-        </div>
-      </div>
-
-      <div class="callout callout-blue">
-        <span class="callout-icon">ℹ</span>
-        <div class="callout-text">
-          <strong>Progression Note:</strong> Seneschal Bargangle Tinkerson is the fourth of five named events in Meldrath's Majestic Mansion. Completing all five opens the path to Meldrath the Malignant. Notable evolving item drop: <strong>Auto-Aiming Steamcoiled Recurvinator</strong>.
-        </div>
-      </div>
-
-    </div><!-- /raid-card-body -->
-  </article><!-- /bargangle -->
-
-  <!-- ════════════════════════════════════════════════
-       RAID 10: DOCTOR BRINDA SPROCKETS (MMM)
-  ════════════════════════════════════════════════ -->
-  <article class="raid-card" id="brinda">
-
-    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
-      <div>
-        <div class="boss-name">Doctor Brinda Sprockets</div>
-        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
-        <div class="boss-meta">
-          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — M.E.G. Room (northwest, 2nd floor)</span>
-          <span><strong>Trigger:</strong> Dialog with Brinda until <strong>"We'll force you!"</strong></span>
-        </div>
-        <div class="badges" style="margin-top:10px;">
-          <span class="badge badge-purple">Tier 3 Raid</span>
-          <span class="badge badge-red">Fire AEs (tripled by Oil Slick)</span>
-          <span class="badge badge-green">No Rampage</span>
-          <span class="badge badge-green">No Flurry</span>
-          <span class="badge badge-green">No Summon</span>
-          <span class="badge badge-amber">Root/Snare = Yes</span>
-          <span class="badge badge-gray">3-Phase Password Event</span>
-        </div>
-      </div>
-      <span class="collapse-chevron">▼</span>
-    </div>
-
-    <div class="raid-card-body">
-
-      <!-- OVERVIEW -->
-      <div class="callout callout-amber" style="margin-bottom:1.2rem;">
-        <span class="callout-icon">⚡</span>
-        <div class="callout-text">
-          <strong>Core concept:</strong> Brinda is not a kill target — killing her does nothing, she just respawns. The event is won by completing three password phases. Each phase: kill 3 specific M.E.G. Enforcers in numerical order → loot their Password Fragments → /say passwords to M.E.G. in sequence within 5 minutes. <strong>Root Brinda in a far corner immediately and keep her there the entire event.</strong>
-        </div>
-      </div>
-
-      <!-- STATS + ROLES + LOOT -->
-      <div class="section-grid">
-
-        <div class="info-block">
-          <h3>Brinda Stats</h3>
-          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">Up to ~15,000</span></div>
-          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">Summons</span><span class="value safe">No</span></div>
-          <div class="stat-row"><span class="label">Rootable/Snareable</span><span class="value safe">Yes — use Paladins</span></div>
-          <div class="stat-row"><span class="label">Killable?</span><span class="value">Respawns — not the objective</span></div>
-        </div>
-
-        <div class="info-block">
-          <h3>Required Cures</h3>
-          <ul>
-            <li><strong>Radiant Cure</strong> — Oil Slick (corruption counters)</li>
-            <li><strong>Corruption Cure</strong> — RC in every group if possible (2 per group ideal)</li>
-            <li>Oil Slick triples fire damage from Brinda's AEs — it is nearly unavoidable, curing it is critical</li>
-          </ul>
-        </div>
-
-        <div class="info-block">
-          <h3>Loot</h3>
-          <ul>
-            <li><strong>24×</strong> progression flags <em>(confirm item name)</em></li>
-            <li>Notable evolving: <strong>Version XI Serial Translatron</strong></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- BRINDA ABILITIES -->
-      <div class="phase-header">Brinda's Abilities</div>
-
-      <table class="spells-table">
-        <thead>
-          <tr>
-            <th style="width:22%">Spell</th>
-            <th style="width:18%">Type</th>
-            <th style="width:60%">Effect</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="spell-name">Mathmatron Mallet</td>
-            <td>Targeted AE (200 range)</td>
-            <td><strong>15,000 DD + 5-second stun.</strong> Fire (-500). Most dangerous spell — tripled by Oil Slick debuff.</td>
-          </tr>
-          <tr>
-            <td class="spell-name">Blowtorch Burn</td>
-            <td>Multi-target (4 targets)</td>
-            <td><strong>8,000 DD × 4 targets.</strong></td>
-          </tr>
-          <tr>
-            <td class="spell-name">Verminate</td>
-            <td>Summon</td>
-            <td>Summons <strong>6× SwarmVerminate</strong> pets for 18 seconds. Assign DPS to kill them quickly.</td>
-          </tr>
-          <tr>
-            <td class="spell-name">Conical Burns (×8)</td>
-            <td>Directional (500 range, 60°)</td>
-            <td><strong>3,500 DD + Flux</strong> each. Eight directional AEs radiating outward. Active in phases 2 and 3. Stay away from Brinda's front arc.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- OIL SLICK -->
-      <div class="phase-header">Oil Slick — Untargetable, Active Throughout All Phases</div>
-
-      <div class="callout">
-        <span class="callout-icon">⚠</span>
-        <div class="callout-text">
-          <strong>Oil Slick</strong> — Untargetable slicks spawn around the room and chain-cast this unresistable debuff. It is nearly impossible to avoid entirely.
-          <br><br>
-          <strong>Effect:</strong> +200% incoming spell damage (fire) · -600 Fire Resist · +24 Corruption counters per application.<br>
-          <strong>Result:</strong> Any fire spell from Brinda — including Mathmatron Mallet — hits for <em>triple damage</em> while this is active.<br>
-          <strong>Cure with Radiant Cure immediately.</strong> 2 RCers per group is ideal.
-        </div>
-      </div>
-
-      <!-- PASSWORD MECHANIC -->
-      <div class="phase-header">Password Mechanic — 3 Waves, 5-Minute Timer Each</div>
-
-      <div class="callout callout-blue">
-        <span class="callout-icon">ℹ</span>
-        <div class="callout-text">
-          <strong>How it works:</strong> Each wave spawns 10 M.E.G. Enforcers with Roman numerals in their names. Kill the <strong>three enforcers whose Roman numeral ends in the correct ones digit</strong>. Loot a Password Fragment from each. Target M.E.G. (the giant head) and /say the three passwords in order — wait for M.E.G. to reply between each. You have <strong>5 minutes</strong> to say all three or the event resets. Wrong password also resets the event.
-        </div>
-      </div>
-
-      <table class="spells-table">
-        <thead>
-          <tr>
-            <th style="width:10%">Wave</th>
-            <th style="width:30%">Target Enforcers (ones digits)</th>
-            <th style="width:60%">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Wave 1</strong></td>
-            <td>XLI (41) · LXXII (72) · CXIII (113)<br><em>Ones digits: 1, 2, 3</em></td>
-            <td>Kill all 10 enforcers (or mez the other 7) before triggering passwords. Loot fragments from XLI, LXXII, CXIII. Say password 1, wait for reply, say 2, wait, say 3.</td>
-          </tr>
-          <tr>
-            <td><strong>Wave 2</strong></td>
-            <td>CLXXXIV (184) · XXV (25) · DLXXVI (576)<br><em>Ones digits: 4, 5, 6</em></td>
-            <td>Same process. Clear or mez wave 1 remnants before triggering wave 2 passwords. New 10 spawn instantly on password entry.</td>
-          </tr>
-          <tr>
-            <td><strong>Wave 3</strong></td>
-            <td>XCVII (97) · DVIII (508) · CMXCIX (999)<br><em>Ones digits: 7, 8, 9</em></td>
-            <td>Final phase. Say the 3 passwords correctly → everything despawns including Brinda → chest spawns.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- PASSWORD LIST -->
-      <div class="phase-header">Password Fragment List — 20 Possible Words</div>
-
-      <div class="phase-block phase-blue">
-        <h4>All Possible Password Fragment Words</h4>
-        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:4px 12px; font-size:0.88rem; color:var(--text-secondary); font-family:'Crimson Pro',serif;">
-          <span>Array</span><span>Binary</span><span>Core</span><span>Driveshaft</span><span>Error</span>
-          <span>Ferralitic</span><span>Graphite</span><span>Hologram</span><span>Indeterminate</span><span>Juxtapose</span>
-          <span>Killswitch</span><span>Luminescent</span><span>Mechanotus</span><span>Nevermind</span><span>Omniscient</span>
-          <span>Pinion</span><span>Quietus</span><span>Retry</span><span>System</span><span>Tautology</span>
-        </div>
-        <p style="margin-top:8px; font-size:0.82rem; color:var(--text-muted); font-style:italic;">Each enforcer drops one word at random. If multiple enforcers of the same target number drop — use the last one looted. Assign a single dedicated looter to stay organized.</p>
-      </div>
-
-      <!-- STRATEGY -->
-      <div class="ornament-divider">Strategy</div>
-
-      <div class="strategy-box">
-        <h3>Raid Leader Strategy</h3>
-        <ol>
-          <li><strong>Trigger:</strong> Go through Brinda's dialog until "We'll force you!" fires the event.</li>
-          <li><strong>Immediately:</strong> Paladins root Brinda in the far corner opposite the raid. Keep her rooted there for the entire event. She is a hazard to contain, not kill.</li>
-          <li><strong>Oil Slick:</strong> RC assigned players in every group cure Oil Slick continuously. 2 Radiant Curers per group is ideal. Tripled fire damage from uncured Oil Slick is raid-ending.</li>
-          <li><strong>Wave 1 — Enforcers spawn:</strong> Assign 3–6 players to pull XLI, LXXII, and CXIII to the raid. Mez or OT the other 7 enforcers while priority kills are made. Kill all 10 before triggering passwords. Assign <strong>one dedicated looter</strong> — loot Password Fragments from XLI, LXXII, CXIII in order.</li>
-          <li><strong>Password entry:</strong> Target M.E.G. and /say Fragment 1 word → wait for reply → /say Fragment 2 → wait → /say Fragment 3. Must complete within 5 minutes. Wrong password = full event reset.</li>
-          <li><strong>Wave 2 immediately spawns</strong> — repeat same process with CLXXXIV, XXV, DLXXVI (ones digits 4, 5, 6).</li>
-          <li><strong>Wave 3:</strong> XCVII, DVIII, CMXCIX (ones digits 7, 8, 9). Say passwords correctly → event ends, Brinda despawns, chest spawns.</li>
-          <li><strong>Verminate:</strong> When Brinda casts, kill the 6 SwarmVerminate pets immediately to prevent pile-up.</li>
-          <li><strong>Reset recovery:</strong> If a wipe is imminent, intentionally say a wrong password to force a controlled reset rather than a chaotic wipe.</li>
-        </ol>
-      </div>
-
-      <div class="callout callout-amber">
-        <span class="callout-icon">📋</span>
-        <div class="callout-text">
-          <strong>Enforcer kill priority per wave:</strong> Pull ones-digit targets first (assign 3–6 pullers). Mez or OT the other 7. After the 3 priority kills and fragment looting, clear the remaining 7 before entering passwords — prevents two waves being active simultaneously.
-        </div>
-      </div>
-
-      <div class="callout">
-        <span class="callout-icon">⚠</span>
-        <div class="callout-text">
-          <strong>Intentional reset:</strong> Saying a wrong password triggers a full event reset. If your raid is about to wipe uncontrollably, deliberately say a wrong password to reset cleanly rather than losing the attempt to chaos.
-        </div>
-      </div>
-
-      <div class="callout callout-blue">
-        <span class="callout-icon">ℹ</span>
-        <div class="callout-text">
-          <strong>Progression Note:</strong> Doctor Brinda Sprockets is the fifth and final named event in Meldrath's Majestic Mansion. Completing all five opens the path to Meldrath the Malignant. Notable evolving item drop: <strong>Version XI Serial Translatron</strong>.
-        </div>
-      </div>
-
-    </div><!-- /raid-card-body -->
-  </article><!-- /brinda -->
-
-  <!-- ════════════════════════════════════════════════
        RAID 11: MELDRATH THE MALIGNANT (FINAL BOSS)
   ════════════════════════════════════════════════ -->
   <article class="raid-card" id="meldrath">
@@ -3663,12 +3674,14 @@
         <div class="info-block">
           <h3>Meldrath (Gnome Form)</h3>
           <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">~11,000</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">Summons</span><span class="value danger">Yes — at full health</span></div>
           <div class="stat-row"><span class="label">Tethered</span><span class="value">East side of room</span></div>
           <div class="stat-row"><span class="label">Pull to</span><span class="value">North wall or NW corner</span></div>
           <div class="stat-row"><span class="label">Casters stand</span><span class="value">Back — 150' spell slow AE</span></div>
           <div class="stat-row"><span class="label">Purple mana aura</span><span class="value danger">Move away — drains mana</span></div>
-          <div class="stat-row"><span class="label">Enrage/Flees at</span><span class="value danger">40% — room fills with DoT aura. Exit immediately.</span></div>
+          <div class="stat-row"><span class="label">Flees at</span><span class="value danger">40% — room fills with DoT aura. Exit immediately.</span></div>
         </div>
         <div class="info-block">
           <h3>Required Cures</h3>
@@ -3691,7 +3704,7 @@
           <tr>
             <td class="spell-name">Spite of Meldrath</td>
             <td>Single Target (Priest)</td>
-            <td>Emote: <em>"You feel Meldrath's hatred course through you."</em> — <strong>16 curse counters.</strong> If not cured within 30 seconds: <strong>15,000 AE (10 range) at the priest's location.</strong> Cure immediately with RC.</td>
+            <td>Emote: <em>"You feel Meldrath's hatred course through you."</em> — <strong>16 corruption counters.</strong> If not cured within 30 seconds: <strong>15,000 AE (10 range) at the priest's location.</strong> Cure immediately with RC.</td>
           </tr>
           <tr>
             <td class="spell-name">Stinking Miasma</td>
@@ -3715,15 +3728,15 @@
       <div class="strategy-box" style="margin-top:1rem;">
         <h3>Part 1 Strategy</h3>
         <ol>
-          <li><strong>Monk tags Sixton</strong> at the left wall — raid stays out of the room. Monk tries to split Sixton away from Meldrath. Meldrath is tethered to the east side.</li>
+          <li><strong>Monk tags Sixton</strong> at the left wall — raid stays out of the room. Monk tries to split Sixton away from Meldrath. Meldrath is tethered to the east side. OR have an SK pull Meldrath out of the room until he leashes. Pull Sixton to the NW or SW corner. Stay away from Meldrath.</li>
           <li>One person aggros Meldrath and FDs to leash him. <strong>Raid hugs the west wall</strong> to avoid Meldrath's aggro. If Meldrath comes anyway, SK picks him up and leashes him out.</li>
           <li><strong>Kill Sixton</strong> while Meldrath resets. Then <strong>pull Meldrath to the north wall or NW corner.</strong></li>
           <li>Casters stay back — Meldrath's 150-range AE spell/melee slow covers a large area. Stay out of the purple mana-drain aura.</li>
-          <li><strong>Spite of Meldrath:</strong> Priests cure immediately — 16 curse counters, 30-second window before 15k AE at priest location.</li>
-          <li><strong>Tick Tocks:</strong> Named target runs immediately to the <strong>SE Corner (Quarantine)</strong>.</li>
-          <li><strong>Repair Mechanics:</strong> Intercept and kill before they reach Meldrath (20% heal if they touch him).</li>
+          <li><strong>Spite of Meldrath:</strong> Emote: <em>"You feel Meldrath's Hatred course through you."</em> Priests cure immediately — 16 corruption counters, 30-second window before 15k AE at priest location.</li>
+          <li><strong>Tick Tocks:</strong> Emote: <em>"Target acquired! Physical translation to location of target [NAME] in progress. Termination of explosive duties eminent."</em> Named target runs immediately to the <strong>SE Corner (Quarantine)</strong>.</li>
+          <li><strong>Repair Mechanics:</strong> Intercept and mez/kill before they reach Meldrath (20% heal if they touch him).</li>
           <li><strong>Tormented Revenants:</strong> Rez dead players immediately — revenants despawn on rez.</li>
-          <li><strong>At 40%</strong> — room fills with a massive DoT aura. <strong>Exit the room immediately. Run south then west — quickly (15 seconds).</strong> Clean up remaining adds outside. Med up safely, then head east when ready.</li>
+          <li><strong>Meldrath despawns. At 40%</strong> — room fills with a massive DoT aura. <strong>Exit the room immediately. Run south then west — quickly (15 seconds).</strong> Clean up remaining adds outside. Med up safely, then head east when ready.</li>
         </ol>
       </div>
 
@@ -3774,8 +3787,7 @@
             <li><strong>Breakneck</strong> — Mallet emote still active. Follow duck protocol.</li>
             <li><strong>Bargangle &amp; Brinda</strong> — at 80% they run to their suits. <em>Pull off DPS to let them get in.</em> They hit harder in suits. No special abilities in suit form.</li>
             <li>All hit for ~9k in skeleton form. Assign 4 tanks to 4 mini-bosses. OT the 2 skellies (Brinda/Bargangle pre-suit).</li>
-            <li>Hold after Brinda dies — rebuff before final Meldrath.</li>
-          </ul>
+                      </ul>
         </div>
       </div>
 
@@ -3788,6 +3800,7 @@
           <div class="stat-row"><span class="label">Summoned mob</span><span class="value">Yes — anti-summoned spells work</span></div>
           <div class="stat-row"><span class="label">Spell mitigation</span><span class="value danger">40% — mana shield, debuff if possible</span></div>
           <div class="stat-row"><span class="label">Spells</span><span class="value danger">Meldrath's Malaise + Spite of Meldrath (same as P1)</span></div>
+          <div class="stat-row"><span class="label">Exoskeletal Manashield</span><span class="value danger">Mitigate Spell Damage by 40% — debuff if possible</span></div>
         </div>
         <div class="info-block">
           <h3>Key Timings</h3>
@@ -3837,14 +3850,14 @@
       <div class="strategy-box">
         <h3>Final Meldrath Strategy</h3>
         <ol>
-          <li><strong>Rebuff after Brinda dies</strong> before engaging final Meldrath. Hold in place.</li>
           <li><strong>Stay away from center of room</strong> — Meldrath spawns there.</li>
-          <li><strong>Engage Meldrath.</strong> He's a summoned mob — anti-summoned spells work.</li>
-          <li><strong>Debuff mana shield</strong> if possible — 40% spell mitigation is significant for casters.</li>
+          <li><strong>Engage Meldrath and tank him on the North Wall.</strong> He's a summoned mob — anti-summoned spells work.</li>
+          <li><strong>Debuff Exoskeletal Manashield</strong> if possible — 40% spell mitigation is significant for casters.</li>
           <li><strong>At 80%</strong> — MGB Celestial Regen chain. Support Units begin activating below 80%.</li>
           <li><strong>Support Unit emotes:</strong> "Turns to face you" = that player immediately moves away from the raid. Ignore the units otherwise — do not DPS them.</li>
           <li><strong>At 75%</strong> — Drop Wards.</li>
-          <li><strong>Spite of Meldrath:</strong> Priests cure with RC — same 30-second window as Part 1. 16 curse counters.</li>
+          <li><strong>Spite of Meldrath:</strong> Priests cure with RC — same 30-second window as Part 1. 16 corruption counters.</li>
+          <li><strong>Raid full burn at 50%.</strong></li>
           <li><strong>At 15%</strong> — Steamwork Buzzkills spawn (hit for 4,500, mezzable) and Meldrath tries to flee. <strong>Chanters and Bards mez all Buzzkills. Raid burns Meldrath down.</strong></li>
           <li><strong>When Meldrath dies</strong> — kill remaining adds.</li>
         </ol>

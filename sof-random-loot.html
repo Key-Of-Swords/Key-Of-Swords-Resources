@@ -127,6 +127,7 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 
 .back-btn { display: inline-flex; align-items: center; gap: 6px; margin: 10px 20px 0; font-size: 13px; color: var(--gold); text-decoration: none; border: 1px solid var(--border); background: var(--bg-panel); padding: 5px 12px; border-radius: 6px; }
 .back-btn:hover { border-color: var(--gold); }
+.back-btn-wrap { text-align: center; padding: 10px 0 0; }
 
 .footer { text-align: center; padding: 16px; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 10px; }
 </style>
@@ -147,7 +148,7 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
   </div>
 </div>
 
-<a class="back-btn" href="sof.html">&#8592; Secrets of Faydwer</a>
+<div class="back-btn-wrap"><a class="back-btn" href="sof.html">&#8592; Secrets of Faydwer</a></div>
 
 <div class="legend">
   <span style="font-size:11px;color:var(--text-muted);margin-right:4px;">Buckets:</span>
@@ -215,14 +216,15 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 <div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server</div>
 
 <script>
-const RAID_NIGHTS = ["4/23","4/25"];
+const RAID_NIGHTS = ["4/23","4/25","4/28","4/30"];
 
 // Source: SOF_Master_Loot (authoritative)
 // Tier rule: bucket = tier of the mob that NORMALLY drops the item
 // xtier = true when dropping mob's tier differs from item's normal source tier
 //
 // T1 bosses: Octa the Collector, Scorn, Wirlem, The Fanged Moon, Crazok Moonfang, Ralkor's Crystals
-// T2 bosses: Big Bynn's Return, Deepscar's Den, Mining Behemoth, Power Station, Spindlecrank, Soulbleeder
+// T2 bosses: Big Bynn's Return (Tinmizer's Wunderwerks), Deepscar's Den, Mining Behemoth,
+//            Power Station, Spindlecrank, Soulbleeder
 // T3 bosses: Breakneck, Krond, Battle Room, Brinda Sprockets, Seneschal Bargangle Tinkerson, Meldrath
 // T4 bosses: Keepers of Stone, Halls of Fire, Ice Constructs, Aerius Windfury, Kildrukaun,
 //            Tjudawos, Zeixshi`Kar, Vyskudra, Brood Mother Visziaj, Kerafyrm the Awakened
@@ -230,6 +232,9 @@ const RAID_NIGHTS = ["4/23","4/25"];
 // 4/23 events: Deepscar's Den, Big Bynn's Return, Mining Behemoth, Power Station, Spindlecrank
 // 4/25 events: The Fanged Moon (19:42), Crazok Moonfang (20:18),
 //              Ralkor's Crystals (21:15), Soulbleeder (22:18), Octa the Collector (22:50)
+// 4/28 events: Deepscar's Den (19:26), Big Bynn's Return/Tinmizer (20:11),
+//              Mining Behemoth (20:45), Power Station, Spindlecrank
+// 4/30 events: Breakneck (20:05), Bargangle (20:40), Battle Room (21:53)
 
 const DATA = [
 
@@ -305,10 +310,10 @@ const DATA = [
     item: "Steel-Threaded Satin Wristband",
     bucket: "Raid T1",
     normal: "Octa the Collector / Scorn / Wirlem",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Deepscar's Den", count:1}],
+    xtier: true,
+    same: ["Deepscar's Den"],
+    nights: ["4/28"]
   },
   {
     item: "Steel-Welded Plate Bracer",
@@ -341,10 +346,10 @@ const DATA = [
     item: "Steel-Welded Ringmail Wristguard",
     bucket: "Raid T1",
     normal: "Octa the Collector / Scorn / Wirlem",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Deepscar's Den", count:1}],
+    xtier: true,
+    same: ["Deepscar's Den"],
+    nights: ["4/28"]
   },
 
   // ── Scorn drops ───────────────────────────────────────────────────────────
@@ -352,10 +357,10 @@ const DATA = [
     item: "Mask of the Unrequited",
     bucket: "Raid T1",
     normal: "Scorn",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Deepscar's Den", count:1}],
     xtier: true,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
+    same: ["Chief Mechanic Clankwrench","Deepscar's Den"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Scepter of Dark Clouds",
@@ -455,10 +460,10 @@ const DATA = [
     item: "Shroud of the Moonlight Curse",
     bucket: "Raid T1",
     normal: "The Fanged Moon",
-    teek: [{mob:"The Fanged Moon", count:1}],
-    xtier: false,
-    same: [],
-    nights: ["4/25"]
+    teek: [{mob:"The Fanged Moon", count:1},{mob:"Mining Behemoth", count:1}],
+    xtier: true,
+    same: ["Mining Behemoth"],
+    nights: ["4/25","4/28"]
   },
   {
     item: "Sinew-Wrapped Ballista",
@@ -473,28 +478,28 @@ const DATA = [
     item: "Steel-Studded Leather Leggings",
     bucket: "Raid T1",
     normal: "The Fanged Moon",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Mining Behemoth", count:1}],
     xtier: true,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
+    same: ["Chief Mechanic Clankwrench","Mining Behemoth"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Steel-Studded Leather Tunic",
     bucket: "Raid T1",
     normal: "The Fanged Moon / Crazok Moonfang",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Power Station", count:1}],
+    xtier: true,
+    same: ["Power Station"],
+    nights: ["4/28"]
   },
   {
     item: "Steel-Threaded Satin Pantaloons",
     bucket: "Raid T1",
     normal: "The Fanged Moon",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Mining Behemoth", count:1}],
+    xtier: true,
+    same: ["Mining Behemoth"],
+    nights: ["4/28"]
   },
   {
     item: "Steel-Threaded Satin Robe",
@@ -565,64 +570,64 @@ const DATA = [
     item: "Bloodseeker's Veil",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"The Fanged Moon", count:1}],
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"The Fanged Moon", count:1},{mob:"Big Bynn's Return", count:2},{mob:"Mining Behemoth", count:1}],
     xtier: true,
-    same: ["Overseer Gakkor Deepscar","The Fanged Moon"],
-    nights: ["4/23","4/25"]
+    same: ["Overseer Gakkor Deepscar","The Fanged Moon","Big Bynn's Return","Mining Behemoth"],
+    nights: ["4/23","4/25","4/28"]
   },
   {
     item: "Moonblade of the Bloodcrazed",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1}],
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"Big Bynn's Return", count:1},{mob:"Power Station", count:2}],
     xtier: true,
-    same: ["Overseer Gakkor Deepscar"],
-    nights: ["4/23"]
+    same: ["Overseer Gakkor Deepscar","Big Bynn's Return","Power Station"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Scarlet-Lined Bloodsash",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [{mob:"Mining Behemoth", count:1}],
+    teek: [{mob:"Mining Behemoth", count:3},{mob:"Big Bynn's Return", count:1},{mob:"Power Station", count:2}],
     xtier: true,
-    same: ["Mining Behemoth"],
-    nights: ["4/23"]
+    same: ["Mining Behemoth","Big Bynn's Return","Power Station"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Steel-Studded Leather Armwraps",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [{mob:"The Fanged Moon", count:1}],
-    xtier: false,
-    same: ["The Fanged Moon"],
-    nights: ["4/25"]
+    teek: [{mob:"The Fanged Moon", count:1},{mob:"Big Bynn's Return", count:1},{mob:"Mining Behemoth", count:2},{mob:"Power Station", count:1}],
+    xtier: true,
+    same: ["The Fanged Moon","Big Bynn's Return","Mining Behemoth","Power Station"],
+    nights: ["4/25","4/28"]
   },
   {
     item: "Steel-Threaded Satin Sleeves",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"The Fanged Moon", count:1}],
+    teek: [{mob:"Overseer Gakkor Deepscar", count:1},{mob:"The Fanged Moon", count:1},{mob:"Big Bynn's Return", count:1},{mob:"Power Station", count:1}],
     xtier: true,
-    same: ["Overseer Gakkor Deepscar","The Fanged Moon"],
-    nights: ["4/23","4/25"]
+    same: ["Overseer Gakkor Deepscar","The Fanged Moon","Big Bynn's Return","Power Station"],
+    nights: ["4/23","4/25","4/28"]
   },
   {
     item: "Steel-Welded Plate Vambraces",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [{mob:"Mining Behemoth", count:1}],
+    teek: [{mob:"Mining Behemoth", count:1},{mob:"Big Bynn's Return", count:1}],
     xtier: true,
-    same: ["Mining Behemoth"],
-    nights: ["4/23"]
+    same: ["Mining Behemoth","Big Bynn's Return"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Steel-Welded Ringmail Sleeves",
     bucket: "Raid T1",
     normal: "Crazok Moonfang",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Big Bynn's Return", count:1},{mob:"Mining Behemoth", count:2},{mob:"Power Station", count:1}],
+    xtier: true,
+    same: ["Big Bynn's Return","Mining Behemoth","Power Station"],
+    nights: ["4/28"]
   },
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -634,28 +639,28 @@ const DATA = [
     item: "Ancient Hardened Boots",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [],
+    teek: [{mob:"Spindlecrank", count:1}],
     xtier: false,
-    same: [],
-    nights: []
+    same: ["Spindlecrank"],
+    nights: ["4/28"]
   },
   {
     item: "Ancient Hardened Bracer",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Spindlecrank", count:1}],
     xtier: false,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
+    same: ["Chief Mechanic Clankwrench","Spindlecrank"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Ancient Husk Boots",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [],
+    teek: [{mob:"Deepscar's Den", count:1}],
     xtier: false,
-    same: [],
-    nights: []
+    same: ["Deepscar's Den"],
+    nights: ["4/28"]
   },
   {
     item: "Ancient Husk Wristguard",
@@ -688,10 +693,10 @@ const DATA = [
     item: "Ancient Velvet Slippers",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:1}],
+    teek: [{mob:"Chief Mechanic Clankwrench", count:1},{mob:"Deepscar's Den", count:1}],
     xtier: false,
-    same: ["Chief Mechanic Clankwrench"],
-    nights: ["4/23"]
+    same: ["Chief Mechanic Clankwrench","Deepscar's Den"],
+    nights: ["4/23","4/28"]
   },
   {
     item: "Ancient Velvet Wristband",
@@ -706,10 +711,10 @@ const DATA = [
     item: "Clockwork Medic's Defibrillator",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [{mob:"Chief Mechanic Clankwrench", count:2},{mob:"Spindlecrank", count:1},{mob:"Crazok Moonfang", count:1}],
+    teek: [{mob:"Chief Mechanic Clankwrench", count:2},{mob:"Spindlecrank", count:2},{mob:"Crazok Moonfang", count:1}],
     xtier: false,
     same: ["Chief Mechanic Clankwrench","Spindlecrank","Crazok Moonfang"],
-    nights: ["4/23","4/25"]
+    nights: ["4/23","4/25","4/28"]
   },
   {
     item: "Coilsteam Mechanomantle",
@@ -724,10 +729,10 @@ const DATA = [
     item: "Linked Cloak of Bladeturning",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [],
+    teek: [{mob:"Deepscar's Den", count:2}],
     xtier: false,
-    same: [],
-    nights: []
+    same: ["Deepscar's Den"],
+    nights: ["4/28"]
   },
   {
     item: "Silvered Earstud of the Sanguine",
@@ -742,10 +747,10 @@ const DATA = [
     item: "Steam-Powered Disc of Command",
     bucket: "Raid T2",
     normal: "Big Bynn's Return",
-    teek: [{mob:"Spindlecrank", count:1}],
+    teek: [{mob:"Spindlecrank", count:2}],
     xtier: false,
     same: ["Spindlecrank"],
-    nights: ["4/23"]
+    nights: ["4/23","4/28"]
   },
 
   // ── Deepscar's Den drops ──────────────────────────────────────────────────
@@ -854,10 +859,10 @@ const DATA = [
     item: "Ancient Hardened Breastplate",
     bucket: "Raid T2",
     normal: "Mining Behemoth / Spindlecrank / Power Station",
-    teek: [],
+    teek: [{mob:"Spindlecrank", count:1}],
     xtier: false,
     same: [],
-    nights: []
+    nights: ["4/28"]
   },
   {
     item: "Ancient Hardened Vambraces",
@@ -1065,10 +1070,10 @@ const DATA = [
     item: "Ancient Husk Cowl",
     bucket: "Raid T2",
     normal: "Spindlecrank",
-    teek: [{mob:"Spindlecrank", count:1}],
+    teek: [{mob:"Spindlecrank", count:2}],
     xtier: false,
     same: [],
-    nights: ["4/23"]
+    nights: ["4/23","4/28"]
   },
   {
     item: "Ancient Scaled Coif",
@@ -1119,19 +1124,19 @@ const DATA = [
     item: "Slick Oil-Ring of Protection",
     bucket: "Raid T2",
     normal: "Spindlecrank",
-    teek: [{mob:"Spindlecrank", count:1}],
+    teek: [{mob:"Spindlecrank", count:2}],
     xtier: false,
     same: [],
-    nights: ["4/23"]
+    nights: ["4/23","4/28"]
   },
   {
     item: "Tempered Steamwound Pummeler",
     bucket: "Raid T2",
     normal: "Spindlecrank",
-    teek: [],
+    teek: [{mob:"Spindlecrank", count:1}],
     xtier: false,
     same: [],
-    nights: []
+    nights: ["4/28"]
   },
 
   // ── Soulbleeder drops ─────────────────────────────────────────────────────
@@ -1166,19 +1171,19 @@ const DATA = [
     item: "Earstud of Darkest Shadow",
     bucket: "Raid T2",
     normal: "Soulbleeder",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Breakneck", count:1}],
+    xtier: true,
+    same: ["Breakneck"],
+    nights: ["4/30"]
   },
   {
     item: "Ghostly Whisper Earring",
     bucket: "Raid T2",
     normal: "Soulbleeder",
-    teek: [],
-    xtier: false,
-    same: [],
-    nights: []
+    teek: [{mob:"Breakneck", count:1}],
+    xtier: true,
+    same: ["Breakneck"],
+    nights: ["4/30"]
   },
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -1198,8 +1203,8 @@ const DATA = [
   // ── Krond drops ───────────────────────────────────────────────────────────
   { item: "Blastertron Mechano-Pylon Mk. I",   bucket: "Raid T3", normal: "Krond / Meldrath the Malignant",  teek: [], xtier: false, same: [], nights: [] },
   { item: "Chain-Powered Longcutter",          bucket: "Raid T3", normal: "Krond",                           teek: [], xtier: false, same: [], nights: [] },
-  { item: "Greasy Steam-Pauldrons",            bucket: "Raid T3", normal: "Krond",                           teek: [], xtier: false, same: [], nights: [] },
-  { item: "Ring of Molten Alloy",              bucket: "Raid T3", normal: "Krond",                           teek: [], xtier: false, same: [], nights: [] },
+  { item: "Greasy Steam-Pauldrons",            bucket: "Raid T3", normal: "Krond",                           teek: [{mob:"Battle Room", count:1}], xtier: false, same: ["Battle Room"], nights: ["4/30"] },
+  { item: "Ring of Molten Alloy",              bucket: "Raid T3", normal: "Krond",                           teek: [{mob:"Battle Room", count:1}], xtier: false, same: ["Battle Room"], nights: ["4/30"] },
   { item: "Self-Retracting Gearplate Mk. I",   bucket: "Raid T3", normal: "Krond / Meldrath the Malignant",  teek: [], xtier: false, same: [], nights: [] },
   { item: "Steam-Honed Impaler",               bucket: "Raid T3", normal: "Krond",                           teek: [], xtier: false, same: [], nights: [] },
   { item: "Steamwork Engineer's Waistband",    bucket: "Raid T3", normal: "Krond",                           teek: [], xtier: false, same: [], nights: [] },
@@ -1230,16 +1235,16 @@ const DATA = [
   // ── Brinda Sprockets drops ────────────────────────────────────────────────
   { item: "Impromptu Body Protector",          bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [], xtier: false, same: [], nights: [] },
   { item: "Jingling Alloy Loop",               bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [], xtier: false, same: [], nights: [] },
-  { item: "Razor-Sharp Speedblade",            bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [], xtier: false, same: [], nights: [] },
-  { item: "Steam-Mechanic's Faceguard",        bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [], xtier: false, same: [], nights: [] },
+  { item: "Razor-Sharp Speedblade",            bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1}], xtier: false, same: ["Bargangle"], nights: ["4/30"] },
+  { item: "Steam-Mechanic's Faceguard",        bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1}], xtier: false, same: ["Bargangle"], nights: ["4/30"] },
   { item: "Steamwork Welder's Multitool",      bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [], xtier: false, same: [], nights: [] },
-  { item: "Version XI Serial Translatron",     bucket: "Raid T3", normal: "Brinda Sprockets / Meldrath the Malignant", teek: [], xtier: false, same: [], nights: [] },
+  { item: "Version XI Serial Translatron",     bucket: "Raid T3", normal: "Brinda Sprockets / Meldrath the Malignant", teek: [{mob:"Bargangle", count:1}], xtier: false, same: ["Bargangle"], nights: ["4/30"] },
 
   // ── Seneschal Bargangle Tinkerson drops ───────────────────────────────────
-  { item: "Auto-Aiming Steamcoiled Recurvinator", bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson / Meldrath the Malignant", teek: [], xtier: false, same: [], nights: [] },
+  { item: "Auto-Aiming Steamcoiled Recurvinator", bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson / Meldrath the Malignant", teek: [{mob:"Battle Room", count:1}], xtier: false, same: ["Battle Room"], nights: ["4/30"] },
   { item: "Hydraulic Crushblade",              bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [], xtier: false, same: [], nights: [] },
-  { item: "Intricate Engineer's Locket",       bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [], xtier: false, same: [], nights: [] },
-  { item: "Perpetually Spinning Gear",         bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [], xtier: false, same: [], nights: [] },
+  { item: "Intricate Engineer's Locket",       bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [{mob:"Battle Room", count:1}], xtier: false, same: ["Battle Room"], nights: ["4/30"] },
+  { item: "Perpetually Spinning Gear",         bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [{mob:"Battle Room", count:1}], xtier: false, same: ["Battle Room"], nights: ["4/30"] },
   { item: "Studded Engineer's Workgrips",      bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [], xtier: false, same: [], nights: [] },
   { item: "Telescopic Eye-Goggles",            bucket: "Raid T3", normal: "Seneschal Bargangle Tinkerson",   teek: [], xtier: false, same: [], nights: [] },
 
@@ -1274,7 +1279,7 @@ const DATA = [
 
   // ── Ice Constructs drops ──────────────────────────────────────────────────
   { item: "Ancient Sigil-Runed Censer",        bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
-  { item: "Coldspire of Channeling",           bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
+  { item: "Coldspire of Channeling",           bucket: "Raid T4", normal: "Ice Constructs",                  teek: [{mob:"Bargangle", count:1}], xtier: true, same: ["Bargangle"], nights: ["4/30"] },
   { item: "Magma-Wrought Painloop",            bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
   { item: "Prismatic Rune of the Fallen",      bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
   { item: "Signet of the Great Blasphemy",     bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
@@ -1285,10 +1290,10 @@ const DATA = [
     item: "Circular Magmatic Disc",
     bucket: "Raid T4",
     normal: "Aerius Windfury",
-    teek: [{mob:"Soulbleeder", count:1}],
+    teek: [{mob:"Soulbleeder", count:1},{mob:"Breakneck", count:1}],
     xtier: true,
-    same: ["Soulbleeder"],
-    nights: ["4/25"]
+    same: ["Soulbleeder","Breakneck"],
+    nights: ["4/25","4/30"]
   },
   { item: "Golem-Lord's Earring of Control",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [], xtier: false, same: [], nights: [] },
   { item: "Icy Dirk of Meditation",            bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [], xtier: false, same: [], nights: [] },
@@ -1296,10 +1301,10 @@ const DATA = [
     item: "Jewel of Resolute Obedience",
     bucket: "Raid T4",
     normal: "Aerius Windfury",
-    teek: [{mob:"Soulbleeder", count:1}],
+    teek: [{mob:"Soulbleeder", count:1},{mob:"Breakneck", count:1}],
     xtier: true,
-    same: ["Soulbleeder"],
-    nights: ["4/25"]
+    same: ["Soulbleeder","Breakneck"],
+    nights: ["4/25","4/30"]
   },
 
   // ── Kildrukaun drops ──────────────────────────────────────────────────────
@@ -1433,10 +1438,9 @@ function computeStats(){
 }
 
 function populateMobDropdown(){
-  const mobs = [...new Set(DATA.map(r => r.normal).filter(Boolean))].sort((a,b) => {
-    // Extract first mob name for sorting when normal has multiple sources
-    return a.split('/')[0].trim().localeCompare(b.split('/')[0].trim());
-  });
+  const mobs = [...new Set(
+    DATA.flatMap(r => r.normal.split('/').map(m => m.trim())).filter(Boolean)
+  )].sort((a,b) => a.localeCompare(b));
   const sel = document.getElementById('f-mob');
   mobs.forEach(m => {
     const o = document.createElement('option');
@@ -1460,7 +1464,7 @@ function render(){
     if(fb && r.bucket !== fb) return false;
     if(fx === '1' && !r.xtier) return false;
     if(fx === 'seen' && r.teek.length === 0) return false;
-    if(fmob && r.normal !== fmob) return false;
+    if(fmob && !r.normal.split('/').map(m => m.trim()).includes(fmob)) return false;
     if(term){
       let hay = '';
       if(scope === 'item')     hay = r.item;

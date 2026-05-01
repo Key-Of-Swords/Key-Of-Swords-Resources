@@ -107,6 +107,9 @@ select.filt:focus { border-color: var(--gold); }
 .result-count { font-size: 12px; color: var(--text-muted); padding: 4px 20px; background: var(--bg-panel); border-bottom: 1px solid var(--border); text-align: right; }
 
 .tbl-wrap { overflow-x: auto; padding: 0 20px 40px; }
+tfoot td { border-top: 2px solid var(--gold); padding: 8px 12px; font-weight: 700; color: var(--gold); font-size: 13px; }
+tfoot .total-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+tfoot .total-num { color: var(--gold); font-size: 16px; text-align: center; }
 table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
 thead th { background: var(--bg-thead); color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--gold); white-space: nowrap; position: sticky; top: 0; z-index: 1; cursor: pointer; user-select: none; }
 thead th:hover { color: #fff; }
@@ -210,6 +213,7 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
+    <tfoot id="tfoot"></tfoot>
   </table>
 </div>
 
@@ -1498,7 +1502,21 @@ function render(){
   const tbody = document.getElementById('tbody');
   if(!rows.length){
     tbody.innerHTML = '<tr><td colspan="6" class="empty">No items match your search.</td></tr>';
+    document.getElementById('tfoot').innerHTML = '';
     return;
+  }
+
+  // Total drops footer
+  const grandTotal = rows.reduce((sum, r) => sum + totalDrops(r), 0);
+  const tfoot = document.getElementById('tfoot');
+  if(grandTotal > 0){
+    tfoot.innerHTML = `<tr>
+      <td colspan="4" class="total-label">Total drops (filtered)</td>
+      <td class="total-num">${grandTotal}</td>
+      <td></td>
+    </tr>`;
+  } else {
+    tfoot.innerHTML = '';
   }
 
   tbody.innerHTML = rows.map(r => {

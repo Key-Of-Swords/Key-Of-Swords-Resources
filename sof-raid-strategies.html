@@ -3653,13 +3653,13 @@
         <div class="boss-name">Meldrath the Malignant</div>
         <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
         <div class="boss-meta">
-          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — Final Boss (3 parts)</span>
+          <span><strong>Zone:</strong> Meldrath's Majestic Mansion — Final Boss (2 parts)</span>
           <span><strong>Prerequisite:</strong> All five MMM named events must be completed first</span>
         </div>
         <div class="badges" style="margin-top:10px;">
           <span class="badge badge-red">Tier 4 Raid</span>
-          <span class="badge badge-red">3-Part Fight</span>
-          <span class="badge badge-red">Summoned (Part 3)</span>
+          <span class="badge badge-red">2-Phase Fight</span>
+          <span class="badge badge-red">Summoned (Phase 2)</span>
           <span class="badge badge-amber">Radiant Cure Required</span>
           <span class="badge badge-amber">Corruption Cures Required</span>
         </div>
@@ -3670,13 +3670,15 @@
     <div class="raid-card-body">
 
       <!-- PART 1 OVERVIEW -->
-      <div class="phase-header" style="border-top:none; padding-top:0;">Part 1 — Sixton &amp; Meldrath (Gnome Form)</div>
+      <div class="phase-header" style="border-top:none; padding-top:0;">Phase 1 — Sixton &amp; Meldrath (Gnome Form)</div>
 
       <div class="section-grid">
         <div class="info-block">
           <h3>Sixton (The Dog)</h3>
           <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">~6,500</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes</span></div>
+          <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">PBAE</span><span class="value danger">25' range — 5,000 DD + stun</span></div>
           <div class="stat-row"><span class="label">Split from Meldrath?</span><span class="value danger">Yes — mandatory</span></div>
         </div>
@@ -3684,10 +3686,11 @@
           <h3>Meldrath (Gnome Form)</h3>
           <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">~11,000</span></div>
           <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">Summons</span><span class="value danger">Yes — at full health</span></div>
           <div class="stat-row"><span class="label">Tethered</span><span class="value">East side of room</span></div>
-          <div class="stat-row"><span class="label">Pull to</span><span class="value">North wall or NW corner</span></div>
+          <div class="stat-row"><span class="label">Pull to</span><span class="value">North of spawn</span></div>
           <div class="stat-row"><span class="label">Casters stand</span><span class="value">Back — 150' spell slow AE</span></div>
           <div class="stat-row"><span class="label">Purple mana aura</span><span class="value danger">Move away — drains mana</span></div>
           <div class="stat-row"><span class="label">Flees at</span><span class="value danger">40% — room fills with DoT aura. Exit immediately.</span></div>
@@ -3711,23 +3714,23 @@
           </tr>
           <tr>
             <td class="spell-name">Meldrath's Malaise</td>
-            <td>AE (150 range)</td>
+            <td>PBAE (150 range)</td>
             <td>Spell haste -50%, melee attack -50%, <strong>2,000 HP/tick DoT.</strong> Active throughout.</td>
           </tr>
           <tr>
             <td class="spell-name">Spite of Meldrath</td>
             <td>Single Target (Priest)</td>
-            <td>Emote: <em>"You feel Meldrath's hatred course through you."</em> — <strong>16 corruption counters.</strong> If not cured within 30 seconds: <strong>15,000 AE (10 range) at the priest's location.</strong> Cure immediately with RC.</td>
+            <td>Emote: <em>"You feel Meldrath's hatred course through you."</em> — <strong>16 corruption counters.</strong> If not cured within 30 seconds: <strong>15,000 PBAE (10 range) at the priest's location. Cure immediately with RC.</strong></td>
           </tr>
           <tr>
             <td class="spell-name">Stinking Miasma</td>
-            <td>Single Target</td>
+            <td>PBAE (Aura)</td>
             <td>Poison (-550). <strong>6,000 HP/tick + 6,000 mana/tick + 1,500 end/tick.</strong></td>
           </tr>
         </tbody>
       </table>
 
-      <div class="phase-header">Part 1 — Adds</div>
+      <div class="phase-header">Phase 1 — Adds</div>
       <table class="spells-table">
         <thead><tr><th style="width:25%">Add Type</th><th style="width:75%">Notes</th></tr></thead>
         <tbody>
@@ -3748,23 +3751,23 @@
       </table>
 
       <div class="strategy-box" style="margin-top:1rem;">
-        <h3>Part 1 Strategy</h3>
+        <h3>Phase 1 Strategy</h3>
         <ol>
-          <li><strong>Monk tags Sixton</strong> at the left wall — raid stays out of the room. Monk tries to split Sixton away from Meldrath. Meldrath is tethered to the east side. OR have an <strong>SK pulls Meldrath</strong> out of the room until he leashes. Pull Sixton to the NW or SW corner. Stay away from Meldrath.</li>
-          <li><strong>Raid hugs the west wall</strong> to avoid Meldrath's aggro. If Meldrath comes anyway, SK picks him up and leashes him out.</li>
-          <li><strong>Kill Sixton</strong> while Meldrath resets. Then <strong>pull Meldrath to the north wall or NW corner.</strong></li>
-          <li>Casters stay back — Meldrath's 150-range AE spell/melee slow covers a large area. Stay out of the purple mana-drain aura.</li>
-          <li><strong>Spite of Meldrath:</strong> Emote: <em>"You feel Meldrath's Hatred course through you."</em> Priest runs to the <strong>SE Corner (Quarantine)</strong> OR priest cures themself immediately — 16 corruption counters, 30-second window before 15k AE at priest location.</li>
+          <li><strong>Monk tags Sixton</strong> at the left wall — raid stays out of the room. Monk tries to split Sixton away from Meldrath. Meldrath is tethered to the east side. OR have an <strong>SK pulls Meldrath</strong> out of the room until he leashes. Pull Sixton to the NW or <strong>SW corner.</strong> Stay away from Meldrath.</li>
+          <li><strong>Raid hugs the west wall</strong> to avoid Meldrath's aggro. If Meldrath aggros the raid, SK picks him up and pulls him to the South room to leash him.</li>
+          <li><strong>Kill Sixton</strong> while Meldrath resets. Then <strong>pull Meldrath North of his spawn.</strong></li>
+          <li>Casters stay back — Meldrath's 150-range AE spell/melee slow covers a large area AND stay out of the purple mana-drain aura.</li>
+          <li><strong>Spite of Meldrath:</strong> Emote: <em>"You feel Meldrath's Hatred course through you."</em> Priest runs to the <strong>SE Corner (Quarantine)</strong> OR priest cures themself immediately — 16 corruption counters, 30-second window before 15k AE at priest location. Corruption cures or Radiant Cure.</li>
           <li><strong>Tick Tocks:</strong> Emote: <em>"Target acquired! Physical translation to location of target [NAME] in progress. Termination of explosive duties eminent."</em> Named target runs immediately to the <strong>SE Corner (Quarantine)</strong>.</li>
-          <li><strong>Patchwork Obliterators:</strong> Mez/kill them as they spawn.</li>
+          <li><strong>Patchwork Obliterators:</strong> Mez/kill them as they spawn. They spawn in Breakneck's room to the South and path to the raid.</li>
           <li><strong>Repair Mechanics:</strong> Intercept and mez/kill before they reach Meldrath (20% heal if they touch him).</li>
           <li><strong>Tormented Revenants:</strong> Rez dead players immediately — revenants despawn on rez.</li>
-          <li><strong>Meldrath despawns. At 40%</strong> — room fills with a massive DoT aura. <strong>Exit the room immediately. Run south then west — quickly (15 seconds).</strong> Clean up remaining adds outside. Med up safely, then head east when ready.</li>
+          <li><strong>Meldrath despawns at 40% —</strong> room fills with a massive DoT aura. <strong>Exit the room immediately. Run south then west — quickly (15 seconds).</strong> Clean up remaining adds outside. Med up safely, then head east when ready.</li>
         </ol>
       </div>
 
       <!-- PART 2 -->
-      <div class="phase-header">Part 2 — Transition (Stop at the T-Intersection)</div>
+      <div class="phase-header">Transition (Stop at the T-Intersection)</div>
 
       <div class="callout">
         <span class="callout-icon">⚠</span>
@@ -3774,7 +3777,7 @@
       </div>
 
       <!-- PART 3 -->
-      <div class="phase-header">Part 3 — The Mini-Bosses &amp; Final Meldrath (Steamsuit)</div>
+      <div class="phase-header">Phase 2 — The Mini-Bosses &amp; Final Meldrath (Steamsuit)</div>
 
       <div class="callout callout-amber">
         <span class="callout-icon">⚡</span>
@@ -3821,6 +3824,9 @@
         <div class="info-block">
           <h3>Final Meldrath Stats</h3>
           <div class="stat-row"><span class="label">Summoned mob</span><span class="value">Yes — anti-summoned spells work</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
+          <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">Spells</span><span class="value danger">Meldrath's Malaise + Spite of Meldrath<br><span style="padding-left:1em;">(same as P1)</span></span></div>
           <div class="stat-row"><span class="label">Exoskeletal Manashield</span><span class="value danger">Mitigate Spell Damage by 40% — debuff if possible</span></div>
         </div>
@@ -3828,7 +3834,7 @@
           <h3>Key Timings</h3>
           <div class="stat-row"><span class="label">Support Units active</span><span class="value">Below 80% HP</span></div>
           <div class="stat-row"><span class="label">75%</span><span class="value">Drop Wards</span></div>
-          <div class="stat-row"><span class="label">80%</span><span class="value">MGB Celestial Regen chain</span></div>
+          <div class="stat-row"><span class="label">50%</span><span class="value">MGB Celestial Regen chain if needed</span></div>
          <div class="stat-row"><span class="label">15%</span><span class="value danger">Steamwork Buzzkills spawn +<br>Meldrath flees</span></div>
         </div>
         <div class="info-block">
@@ -3857,8 +3863,8 @@
           <tr><td class="spell-name">Grease</td><td><strong>Clinging Grease</strong> — Spell slow + melee slow.</td></tr>
           <tr><td class="spell-name">Acoustical</td><td><strong>Raucous Clangor</strong> — Silence.</td></tr>
           <tr><td class="spell-name">Oil</td><td><strong>Burning Oil</strong> — Snare + fire resist debuff + increased fire damage. Activates in combo with Acoustical.</td></tr>
-          <tr><td class="spell-name">Projectile</td><td><strong>Scatter Shot</strong> — 5,000 DD + stun on 4 players (not an AE).</td></tr>
-          <tr><td class="spell-name">Flame</td><td><strong>Jet of Flame</strong> — Frontal 18,000 DD AE. Emote: "turns to face you" — move away from raid immediately.</td></tr>
+          <tr><td class="spell-name">Projectile</td><td><strong>Scatter Shot</strong> — 5,000 DD + stun on 4 players (not a PBAE).</td></tr>
+          <tr><td class="spell-name">Flame</td><td><strong>Jet of Flame</strong> — Frontal 18,000 DD AE. Emote: "turns to face you" — make sure you are not standing in front of Flame.</td></tr>
         </tbody>
       </table>
 
@@ -3873,14 +3879,16 @@
         <h3>Final Meldrath Strategy</h3>
         <ol>
           <li><strong>Stay away from center of room</strong> — Meldrath spawns there.</li>
+          <li>Use servant for this fight.</li>
           <li><strong>Engage Meldrath and tank him on the North Wall.</strong> He's a summoned mob — anti-summoned spells work.</li>
           <li><strong>Debuff Exoskeletal Manashield</strong> if possible — 40% spell mitigation is significant for casters.</li>
-          <li><strong>At 80%</strong> — MGB Celestial Regen chain. Support Units begin activating below 80%.</li>
+          <li>Support Units begin to <strong>activate at 80%.</strong></li>
           <li><strong>Support Unit emotes:</strong> "Turns to face you" = that player immediately moves away from the raid. Ignore the units otherwise — do not DPS them.</li>
           <li><strong>At 75%</strong> — Drop Wards.</li>
-          <li><strong>Spite of Meldrath:</strong> Priests cure with RC — same 30-second window as Part 1. 16 corruption counters.</li>
-          <li><strong>Raid full burn at 50%.</strong></li>
+          <li><strong>At 50%</strong> — MGB Celestial Regen chain if needed.</li>
+          <li><strong>Spite of Meldrath:</strong> Priests cure with RC or corruption cure — same 30-second window as Phase 1. <strong>16 corruption counters.</strong></li>
           <li><strong>At 15%</strong> — Steamwork Buzzkills spawn (hit for 4,500, mezzable) and Meldrath tries to flee. <strong>Chanters and Bards mez all Buzzkills. Raid burns Meldrath down.</strong></li>
+          <li><strong>Raid full burn at 50%.</strong></li>
           <li><strong>When Meldrath dies</strong> — kill remaining adds.</li>
         </ol>
       </div>

@@ -3886,9 +3886,9 @@
           <li><strong>Support Unit emotes:</strong> "Turns to face you" = that player immediately moves away from the raid. Ignore the units otherwise — do not DPS them.</li>
           <li><strong>At 75%</strong> — Drop Wards.</li>
           <li><strong>At 50%</strong> — MGB Celestial Regen chain if needed.</li>
+          <li><strong>Raid full burn at 50%.</strong></li>
           <li><strong>Spite of Meldrath:</strong> Priests cure with RC or corruption cure — same 30-second window as Phase 1. <strong>16 corruption counters.</strong></li>
           <li><strong>At 15%</strong> — Steamwork Buzzkills spawn (hit for 4,500, mezzable) and Meldrath tries to flee. <strong>Chanters and Bards mez all Buzzkills. Raid burns Meldrath down.</strong></li>
-          <li><strong>Raid full burn at 50%.</strong></li>
           <li><strong>When Meldrath dies</strong> — kill remaining adds.</li>
         </ol>
       </div>
@@ -3950,8 +3950,7 @@
           <h3>Boss Stats</h3>
           <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">~10,000</span></div>
           <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Yes</span></div>
-          <div class="stat-row"><span class="label">Wild Rampage</span><span class="value danger">Yes — full damage</span></div>
-          <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes — full damage</span></div>
           <div class="stat-row"><span class="label">Flurry</span><span class="value danger">Yes</span></div>
           <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-Rooted</span></div>
           <div class="stat-row"><span class="label">Damage Shield</span><span class="value danger">755 (Wreath of Knowledge) — remove with Mark</span></div>
@@ -4007,7 +4006,7 @@
         <ul>
           <li>Raid stops at the fire drakes (a fire keeper — trash wyverns). Puller brings trash back to the raid. Note: Wyvern Keepers move very slowly — be patient.</li>
           <li>Puller works to the end of the hall and clicks the door.</li>
-          <li>Once all trash is pulled and dead, raid <strong>Levitates and runs through the hallway as fast as possible</strong>, staying out of the dragon statue line of fire.</li>
+          <li>Once all trash is pulled and dead, raid <strong>Levitates and runs through the hallway as fast and as high as possible</strong>, staying out of the dragon statue line of fire.</li>
           <li>As you kill wyverns, unattackable non-hostile <strong>sentient flames</strong> will spawn and path down toward the named — ignore them entirely.</li>
           <li>Clear the trash in Entharr's room before engaging. Sentient flames in the room are not attackable or aggro.</li>
         </ul>
@@ -4055,10 +4054,11 @@
         <h3>Raid Leader Strategy</h3>
         <ol>
           <li><strong>Hall clear:</strong> Puller brings fire keeper wyverns back to the raid one at a time. Kill all trash before advancing. Wyvern Keepers are slow — don't rush the puller.</li>
-          <li><strong>Hall run:</strong> Once the door is clicked and hall is clear, entire raid Levitates and runs through the hallway as fast as possible. Watch for the statue emotes and avoid standing in front of them — Spout of Flame hits for 17,500.</li>
-          <li><strong>Entharr's room:</strong> Clear all regular trash mobs. Pick up <strong>Igneous Crystalline Ember</strong> ground spawns from the table — get as many as possible. Sentient flames are not a threat.</li>
-          <li><strong>Before engage:</strong> Cleric casts <strong>Mark of Devoted</strong> on Entharr to remove his 755 damage shield (Wreath of Knowledge). Do not engage until this is done.</li>
+          <li>Pick up <strong>Igneous Crystalline Ember</strong> ground spawns from the table — get as many as possible.</li>
+          <li><strong>Hall run:</strong> Once the door is clicked and hall is clear, entire raid Levitates, move atop the high platform, and runs through the hallway as fast and as high as possible. Watch for the statue emotes and avoid standing in front of them — Spout of Flame hits for 17,500.</li>
+          <li><strong>Entharr's room:</strong> Clear all regular trash mobs.</li>
           <li><strong>Set Rampage tank.</strong> Entharr is perma-rooted — tanks position on the far side of the room, facing Entharr away from the raid.</li>
+          <li><strong>Before engage and after Ramp is set:</strong> Cleric casts <strong>Mark of Devoted</strong> on Entharr to remove his 755 damage shield (Wreath of Knowledge). Do not engage until this is done.</li>
           <li><strong>Ranged and healers stay at 120 range from the boss</strong> — Word of Law and Confounding Pronouncement are 120-range targeted AEs. Staying beyond range avoids them.</li>
           <li><strong>Melee position directly behind the mob.</strong> Do not stand in the fire auras on the sides — moving left or right will bring you into Spout of Flame aura damage from the elemental sentient flames.</li>
           <li><strong>After Entharr dies:</strong> Stay away from the North door — adds on the other side will aggro if it is opened.</li>
@@ -4114,9 +4114,9 @@
         <div class="info-block">
           <h3>Boss Stats</h3>
           <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">~11,000</span></div>
-          <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Yes — Shadow Knight ramp tank</span></div>
-          <div class="stat-row"><span class="label">Wild Rampage</span><span class="value danger">Yes</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Yes</span></div>
           <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes</span></div>
+          <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
           <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-Rooted</span></div>
           <div class="stat-row"><span class="label">Permanent Aura</span><span class="value danger">4,500 DD + 50 mana/end drain per tick</span></div>
         </div>
@@ -4156,13 +4156,43 @@
 
       </div>
 
+      <!-- BOSS ABILITIES -->
+      <div class="phase-header">Boss Abilities</div>
+
+      <table class="spells-table">
+        <thead><tr><th style="width:22%">Spell</th><th style="width:18%">Type</th><th style="width:60%">Effect</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Aura of the Ancient Dragon</td>
+            <td>PBAE (permanent)</td>
+            <td>Fire (-550). <strong>4,500 DD + 50 mana/end drain per tick.</strong> Cast every ~30 seconds throughout the entire fight. Cure with Radiant Cure.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Tongue of Living Flame</td>
+            <td>Single Target</td>
+            <td>Unresistable. <strong>8,000 DoT + 6 corruption counters.</strong> Emote: <em>"You feel flames run up and down your body, burning you."</em> If not cured within 36 seconds → <strong>30,000 DD.</strong> Cure immediately with Group Corruption Cure (6 counters).</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Blast of Confusion</td>
+            <td>AE (600 range, 50 AE range)</td>
+            <td><strong>AE spin stun, 1 second.</strong> Disorienting but short duration. Active from 60% onward.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Spell Reflect</td>
+            <td>Self-Buff</td>
+            <td><strong>40% spell reflect.</strong> Active from 60% onward — casters watch for reflected nukes.</td>
+          </tr>
+        </tbody>
+      </table>
+
       <!-- AURA -->
-      <div class="phase-header">Aura of the Ancient Dragon — Permanent, Every 30 Seconds</div>
+      <div class="phase-header">Key Recurring Spells — Aura &amp; Tongue of Living Flame</div>
 
       <div class="callout">
         <span class="callout-icon">⚠</span>
         <div class="callout-text">
-          <strong>Aura of the Ancient Dragon</strong> is cast every ~30 seconds throughout the entire fight. Fire (-550). <strong>4,500 DD + 50 mana/end drain per tick.</strong> Cure with <strong>Radiant Cure.</strong> This cannot be avoided — keep healers and RCers on top of it constantly.
+          <strong>Aura of the Ancient Dragon</strong> is cast every ~30 seconds throughout the entire fight. Fire (-550). <strong>4,500 DD + 50 mana/end drain per tick.</strong> Cure with <strong>Radiant Cure.</strong> This cannot be avoided — keep healers and RCers on top of it constantly.<br><br>
+          <strong>Tongue of Living Flame</strong> is cast every ~70 seconds. Unresistable. <strong>8,000 DoT + 6 corruption counters.</strong> If not cured within 36 seconds → <strong>30,000 DD.</strong> Cure immediately with Group Corruption Cure.
         </div>
       </div>
 
@@ -4173,10 +4203,10 @@
       <div class="phase-block phase-red">
         <h4>100% – 80% — Tongue of Living Flame</h4>
         <ul>
-          <li>Casts <strong>Tongue of Living Flame</strong> on multiple people simultaneously.</li>
+          <li>Casts <strong>Tongue of Living Flame</strong> on multiple people simultaneously. Cast every 70 seconds.</li>
           <li><strong>Unresistable 8,000 DoT + 6 corruption counters.</strong></li>
           <li>Emote: <em>"You feel flames run up and down your body, burning you."</em></li>
-          <li>If not cured within <strong>36 seconds → 30,000 DD.</strong> Cure immediately with Group Corruption cure (Chant of the Darkvine Rk. III = 6 counters).</li>
+          <li>If not cured within <strong>36 seconds → 30,000 DD.</strong> Cure immediately with Group or Single Target Corruption cure (Chant of the Darkvine Rk. III = 6 counters).</li>
           <li><strong>Max DoTs on the boss at 80%</strong> before elementals spawn.</li>
         </ul>
       </div>
@@ -4190,7 +4220,7 @@
           <li><strong>Mage pet stuns</strong> assist.</li>
           <li><strong>SKs pull adds to the raid</strong> when they spawn.</li>
           <li>Melee breaks off boss and kills adds when they reach the raid. Casters stay on boss.</li>
-          <li>Adds stop spawning at 60%. Go <strong>full burn at 80%.</strong></li>
+          <li>Adds stop spawning at 60%.</li>
         </ul>
       </div>
 
@@ -4211,7 +4241,6 @@
           <li>All mechanics active simultaneously: <strong>Permanent Aura + Tongue DT + Elemental adds + 40% spell reflect + Blast of Confusion.</strong></li>
           <li>Paladins and Enchanters chain-stun adds. SKs pull adds to the raid.</li>
           <li>Melee breaks off boss and kills adds when they reach the raid. Casters stay on boss.</li>
-          <li>Adds stop at 60%... continue burning boss.</li>
         </ul>
       </div>
 
@@ -4237,10 +4266,11 @@
           <li><strong>Ramp tank (SK)</strong> moves to the far side directly opposite the raid — so the dragon does not AE the raid when the ramp tank gets aggro. SK summon-tanks while the boss is being debuffed.</li>
           <li><strong>Tank battle-leaps to the boss</strong> and positions on the opposite side of the raid.</li>
           <li><strong>100–80%:</strong> Cure Tongue of Living Flame immediately on emote — 36-second window before 30k DD. Max DoTs on boss at 80%.</li>
-          <li><strong>At 80%:</strong> Elementals spawn — full burn begins. Paladins + Enchanters chain-stun adds. SKs pull adds to the raid. Melee kills adds, casters stay on boss.</li>
+          <li><strong>At 80%</strong> drop healing wards.</li>
+          <li><strong>At 80%:</strong> Elementals spawn. SKs pull adds to the raid. Paladins + Enchanters chain-stun adds <strong>AFTER</strong> they reach the raid. Melee kills adds, casters stay on boss. When boss drops below 60%, casters on adds if any remain alive.</li>
           <li><strong>60–40%:</strong> Spell reflect active — casters be aware. Tongue DT and Blast of Confusion also active. Maintain corruption cures.</li>
-          <li><strong>40–5%:</strong> All mechanics simultaneously. Same add handling — Pallys/Chanters stun, SKs pull, melee kills, casters on boss.</li>
-          <li><strong>All non-tanks use Armor of Experience at 90%.</strong></li>
+          <li><strong>40–5%:</strong> All mechanics simultaneously. Same add handling — SKs pull, Pallys/Chanters stun, melee kills, casters on boss.</li>
+          <li><strong>All non-tanks use Armor of Experience at 80%.</strong> — May not be needed if DPS is high.</li>
           <li><strong>At 5%:</strong> Final add wave. Knights pick up adds. Burn Tjudawos. Adds despawn shortly after the kill.</li>
         </ol>
       </div>
@@ -4299,8 +4329,8 @@
           <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes</span></div>
           <div class="stat-row"><span class="label">Flurry</span><span class="value danger">Yes</span></div>
           <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-Rooted</span></div>
-          <div class="stat-row"><span class="label">Melee DS</span><span class="value danger">100 — remove with Mark of Devoted</span></div>
-          <div class="stat-row"><span class="label">Spell DS</span><span class="value danger">500 — remove with Mark of Devoted</span></div>
+          <div class="stat-row"><span class="label">Melee DS</span><span class="value danger" style="text-align:right;">100 — remove with<br>Mark of Devoted</span></div>
+          <div class="stat-row"><span class="label">Spell DS</span><span class="value danger" style="text-align:right;">500 — remove with<br>Mark of Devoted</span></div>
         </div>
 
         <div class="info-block">
@@ -4354,8 +4384,8 @@
       <div class="phase-block phase-amber" style="border-left-color:var(--amber-light);">
         <h4>80% — Elemental Adds Wave</h4>
         <ul>
-          <li>Wave of elemental adds spawns from the <strong>SOUTH</strong>.</li>
-          <li>Hit for up to <strong>6,000 each</strong>. Mezzable (needs confirmation). Mitigate melee by <strong>50%</strong> — use nukes/AEs.</li>
+          <li>Wave of elemental adds spawn from the <strong>EAST</strong>.</li>
+          <li>Hit for up to <strong>6,000 each</strong>. Mezzable (needs confirmation). Mitigate melee by <strong>50%</strong> — use nukes/AEs. DOTs are OK.</li>
           <li>This wave <strong>can be beam AE'd.</strong></li>
           <li><strong>Break off boss and kill all adds</strong>, then return. Do NOT over-DPS the boss during this phase.</li>
           <li>No need to mez — burn them down.</li>
@@ -4374,7 +4404,7 @@
       <div class="phase-block phase-red">
         <h4>30% — Drake Adds Wave</h4>
         <ul>
-          <li>Wave of drake adds spawns.</li>
+          <li>Wave of drake adds spawn from the <strong>SOUTH</strong>.</li>
           <li>Hit for up to <strong>6,000 each</strong>. Mezzable. Proc a <strong>frontal AE attack debuff.</strong></li>
           <li>Mez where possible. Raid follows MA on adds.</li>
           <li>Tanks grab non-damage aggro on adds that aren't mezzed.</li>
@@ -4389,11 +4419,12 @@
         <ol>
           <li><strong>Tunnel clear:</strong> Pull all adds from the LEFT/WEST tunnel out to the raid and kill them. Watch for boulders throughout.</li>
           <li><strong>Boulder run:</strong> Once the tunnel is clear, raid runs to the Keeper's room while actively dodging boulders. Stay out of the north pit.</li>
-          <li><strong>Before engage:</strong> Cleric casts <strong>Mark of Devoted</strong> on the Keeper to strip the 100 melee DS and 500 spell DS. Place <strong>2 Healing Wards</strong> on the raid.</li>
+          <li>Pally set rampage.</li>
+          <li><strong>After ramp is set and before engage:</strong> Cleric casts <strong>Mark of Devoted</strong> on the Keeper to strip the 100 melee DS and 500 spell DS. Place <strong>2 Healing Wards</strong> on the raid.</li>
           <li><strong>Raid stacks directly behind the boss.</strong></li>
-          <li><strong>At 80%</strong> — elemental adds come from the South. Beam AE them if available. Melee breaks off boss and kills adds. Casters/ranged can stay on boss if AEs are handling adds. Return to boss once clear. Do NOT over-DPS the boss while adds are up.</li>
+          <li><strong>At 80%</strong> — elemental adds spawn from the EAST. Beam AE them if available. Raid breaks off boss and kills adds. Return to boss once adds are dead. Do NOT over-DPS the boss while adds are up.</li>
           <li><strong>At 50%</strong> — 25% melee slow aura activates. No cure — power through.</li>
-          <li><strong>At 30%</strong> — drake adds spawn. Mez where possible. Follow MA for add kills. Tanks pick up non-mezzed drakes. Kill adds then return to boss.</li>
+          <li><strong>At 30%</strong> — drake adds spawn from the SOUTH. Mez where possible. Follow MA for add kills. Tanks pick up non-mezzed drakes. Kill adds then return to boss.</li>
         </ol>
       </div>
 
@@ -4450,10 +4481,9 @@
         <div class="info-block">
           <h3>Critical Rules</h3>
           <ul>
-            <li><strong style="color:#e07060;">NO ONE enters the room except the Ramp Tank.</strong> Approaching the door can trigger the event — he summons and kills the moment he gets aggro.</li>
+            <li><strong style="color:#e07060;">NO ONE enters the room except the Ramp Tank when we are ready to begin.</strong> Approaching the door can trigger the event — he summons and kills the moment he gets aggro.</li>
             <li><strong>No DoTs</strong> on this fight</li>
             <li><strong>Levitate</strong> if possible</li>
-            <li>Ramp Tank assignment required</li>
           </ul>
         </div>
 
@@ -4537,7 +4567,7 @@
           </tr>
           <tr>
             <td><strong>80%</strong></td>
-            <td>Several <strong>"a stitch in time"</strong> tornados spawn. Cast a <strong>40% melee slow</strong> on anyone that gets close. <strong>Stay away from them.</strong></td>
+            <td>Several <strong>"a stitch in time"</strong> tornados spawn. Cast a <strong>40% melee slow</strong> on anyone that gets close. <strong>Stay away from them.</strong> Active throughout the raid.</td>
           </tr>
           <tr>
             <td><strong>70%</strong></td>
@@ -4553,7 +4583,7 @@
           </tr>
           <tr>
             <td><strong>30%</strong></td>
-            <td>Several <strong>"a stitch in time"</strong> tornados spawn again. <strong>Stay away.</strong></td>
+            <td>Swirling vortex spawns again. <strong>Get out of the room or hug the wall immediately.</strong></td>
           </tr>
           <tr>
             <td><strong>20%</strong></td>
@@ -4561,7 +4591,7 @@
           </tr>
           <tr>
             <td><strong>10%</strong></td>
-            <td><strong>Swirling vortex emote AND 2× more awakened drakes spawn simultaneously.</strong> Get out of room or hug wall for the Curse, while handling the new drake spawn.</td>
+            <td>Swirling vortex emote AND 2× awakened drakes spawn simultaneously. Get out of room or hug wall for the Curse, while handling the new drake spawn.</td>
           </tr>
         </tbody>
       </table>
@@ -4572,12 +4602,12 @@
       <div class="strategy-box">
         <h3>Raid Leader Strategy</h3>
         <ol>
-          <li><strong>Only the Ramp Tank enters the room.</strong> Approaching the door can trigger the event. Kildrukaun summons at full health — anyone in the room without proper positioning will be killed instantly.</li>
+          <li><strong>Only the Ramp Tank enters the room.</strong> Approaching the door can trigger the event. Kildrukaun summons at full health — anyone in the room without proper positioning will be killed instantly. DA Pally goes in to set ramp.</li>
           <li><strong>No DoTs</strong> throughout the fight.</li>
-          <li><strong>Targeted AE emote:</strong> Named player runs out of the room or well away from the raid immediately — both Strike of the Ancients and Kildrukaun's Revenge follow this emote and will hit anyone nearby.</li>
+          <li><strong>Targeted AE emote:</strong> Named player runs out of the room or well away from the raid immediately — both Strike of the Ancients and Kildrukaun's Revenge follow this emote and will hit anyone nearby. EMOTE: <em>"Kildrukaun the Prophet shouts out '[NAME]! You will be the instrument of my revenge!'"</em></li>
           <li><strong>Drake adds (90%, 70%, 50%, 20%):</strong> Mezzable — mez them and keep DPS on the boss, or kill them if DPS allows. They hit hard and flurry, so don't let them pile up.</li>
-          <li><strong>Tornado adds (80%, 30%):</strong> "A stitch in time" — do not approach. They cast a 40% melee slow on anyone nearby. Give them wide berth and continue on the boss.</li>
-          <li><strong>Swirling vortex emote (60%):</strong> <em>"A swirling vortex forms around Kildrukaun!"</em> — entire raid exits the room or hugs the wall immediately. Kildrukaun's Curse will kill anyone caught in range. Return when it passes.</li>
+          <li><strong>Tornado adds (80%):</strong> "A stitch in time" — do not approach. They cast a 40% melee slow on anyone nearby. Give them wide berth and continue on the boss.</li>
+          <li><strong>Swirling vortex emote (60%, 30%, 10%):</strong> <em>"A swirling vortex forms around Kildrukaun!"</em> — entire raid exits the room or hugs the wall immediately. Kildrukaun's Curse will kill anyone caught in range. Return when it passes. Cure the Main Tank — 24 corruption counters (60%, 30%, 10%).</li>
           <li><strong>At 10%:</strong> Both the vortex AND 2 more drakes spawn simultaneously. Handle the vortex first (exit/hug wall), then return to deal with the drakes. Burn Kildrukaun to finish.</li>
         </ol>
       </div>
@@ -4585,7 +4615,7 @@
       <div class="callout callout-amber">
         <span class="callout-icon">📋</span>
         <div class="callout-text">
-          <strong>React order for 10%:</strong> Vortex emote fires → exit room / hug wall → survive Curse window → return → mez/kill new drakes → finish boss.
+          <strong>React order for 10%:</strong> Vortex emote fires → exit room / hug wall → survive Curse window → return → cure main tank → mez/kill new drakes → finish boss.
         </div>
       </div>
 

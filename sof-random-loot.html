@@ -220,7 +220,7 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 <div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server</div>
 
 <script>
-const RAID_NIGHTS = ["4/23","4/25","4/28","4/30"];
+const RAID_NIGHTS = ["4/23","4/25","4/28","4/30","5/2"];
 
 // Source: SOF_Master_Loot (authoritative)
 // Tier rule: bucket = tier of the mob that NORMALLY drops the item
@@ -239,6 +239,7 @@ const RAID_NIGHTS = ["4/23","4/25","4/28","4/30"];
 // 4/28 events: Deepscar's Den (19:26), Big Bynn's Return/Tinmizer (20:11),
 //              Mining Behemoth (20:45), Power Station, Spindlecrank
 // 4/30 events: Breakneck (20:05), Bargangle (20:40), Battle Room (21:53)
+// 5/2  events: Krond (19:35), Brinda (20:22), Meldrath (21:41), Soulbleeder (22:33)
 
 const DATA = [
 
@@ -633,6 +634,13 @@ const DATA = [
     same: ["Big Bynn's Return","Mining Behemoth","Power Station"],
     nights: ["4/28"]
   },
+
+  // ── Ralkor's Crystals drops ───────────────────────────────────────────────
+  { item: "Bloodied Skull Crusher",           bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:1}], xtier: true,  same: ["Meldrath"], nights: ["5/2"] },
+  { item: "Earring of the Carnophage",        bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [], xtier: false, same: [], nights: [] },
+  { item: "Necklace of the High Moon",        bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [], xtier: false, same: [], nights: [] },
+  { item: "Regenerator's Earring",            bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [], xtier: false, same: [], nights: [] },
+  { item: "Ring of the Ripping Claw",         bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:1}], xtier: true,  same: ["Meldrath"], nights: ["5/2"] },
 
   // ══════════════════════════════════════════════════════════════════════════
   // RAID T2
@@ -1175,19 +1183,19 @@ const DATA = [
     item: "Earstud of Darkest Shadow",
     bucket: "Raid T2",
     normal: "Soulbleeder",
-    teek: [{mob:"Breakneck", count:1}],
+    teek: [{mob:"Breakneck", count:1},{mob:"Soulbleeder", count:1}],
     xtier: true,
     same: ["Breakneck"],
-    nights: ["4/30"]
+    nights: ["4/30","5/2"]
   },
   {
     item: "Ghostly Whisper Earring",
     bucket: "Raid T2",
     normal: "Soulbleeder",
-    teek: [{mob:"Breakneck", count:1}],
+    teek: [{mob:"Breakneck", count:1},{mob:"Soulbleeder", count:1}],
     xtier: true,
     same: ["Breakneck"],
-    nights: ["4/30"]
+    nights: ["4/30","5/2"]
   },
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -1197,12 +1205,12 @@ const DATA = [
   // ══════════════════════════════════════════════════════════════════════════
 
   // ── Breakneck drops ───────────────────────────────────────────────────────
-  { item: "Alloy-Coated Back Protector",       bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
+  { item: "Alloy-Coated Back Protector",       bucket: "Raid T3", normal: "Breakneck",                       teek: [{mob:"Soulbleeder", count:1}], xtier: true, same: ["Soulbleeder"], nights: ["5/2"] },
   { item: "Cruel Mechanic's Shawl",            bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
   { item: "Gyroscopic Combat Assistant Mk. I", bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
   { item: "Sharpened Steamworker's Screwdriver",bucket:"Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
   { item: "Steam-Valve Girdle",                bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
-  { item: "Steamgineer's Trinket of Station",  bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
+  { item: "Steamgineer's Trinket of Station",  bucket: "Raid T3", normal: "Breakneck",                       teek: [{mob:"Soulbleeder", count:1}], xtier: true, same: ["Soulbleeder"], nights: ["5/2"] },
 
   // ── Krond drops ───────────────────────────────────────────────────────────
   { item: "Blastertron Mechano-Pylon Mk. I",   bucket: "Raid T3", normal: "Krond / Meldrath the Malignant",  teek: [], xtier: false, same: [], nights: [] },
@@ -1224,8 +1232,8 @@ const DATA = [
     nights: ["4/25"]
   },
   { item: "Kidney-Removing Autoshank",         bucket: "Raid T3", normal: "Battle Room",                     teek: [], xtier: false, same: [], nights: [] },
-  { item: "Oil-Resistant Facemask",            bucket: "Raid T3", normal: "Battle Room",                     teek: [], xtier: false, same: [], nights: [] },
-  { item: "Reflective Gem of Communication",   bucket: "Raid T3", normal: "Battle Room",                     teek: [], xtier: false, same: [], nights: [] },
+  { item: "Oil-Resistant Facemask",            bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Brinda", count:1}], xtier: false, same: ["Brinda"], nights: ["5/2"] },
+  { item: "Reflective Gem of Communication",   bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Brinda", count:1}], xtier: false, same: ["Brinda"], nights: ["5/2"] },
   {
     item: "Tiny Tinkermusic Box-o-Matic",
     bucket: "Raid T3",
@@ -1277,8 +1285,8 @@ const DATA = [
   // ── Halls of Fire drops ───────────────────────────────────────────────────
   { item: "Bauble of Prismatic Flame",         bucket: "Raid T4", normal: "Halls of Fire",                   teek: [], xtier: false, same: [], nights: [] },
   { item: "Drakeling's Mark of Allegiance",    bucket: "Raid T4", normal: "Halls of Fire",                   teek: [], xtier: false, same: [], nights: [] },
-  { item: "Kindjal of Martyrdom",              bucket: "Raid T4", normal: "Halls of Fire",                   teek: [], xtier: false, same: [], nights: [] },
-  { item: "Pauldrons of Legendary Conquest",   bucket: "Raid T4", normal: "Halls of Fire",                   teek: [], xtier: false, same: [], nights: [] },
+  { item: "Kindjal of Martyrdom",              bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Krond", count:1}], xtier: true, same: ["Krond"], nights: ["5/2"] },
+  { item: "Pauldrons of Legendary Conquest",   bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Krond", count:1}], xtier: true, same: ["Krond"], nights: ["5/2"] },
   { item: "Spaulders of Vibrant Succor",       bucket: "Raid T4", normal: "Halls of Fire",                   teek: [], xtier: false, same: [], nights: [] },
 
   // ── Ice Constructs drops ──────────────────────────────────────────────────
@@ -1286,10 +1294,10 @@ const DATA = [
   { item: "Coldspire of Channeling",           bucket: "Raid T4", normal: "Ice Constructs",                  teek: [{mob:"Bargangle", count:1}], xtier: true, same: ["Bargangle"], nights: ["4/30"] },
   { item: "Magma-Wrought Painloop",            bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
   { item: "Prismatic Rune of the Fallen",      bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
-  { item: "Signet of the Great Blasphemy",     bucket: "Raid T4", normal: "Ice Constructs",                  teek: [], xtier: false, same: [], nights: [] },
+  { item: "Signet of the Great Blasphemy",     bucket: "Raid T4", normal: "Ice Constructs",                  teek: [{mob:"Krond", count:1}], xtier: true, same: ["Krond"], nights: ["5/2"] },
 
   // ── Aerius Windfury drops ─────────────────────────────────────────────────
-  { item: "Backplate of Blessed Resilience",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [], xtier: false, same: [], nights: [] },
+  { item: "Backplate of Blessed Resilience",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Brinda", count:2}], xtier: true, same: ["Brinda"], nights: ["5/2"] },
   {
     item: "Circular Magmatic Disc",
     bucket: "Raid T4",
@@ -1375,9 +1383,9 @@ const DATA = [
   { item: "Amoger the Jarring",                bucket: "Raid T4", normal: "Brood Mother Visziaj / Kerafyrm the Awakened", teek: [], xtier: false, same: [], nights: [] },
   { item: "Arcane Runed Dragonsash",           bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
   { item: "Crusher of the Crimson Dawn",       bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
-  { item: "Deep-Hewn Crystal Bulwark",         bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
+  { item: "Deep-Hewn Crystal Bulwark",         bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Meldrath", count:1}], xtier: true, same: ["Meldrath"], nights: ["5/2"] },
   { item: "Girdle of the Great Wyrm",          bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
-  { item: "Golem-Construct's Enormous Bracelet", bucket: "Raid T4", normal: "Brood Mother Visziaj",           teek: [], xtier: false, same: [], nights: [] },
+  { item: "Golem-Construct's Enormous Bracelet", bucket: "Raid T4", normal: "Brood Mother Visziaj",           teek: [{mob:"Meldrath", count:1}], xtier: true, same: ["Meldrath"], nights: ["5/2"] },
   { item: "Greatmaul of the Prismatic Flight", bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
   { item: "Platinum Drakelord's Signet",       bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
   { item: "Scale Loop of Tenacity",            bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },

@@ -19,6 +19,9 @@
   .save-btn:hover { background: #1a4a80; }
   .overall-section { background: #16213e; border: 1px solid #2a3a5a; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: center; }
   .overall-section h2 { color: #f0c060; font-size: 13px; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .count-btn { background: #2a2a4a; border: 1px solid #444; color: #ccc; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .count-btn:hover { background: #3a3a6a; color: #fff; }
+  .count-btn.active { background: #0f3460; border-color: #1a5aaa; color: #7ecfff; font-weight: 600; }
   .controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
   .controls button { background: #2a2a4a; border: 1px solid #444; color: #ccc; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
   .controls button:hover { background: #3a3a6a; color: #fff; }
@@ -98,6 +101,15 @@
 </div>
 <div class="overall-section">
   <h2>⚗️ Overall Progression</h2>
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+    <span style="font-size:12px;color:#888;">Players:</span>
+    <button class="count-btn" id="cnt1" onclick="setVisibleCols(1)">1</button>
+    <button class="count-btn" id="cnt2" onclick="setVisibleCols(2)">2</button>
+    <button class="count-btn" id="cnt3" onclick="setVisibleCols(3)">3</button>
+    <button class="count-btn" id="cnt4" onclick="setVisibleCols(4)">4</button>
+    <button class="count-btn" id="cnt5" onclick="setVisibleCols(5)">5</button>
+    <button class="count-btn active" id="cnt6" onclick="setVisibleCols(6)">6</button>
+  </div>
   <div class="progress-grid" id="overallProgress"></div>
 </div>
 <div class="controls">
@@ -136,6 +148,7 @@
 <script>
 const DEFAULT_CHARS = ['Player 1','Player 2','Player 3','Player 4','Player 5','Player 6'];
 const NUM_CHARS = 6;
+let visibleCols = 6;
 const SAVE_KEY = 'sof_prog_v7';
 const ALLA = 'https://everquest.allakhazam.com/db/quest.html?quest=';
 
@@ -264,27 +277,30 @@ let hideDone   = false;
 let editingCI  = -1;
 
 function saveToStorage() {
-  try { localStorage.setItem(SAVE_KEY,JSON.stringify({checks,charNames,groupNames,sectOpen})); setStatus('✓ Saved — '+new Date().toLocaleTimeString(),false); }
+  try { localStorage.setItem(SAVE_KEY,JSON.stringify({checks,charNames,groupNames,sectOpen,visibleCols})); setStatus('✓ Saved — '+new Date().toLocaleTimeString(),false); }
   catch(e) { setStatus('⚠ localStorage unavailable — use Export to save',true); }
 }
 function loadFromStorage() {
   try {
     const s=localStorage.getItem(SAVE_KEY);
-    if(s){ const o=JSON.parse(s); if(o.checks) checks=o.checks; if(o.charNames) charNames=o.charNames; if(o.groupNames) groupNames=o.groupNames; if(o.sectOpen) sectOpen=o.sectOpen; setStatus('✓ Loaded from browser storage',false); }
+    if(s){ const o=JSON.parse(s); if(o.checks) checks=o.checks; if(o.charNames) charNames=o.charNames; if(o.groupNames) groupNames=o.groupNames; if(o.sectOpen) sectOpen=o.sectOpen; if(o.visibleCols) visibleCols=o.visibleCols; setStatus('✓ Loaded from browser storage',false); }
     else { setStatus('✓ Auto-save active',false); }
   } catch(e){ setStatus('⚠ localStorage unavailable',true); }
 }
 function setStatus(msg,warn){ const el=document.getElementById('saveStatus'); el.textContent=msg; el.className=warn?'warn':''; }
-function serialize(){ return JSON.stringify({checks,charNames,groupNames,sectOpen}); }
-function deserialize(s){ try{ const o=JSON.parse(s); if(o.checks) checks=o.checks; if(o.charNames) charNames=o.charNames; if(o.groupNames) groupNames=o.groupNames; if(o.sectOpen) sectOpen=o.sectOpen; return true; }catch(e){ return false; } }
+function serialize(){ return JSON.stringify({checks,charNames,groupNames,sectOpen,visibleCols}); }
+function deserialize(s){ try{ const o=JSON.parse(s); if(o.checks) checks=o.checks; if(o.charNames) charNames=o.charNames; if(o.groupNames) groupNames=o.groupNames; if(o.sectOpen) sectOpen=o.sectOpen; if(o.visibleCols) visibleCols=o.visibleCols; return true; }catch(e){ return false; } }
+function setVisibleCols(n){ visibleCols=n; for(let i=1;i<=NUM_CHARS;i++){ const btn=document.getElementById('cnt'+i); if(btn) btn.classList.toggle('active',i===n); } build(); saveToStorage(); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function lnk(id,text){ return id?`<a href="${ALLA}${id}" target="_blank" rel="noopener">${esc(text)}</a>`:esc(text); }
 
-function build(){ buildOverall(); buildSections(); }
+function build(){ buildOverall(); buildSections(); syncCountBtns(); }
+
+function syncCountBtns(){ for(let i=1;i<=NUM_CHARS;i++){ const btn=document.getElementById('cnt'+i); if(btn) btn.classList.toggle('active',i===visibleCols); } }
 
 function buildOverall(){
   const c=document.getElementById('overallProgress'); c.innerHTML='';
-  for(let ci=0;ci<NUM_CHARS;ci++){
+  for(let ci=0;ci<visibleCols;ci++){
     let done=0; for(let i=0;i<TOTAL;i++) if(checks[`${i}-${ci}`]) done++;
     const pct=Math.round(done/TOTAL*100);
     const card=document.createElement('div'); card.className='prog-card'; card.title='Click to edit'; card.onclick=()=>openEditModal(ci);
@@ -305,7 +321,7 @@ function buildSections(){
     progRow.innerHTML=buildSectProgHTML(si,sectItems); wrap.appendChild(progRow);
     const body=document.createElement('div'); body.className='sect-body'; body.id='sect-body-'+si; body.style.display=sectOpen[si]?'':'none';
     const colHdr=document.createElement('div'); colHdr.className='col-header-row';
-    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.map(n=>`<div class="col-hdr">${esc(n.substring(0,16))}</div>`).join('')}</div>`;
+    colHdr.innerHTML=`<div class="col-header-spacer"></div><div class="col-headers">${charNames.slice(0,visibleCols).map(n=>`<div class="col-hdr">${esc(n.substring(0,16))}</div>`).join('')}</div>`;
     body.appendChild(colHdr);
     let lastSub=null;
     sectItems.forEach(item=>{
@@ -319,12 +335,12 @@ function buildSections(){
       row.innerHTML=`<div class="task-icon">${item.icon}</div><div class="task-text">${item.link?lnk(item.link,item.text):esc(item.text)}${item.note?`<br><span class="${nc}">${esc(item.note)}</span>`:''}</div><div class="checkboxes" id="chk-${item.idx}"></div>`;
       body.appendChild(row);
       const chkC=row.querySelector(`#chk-${item.idx}`);
-      charNames.forEach((_,ci)=>{
+      for(let ci=0;ci<visibleCols;ci++){
         const w=document.createElement('div'); w.className='chk-wrap'; if(checks[`${item.idx}-${ci}`]) w.classList.add('done');
         const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=!!checks[`${item.idx}-${ci}`];
         cb.addEventListener('change',function(){ checks[`${item.idx}-${ci}`]=this.checked; w.classList.toggle('done',this.checked); updateRowStyle(item.idx); buildOverall(); updateSectProgress(si,sectItems); saveToStorage(); if(hideDone) applyHideDone(); });
         w.appendChild(cb); chkC.appendChild(w);
-      });
+      }
     });
     wrap.appendChild(body); container.appendChild(wrap);
   });
@@ -332,7 +348,7 @@ function buildSections(){
 
 function buildSectProgHTML(si,sectItems){
   let html=`<div class="sect-prog-label">Section Progress</div><div class="sect-prog-grid" id="spg-${si}">`;
-  for(let ci=0;ci<NUM_CHARS;ci++){
+  for(let ci=0;ci<visibleCols;ci++){
     let done=0; sectItems.forEach(it=>{ if(checks[`${it.idx}-${ci}`]) done++; });
     const total=sectItems.length,pct=total?Math.round(done/total*100):0;
     html+=`<div class="sect-prog-card"><div class="spc-name">${esc(charNames[ci].substring(0,16))}</div><div class="prog-bar-bg"><div class="prog-bar-fill" id="spf-${si}-${ci}" style="width:${pct}%"></div></div><div class="prog-text" id="spt-${si}-${ci}">${done}/${total} (${pct}%)</div></div>`;
@@ -340,14 +356,14 @@ function buildSectProgHTML(si,sectItems){
   return html+'</div>';
 }
 function updateSectProgress(si,sectItems){
-  for(let ci=0;ci<NUM_CHARS;ci++){
+  for(let ci=0;ci<visibleCols;ci++){
     let done=0; sectItems.forEach(it=>{ if(checks[`${it.idx}-${ci}`]) done++; });
     const total=sectItems.length,pct=total?Math.round(done/total*100):0;
     const f=document.getElementById(`spf-${si}-${ci}`),t=document.getElementById(`spt-${si}-${ci}`);
     if(f) f.style.width=pct+'%'; if(t) t.textContent=`${done}/${total} (${pct}%)`;
   }
 }
-function updateRowStyle(idx){ const row=document.getElementById('row-'+idx); if(!row) return; row.classList.toggle('all-done',charNames.every((_,ci)=>!!checks[`${idx}-${ci}`])); }
+function updateRowStyle(idx){ const row=document.getElementById('row-'+idx); if(!row) return; row.classList.toggle('all-done',[...Array(visibleCols)].every((_,ci)=>!!checks[`${idx}-${ci}`])); }
 function toggleSect(si){ sectOpen[si]=!sectOpen[si]; document.getElementById('sect-body-'+si).style.display=sectOpen[si]?'':'none'; document.getElementById('sect-prog-'+si).style.display=sectOpen[si]?'':'none'; document.querySelector(`#sect-${si} .sect-toggle`).classList.toggle('collapsed',!sectOpen[si]); saveToStorage(); }
 function expandAll(){ SECTIONS.forEach((_,si)=>{ if(!sectOpen[si]) toggleSect(si); }); }
 function collapseAll(){ SECTIONS.forEach((_,si)=>{ if(sectOpen[si]) toggleSect(si); }); }

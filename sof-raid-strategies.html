@@ -895,6 +895,11 @@
         <span class="tier-label">Tier 4</span>
         — Crystallos (Basement)
       </li>
+      <li>
+        <a href="#kerafyrm" onclick="document.getElementById('kerafyrm').classList.remove('collapsed')">Kerafyrm the Awakened</a>
+        <span class="tier-label">Tier 4</span>
+        — Crystallos (Final Boss)
+      </li>
     </ol>
     <p class="toc-hint">Click any raid header to collapse or expand it.</p>
   </nav>
@@ -5472,7 +5477,7 @@
         <h4>Tunnel Group Assignments</h4>
         <ul>
           <li><strong>3 DPS groups</strong> stationed in the hallways leading out of Dar`Kelor's and Ki`Mrash's rooms.</li>
-          <li><strong>2 groups in the South hallway</strong> — expects 3–4 drakes at a time.</li>
+          <li><strong>2 groups in the East hallway</strong> — expects 3–4 drakes at a time.</li>
           <li><strong>1 group in the North hallway</strong> — expects 1–2 drakes at a time.</li>
           <li><strong>1 backup group</strong> assists tunnel groups if needed.</li>
           <li>Tunnel groups kill egg-tender adds <strong>before they path into Brood Mother's room.</strong></li>
@@ -5534,8 +5539,8 @@
         <ol>
           <li><strong>Levitate up.</strong> Enter through the Crystallos instance portal — this takes you to the basement.</li>
           <li><strong>Kill Dar`Kelor</strong> in Room 1. Debuff immediately — he hits hard.</li>
-          <li><strong>Hug the left wall</strong> through the hatchery to reach Room 3. Do not aggro Brood Mother. Kill <strong>Ki`Mrash</strong>. Debuff immediately — he hits hard.</li>
-          <li><strong>Station tunnel groups:</strong> 2 DPS groups in the South hallway, 1 in the North, 1 backup on standby.</li>
+          <li><strong>Invis and hug the left wall</strong> through the hatchery to reach Room 3. Do not aggro Brood Mother. Kill <strong>Ki`Mrash</strong>. Debuff immediately — he hits hard.</li>
+          <li><strong>Station tunnel groups:</strong> 2 DPS groups in the East hallway, 1 in the North, 1 backup on standby.</li>
           <li>Tunnel groups intercept and kill egg-tender adds in the hallways before they enter the hatchery. If any adds get into Brood Mother room, they must be pulled out to the hall groups. <strong>They cannot die in the Brood Mother room.</strong></li>
           <li>Main raid kills low-HP hatchery drakes spawned by Brood Mother as she walks the room.</li>
           <li>After 2–4 minutes Brood Mother returns to her platform and becomes active. <strong>Burn Brood Mother.</strong></li>
@@ -5546,6 +5551,219 @@
 
     </div><!-- /raid-card-body -->
   </article><!-- /broodmother -->
+
+  <!-- ============================================================ -->
+  <!-- KERAFYRM THE AWAKENED                                         -->
+  <!-- ============================================================ -->
+  <article class="raid-card" id="kerafyrm">
+    <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
+      <div>
+        <div class="boss-name">Kerafyrm the Awakened — Crystallos</div>
+        <a href="#" class="top-btn" onclick="event.stopPropagation(); window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ TOP</a>
+        <div class="boss-meta">
+          <span><strong>Zone:</strong> Crystallos, Lair of the Awakened — Final Boss</span>
+          <span><strong>Prerequisite:</strong> All four elemental wings completed</span>
+        </div>
+        <div class="badges" style="margin-top:10px;">
+          <span class="badge badge-red">Tier 4 Raid</span>
+          <span class="badge badge-red">Perma-Rooted</span>
+          <span class="badge badge-red">Summons at Full Health</span>
+          <span class="badge badge-blue">Levitate Required</span>
+        </div>
+      </div>
+      <span class="collapse-chevron">▼</span>
+    </div>
+
+    <div class="raid-card-body">
+
+      <!-- STATS + BUFFS -->
+      <div class="stats-row" style="display:flex; gap:16px; flex-wrap:wrap; margin-top:16px;">
+
+        <div class="info-block" style="flex:1; min-width:220px;">
+          <h3>Boss Stats</h3>
+          <div class="stat-row"><span class="label">Melee Hits</span><span class="value danger">~15,000</span></div>
+          <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Yes</span></div>
+          <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes — full damage</span></div>
+          <div class="stat-row"><span class="label">Summoned</span><span class="value danger">Yes — summons at full health</span></div>
+          <div class="stat-row"><span class="label">Movement</span><span class="value">Perma-Rooted</span></div>
+          <div class="stat-row"><span class="label">Aggro Range</span><span class="value danger">Huge</span></div>
+        </div>
+
+        <div class="info-block" style="flex:1; min-width:220px;">
+          <h3>Required Buffs</h3>
+          <div class="stat-row"><span class="label">Levitate</span><span class="value danger">Required</span></div>
+        </div>
+
+        <div class="info-block" style="flex:2; min-width:300px;">
+          <h3>Loot</h3>
+          <ul>
+            <li><strong>2×</strong> Prismaridescent Essence (Chest slot)</li>
+            <li><strong>2×</strong> Rune (Lv79/80)</li>
+            <li><strong>3×</strong> from the following:</li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74623" target="_blank" rel="noopener">Amoger the Jarring ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=71630" target="_blank" rel="noopener">Ancient Dragon's Tear Necklace ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74572" target="_blank" rel="noopener">Blosseron of the Crystalheart ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74966" target="_blank" rel="noopener">Cloak of Shorn Dragonscales ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=75028" target="_blank" rel="noopener">Crystal-Spiked Shouldermail ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=70306" target="_blank" rel="noopener">Crystalforged Tower Shield ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74967" target="_blank" rel="noopener">Crystallized Quarreler ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74511" target="_blank" rel="noopener">Flame-Crystal Ornament ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74645" target="_blank" rel="noopener">Frozen Coldrage Stud ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74626" target="_blank" rel="noopener">Giovin the Smoldering ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=72020" target="_blank" rel="noopener">Glowing Prismatic Rune ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74798" target="_blank" rel="noopener">Handwraps of the Crystalline Fortress ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74646" target="_blank" rel="noopener">Heor`Otor the Frozen Waste ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=73075" target="_blank" rel="noopener">High Lance of Draconic Mastery ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74510" target="_blank" rel="noopener">Luminous Stormcloud Cloak ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74579" target="_blank" rel="noopener">Nyseng the Deep-Born ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74506" target="_blank" rel="noopener">Porous Stonegirdle of Recovery ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74408" target="_blank" rel="noopener">Prismaridescent Essence [chest] ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=71872" target="_blank" rel="noopener">Prismatic Faycite ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=75055" target="_blank" rel="noopener">Protective Gorget of the Deep ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74409" target="_blank" rel="noopener">Scale Loop of Loyalty ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74507" target="_blank" rel="noopener">Shortblade of Prismatic Destruction ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=75019" target="_blank" rel="noopener">Stormbolt, Recurve of the Heavens ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74972" target="_blank" rel="noopener">Stra'Hazir the Great Destroyer ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74971" target="_blank" rel="noopener">Waistguard of Fanatic Devotion ↗</a></li>
+            <li style="padding-left:22px;"><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=74797" target="_blank" rel="noopener">Waistplate of Fire and Ice ↗</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- BOSS ABILITIES -->
+      <div class="phase-header">Boss Abilities</div>
+
+      <table class="spells-table">
+        <thead><tr><th style="width:22%">Ability</th><th style="width:18%">Type</th><th style="width:60%">Effect</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Spell Interrupt</td>
+            <td>Hatelist-wide</td>
+            <td>Fires every ~10 seconds. <strong>Unavoidable.</strong> EMOTE: <em>"You can't concentrate."</em></td>
+          </tr>
+          <tr>
+            <td class="spell-name">Wing Buffet</td>
+            <td>Left &amp; Right AE</td>
+            <td>EMOTE: <em>"Kerafyrm the Awakened flaps his wings and a mighty wind fills the chamber."</em> — <strong>20,000 DD to his left and right sides.</strong> Fires roughly every 30 seconds. <strong>DO NOT TURN HIM.</strong> Raid stands behind him.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Flux</td>
+            <td>Random Target</td>
+            <td><strong>3,300 DD + huge knockback.</strong> Hits random players throughout the fight.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Charge</td>
+            <td>Frontal AE (120°)</td>
+            <td><strong>20,000 DD + flux.</strong> EMOTE: <em>"Kerafyrm tenses for a charge that will overwhelm his foes."</em> — Tell <strong>Charayan</strong> "frustrate him" to block.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Roar</td>
+            <td>Frontal AE (120°)</td>
+            <td><strong>20,000 DD + stun.</strong> EMOTE: <em>"Kerafyrm prepares to roar."</em> — Tell <strong>Grendish</strong> "frustrate him" to block.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Breath</td>
+            <td>Frontal AE (120°)</td>
+            <td><strong>20,000 DD + snare + slow + spell slow + stat debuff.</strong> EMOTE: <em>"All in the room stagger forward as Kerafyrm draws in a long breath and prepares to exhale."</em> — Tell <strong>Jortrev</strong> "frustrate him" to block.</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Tail Strike</td>
+            <td>Rear AE (180°)</td>
+            <td><strong>20,000 DD + flux.</strong> EMOTE: <em>"The mighty prismatic dragon prepares a terrible tail strike."</em> — Tell <strong>Susarrak</strong> "frustrate him" to block.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- HERALD MECHANICS -->
+      <div class="phase-header">The Four Heralds — AE Blocking &amp; Raid Benefits</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠</span>
+        <div class="callout-text">
+          <strong>Keep pets off the Heralds!</strong> The Heralds can either buff the raid OR mitigate Kerafyrm's AE damage. Preference is to use them to <strong>mitigate damage.</strong> Each Herald has a cooldown. When an emote fires, any player can tell the appropriate Herald <strong>"frustrate him"</strong> within the 10-second window to block the AE.
+        </div>
+      </div>
+
+      <table class="spells-table">
+        <thead><tr><th style="width:15%">Herald</th><th style="width:40%">AE Blocked</th><th style="width:45%">Raid Benefit (18 sec)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="spell-name">Charayan</td>
+            <td>Charge — 120° frontal DD + flux</td>
+            <td>35% melee increase + "hundred hands" effect</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Grendish</td>
+            <td>Roar — 120° frontal DD + stun</td>
+            <td>50% melee mitigation + 1,000 endurance/tick</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Jortrev</td>
+            <td>Breath — 120° frontal DD + multiple debuffs</td>
+            <td>Hate reduction + heal crit chance increase</td>
+          </tr>
+          <tr>
+            <td class="spell-name">Susarrak</td>
+            <td>Tail Strike — 180° rear DD + flux</td>
+            <td>Nuke crit chance increase + 1,000 mana/tick</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- PHASE BREAKDOWN -->
+      <div class="phase-header">Phase Breakdown</div>
+
+      <div class="phase-block phase-red">
+        <h4>75% – 35% — Wyvern Assassins</h4>
+        <ul>
+          <li>Wyvern Assassins spawn and target the <strong>Heralds.</strong> If a Herald dies, you lose their AE-blocking ability.</li>
+          <li><strong>Anyone on Kerafyrm's hate list who attacks an Assassin will greatly boost the Assassin's DPS.</strong></li>
+          <li><strong>Option 1:</strong> SKs pull Assassins to the raid. Paladins &amp; Enchanters keep them stun-locked while the raid kills them (dark blue to 80).</li>
+          <li><strong>Option 2:</strong> Dedicated add group stays off Kerafyrm's hate list until 35% and focuses solely on the Assassins.</li>
+        </ul>
+      </div>
+
+      <div class="phase-block phase-purple" style="border-left-color:var(--purple-light);">
+        <h4>35% — Crystal Spawns + Crusaders Arrive</h4>
+        <ul>
+          <li>A crystal spawns over Kerafyrm roughly once per minute. <strong>Anyone near it takes 15,000 damage.</strong></li>
+          <li>The crystal splits into two, dealing 7,500 to anyone close. Then splits again into four, dealing 3,250 before despawning.</li>
+          <li><strong>Avoid crystals at all costs.</strong></li>
+          <li>Four <strong>Crusaders</strong> spawn but remain inactive.</li>
+          <li>Begin: <strong>MGB CR, AA, Auspice, Wood</strong> and other burn cooldowns.</li>
+        </ul>
+      </div>
+
+      <div class="phase-block phase-green">
+        <h4>4% — Event Ends</h4>
+        <ul>
+          <li>Kerafyrm shrieks as the Crusaders put him back to sleep. <strong>Loot chest spawns.</strong></li>
+        </ul>
+      </div>
+
+      <!-- STRATEGY -->
+      <div class="ornament-divider">Strategy</div>
+
+      <div class="strategy-box">
+        <h3>Raid Leader Strategy</h3>
+        <ol>
+          <li>Make sure <strong>everyone has Levitate.</strong></li>
+          <li><strong>Pally sets ramp with DA.</strong></li>
+          <li><strong>Tank in front. Raid directly behind Kerafyrm at max melee.</strong> Avoid his left and right sides.</li>
+          <li><strong>DO NOT TURN HIM.</strong> His left/right Wing Buffet hits for 20,000 every ~30 seconds.</li>
+          <li>Assign <strong>two casters/ranged</strong> to two Heralds each — they are responsible for blocking AEs. They need to be able to take AE damage.</li>
+          <li>When an emote fires, tell the appropriate Herald <strong>"frustrate him"</strong> to prevent the AE.</li>
+          <li><strong>75%–35%: Wyvern Assassins spawn.</strong> Option 1: SKs pull to raid, Paladins &amp; Enchanters stun-lock, raid kills them (dark blue to 80). Option 2: Dedicated add group stays off Kerafyrm's hate list and focuses solely on Assassins.</li>
+          <li><strong>35%: Crystal spawns</strong> over Kerafyrm roughly once per minute — avoid at all costs. Splits into 2 then 4 before despawning.</li>
+          <li><strong>35%: Begin MGB CR, AA, Auspice, Wood,</strong> etc.</li>
+          <li><strong>35%: Four Crusaders spawn</strong> but remain inactive.</li>
+          <li><strong>4%: Kerafyrm shrieks</strong> — Crusaders put him to sleep. Loot chest spawns.</li>
+        </ol>
+      </div>
+
+    </div><!-- /raid-card-body -->
+  </article><!-- /kerafyrm -->
 
 </main>
 

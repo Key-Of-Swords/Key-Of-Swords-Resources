@@ -185,7 +185,10 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
       <option value="1">Cross-tier items</option>
     </select>
     <select class="filt" id="f-mob" onchange="render()">
-      <option value="">All mobs</option>
+      <option value="">All mobs: Normal Source</option>
+    </select>
+    <select class="filt" id="f-teek-mob" onchange="render()">
+      <option value="">All mobs: Dropped on Teek</option>
     </select>
   </div>
 </div>
@@ -220,7 +223,7 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 <div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server</div>
 
 <script>
-const RAID_NIGHTS = ["4/23","4/25","4/28","4/30","5/2","5/5","5/7","5/9"];
+const RAID_NIGHTS = ["4/23","4/25","4/28","4/30","5/2","5/5","5/7","5/9","5/12"];
 
 // Source: SOF_Master_Loot (authoritative)
 // Tier rule: bucket = tier of the mob that NORMALLY drops the item
@@ -642,11 +645,11 @@ const DATA = [
   },
 
   // ── Ralkor's Crystals drops ───────────────────────────────────────────────
-  { item: "Bloodied Skull Crusher",           bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:1}], xtier: true,  same: ["Meldrath"], nights: ["5/2"] },
+  { item: "Bloodied Skull Crusher",           bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:1},{mob:"Vyskudra", count:1}], xtier: true,  same: ["Meldrath","Vyskudra"], nights: ["5/2","5/12"] },
   { item: "Earring of the Carnophage",        bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [], xtier: false, same: [], nights: [] },
-  { item: "Necklace of the High Moon",        bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:1}], xtier: true, same: ["Meldrath"], nights: ["5/7"] },
-  { item: "Regenerator's Earring",            bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Keeper of Stones", count:2}], xtier: true, same: ["Keeper of Stones"], nights: ["5/9"] },
-  { item: "Ring of the Ripping Claw",         bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:2}], xtier: true,  same: ["Meldrath"], nights: ["5/2","5/7"] },
+  { item: "Necklace of the High Moon",        bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:1},{mob:"Brood Mother Visziaj", count:1}], xtier: true, same: ["Meldrath","Brood Mother Visziaj"], nights: ["5/7","5/12"] },
+  { item: "Regenerator's Earring",            bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Keeper of Stones", count:2},{mob:"Brood Mother Visziaj", count:1}], xtier: true, same: ["Keeper of Stones","Brood Mother Visziaj"], nights: ["5/9","5/12"] },
+  { item: "Ring of the Ripping Claw",         bucket: "Raid T1", normal: "Ralkor's Crystals",               teek: [{mob:"Meldrath", count:2},{mob:"Vyskudra", count:1}], xtier: true,  same: ["Meldrath","Vyskudra"], nights: ["5/2","5/7","5/12"] },
 
   // ══════════════════════════════════════════════════════════════════════════
   // RAID T2
@@ -1215,7 +1218,7 @@ const DATA = [
   { item: "Cruel Mechanic's Shawl",            bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
   { item: "Gyroscopic Combat Assistant Mk. I", bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
   { item: "Sharpened Steamworker's Screwdriver",bucket:"Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
-  { item: "Steam-Valve Girdle",                bucket: "Raid T3", normal: "Breakneck",                       teek: [], xtier: false, same: [], nights: [] },
+  { item: "Steam-Valve Girdle",                bucket: "Raid T3", normal: "Breakneck",                       teek: [{mob:"Aerius Windfury", count:2}], xtier: true, same: ["Aerius Windfury"], nights: ["5/12"] },
   { item: "Steamgineer's Trinket of Station",  bucket: "Raid T3", normal: "Breakneck",                       teek: [{mob:"Soulbleeder", count:1}], xtier: true, same: ["Soulbleeder"], nights: ["5/2"] },
 
   // ── Krond drops ───────────────────────────────────────────────────────────
@@ -1251,10 +1254,10 @@ const DATA = [
   },
 
   // ── Brinda Sprockets drops ────────────────────────────────────────────────
-  { item: "Impromptu Body Protector",          bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Brinda", count:1}], xtier: false, same: [], nights: ["5/7"] },
+  { item: "Impromptu Body Protector",          bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Brinda", count:1},{mob:"Aerius Windfury", count:1}], xtier: true, same: ["Aerius Windfury"], nights: ["5/7","5/12"] },
   { item: "Jingling Alloy Loop",               bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Brinda", count:1}], xtier: false, same: [], nights: ["5/7"] },
   { item: "Razor-Sharp Speedblade",            bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1},{mob:"Chief Researcher Entharr", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr"], nights: ["4/30","5/9"] },
-  { item: "Steam-Mechanic's Faceguard",        bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1},{mob:"Chief Researcher Entharr", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr"], nights: ["4/30","5/9"] },
+  { item: "Steam-Mechanic's Faceguard",        bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1},{mob:"Chief Researcher Entharr", count:1},{mob:"Aerius Windfury", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr","Aerius Windfury"], nights: ["4/30","5/9","5/12"] },
   { item: "Steamwork Welder's Multitool",      bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [], xtier: false, same: [], nights: [] },
   { item: "Version XI Serial Translatron",     bucket: "Raid T3", normal: "Brinda Sprockets / Meldrath the Malignant", teek: [{mob:"Bargangle", count:1},{mob:"Brinda", count:1}], xtier: false, same: ["Bargangle","Brinda"], nights: ["4/30","5/7"] },
 
@@ -1334,13 +1337,13 @@ const DATA = [
     item: "Facemask of Cleansing",
     bucket: "Raid T4",
     normal: "Kildrukaun",
-    teek: [{mob:"Ralkor's Crystals", count:2},{mob:"Kildrukaun", count:1}],
+    teek: [{mob:"Ralkor's Crystals", count:2},{mob:"Kildrukaun", count:1},{mob:"Kerafyrm", count:1}],
     xtier: true,
     same: ["Ralkor's Crystals"],
-    nights: ["4/25","5/9"]
+    nights: ["4/25","5/9","5/12"]
   },
   { item: "Longsword of the Fanatic Legion",   bucket: "Raid T4", normal: "Kildrukaun",                      teek: [], xtier: false, same: [], nights: [] },
-  { item: "Prismatic Greatspear of Bloodshed", bucket: "Raid T4", normal: "Kildrukaun",                      teek: [], xtier: false, same: [], nights: [] },
+  { item: "Prismatic Greatspear of Bloodshed", bucket: "Raid T4", normal: "Kildrukaun",                      teek: [{mob:"Kerafyrm", count:1}], xtier: false, same: ["Kerafyrm"], nights: ["5/12"] },
   { item: "Ritual Visor of Darkness",          bucket: "Raid T4", normal: "Kildrukaun",                      teek: [], xtier: false, same: [], nights: [] },
   { item: "Veil of Draconic Study",            bucket: "Raid T4", normal: "Kildrukaun",                      teek: [{mob:"Kildrukaun", count:1}], xtier: false, same: [], nights: ["5/9"] },
 
@@ -1364,25 +1367,25 @@ const DATA = [
   { item: "Magma-Studded Earguard",            bucket: "Raid T4", normal: "Tjudawos",                        teek: [], xtier: false, same: [], nights: [] },
 
   // ── Zeixshi`Kar drops ─────────────────────────────────────────────────────
-  { item: "Amice of Black Dawn",               bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [{mob:"Tjudawos", count:1}], xtier: false, same: ["Tjudawos"], nights: ["5/9"] },
+  { item: "Amice of Black Dawn",               bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [{mob:"Tjudawos", count:1},{mob:"Zeixshi`Kar", count:1}], xtier: false, same: ["Tjudawos"], nights: ["5/9","5/12"] },
   { item: "Cloak of the Draconic Legion",      bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [], xtier: false, same: [], nights: [] },
-  { item: "Enveloping Chromascale Cloak",      bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [], xtier: false, same: [], nights: [] },
+  { item: "Enveloping Chromascale Cloak",      bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [{mob:"Vyskudra", count:1}], xtier: false, same: ["Vyskudra"], nights: ["5/12"] },
   { item: "Fanatical Earring of Pain Suppression", bucket: "Raid T4", normal: "Zeixshi`Kar",                 teek: [{mob:"Tjudawos", count:1}], xtier: false, same: ["Tjudawos"], nights: ["5/9"] },
-  { item: "Giovin the Smoldering",             bucket: "Raid T4", normal: "Zeixshi`Kar / Kerafyrm the Awakened", teek: [], xtier: false, same: [], nights: [] },
-  { item: "Pulsing Draconic Wurmstone",        bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [], xtier: false, same: [], nights: [] },
+  { item: "Giovin the Smoldering",             bucket: "Raid T4", normal: "Zeixshi`Kar / Kerafyrm the Awakened", teek: [{mob:"Vyskudra", count:1}], xtier: false, same: ["Vyskudra"], nights: ["5/12"] },
+  { item: "Pulsing Draconic Wurmstone",        bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [{mob:"Zeixshi`Kar", count:1}], xtier: false, same: [], nights: ["5/12"] },
   { item: "Spaulders of the Ancient Warder",   bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [], xtier: false, same: [], nights: [] },
   { item: "Stonehewn Radiant Band",            bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [], xtier: false, same: [], nights: [] },
-  { item: "Volatile Blackflame Stiletto",      bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [], xtier: false, same: [], nights: [] },
+  { item: "Volatile Blackflame Stiletto",      bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [{mob:"Vyskudra", count:1}], xtier: false, same: ["Vyskudra"], nights: ["5/12"] },
 
   // ── Vyskudra drops ────────────────────────────────────────────────────────
-  { item: "Crystal-Linked Cloak",              bucket: "Raid T4", normal: "Vyskudra",                        teek: [], xtier: false, same: [], nights: [] },
+  { item: "Crystal-Linked Cloak",              bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Zeixshi`Kar", count:1}], xtier: false, same: ["Zeixshi`Kar"], nights: ["5/12"] },
   { item: "Fingerloop of Prismatic Rage",      bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Keeper of Stones", count:1}], xtier: false, same: ["Keeper of Stones"], nights: ["5/9"] },
-  { item: "Granite Shoulderpads of Zealotry",  bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Kildrukaun", count:1}], xtier: false, same: ["Kildrukaun"], nights: ["5/9"] },
+  { item: "Granite Shoulderpads of Zealotry",  bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Kildrukaun", count:1},{mob:"Zeixshi`Kar", count:1}], xtier: false, same: ["Kildrukaun","Zeixshi`Kar"], nights: ["5/9","5/12"] },
   { item: "Highblade of the Wyvern Lord",      bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Keeper of Stones", count:1}], xtier: false, same: ["Keeper of Stones"], nights: ["5/9"] },
-  { item: "Jagged Astral Ring",                bucket: "Raid T4", normal: "Vyskudra",                        teek: [], xtier: false, same: [], nights: [] },
+  { item: "Jagged Astral Ring",                bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Brood Mother Visziaj", count:1}], xtier: false, same: ["Brood Mother Visziaj"], nights: ["5/12"] },
   { item: "Luminescent Ring of Benevolence",   bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Kildrukaun", count:1}], xtier: false, same: ["Kildrukaun"], nights: ["5/9"] },
   { item: "Massive Crystal-Flecked Faceplate", bucket: "Raid T4", normal: "Vyskudra",                        teek: [], xtier: false, same: [], nights: [] },
-  { item: "Nyseng the Deep-Born",              bucket: "Raid T4", normal: "Vyskudra / Kerafyrm the Awakened",teek: [{mob:"Tjudawos", count:1},{mob:"Kildrukaun", count:1}], xtier: false, same: ["Tjudawos","Kildrukaun"], nights: ["5/9"] },
+  { item: "Nyseng the Deep-Born",              bucket: "Raid T4", normal: "Vyskudra / Kerafyrm the Awakened",teek: [{mob:"Tjudawos", count:1},{mob:"Kildrukaun", count:1},{mob:"Brood Mother Visziaj", count:1}], xtier: false, same: ["Tjudawos","Kildrukaun","Brood Mother Visziaj"], nights: ["5/9","5/12"] },
   { item: "Purified Silverstone of Warding",   bucket: "Raid T4", normal: "Vyskudra",                        teek: [], xtier: false, same: [], nights: [] },
 
   // ── Brood Mother Visziaj drops ────────────────────────────────────────────
@@ -1391,8 +1394,8 @@ const DATA = [
   { item: "Crusher of the Crimson Dawn",       bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
   { item: "Deep-Hewn Crystal Bulwark",         bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Meldrath", count:1}], xtier: true, same: ["Meldrath"], nights: ["5/2"] },
   { item: "Girdle of the Great Wyrm",          bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
-  { item: "Golem-Construct's Enormous Bracelet", bucket: "Raid T4", normal: "Brood Mother Visziaj",           teek: [{mob:"Meldrath", count:1}], xtier: true, same: ["Meldrath"], nights: ["5/2"] },
-  { item: "Greatmaul of the Prismatic Flight", bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
+  { item: "Golem-Construct's Enormous Bracelet", bucket: "Raid T4", normal: "Brood Mother Visziaj",           teek: [{mob:"Meldrath", count:1},{mob:"Kerafyrm", count:1}], xtier: true, same: ["Meldrath","Kerafyrm"], nights: ["5/2","5/12"] },
+  { item: "Greatmaul of the Prismatic Flight", bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Kerafyrm", count:1}], xtier: false, same: [], nights: ["5/12"] },
   { item: "Platinum Drakelord's Signet",       bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
   { item: "Scale Loop of Tenacity",            bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [], xtier: false, same: [], nights: [] },
 
@@ -1456,14 +1459,24 @@ function computeStats(){
 }
 
 function populateMobDropdown(){
-  const mobs = [...new Set(
+  const normals = [...new Set(
     DATA.flatMap(r => r.normal.split('/').map(m => m.trim())).filter(Boolean)
   )].sort((a,b) => a.localeCompare(b));
   const sel = document.getElementById('f-mob');
-  mobs.forEach(m => {
+  normals.forEach(m => {
     const o = document.createElement('option');
-    o.value = m; o.textContent = m;
+    o.value = m; o.textContent = m + ': Normal Source';
     sel.appendChild(o);
+  });
+
+  const teekMobs = [...new Set(
+    DATA.flatMap(r => r.teek.map(t => t.mob)).filter(Boolean)
+  )].sort((a,b) => a.localeCompare(b));
+  const sel2 = document.getElementById('f-teek-mob');
+  teekMobs.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m + ': Dropped on Teek';
+    sel2.appendChild(o);
   });
 }
 
@@ -1474,7 +1487,8 @@ function render(){
   const scope  = document.getElementById('scope').value;
   const fb     = document.getElementById('f-bucket').value;
   const fx     = document.getElementById('f-xtier').value;
-  const fmob   = document.getElementById('f-mob').value;
+  const fmob     = document.getElementById('f-mob').value;
+  const ftekmob  = document.getElementById('f-teek-mob').value;
   const sort   = document.getElementById('f-sort').value;
   const term   = search.toLowerCase();
 
@@ -1483,6 +1497,7 @@ function render(){
     if(fx === '1' && !r.xtier) return false;
     if(fx === 'seen' && r.teek.length === 0) return false;
     if(fmob && !r.normal.split('/').map(m => m.trim()).includes(fmob)) return false;
+    if(ftekmob && !r.teek.some(t => t.mob === ftekmob)) return false;
     if(term){
       let hay = '';
       if(scope === 'item')     hay = r.item;

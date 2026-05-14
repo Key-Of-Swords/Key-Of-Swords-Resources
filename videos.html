@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key of Swords — Videos</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { background: #1a1a2e; color: #e0e0e0; font-family: Arial, sans-serif; min-height: 100vh; transition: background 0.3s, color 0.3s; }
+body.light { background: #f0ebe0; color: #2a1f0e; }
+
+/* ── HEADER ── */
+.hub-header { background: #16213e; border-bottom: 2px solid #e8a020; padding: 20px 40px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; transition: background 0.3s, border-color 0.3s; }
+body.light .hub-header { background: #e8dcc8; border-bottom-color: #b89060; }
+.guild-name { font-size: 13px; font-weight: 700; color: #cc2222; letter-spacing: 1px; margin-bottom: 2px; }
+.hub-icon { width: 48px; height: 48px; border-radius: 12px; border: 1px solid #e8a020; background: #1a1030; display: flex; align-items: center; justify-content: center; }
+body.light .hub-icon { background: #ddd0b8; border-color: #b89060; }
+.hub-title { font-size: 20px; font-weight: 700; color: #e8a020; }
+body.light .hub-title { color: #8a5a10; }
+.hub-sub { font-size: 12px; color: #888; margin-top: 3px; }
+body.light .hub-sub { color: #7a6040; }
+
+/* ── BACK BUTTON ── */
+.back-btn { display: inline-flex; align-items: center; gap: 6px; margin: 16px auto; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s, color 0.3s; }
+.back-btn:hover { border-color: #e8a020; }
+body.light .back-btn { background: #e0d4bc; border-color: #c0a878; color: #8a5a10; }
+body.light .back-btn:hover { border-color: #8a5a10; }
+.back-wrap { text-align: center; padding: 0 40px; }
+
+/* ── CATEGORY SECTIONS ── */
+.category { padding: 24px 40px 10px; }
+.category-label { font-size: 11px; color: #e8a020; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+body.light .category-label { color: #8a5a10; }
+.category-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, #e8a020, transparent); opacity: 0.3; }
+
+/* ── VIDEO GRID ── */
+.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 320px)); gap: 20px; padding-bottom: 20px; justify-content: center; }
+
+/* ── VIDEO CARD ── */
+.video-card { background: #16213e; border: 1px solid #2a2a4a; border-radius: 10px; overflow: hidden; text-decoration: none; display: block; transition: border-color 0.2s, transform 0.15s; }
+.video-card:hover { border-color: #e8a020; transform: translateY(-2px); }
+body.light .video-card { background: #e8dcc8; border-color: #c0a878; }
+body.light .video-card:hover { border-color: #8a5a10; }
+
+.video-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: #0e0e1c; }
+
+/* Play button overlay */
+.thumb-wrap { position: relative; }
+.play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; background: rgba(200,30,30,0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.play-btn::after { content: ''; border-left: 18px solid white; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
+.video-card:hover .play-btn { opacity: 1; }
+
+.video-info { padding: 12px 14px 14px; }
+.video-title { font-size: 13px; font-weight: 700; color: #d4c090; line-height: 1.4; margin-bottom: 4px; }
+body.light .video-title { color: #2a1a08; }
+.video-category-tag { font-size: 10px; color: #888; }
+body.light .video-category-tag { color: #7a6040; }
+
+/* ── FOOTER ── */
+.footer { text-align: center; padding: 20px; font-size: 11px; color: #333; border-top: 1px solid #1e1e38; margin-top: 20px; transition: color 0.3s, border-color 0.3s; }
+body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
+</style>
+</head>
+<body>
+
+<div class="hub-header">
+  <div class="hub-icon">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <!-- Play button / film reel icon -->
+      <circle cx="14" cy="14" r="11" fill="#1a0a0a" stroke="#e8a020" stroke-width="1"/>
+      <polygon points="11,9 11,19 21,14" fill="#e8a020"/>
+    </svg>
+  </div>
+  <div>
+    <div class="guild-name">KEY OF SWORDS</div>
+    <div class="hub-title">Videos</div>
+    <div class="hub-sub">Game Play &nbsp;&middot;&nbsp; Guides &nbsp;&middot;&nbsp; Lessons in Lore</div>
+  </div>
+</div>
+
+<div class="back-wrap">
+  <a class="back-btn" href="resources.html">&#8592; All sections</a>
+</div>
+
+<!-- ── LESSONS IN LORE ── -->
+<div class="category">
+  <div class="category-label">Lessons in Lore</div>
+  <div class="video-grid" id="lore-grid">
+
+    <a class="video-card" href="https://youtu.be/V54rZRL96X4" target="_blank">
+      <div class="thumb-wrap">
+        <img class="video-thumb" src="https://img.youtube.com/vi/V54rZRL96X4/maxresdefault.jpg" alt="Lessons in Lore: Kerafyrm" onerror="this.src='https://img.youtube.com/vi/V54rZRL96X4/hqdefault.jpg'">
+        <div class="play-btn"></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Lessons in Lore: Kerafyrm</div>
+        <div class="video-category-tag">Lessons in Lore</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ── GAME PLAY ── -->
+<div class="category">
+  <div class="category-label">Game Play</div>
+  <div class="video-grid" id="gameplay-grid">
+
+    <a class="video-card" href="https://youtu.be/VjS22VXTd44" target="_blank">
+      <div class="thumb-wrap">
+        <img class="video-thumb" src="https://img.youtube.com/vi/VjS22VXTd44/maxresdefault.jpg" alt="Key of Swords | Solteris" onerror="this.src='https://img.youtube.com/vi/VjS22VXTd44/hqdefault.jpg'">
+        <div class="play-btn"></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Key of Swords | Solteris</div>
+        <div class="video-category-tag">Game Play</div>
+      </div>
+    </a>
+
+    <a class="video-card" href="https://youtu.be/DVnDbTQ1R_4" target="_blank">
+      <div class="thumb-wrap">
+        <img class="video-thumb" src="https://img.youtube.com/vi/DVnDbTQ1R_4/maxresdefault.jpg" alt="Key of Swords, Omens of War, Dragons of Norrath" onerror="this.src='https://img.youtube.com/vi/DVnDbTQ1R_4/hqdefault.jpg'">
+        <div class="play-btn"></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Key of Swords, Omens of War, Dragons of Norrath</div>
+        <div class="video-category-tag">Game Play</div>
+      </div>
+    </a>
+
+    <a class="video-card" href="https://youtu.be/gybgmMG6xz0" target="_blank">
+      <div class="thumb-wrap">
+        <img class="video-thumb" src="https://img.youtube.com/vi/gybgmMG6xz0/maxresdefault.jpg" alt="Key of Swords, Planes of Power, Plane of Times" onerror="this.src='https://img.youtube.com/vi/gybgmMG6xz0/hqdefault.jpg'">
+        <div class="play-btn"></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Key of Swords, Planes of Power, Plane of Times</div>
+        <div class="video-category-tag">Game Play</div>
+      </div>
+    </a>
+
+    <a class="video-card" href="https://youtu.be/0afJpgxYwIk" target="_blank">
+      <div class="thumb-wrap">
+        <img class="video-thumb" src="https://img.youtube.com/vi/0afJpgxYwIk/maxresdefault.jpg" alt="Key of Swords | Sol Ro's Tower & Plane of Fire" onerror="this.src='https://img.youtube.com/vi/0afJpgxYwIk/hqdefault.jpg'">
+        <div class="play-btn"></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Key of Swords | Sol Ro's Tower &amp; Plane of Fire</div>
+        <div class="video-category-tag">Game Play</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ── GUIDES ── -->
+<div class="category">
+  <div class="category-label">Guides</div>
+  <div class="video-grid" id="guides-grid">
+
+    <a class="video-card" href="https://youtu.be/HIpRZLBffLc" target="_blank">
+      <div class="thumb-wrap">
+        <img class="video-thumb" src="https://img.youtube.com/vi/HIpRZLBffLc/maxresdefault.jpg" alt="Everquest, Tipt Playthrough, Gates of Discord" onerror="this.src='https://img.youtube.com/vi/HIpRZLBffLc/hqdefault.jpg'">
+        <div class="play-btn"></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Everquest, Tipt Playthrough, Gates of Discord</div>
+        <div class="video-category-tag">Guides</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+</script>
+</body>
+</html>

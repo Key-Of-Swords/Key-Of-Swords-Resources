@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seeds of Destruction — Raid Armor Guide</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 16px;
+    font-size: 13px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  h1 {
+    text-align: center;
+    color: #f0c060;
+    font-size: 20px;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(240,192,96,0.3);
+  }
+
+  .subtitle { text-align: center; color: #888; font-size: 11px; margin-bottom: 14px; }
+
+  .header-links {
+    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .header-links a {
+    color: #7ecfff;
+    font-size: 11px;
+    text-decoration: none;
+    border: 1px solid #1a4a70;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: #0f1a30;
+  }
+  .header-links a:hover { border-color: #7ecfff; background: #1a2a40; }
+
+  /* ── TABS ── */
+  .tabs-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0;
+    border-bottom: 1px solid #2a3a5a;
+    margin-bottom: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: #2a3a5a transparent;
+  }
+  .tabs-wrap::-webkit-scrollbar { height: 4px; }
+  .tabs-wrap::-webkit-scrollbar-thumb { background: #2a3a5a; border-radius: 2px; }
+
+  .tab-btn {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: #888;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    white-space: nowrap;
+    position: relative;
+    bottom: -1px;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+  .tab-btn:hover { color: #e0e0e0; border-color: #2a3a5a; }
+  .tab-btn.active {
+    color: #f0c060;
+    border-color: #2a3a5a;
+    background: #16213e;
+    border-bottom-color: #16213e;
+    font-weight: 600;
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-heading {
+    color: #f0c060;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2a3a5a;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: #16213e;
+    border: 1px solid #2a3a5a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    color: #f0c060;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── TIER BADGES ── */
+  .tier-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .badge-blue   { background: #0f2840; color: #7ecfff; border: 1px solid #1a4a70; }
+  .badge-green  { background: #0f2818; color: #6fcf6f; border: 1px solid #1a5a2a; }
+  .badge-orange { background: #2a1a00; color: #f0a040; border: 1px solid #6a3a00; }
+  .badge-pink   { background: #2a0f1a; color: #f08090; border: 1px solid #6a1a2a; }
+  .badge-purple { background: #1a0f2a; color: #c090f0; border: 1px solid #4a1a7a; }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 6px; }
+
+  .step { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; }
+
+  .step-num {
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #0f1828;
+    border: 1px solid #3a5a8a;
+    color: #f0c060;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-body { color: #ccc; line-height: 1.5; }
+  .step-body strong { color: #e0e0e0; font-weight: 600; }
+
+  /* ── TABLES ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+  .data-table th {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #6090b0;
+    text-align: left;
+    padding: 5px 8px;
+    border-bottom: 1px solid #2a3a5a;
+    text-transform: uppercase;
+  }
+  .data-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #1a2535;
+    color: #ccc;
+    vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #1a2035; }
+
+  /* ── COMBO TABLE ── */
+  .combo-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+  .combo-table th { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: #6090b0; text-align: left; padding: 5px 8px; border-bottom: 1px solid #2a3a5a; text-transform: uppercase; }
+  .combo-table td { padding: 6px 8px; border-bottom: 1px solid #1a2535; vertical-align: middle; }
+  .combo-table tr:last-child td { border-bottom: none; }
+  .combo-table tr:hover td { background: #1a2035; }
+  .arrow { color: #556; font-size: 13px; padding: 0 2px; }
+
+  /* ── PILLS ── */
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin: 1px 2px;
+    white-space: nowrap;
+  }
+  .pill-blue   { background: #0f2840; color: #7ecfff; border: 1px solid #1a4a70; }
+  .pill-orange { background: #2a1a00; color: #f0a040; border: 1px solid #6a3a00; }
+  .pill-purple { background: #1a0f2a; color: #c090f0; border: 1px solid #4a1a7a; }
+  .pill-green  { background: #0f2818; color: #6fcf6f; border: 1px solid #1a5a2a; }
+  .pill-red    { background: #2a0f0f; color: #f08080; border: 1px solid #6a1a1a; }
+  .pill-gold   { background: #2a1e00; color: #f0c060; border: 1px solid #6a4a00; }
+
+  /* ── NOTE / TIP BOXES ── */
+  .note {
+    background: #131928;
+    border-left: 3px solid #3a5a8a;
+    border-radius: 0 4px 4px 0;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #778;
+    margin-top: 10px;
+    line-height: 1.55;
+  }
+  .note strong { color: #99aabb; font-weight: 600; }
+
+  .tip {
+    background: #0f2840;
+    border: 1px solid #1a4a70;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #7ecfff;
+    margin-top: 10px;
+    line-height: 1.55;
+  }
+  .tip strong { color: #a8d8ff; font-weight: 600; }
+
+  /* ── CLASS GRID ── */
+  .class-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-top: 8px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .class-row {
+    background: #0f1828;
+    border: 1px solid #2a2a4a;
+    border-radius: 4px;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+  .class-name { color: #e0e0e0; font-weight: 600; }
+  .armor-meta { font-size: 11px; color: #6090b0; text-align: right; }
+  .set-name { display: block; font-style: italic; font-size: 10px; color: #556888; }
+
+  /* ── OVERVIEW CARDS ── */
+  .overview-grid { display: flex; flex-direction: column; gap: 10px; }
+  .overview-card {
+    background: #16213e;
+    border: 1px solid #2a3a5a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .overview-tier-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2a3a5a;
+    line-height: 1;
+    min-width: 34px;
+    padding-top: 2px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  .overview-title { color: #f0c060; font-size: 12px; font-weight: 600; margin-bottom: 2px; letter-spacing: 0.3px; }
+  .overview-zone { font-size: 11px; color: #6090b0; font-style: italic; margin-bottom: 4px; }
+  .overview-desc { font-size: 12px; color: #ccc; line-height: 1.5; }
+  .overview-desc strong { color: #e0e0e0; font-weight: 600; }
+
+  /* ── THEME TOGGLE (identical to progression file) ── */
+  .theme-toggle {
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggle-track {
+    width: 36px;
+    height: 18px;
+    background: #2a2a4a;
+    border: 1px solid #4a4a6a;
+    border-radius: 9px;
+    position: relative;
+    transition: background 0.25s, border-color 0.25s;
+    flex-shrink: 0;
+  }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #e8a020;
+    transition: transform 0.25s;
+  }
+  body.light .toggle-thumb { transform: translateX(18px); }
+
+  /* ── LIGHT MODE ── */
+  body.light { background: #f0ebe0 !important; color: #2a1f0e !important; }
+  body.light h1 { color: #7a4a08 !important; text-shadow: none !important; }
+  body.light .subtitle { color: #7a6040 !important; }
+  body.light .header-links a { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
+
+  body.light .tab-btn { color: #7a6040 !important; }
+  body.light .tab-btn:hover { color: #3a2a10 !important; border-color: #c0a878 !important; }
+  body.light .tab-btn.active { color: #7a4a08 !important; background: #e8dcc8 !important; border-color: #c0a878 !important; border-bottom-color: #e8dcc8 !important; }
+  body.light .tabs-wrap { border-bottom-color: #c0a878 !important; }
+
+  body.light .section-heading { color: #7a4a08 !important; border-bottom-color: #c0a878 !important; }
+
+  body.light .card { background: #e8dcc8 !important; border-color: #c0a878 !important; }
+  body.light .card-title { color: #7a4a08 !important; }
+
+  body.light .badge-blue   { background: #d0e4f8 !important; color: #1a4a8a !important; border-color: #6090c8 !important; }
+  body.light .badge-green  { background: #d0f0d8 !important; color: #1a6030 !important; border-color: #60b878 !important; }
+  body.light .badge-orange { background: #f8e8c8 !important; color: #7a3a00 !important; border-color: #c08030 !important; }
+  body.light .badge-pink   { background: #f8d8d8 !important; color: #7a1a2a !important; border-color: #c06070 !important; }
+  body.light .badge-purple { background: #e8d8f8 !important; color: #4a1a7a !important; border-color: #9060c8 !important; }
+
+  body.light .step-num { background: #ede0cc !important; border-color: #c0a878 !important; color: #7a4a08 !important; }
+  body.light .step-body { color: #3a2a10 !important; }
+  body.light .step-body strong { color: #1a1008 !important; }
+
+  body.light .data-table th { color: #7a6040 !important; border-bottom-color: #c0a878 !important; }
+  body.light .data-table td { color: #3a2a10 !important; border-bottom-color: #d8cbb0 !important; }
+  body.light .data-table tr:hover td { background: #f4e8d0 !important; }
+
+  body.light .combo-table th { color: #7a6040 !important; border-bottom-color: #c0a878 !important; }
+  body.light .combo-table td { border-bottom-color: #d8cbb0 !important; color: #2a1f0e !important; }
+  body.light .combo-table tr:hover td { background: #f4e8d0 !important; }
+  body.light .arrow { color: #b0a080 !important; }
+  body.light .card-text { color: #2a1f0e !important; }
+  body.light .card-text strong { color: #1a1008 !important; }
+  body.light .ratio-cell { color: #5a4a30 !important; }
+  body.light .combo-table .ratio-cell { color: #5a4a30 !important; }
+
+  body.light .pill-blue   { background: #d0e4f8 !important; color: #1a4a8a !important; border-color: #6090c8 !important; }
+  body.light .pill-orange { background: #f8e8c8 !important; color: #7a3a00 !important; border-color: #c08030 !important; }
+  body.light .pill-purple { background: #e8d8f8 !important; color: #4a1a7a !important; border-color: #9060c8 !important; }
+  body.light .pill-green  { background: #d0f0d8 !important; color: #1a6030 !important; border-color: #60b878 !important; }
+  body.light .pill-red    { background: #f8d8d8 !important; color: #7a1a1a !important; border-color: #c06060 !important; }
+  body.light .pill-gold   { background: #f8e8c0 !important; color: #7a4a08 !important; border-color: #c8a040 !important; }
+
+  body.light .note { background: #ede0cc !important; border-left-color: #c0a878 !important; color: #5a4a30 !important; }
+  body.light .note strong { color: #3a2a10 !important; }
+  body.light .tip { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
+  body.light .tip strong { color: #0a2a6a !important; }
+
+  body.light .class-row { background: #ede0cc !important; border-color: #c0a878 !important; }
+  body.light .class-name { color: #2a1f0e !important; }
+  body.light .armor-meta { color: #7a6040 !important; }
+  body.light .set-name { color: #9a7a50 !important; }
+
+  body.light .overview-card { background: #e8dcc8 !important; border-color: #c0a878 !important; }
+  body.light .overview-tier-num { color: #c0a878 !important; }
+  body.light .overview-title { color: #7a4a08 !important; }
+  body.light .overview-zone { color: #7a6040 !important; }
+  body.light .overview-desc { color: #3a2a10 !important; }
+  body.light .overview-desc strong { color: #1a1008 !important; }
+
+  /* ── ITEM LINKS TAB ── */
+  .tier-sub-heading {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6090b0;
+    padding: 10px 0 6px;
+    margin-top: 4px;
+    border-bottom: 1px solid #1a2535;
+    margin-bottom: 6px;
+  }
+  body.light .tier-sub-heading { color: #7a6040 !important; border-bottom-color: #c0a878 !important; }
+
+  .ilink-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .ilink-table th {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: #6090b0;
+    text-align: center; padding: 5px 4px; border-bottom: 1px solid #2a3a5a;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .ilink-table th:first-child { text-align: left; }
+  .ilink-table td {
+    padding: 5px 4px; border-bottom: 1px solid #1a2535;
+    text-align: center; vertical-align: middle;
+  }
+  .ilink-table td:first-child { text-align: left; color: #e0e0e0; font-weight: 600; font-size: 11px; }
+  .ilink-table tr:last-child td { border-bottom: none; }
+  .ilink-table tr:hover td { background: #1a2035; }
+  body.light .ilink-table th { color: #7a6040 !important; border-bottom-color: #c0a878 !important; }
+  body.light .ilink-table td { border-bottom-color: #d8cbb0 !important; color: #2a1f0e !important; }
+  body.light .ilink-table td:first-child { color: #2a1f0e !important; }
+  body.light .ilink-table tr:hover td { background: #f4e8d0 !important; }
+
+  .ilink { color: #7ecfff; text-decoration: none; font-size: 11px; display: inline-block; padding: 1px 5px; border-radius: 3px; border: 1px solid #1a4a70; background: #0f2840; white-space: nowrap; margin: 1px; }
+  .ilink:hover { border-color: #7ecfff; color: #fff; background: #1a3a50; }
+  .ilink.orange { color: #f0a040; border-color: #6a3a00; background: #2a1a00; }
+  .ilink.orange:hover { border-color: #f0a040; color: #ffc070; background: #3a2200; }
+  .ilink.green { color: #6fcf6f; border-color: #1a5a2a; background: #0f2818; }
+  .ilink.green:hover { border-color: #6fcf6f; color: #a0f0a0; background: #1a4028; }
+  .ilink.purple { color: #c090f0; border-color: #4a1a7a; background: #1a0f2a; }
+  .ilink.purple:hover { border-color: #c090f0; color: #e0c0ff; background: #2a1a40; }
+  .ilink.gold { color: #f0c060; border-color: #6a4a00; background: #2a1e00; }
+  .ilink.gold:hover { border-color: #f0c060; color: #ffe090; background: #3a2a00; }
+  body.light .ilink        { color: #1a4a8a !important; border-color: #6090c8 !important; background: #d0e4f8 !important; }
+  body.light .ilink:hover  { background: #b0ccec !important; color: #0a2a6a !important; }
+  body.light .ilink.orange { color: #7a3a00 !important; border-color: #c08030 !important; background: #f8e8c8 !important; }
+  body.light .ilink.orange:hover { background: #f0d8a0 !important; }
+  body.light .ilink.green  { color: #1a6030 !important; border-color: #60b878 !important; background: #d0f0d8 !important; }
+  body.light .ilink.green:hover  { background: #b0e8c0 !important; }
+  body.light .ilink.purple { color: #4a1a7a !important; border-color: #9060c8 !important; background: #e8d8f8 !important; }
+  body.light .ilink.purple:hover { background: #d8c0f0 !important; }
+  body.light .ilink.gold   { color: #7a4a08 !important; border-color: #c8a040 !important; background: #f8e8c0 !important; }
+  body.light .ilink.gold:hover   { background: #f0d890 !important; }
+  .ilink.red    { color: #f08080; border-color: #6a1a1a; background: #2a0f0f; }
+  .ilink.red:hover    { border-color: #f08080; color: #ffb0b0; background: #3a1515; }
+  body.light .ilink.red { color: #7a1a1a !important; border-color: #c06060 !important; background: #f8d8d8 !important; }
+  body.light .ilink.red:hover { background: #f0c0c0 !important; }
+  .cf-btn {
+    font-size: 11px; padding: 3px 9px; border-radius: 3px; cursor: pointer;
+    background: #0f1828; border: 1px solid #2a3a5a; color: #888;
+    transition: all .15s;
+  }
+  .cf-btn:hover { color: #e0e0e0; border-color: #4a6a9a; }
+  .cf-btn.active { background: #0f3460; border-color: #1a5aaa; color: #7ecfff; font-weight: 600; }
+  body.light .cf-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #5a4020 !important; }
+  body.light .cf-btn:hover { color: #2a1f0e !important; border-color: #a07840 !important; }
+  body.light .cf-btn.active { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
+
+  /* ── FOOTER ── */
+  .kos-footer {
+    text-align: center;
+    padding: 18px;
+    font-size: 11px;
+    color: #444;
+    border-top: 1px solid #1e1e38;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .kos-footer a { color: #6090b0; text-decoration: none; }
+  .kos-footer a:hover { color: #7ecfff; }
+  body.light .kos-footer { color: #9a7a50 !important; border-top-color: #c8a870 !important; }
+  body.light .kos-footer a { color: #5a7aaa !important; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .tab-btn { font-size: 11px; padding: 7px 10px; }
+    .class-grid { grid-template-columns: repeat(2, 1fr); }
+    .data-table, .combo-table { font-size: 11px; }
+    .overview-card { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle (identical structure to progression file) -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<h1>⚔️ Seeds of Destruction — Raid Armor Guide</h1>
+<p class="subtitle">Visible armor crafting — Tier 3 through Tier 5.5</p>
+
+<div class="header-links">
+  <a href="https://www.raspersrealm.com/Everquest/SoD/gearVisibleArmor.html" target="_blank">🔗 Rasper's Realm — Visible Armor</a>
+  <a href="https://everquest.allakhazam.com/wiki/eq:Seeds_of_Destruction_Armor_Guide" target="_blank">🔗 Allakhazam — Armor Guide</a>
+  <a href="https://key-of-swords.github.io/Key-Of-Swords-Resources/" target="_blank">🔗 KOS Guild Resources</a>
+</div>
+
+<!-- Tabs — all on one line, horizontally scrollable on small screens -->
+<nav class="tabs-wrap" role="tablist" aria-label="Armor guide sections">
+  <button class="tab-btn active" role="tab" onclick="showTab('overview', this)">📋 Overview</button>
+  <button class="tab-btn"        role="tab" onclick="showTab('t3', this)">Tier 3 — Field of Scale</button>
+  <button class="tab-btn"        role="tab" onclick="showTab('t4', this)">Tier 4 — Earth / Korafax</button>
+  <button class="tab-btn"        role="tab" onclick="showTab('t5', this)">Tier 5 — Tower of Discord</button>
+  <button class="tab-btn"        role="tab" onclick="showTab('t55', this)">Tier 5.5 — Further Upgrade</button>
+  <button class="tab-btn"        role="tab" onclick="showTab('tips', this)">🔧 Tips &amp; Tools</button>
+  <button class="tab-btn"        role="tab" onclick="showTab('links', this)">🔗 Item Links (All Tiers)</button>
+</nav>
+
+<!-- OVERVIEW -->
+<section id="sec-overview" class="section active" role="tabpanel">
+  <h2 class="section-heading">Raid armor progression at a glance</h2>
+  <div class="overview-grid">
+
+    <div class="overview-card">
+      <div class="overview-tier-num">1–2</div>
+      <div>
+        <p class="overview-title">Tiers 1 &amp; 2 — No visible armor</p>
+        <p class="overview-zone">Oceangreen Hills / Bloody Kithicor</p>
+        <p class="overview-desc">No visible armor drops from Tier 1 or Tier 2 raid content.</p>
+      </div>
+    </div>
+
+    <div class="overview-card">
+      <div class="overview-tier-num">3</div>
+      <div>
+        <p class="overview-title">Tier 3 — Eon Forged (standalone loot)</p>
+        <p class="overview-zone">Field of Scale raids</p>
+        <p class="overview-desc">Looted directly from raid bosses. No crafting required. These pieces <strong>cannot be upgraded</strong> and are not used in any combines. Comes in Plate, Chain, Cloth, and Leather.</p>
+      </div>
+    </div>
+
+    <div class="overview-card">
+      <div class="overview-tier-num">4</div>
+      <div>
+        <p class="overview-title">Tier 4 — Concordant / Discordant (crafted)</p>
+        <p class="overview-zone">Earth &amp; Korafax raids</p>
+        <p class="overview-desc">Loot a <strong>Primeval essence</strong> from raid bosses. Buy a <strong>Mutating Tinea</strong> + your class's <strong>Polymorphic Cocoon</strong> from Zebuxoruk. Combine to craft class-specific armor.</p>
+      </div>
+    </div>
+
+    <div class="overview-card">
+      <div class="overview-tier-num">5</div>
+      <div>
+        <p class="overview-title">Tier 5 — Vested / Balanced / Chaotic (crafted)</p>
+        <p class="overview-zone">Tower of Discord raids</p>
+        <p class="overview-desc">Loot a <strong>Coeval essence</strong> from Tower of Discord events. Combine with your Tier 4 armor in a <strong>Temporal Molting Cell</strong>. Result depends on the color combination.</p>
+      </div>
+    </div>
+
+    <div class="overview-card">
+      <div class="overview-tier-num">5.5</div>
+      <div>
+        <p class="overview-title">Tier 5.5 — Ordained / Tarnished / Tainted / Inflicted</p>
+        <p class="overview-zone">Tower of Discord armor + group zone named drops</p>
+        <p class="overview-desc">Loot an <strong>Eternal essence</strong> from named mobs in Tier 5 group zones. Combine with your Tower of Discord armor in a <strong>Temporal Molting Cell</strong> for the highest tier of visible raid armor.</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="note" style="margin-top:12px"><strong>Key concept:</strong> All SoD crafted armor is determined by the total count of blue (Luminessence) vs. orange (Incandessence) essences used across all tiers. Order doesn't matter — only the final ratio. Track your colors as you go.</div>
+</section>
+
+<!-- TIER 3 -->
+<section id="sec-t3" class="section" role="tabpanel">
+  <h2 class="section-heading">Tier 3 — Field of Scale Raid Armor</h2>
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-green">Looted armor — no crafting</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:10px">These pieces drop directly from raid events. They are standalone gear and <strong>cannot</strong> be upgraded or used in further combines. They come in Eon Forged Plate, Eon Linked Chain, Eon Woven Cloth, and Eon Hardened Leather.</p>
+    <table class="data-table">
+      <thead><tr><th>Raid event</th><th>Slots dropped</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Kaesora Library: A Council Divided</strong></td><td>Head, Wrist</td></tr>
+        <tr><td><strong>Kurn's Stronghold: Felbane the Dragonslayer</strong></td><td>Arms, Hands</td></tr>
+        <tr><td><strong>Field of Scale: Jaled`Dar's Sacrifice</strong></td><td>Chest, Feet, Legs</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Tier 3 raid armor is a gear check stepping stone. Once you have access to Tier 4 raid content, shift focus to crafting Concordant / Discordant armor using Primeval essences.</div>
+  </div>
+</section>
+
+<!-- TIER 4 -->
+<section id="sec-t4" class="section" role="tabpanel">
+  <h2 class="section-heading">Tier 4 — Earth &amp; Korafax Raid Armor</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-orange">Step 1 — Loot your essence</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px"><strong>Primeval Luminessences</strong> (blue) and <strong>Primeval Incandessences</strong> (orange) drop from these raid events:</p>
+    <table class="data-table">
+      <thead><tr><th>Raid event</th><th>Slots</th></tr></thead>
+      <tbody>
+        <tr><td>Showdown at the Crystal Core</td><td>Wrist, Hands</td></tr>
+        <tr><td>Rathe Council Chambers: Eriak's Downfall <em>(2 events)</em></td><td>Wrist, Hands, Head, Feet</td></tr>
+        <tr><td>Rathe Council Chambers: Rallos Returns</td><td>Head, Feet</td></tr>
+        <tr><td>The Fall of Toskirakk</td><td>Head, Feet, Arms, Legs</td></tr>
+        <tr><td>Korafax, Home of the Riders <em>(3 events)</em></td><td>Arms, Legs, Chest</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-orange">Step 2 — Buy components from Zebuxoruk</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">A</div>
+        <div class="step-body"><strong>Mutating Tinea</strong> — must match your armor slot. Wrist/Hands available in all Void versions; Feet/Head in B+; Arms/Legs in C+; Chest in D+.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">B</div>
+        <div class="step-body"><strong>Polymorphic Cocoon</strong> — class-specific crafting container. Available in all versions of The Void.</div>
+      </div>
+    </div>
+    <div class="tip"><strong>Free shortcut:</strong> Tavid Dennant in the Guild Lobby gives up to 16 containers free. Say <strong>"Cocoon"</strong> to get your class Polymorphic Cocoon at no cost.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-orange">Step 3 — Combine</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Place <strong>Essence + Tinea</strong> inside the <strong>Polymorphic Cocoon</strong> and combine:</p>
+    <table class="combo-table">
+      <thead><tr><th>Essence used</th><th></th><th>Result</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-blue">Primeval Luminessence</span> (blue)</td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-purple">Concordant armor</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-orange">Primeval Incandessence</span> (orange)</td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-red">Discordant armor</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">The stat difference between Concordant and Discordant is minimal (mainly mod2 stats). Pick whichever essence you loot — it primarily determines your path when upgrading to Tier 5.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-orange">Class armor sets — raid names</span></div>
+    <div class="class-grid">
+      <div class="class-row"><span class="class-name">Warrior</span>     <span class="armor-meta">Plate<span class="set-name">Stoneskin</span></span></div>
+      <div class="class-row"><span class="class-name">Cleric</span>      <span class="armor-meta">Plate<span class="set-name">Hallowtouch</span></span></div>
+      <div class="class-row"><span class="class-name">Paladin</span>     <span class="armor-meta">Plate<span class="set-name">Soulstoke</span></span></div>
+      <div class="class-row"><span class="class-name">Shadowknight</span><span class="armor-meta">Plate<span class="set-name">Dreadheart</span></span></div>
+      <div class="class-row"><span class="class-name">Bard</span>        <span class="armor-meta">Plate<span class="set-name">Visionbound</span></span></div>
+      <div class="class-row"><span class="class-name">Ranger</span>      <span class="armor-meta">Chain<span class="set-name">Outrider</span></span></div>
+      <div class="class-row"><span class="class-name">Rogue</span>       <span class="armor-meta">Chain<span class="set-name">Shadowmeld</span></span></div>
+      <div class="class-row"><span class="class-name">Shaman</span>      <span class="armor-meta">Chain<span class="set-name">Fategaze</span></span></div>
+      <div class="class-row"><span class="class-name">Berserker</span>   <span class="armor-meta">Chain<span class="set-name">Bloodscream</span></span></div>
+      <div class="class-row"><span class="class-name">Druid</span>       <span class="armor-meta">Leather<span class="set-name">Earthwrought</span></span></div>
+      <div class="class-row"><span class="class-name">Monk</span>        <span class="armor-meta">Leather<span class="set-name">Stormhand</span></span></div>
+      <div class="class-row"><span class="class-name">Beastlord</span>   <span class="armor-meta">Leather<span class="set-name">Primalhowl</span></span></div>
+      <div class="class-row"><span class="class-name">Necromancer</span> <span class="armor-meta">Silk<span class="set-name">Darkfell</span></span></div>
+      <div class="class-row"><span class="class-name">Wizard</span>      <span class="armor-meta">Silk<span class="set-name">Flamechill</span></span></div>
+      <div class="class-row"><span class="class-name">Magician</span>    <span class="armor-meta">Silk<span class="set-name">Forcestrike</span></span></div>
+      <div class="class-row"><span class="class-name">Enchanter</span>   <span class="armor-meta">Silk<span class="set-name">Mindtwist</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIER 5 -->
+<section id="sec-t5" class="section" role="tabpanel">
+  <h2 class="section-heading">Tier 5 — Tower of Discord Raid Armor</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-pink">What you need</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body"><strong>Your Tier 4 Concordant or Discordant piece</strong> from the Earth / Korafax step.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body"><strong>Coeval Luminessence</strong> (blue) or <strong>Coeval Incandessence</strong> (orange) — drops from any of the 7 events in the Tower of Discord.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body"><strong>Temporal Molting Cell</strong> — purchased from Zebuxoruk in The Void E, F, or G. Also free from Tavid Dennant (say "Molting").</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-pink">Combine chart</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Place <strong>Tier 4 armor + Coeval Essence</strong> inside the Temporal Molting Cell:</p>
+    <table class="combo-table">
+      <thead><tr><th>Tier 4 armor</th><th>+ Essence</th><th></th><th>= Result</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-purple">Concordant</span></td>
+          <td><span class="pill pill-blue">Luminessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-green">Vested</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-red">Discordant</span></td>
+          <td><span class="pill pill-orange">Incandessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-red">Chaotic</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-purple">Concordant</span></td>
+          <td><span class="pill pill-orange">Incandessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-purple">Balanced</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-red">Discordant</span></td>
+          <td><span class="pill pill-blue">Luminessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-purple">Balanced</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">Stat differences between Vested, Balanced, and Chaotic are minimal. Your choice here determines what final Tier 5.5 armor you can craft in the next step.</div>
+  </div>
+</section>
+
+<!-- TIER 5.5 -->
+<section id="sec-t55" class="section" role="tabpanel">
+  <h2 class="section-heading">Tier 5.5 — Further Upgrade with Eternal Essences</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-purple">What you need</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body"><strong>Your Tower of Discord armor</strong> (Vested, Balanced, or Chaotic) from Tier 5.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body"><strong>Eternal Luminessence</strong> (blue) or <strong>Eternal Incandessence</strong> (orange) — looted from named mobs in Tier 5 <em>group</em> zones: Old Bloodfields, City of Dranik, or Korafax instances.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body"><strong>Temporal Molting Cell</strong> — from Zebuxoruk (Void E+) or free from Tavid Dennant (say "Molting").</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-purple">Combine chart</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Place <strong>Tower of Discord armor + Eternal Essence</strong> inside the Temporal Molting Cell:</p>
+    <table class="combo-table">
+      <thead><tr><th>ToD armor</th><th>+ Essence</th><th></th><th>= Final result</th><th class="ratio-cell" style="color:#6090b0;font-size:10px">Total ratio</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-green">Vested</span></td>
+          <td><span class="pill pill-blue">Eternal Luminessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-gold">Ordained</span></td>
+          <td style="font-size:11px;color:#556">3 blue, 0 orange</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-green">Vested</span></td>
+          <td><span class="pill pill-orange">Eternal Incandessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-green">Tarnished</span></td>
+          <td class="ratio-cell" style="font-size:11px;color:#556">2 blue, 1 orange</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-purple">Balanced</span></td>
+          <td><span class="pill pill-blue">Eternal Luminessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-green">Tarnished</span></td>
+          <td class="ratio-cell" style="font-size:11px;color:#556">2 blue, 1 orange</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-purple">Balanced</span></td>
+          <td><span class="pill pill-orange">Eternal Incandessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-purple">Tainted</span></td>
+          <td class="ratio-cell" style="font-size:11px;color:#556">1 blue, 2 orange</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-red">Chaotic</span></td>
+          <td><span class="pill pill-blue">Eternal Luminessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-purple">Tainted</span></td>
+          <td class="ratio-cell" style="font-size:11px;color:#556">1 blue, 2 orange</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-red">Chaotic</span></td>
+          <td><span class="pill pill-orange">Eternal Incandessence</span></td>
+          <td class="arrow">→</td>
+          <td><span class="pill pill-red">Inflicted</span></td>
+          <td class="ratio-cell" style="font-size:11px;color:#556">0 blue, 3 orange</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>The rule:</strong> The final armor name is determined by the <em>total</em> count of blue vs. orange essences used across all three tiers of combining. Order does not matter — only the ratio.</div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section id="sec-tips" class="section" role="tabpanel">
+  <h2 class="section-heading">Tips, Tools &amp; Essence Management</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-blue">Decoding essence names</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Every essence name has three words, each telling you something specific:</p>
+    <table class="data-table">
+      <thead><tr><th>Word position</th><th>Meaning</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>1st word</strong></td>
+          <td>Armor slot</td>
+          <td><em>Distorted</em> = Arms/Legs &nbsp;·&nbsp; <em>Fractured</em> = Wrist/Hands &nbsp;·&nbsp; <em>Phased</em> = Chest &nbsp;·&nbsp; <em>Warped</em> = Head/Feet</td>
+        </tr>
+        <tr>
+          <td><strong>2nd word</strong></td>
+          <td>Tier / source</td>
+          <td><em>Seminal</em> = group T3 &nbsp;·&nbsp; <em>Medial</em> = group T4 &nbsp;·&nbsp; <em>Eternal</em> = group T5 &nbsp;·&nbsp; <em>Primeval</em> = raid T4 &nbsp;·&nbsp; <em>Coeval</em> = raid T5</td>
+        </tr>
+        <tr>
+          <td><strong>3rd word</strong></td>
+          <td>Color / type</td>
+          <td><span class="pill pill-blue">Luminessence</span> = Blue &nbsp;·&nbsp; <span class="pill pill-orange">Incandessence</span> = Orange</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-green">Free containers — Tavid Dennant (Guild Lobby)</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Visit <strong>Tavid Dennant</strong> and say these keywords to receive up to 16 free containers:</p>
+    <table class="data-table">
+      <thead><tr><th>Say this</th><th>You receive</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td>"<strong>Cocoon</strong>"</td><td>Polymorphic Cocoon (class-specific)</td><td>Crafting Tier 3 / raid T4 armor</td></tr>
+        <tr><td>"<strong>Cell</strong>"</td><td>Temporal Polymorphic Cell</td><td>Converting blue ↔ orange essence</td></tr>
+        <tr><td>"<strong>Molting</strong>"</td><td>Temporal Molting Cell</td><td>Upgrading armor through Tiers 4–5</td></tr>
+        <tr><td>"<strong>Luminescent</strong>"</td><td>Luminescent Culling Vortex</td><td>Removing the orange essence from armor</td></tr>
+        <tr><td>"<strong>Incandescent</strong>"</td><td>Incandescent Culling Vortex</td><td>Removing the blue essence from armor</td></tr>
+      </tbody>
+    </table>
+    <div class="note">⚠ The free Culling Vortex versions <strong>cannot downgrade essences</strong> to a lower tier — they only remove them. To downgrade a tier, buy the purchased version from Zebuxoruk and combine with a single Chronobine.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-blue">Swapping essence color</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Got the wrong color? A <strong>Temporal Polymorphic Cell</strong> (free from Tavid Dennant) converts either direction:</p>
+    <table class="combo-table">
+      <tbody>
+        <tr>
+          <td><span class="pill pill-blue">Blue Luminessence</span></td>
+          <td class="arrow">→ Temporal Polymorphic Cell →</td>
+          <td><span class="pill pill-orange">Orange Incandessence</span></td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-orange">Orange Incandessence</span></td>
+          <td class="arrow">→ Temporal Polymorphic Cell →</td>
+          <td><span class="pill pill-blue">Blue Luminessence</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-pink">Extracting an essence from existing armor</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:8px">Changed your mind? As of Void D, Culling Vortices let you pull an essence back out:</p>
+    <table class="data-table">
+      <thead><tr><th>Container</th><th>Removes</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Luminescent Culling Vortex</td>
+          <td>The <strong>orange</strong> essence <em>(naming is backward — trust it)</em></td>
+          <td>Prior-tier armor + orange essence</td>
+        </tr>
+        <tr>
+          <td>Incandescent Culling Vortex</td>
+          <td>The <strong>blue</strong> essence <em>(also backward)</em></td>
+          <td>Prior-tier armor + blue essence</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Example:</strong> You have Tarnished armor (2 blue, 1 orange). Place it in a Luminescent Culling Vortex → receive Vested Tier 5 armor (2 blue) + your orange Tier 5.5 essence back. Convert that orange to blue using a Temporal Polymorphic Cell, then re-combine to produce Ordained.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="tier-badge badge-purple">SoF Prismatic armor shortcut</span></div>
+    <p class="card-text" style="font-size:12px;color:#ccc;line-height:1.55">If you have a Secrets of Faydwer Tier 4 Prismatic piece — <strong>Chromasteel</strong> (plate), <strong>Chromalinked</strong> (chain), <strong>Kaleidosilk</strong> (silk), or <strong>Chromahide</strong> (leather) — you can <strong>skip Tier 3 entirely</strong> and combine it directly with a Medial essence using a <strong>Prismatic Mutation Nexus</strong> (purchased from Zebuxoruk, Void E+) to produce Tier 4 armor.</p>
+  </div>
+</section>
+
+<!-- ITEM LINKS -->
+<section id="sec-links" class="section" role="tabpanel">
+  <h2 class="section-heading">Item Links — Raid Armor by Tier &amp; Class</h2>
+  <p class="card-text" style="font-size:12px;color:#ccc;margin-bottom:12px">Hover any link to preview the item. Click to open on Magelo. Covers all tiers — Group T3/T4/T4.5 and Raid T3/T4/T4.5.</p>
+
+  <!-- CLASS FILTER -->
+  <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;align-items:center;">
+    <span style="font-size:11px;color:#6090b0;margin-right:4px;">Filter:</span>
+    <button class="cf-btn active" onclick="filterClass('all',this)">All</button>
+    <button class="cf-btn" onclick="filterClass('Warrior',this)">Warrior</button>
+    <button class="cf-btn" onclick="filterClass('Cleric',this)">Cleric</button>
+    <button class="cf-btn" onclick="filterClass('Paladin',this)">Paladin</button>
+    <button class="cf-btn" onclick="filterClass('Shadowknight',this)">SK</button>
+    <button class="cf-btn" onclick="filterClass('Bard',this)">Bard</button>
+    <button class="cf-btn" onclick="filterClass('Ranger',this)">Ranger</button>
+    <button class="cf-btn" onclick="filterClass('Rogue',this)">Rogue</button>
+    <button class="cf-btn" onclick="filterClass('Shaman',this)">Shaman</button>
+    <button class="cf-btn" onclick="filterClass('Berserker',this)">Berserker</button>
+    <button class="cf-btn" onclick="filterClass('Druid',this)">Druid</button>
+    <button class="cf-btn" onclick="filterClass('Monk',this)">Monk</button>
+    <button class="cf-btn" onclick="filterClass('Beastlord',this)">Beastlord</button>
+    <button class="cf-btn" onclick="filterClass('Necromancer',this)">Necro</button>
+    <button class="cf-btn" onclick="filterClass('Wizard',this)">Wizard</button>
+    <button class="cf-btn" onclick="filterClass('Magician',this)">Mage</button>
+    <button class="cf-btn" onclick="filterClass('Enchanter',this)">Enchanter</button>
+  </div>
+
+  <div id="ilink-tables"></div>
+</section>
+
+
+<div class="kos-footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Sources: <a href="https://www.raspersrealm.com/Everquest/SoD/gearVisibleArmor.html" target="_blank">Rasper's Realm</a> &nbsp;&middot;&nbsp; <a href="https://everquest.allakhazam.com/wiki/eq:Seeds_of_Destruction_Armor_Guide" target="_blank">Allakhazam</a></div>
+
+<script>
+const SLOTS = ['Wrist','Hand','Feet','Head','Arms','Legs','Chest'];
+
+// Verified Magelo item IDs from Rasper's Realm (extracted from saved HTML)
+// [name, armorType, groupSetName, raidSetName,
+//  grp_t3_conc, grp_t3_disc,
+//  grp_t4_vest, grp_t4_bal, grp_t4_chao,
+//  grp_t45_ord, grp_t45_tar, grp_t45_tai, grp_t45_inf,
+//  raid_t3_conc, raid_t3_disc,
+//  raid_t4_vest, raid_t4_bal, raid_t4_chao,
+//  raid_t45_ord, raid_t45_tar, raid_t45_tai, raid_t45_inf]
+const CLASSES = [
+  ['Warrior',      'Plate',   'Ironbone',     'Stoneskin',    103328,103440, 103552,103664,103776, 103888,104000,104112,104224, 104428,104540, 104652,104764,104876, 104988,105100,105212,105324],
+  ['Cleric',       'Plate',   'Mindhallow',   'Hallowtouch',  103335,103447, 103559,103671,103783, 103895,104007,104119,104231, 104435,104547, 104659,104771,104883, 104995,105107,105219,105331],
+  ['Paladin',      'Plate',   'Firesoul',     'Soulstoke',    103342,103454, 103566,103678,103790, 103902,104014,104126,104238, 104442,104554, 104666,104778,104890, 105002,105114,105226,105338],
+  ['Ranger',       'Chain',   'Truespirit',   'Outrider',     103349,103461, 103573,103685,103797, 103909,104021,104133,104245, 104449,104561, 104673,104785,104897, 105009,105121,105233,105345],
+  ['Shadowknight', 'Plate',   'Ashenheart',   'Dreadheart',   103356,103468, 103580,103692,103804, 103916,104028,104140,104252, 104456,104568, 104680,104792,104904, 105016,105128,105240,105352],
+  ['Druid',        'Leather', 'Earthborn',    'Earthwrought', 103363,103475, 103587,103699,103811, 103923,104035,104147,104259, 104463,104575, 104687,104799,104911, 105023,105135,105247,105359],
+  ['Monk',         'Leather', 'Windstruck',   'Stormhand',    103370,103482, 103594,103706,103818, 103930,104042,104154,104266, 104470,104582, 104694,104806,104918, 105030,105142,105254,105366],
+  ['Bard',         'Plate',   'Dreamwhisper', 'Visionbound',  103377,103489, 103601,103713,103825, 103937,104049,104161,104273, 104477,104589, 104701,104813,104925, 105037,105149,105261,105373],
+  ['Rogue',        'Chain',   'Shadowshift',  'Shadowmeld',   103384,103496, 103608,103720,103832, 103944,104056,104168,104280, 104484,104596, 104708,104820,104932, 105044,105156,105268,105380],
+  ['Shaman',       'Chain',   'Willsear',     'Fategaze',     103391,103503, 103615,103727,103839, 103951,104063,104175,104287, 104491,104603, 104715,104827,104939, 105051,105163,105275,105387],
+  ['Necromancer',  'Silk',    'Lifefalter',   'Darkfell',     103398,103510, 103622,103734,103846, 103958,104070,104182,104294, 104498,104610, 104722,104834,104946, 105058,105170,105282,105394],
+  ['Wizard',       'Silk',    'Frostblaze',   'Flamechill',   103405,103517, 103629,103741,103853, 103965,104077,104189,104301, 104505,104617, 104729,104841,104953, 105065,105177,105289,105401],
+  ['Magician',     'Silk',    'Forcemeld',    'Forcestrike',  103412,103524, 103636,103748,103860, 103972,104084,104196,104308, 104512,104624, 104736,104848,104960, 105072,105184,105296,105408],
+  ['Enchanter',    'Silk',    'Thoughthaze',  'Mindtwist',    103419,103531, 103643,103755,103867, 103979,104091,104203,104315, 104519,104631, 104743,104855,104967, 105079,105191,105303,105415],
+  ['Beastlord',    'Leather', 'Savagecry',    'Primalhowl',   103426,103538, 103650,103762,103874, 103986,104098,104210,104322, 104526,104638, 104750,104862,104974, 105086,105198,105310,105422],
+  ['Berserker',    'Chain',   'Battlescar',   'Bloodscream',  103433,103545, 103657,103769,103881, 103993,104105,104217,104329, 104533,104645, 104757,104869,104981, 105093,105205,105317,105429],
+];
+
+function slotSuffix(slot) {
+  return slot==='Hand'?'Gauntlets':slot==='Wrist'?'Bracer':slot==='Head'?'Helm':slot==='Feet'?'Boots':slot==='Arms'?'Armguards':slot==='Legs'?'Leggings':'Breastplate';
+}
+
+function buildItemName(prefix, setName, armorType, slot) {
+  return prefix + ' ' + setName + ' ' + armorType + ' ' + slotSuffix(slot);
+}
+
+function makeLink(itemId, label, cssClass, fullName, armorType, slot, tierLabel, className) {
+  const a = document.createElement('a');
+  a.className = 'ilink' + (cssClass ? ' ' + cssClass : '');
+  a.textContent = label;
+  a.href = 'https://eq.magelo.com/item/' + itemId;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.addEventListener('mouseenter', e => showTip(e, itemId, fullName, armorType, slot, tierLabel, className));
+  a.addEventListener('mouseleave', hideTip);
+  return a;
+}
+
+// ── Tooltip ──────────────────────────────────────────────────────────────
+const tipEl = document.createElement('div');
+tipEl.style.cssText = 'display:none;position:fixed;z-index:9999;pointer-events:none;min-width:230px;max-width:310px;background:#09111f;border:1px solid #3a6a9a;border-radius:5px;padding:10px 12px;font-size:12px;line-height:1.6;box-shadow:0 6px 24px rgba(0,0,0,0.8);font-family:"Segoe UI",Arial,sans-serif;';
+document.body.appendChild(tipEl);
+
+function showTip(e, itemId, fullName, armorType, slot, tierLabel, className) {
+  tipEl.innerHTML =
+    '<div style="color:#f0c060;font-weight:600;font-size:13px;margin-bottom:5px">' + fullName + '</div>' +
+    '<div style="color:#7ecfff;font-size:11px">' + armorType + ' — ' + slot + ' slot</div>' +
+    '<div style="color:#888;font-size:11px;margin-bottom:7px">' + className + ' &nbsp;·&nbsp; ' + tierLabel + '</div>' +
+    '<div style="border-top:1px solid #1e3a5a;padding-top:7px;display:flex;gap:12px;pointer-events:all">' +
+      '<a href="https://eq.magelo.com/item/' + itemId + '" target="_blank" rel="noopener" ' +
+        'style="color:#7ecfff;font-size:11px;text-decoration:none;border-bottom:1px dotted #3a6a9a">🔗 Magelo</a>' +
+      '<a href="https://everquest.allakhazam.com/db/adv_search.html?q=' + encodeURIComponent(fullName) + '" target="_blank" rel="noopener" ' +
+        'style="color:#7ecfff;font-size:11px;text-decoration:none;border-bottom:1px dotted #3a6a9a">🔗 Allakhazam</a>' +
+    '</div>';
+  tipEl.style.display = 'block';
+  moveTip(e);
+}
+function moveTip(e) {
+  const pad = 14, tw = tipEl.offsetWidth || 260, th = tipEl.offsetHeight || 110;
+  const x = e.clientX + pad, y = e.clientY + pad;
+  tipEl.style.left = (x + tw > window.innerWidth  ? e.clientX - tw - pad : x) + 'px';
+  tipEl.style.top  = (y + th > window.innerHeight ? e.clientY - th - pad : y) + 'px';
+}
+function hideTip() { tipEl.style.display = 'none'; }
+document.addEventListener('mousemove', e => { if (tipEl.style.display !== 'none') moveTip(e); });
+
+let activeFilter = 'all';
+let linksBuilt = false;
+
+function buildTable(container, heading, getLinks) {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const h = document.createElement('div');
+  h.className = 'tier-sub-heading';
+  h.textContent = heading;
+  card.appendChild(h);
+
+  const wrap = document.createElement('div');
+  wrap.style.overflowX = 'auto';
+
+  const tbl = document.createElement('table');
+  tbl.className = 'ilink-table';
+
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+  ['Class', ...SLOTS].forEach((label, i) => {
+    const th = document.createElement('th');
+    th.textContent = label;
+    if (i === 0) th.style.minWidth = '90px';
+    hrow.appendChild(th);
+  });
+  thead.appendChild(hrow);
+  tbl.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  CLASSES.forEach(cls => {
+    const tr = document.createElement('tr');
+    tr.dataset.class = cls[0];
+    if (activeFilter !== 'all' && cls[0] !== activeFilter) tr.style.display = 'none';
+
+    const nameTd = document.createElement('td');
+    nameTd.textContent = cls[0];
+    tr.appendChild(nameTd);
+
+    SLOTS.forEach((slot, si) => {
+      const td = document.createElement('td');
+      getLinks(cls, slot, si).forEach(el => td.appendChild(el));
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+  wrap.appendChild(tbl);
+  card.appendChild(wrap);
+  container.appendChild(card);
+}
+
+function buildAllTables() {
+  const container = document.getElementById('ilink-tables');
+  container.innerHTML = '';
+
+  const grpLabel = document.createElement('div');
+  grpLabel.style.cssText = 'display:flex;align-items:center;gap:16px;margin:0 0 18px;padding:10px 0;';
+  grpLabel.innerHTML = '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>' +
+    '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7ecfff;white-space:nowrap;">👥 Group Armor</span>' +
+    '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>';
+  container.appendChild(grpLabel);
+
+  // ── GROUP ARMOR ──────────────────────────────────────────────────────
+  buildTable(container, 'Group Tier 3 — Concordant / Discordant (Field of Scale)', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[4]+si, 'Concordant', '',       buildItemName('Concordant',grp,type,slot), type, slot, 'Group T3 Concordant', nm),
+      makeLink(cls[5]+si, 'Discordant', 'orange', buildItemName('Discordant',grp,type,slot), type, slot, 'Group T3 Discordant', nm),
+    ];
+  });
+
+  buildTable(container, 'Group Tier 4 — Vested / Balanced / Chaotic (Earth)', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[6]+si, 'Vested',   'green',  buildItemName('Vested',  grp,type,slot), type, slot, 'Group T4 Vested',   nm),
+      makeLink(cls[7]+si, 'Balanced', 'purple', buildItemName('Balanced',grp,type,slot), type, slot, 'Group T4 Balanced', nm),
+      makeLink(cls[8]+si, 'Chaotic',  'orange', buildItemName('Chaotic', grp,type,slot), type, slot, 'Group T4 Chaotic',  nm),
+    ];
+  });
+
+  buildTable(container, 'Group Tier 4.5 — Ordained / Tarnished / Tainted / Inflicted', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[9] +si, 'Ordained',  'gold',   buildItemName('Ordained', grp,type,slot), type, slot, 'Group T4.5 Ordained',  nm),
+      makeLink(cls[10]+si, 'Tarnished', 'green',  buildItemName('Tarnished',grp,type,slot), type, slot, 'Group T4.5 Tarnished', nm),
+      makeLink(cls[11]+si, 'Tainted',   'purple', buildItemName('Tainted',  grp,type,slot), type, slot, 'Group T4.5 Tainted',   nm),
+      makeLink(cls[12]+si, 'Inflicted', 'red',    buildItemName('Inflicted',grp,type,slot), type, slot, 'Group T4.5 Inflicted',  nm),
+    ];
+  });
+
+  // ── RAID ARMOR ───────────────────────────────────────────────────────
+  const sep = document.createElement('div');
+  sep.style.cssText = 'display:flex;align-items:center;gap:16px;margin:28px 0 18px;padding:10px 0;';
+  sep.innerHTML = '<div style="flex:1;border-top:3px solid #3a5a8a;"></div>' +
+    '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#f0c060;white-space:nowrap;">⚔ Raid Armor</span>' +
+    '<div style="flex:1;border-top:3px solid #3a5a8a;"></div>';
+  container.appendChild(sep);
+  buildTable(container, 'Raid Tier 3 — Concordant / Discordant (Rathe / Korafax)', (cls, slot, si) => {
+    const [nm, type,, raid] = cls;
+    return [
+      makeLink(cls[13]+si, 'Concordant', '',       buildItemName('Concordant',raid,type,slot), type, slot, 'Raid T3 Concordant', nm),
+      makeLink(cls[14]+si, 'Discordant', 'orange', buildItemName('Discordant',raid,type,slot), type, slot, 'Raid T3 Discordant', nm),
+    ];
+  });
+
+  buildTable(container, 'Raid Tier 4 — Vested / Balanced / Chaotic (Tower of Discord)', (cls, slot, si) => {
+    const [nm, type,, raid] = cls;
+    return [
+      makeLink(cls[15]+si, 'Vested',   'green',  buildItemName('Vested',  raid,type,slot), type, slot, 'Raid T4 Vested',   nm),
+      makeLink(cls[16]+si, 'Balanced', 'purple', buildItemName('Balanced',raid,type,slot), type, slot, 'Raid T4 Balanced', nm),
+      makeLink(cls[17]+si, 'Chaotic',  'orange', buildItemName('Chaotic', raid,type,slot), type, slot, 'Raid T4 Chaotic',  nm),
+    ];
+  });
+
+  buildTable(container, 'Raid Tier 4.5 — Ordained / Tarnished / Tainted / Inflicted', (cls, slot, si) => {
+    const [nm, type,, raid] = cls;
+    return [
+      makeLink(cls[18]+si, 'Ordained',  'gold',   buildItemName('Ordained', raid,type,slot), type, slot, 'Raid T4.5 Ordained',  nm),
+      makeLink(cls[19]+si, 'Tarnished', 'green',  buildItemName('Tarnished',raid,type,slot), type, slot, 'Raid T4.5 Tarnished', nm),
+      makeLink(cls[20]+si, 'Tainted',   'purple', buildItemName('Tainted',  raid,type,slot), type, slot, 'Raid T4.5 Tainted',   nm),
+      makeLink(cls[21]+si, 'Inflicted', 'red',    buildItemName('Inflicted',raid,type,slot), type, slot, 'Raid T4.5 Inflicted',  nm),
+    ];
+  });
+}
+
+function filterClass(cls, btn) {
+  activeFilter = cls;
+  document.querySelectorAll('.cf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#ilink-tables tr[data-class]').forEach(tr => {
+    tr.style.display = (cls === 'all' || tr.dataset.class === cls) ? '' : 'none';
+  });
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+  if (id === 'links' && !linksBuilt) { buildAllTables(); linksBuilt = true; }
+}
+
+if(document.documentElement.classList.contains('light')){
+  document.documentElement.classList.remove('light');
+  document.body.classList.add('light');
+}
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+}
+</script>
+<div style="text-align:center;padding:18px;font-size:11px;color:#444;border-top:1px solid #1e1e38;margin-top:20px;letter-spacing:1px;">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
+</body>
+</html>

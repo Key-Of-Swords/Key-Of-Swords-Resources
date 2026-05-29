@@ -2012,9 +2012,13 @@ function renderInlineAdjust(container, raidKey){
                 if(oi>=0&&toGrp.members.length<(S.groupSize||6)){ var mv=oorArr.splice(oi,1)[0]; toGrp.members.push(mv); moved.push(nm); }
               }
             });
-            grpStatusEl.textContent="Moved "+moved.join(", ")+" to Group "+grpNum2+"."; grpStatusEl.style.color="var(--teal2)";
+            if(moved.length){
+              grpStatusEl.textContent="Moved "+moved.join(", ")+" to Group "+grpNum2+"."; grpStatusEl.style.color="var(--teal2)";
+            } else {
+              grpStatusEl.textContent="Could not move — player not found."; grpStatusEl.style.color="var(--red)";
+            }
             grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null;
-            renderSplit(S.splitResult,[]); renderInlineAdjust(container,raidKey);
+            renderLocalGrpMover();
           });
         })(grp.groupNum, side.key);
         block.appendChild(gh);
@@ -2066,9 +2070,11 @@ function renderInlineAdjust(container, raidKey){
               if(mi>=0){ oorArr.push(gs[gi].members.splice(mi,1)[0]); moved.push(nm); break; }
             }
           });
-          grpStatusEl.textContent="Moved "+moved.join(", ")+" to Out of Raid."; grpStatusEl.style.color="var(--teal2)";
+          if(moved.length){
+            grpStatusEl.textContent="Moved "+moved.join(", ")+" to Out of Raid."; grpStatusEl.style.color="var(--teal2)";
+          }
           grpMoverState.selected=new Set(); grpMoverState.raidKey=null; grpMoverState.fromGroupNum=null;
-          renderSplit(S.splitResult,[]); renderInlineAdjust(container,raidKey);
+          renderLocalGrpMover();
         });
       })(side.key);
       oorBlock.appendChild(oorHdr);

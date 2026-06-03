@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teek Server Expansion Countdown</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 16px 16px 0;
+    font-size: 13px;
+    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+    /* subtle atmospheric depth behind everything */
+    background-image:
+      radial-gradient(900px 480px at 50% -120px, rgba(240,192,96,0.10), transparent 70%),
+      radial-gradient(700px 500px at 85% 10%, rgba(126,207,255,0.06), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  h1 {
+    text-align: center;
+    color: #f0c060;
+    font-family: 'Cinzel', 'Segoe UI', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 14px rgba(240,192,96,0.35);
+  }
+  .subtitle { text-align: center; color: #888; font-size: 11px; margin-bottom: 14px; letter-spacing: 0.5px; }
+
+  .header-links {
+    text-align: center;
+    margin-bottom: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .header-links a {
+    color: #7ecfff;
+    font-size: 11px;
+    text-decoration: none;
+    border: 1px solid #1a4a70;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: #0f1a30;
+    transition: border-color .15s, background .15s;
+  }
+  .header-links a:hover { border-color: #7ecfff; background: #1a2a40; }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  /* ─────────────── HERO COUNTDOWN ─────────────── */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(600px 300px at 50% -40px, rgba(240,192,96,0.10), transparent 70%),
+      linear-gradient(160deg, #1b2848 0%, #131d36 100%);
+    border: 1px solid #3a5a8a;
+    border-radius: 14px;
+    padding: 22px 20px 24px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(240,192,96,0.06), 0 10px 40px rgba(0,0,0,0.45);
+    animation: heroGlow 5s ease-in-out infinite;
+  }
+  @keyframes heroGlow {
+    0%,100% { box-shadow: 0 0 0 1px rgba(240,192,96,0.05), 0 10px 40px rgba(0,0,0,0.45); border-color:#3a5a8a; }
+    50%     { box-shadow: 0 0 26px rgba(240,192,96,0.16), 0 10px 40px rgba(0,0,0,0.45); border-color:#5a7ab0; }
+  }
+  .hero::after { /* faint corner sigils */
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(140px 140px at 0% 0%, rgba(126,207,255,0.05), transparent 70%),
+      radial-gradient(140px 140px at 100% 100%, rgba(126,207,255,0.05), transparent 70%);
+  }
+
+  .hero-eyebrow {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #7ecfff;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .hero-eyebrow .live-dot {
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:#f0c060; margin-right:7px; vertical-align:middle;
+    box-shadow:0 0 8px #f0c060; animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.35; transform:scale(.7);} }
+
+  .hero-head {
+    display:flex; align-items:center; justify-content:center; gap:16px;
+    margin-bottom: 6px; flex-wrap: wrap; position: relative;
+  }
+  .hero-icon {
+    width: 84px; height: 84px; flex-shrink:0;
+    border-radius: 12px;
+    border: 1px solid #4a6a9a;
+    background: #0e1730;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    box-shadow: inset 0 0 18px rgba(0,0,0,0.6), 0 0 16px rgba(240,192,96,0.12);
+    position: relative;
+  }
+  .hero-icon img { width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-icon .fallback {
+    font-family:'Cinzel', serif; font-weight:700; font-size:26px; color:#f0c060;
+    text-shadow:0 0 10px rgba(240,192,96,0.4);
+  }
+  .hero-titles { text-align:left; }
+  .hero-name {
+    font-family:'Cinzel','Segoe UI',serif; font-weight:700;
+    font-size: 27px; line-height:1.05; color:#f6e3b0;
+    text-shadow:0 0 16px rgba(240,192,96,0.25);
+  }
+  .hero-abbr { font-size:12px; color:#7ecfff; letter-spacing:0.18em; text-transform:uppercase; margin-top:5px; }
+  .hero-date { text-align:center; color:#aab; font-size:12.5px; margin: 8px 0 18px; letter-spacing:0.4px; }
+  .hero-date strong { color:#e8c878; font-weight:600; }
+
+  /* count units */
+  .counter { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:520px; margin:0 auto; }
+  .unit {
+    background: linear-gradient(180deg, #0f1c38 0%, #0c1630 100%);
+    border:1px solid #2f4a74;
+    border-radius:10px;
+    padding:12px 6px 9px;
+    text-align:center;
+    position:relative;
+  }
+  .unit-num {
+    font-family:'Chakra Petch','Segoe UI',monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight:700; font-size:36px; line-height:1; color:#f0c060;
+    text-shadow:0 0 14px rgba(240,192,96,0.30);
+  }
+  .unit-label { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#7a90b4; margin-top:7px; }
+
+  .hero-live-clock {
+    text-align:center; margin-top:14px;
+    font-family:'Chakra Petch',monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; color:#6fa0d0; letter-spacing:0.18em;
+  }
+  .hero-live-clock .tick { color:#7ecfff; }
+
+  /* progress of the currently-live expansion */
+  .progress-wrap { max-width:520px; margin:18px auto 0; }
+  .progress-meta { display:flex; justify-content:space-between; font-size:11px; color:#8aa; margin-bottom:6px; }
+  .progress-meta strong { color:#e8c878; font-weight:600; }
+  .progress-track {
+    height:9px; border-radius:6px; background:#0c1428; border:1px solid #2a3a5a; overflow:hidden;
+  }
+  .progress-fill {
+    height:100%; width:0%;
+    background:linear-gradient(90deg, #3a6a9a, #7ecfff 60%, #a8e0ff);
+    box-shadow:0 0 10px rgba(126,207,255,0.5);
+    border-radius:6px; transition:width 1s ease;
+  }
+  .all-done {
+    text-align:center; padding:30px 10px; color:#6fcf6f;
+    font-family:'Cinzel',serif; font-size:20px;
+  }
+
+  /* ─────────────── SECTION HEADING ─────────────── */
+  .section-heading {
+    color: #f0c060;
+    font-family:'Cinzel','Segoe UI',serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    margin: 26px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2a3a5a;
+  }
+
+  /* ─────────────── TIMELINE ─────────────── */
+  .timeline { position:relative; padding-left: 8px; }
+  .tl-row {
+    position:relative;
+    display:flex; align-items:center; gap:12px;
+    padding:8px 12px;
+    margin-bottom:8px;
+    border-radius:10px;
+    background:#16213e;
+    border:1px solid #2a3a5a;
+    transition:border-color .15s, background .15s, transform .15s;
+  }
+  .tl-row:hover { border-color:#3a5a8a; transform:translateX(2px); }
+
+  .tl-icon {
+    width:46px; height:46px; flex-shrink:0; border-radius:9px;
+    border:1px solid #2f4a74; background:#0e1730;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .tl-icon img { width:100%; height:100%; object-fit:cover; display:block; }
+  .tl-icon .fallback { font-family:'Cinzel',serif; font-weight:700; font-size:13px; color:#7a90b4; }
+
+  .tl-body { flex:1; min-width:0; }
+  .tl-name { font-weight:600; color:#e8edf6; font-size:13.5px; }
+  .tl-name .abbr { color:#7ecfff; font-weight:600; font-size:11px; letter-spacing:0.08em; margin-left:6px; }
+  .tl-meta { font-size:11px; color:#7a90b4; margin-top:3px; display:flex; flex-wrap:wrap; gap:10px; }
+  .tl-meta .cap { color:#c8a060; }
+
+  .tl-right { text-align:right; flex-shrink:0; }
+  .tl-date { font-family:'Chakra Petch',monospace; font-size:12px; color:#cdd6e6; font-variant-numeric:tabular-nums; }
+  .tl-countdown {
+    font-family:'Chakra Petch',monospace; font-variant-numeric:tabular-nums;
+    font-size:11px; color:#7ecfff; margin-top:4px; letter-spacing:0.03em; white-space:nowrap;
+  }
+  .tl-row.is-next .tl-countdown { color:#f0c060; font-weight:700; text-shadow:0 0 8px rgba(240,192,96,0.25); }
+  .tl-status {
+    display:inline-block; margin-top:5px; font-size:9.5px; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase; padding:2px 8px; border-radius:999px;
+  }
+  .st-past   { background:#10182a; color:#5a6a82; border:1px solid #243049; }
+  .st-live   { background:#0f2818; color:#6fcf6f; border:1px solid #1a5a2a; }
+  .st-next   { background:#2a1e00; color:#f0c060; border:1px solid #6a4a00; }
+  .st-future { background:#0f1c34; color:#6fa0d0; border:1px solid #244a70; }
+
+  .tl-row.is-past   { opacity:0.62; }
+  .tl-row.is-live   { border-color:#1a5a2a; background:linear-gradient(160deg,#16273a,#142a20); }
+  .tl-row.is-next   {
+    border-color:#6a4a00;
+    background:linear-gradient(160deg,#241f12,#1a1c30);
+    animation: nextPulse 3.2s ease-in-out infinite;
+  }
+  @keyframes nextPulse {
+    0%,100% { box-shadow:0 0 0 1px rgba(240,192,96,0.05); }
+    50%     { box-shadow:0 0 18px rgba(240,192,96,0.20); }
+  }
+
+  /* ─────────────── NOTE BOX ─────────────── */
+  .note {
+    background:#131928; border-left:3px solid #3a5a8a; border-radius:0 6px 6px 0;
+    padding:12px 14px; font-size:12px; color:#8a93a6; margin-top:14px; line-height:1.6;
+  }
+  .note strong { color:#aab8cc; font-weight:600; }
+  .note code {
+    font-family:'Chakra Petch',monospace; background:#0c1428; border:1px solid #243049;
+    color:#7ecfff; padding:1px 6px; border-radius:4px; font-size:11px;
+  }
+
+  /* ─────────────── THEME TOGGLE (matches site) ─────────────── */
+  .theme-toggle {
+    position: fixed; top: 12px; right: 16px; z-index: 1000;
+    display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none;
+  }
+  .toggle-track {
+    width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a;
+    border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0;
+  }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb {
+    position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
+    border-radius: 50%; background: #e8a020; transition: transform 0.25s;
+  }
+  body.light .toggle-thumb { transform: translateX(18px); }
+
+  /* ─────────────── FOOTER ─────────────── */
+  .kos-footer {
+    text-align:center; padding:22px 18px 26px; font-size:11px; color:#444;
+    border-top:1px solid #1e1e38; margin-top:28px; letter-spacing:1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .kos-footer a { color:#6090b0; text-decoration:none; }
+  .kos-footer a:hover { color:#7ecfff; }
+
+  /* ─────────────── LIGHT MODE ─────────────── */
+  body.light { background:#f0ebe0 !important; color:#2a1f0e !important;
+    background-image: radial-gradient(900px 480px at 50% -120px, rgba(200,160,96,0.22), transparent 70%) !important; }
+  body.light h1 { color:#7a4a08 !important; text-shadow:none !important; }
+  body.light .subtitle { color:#7a6040 !important; }
+  body.light .header-links a { background:#d0e4f8 !important; border-color:#6090c8 !important; color:#1a4a8a !important; }
+
+  body.light .hero { background:linear-gradient(160deg,#fbf4e4,#f1e7d0) !important; border-color:#c0a878 !important; box-shadow:0 8px 30px rgba(120,90,40,0.18) !important; animation:none !important; }
+  body.light .hero-eyebrow { color:#1a4a8a !important; }
+  body.light .hero-icon { background:#fdf8ec !important; border-color:#c0a878 !important; }
+  body.light .hero-icon .fallback { color:#a0760a !important; text-shadow:none !important; }
+  body.light .hero-name { color:#5a3406 !important; text-shadow:none !important; }
+  body.light .hero-abbr { color:#1a4a8a !important; }
+  body.light .hero-date { color:#7a6040 !important; }
+  body.light .hero-date strong { color:#8a5a0a !important; }
+  body.light .unit { background:#fdf8ec !important; border-color:#c8a878 !important; }
+  body.light .unit-num { color:#9a6a08 !important; text-shadow:none !important; }
+  body.light .unit-label { color:#9a7a50 !important; }
+  body.light .hero-live-clock { color:#8a6a40 !important; }
+  body.light .hero-live-clock .tick { color:#1a6a8a !important; }
+  body.light .progress-track { background:#e4d6ba !important; border-color:#c8a878 !important; }
+  body.light .progress-meta { color:#7a6040 !important; }
+  body.light .progress-meta strong { color:#8a5a0a !important; }
+
+  body.light .section-heading { color:#7a4a08 !important; border-bottom-color:#c0a878 !important; }
+  body.light .tl-row { background:#f4ecdc !important; border-color:#c8a878 !important; }
+  body.light .tl-row:hover { border-color:#a07840 !important; }
+  body.light .tl-icon { background:#fdf8ec !important; border-color:#c8a878 !important; }
+  body.light .tl-icon .fallback { color:#9a7a50 !important; }
+  body.light .tl-name { color:#2a1f0e !important; }
+  body.light .tl-name .abbr { color:#1a4a8a !important; }
+  body.light .tl-meta { color:#7a6040 !important; }
+  body.light .tl-meta .cap { color:#8a5a0a !important; }
+  body.light .tl-date { color:#3a2a10 !important; }
+  body.light .tl-countdown { color:#1a4a8a !important; }
+  body.light .tl-row.is-next .tl-countdown { color:#8a5a0a !important; text-shadow:none !important; }
+  body.light .tl-row.is-live { background:linear-gradient(160deg,#eef4e0,#e2f0d4) !important; border-color:#60b878 !important; }
+  body.light .tl-row.is-next { background:linear-gradient(160deg,#fcf2d4,#f6ecd0) !important; border-color:#c8a040 !important; animation:none !important; }
+  body.light .st-past   { background:#e8dcc8 !important; color:#9a8a70 !important; border-color:#c8b894 !important; }
+  body.light .st-live   { background:#d0f0d8 !important; color:#1a6030 !important; border-color:#60b878 !important; }
+  body.light .st-next   { background:#f8e8c0 !important; color:#8a5a0a !important; border-color:#c8a040 !important; }
+  body.light .st-future { background:#d0e4f8 !important; color:#1a4a8a !important; border-color:#6090c8 !important; }
+  body.light .note { background:#ede0cc !important; border-left-color:#c0a878 !important; color:#5a4a30 !important; }
+  body.light .note strong { color:#3a2a10 !important; }
+  body.light .note code { background:#fdf8ec !important; border-color:#c8a878 !important; color:#1a4a8a !important; }
+  body.light .all-done { color:#1a6030 !important; }
+  body.light .kos-footer { color:#9a7a50 !important; border-top-color:#c8a870 !important; }
+  body.light .kos-footer a { color:#5a7aaa !important; }
+
+  /* ─────────────── RESPONSIVE ─────────────── */
+  @media (max-width: 560px) {
+    h1 { font-size: 20px; }
+    .hero-name { font-size: 22px; }
+    .hero-head { gap:12px; }
+    .hero-icon { width:64px; height:64px; }
+    .counter { grid-template-columns: repeat(2,1fr); max-width:300px; }
+    .unit-num { font-size:30px; }
+    .tl-meta { gap:7px; font-size:10.5px; }
+    .tl-right { min-width:78px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle (matches the rest of the site) -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<h1>⏳ Teek Server Expansion Countdown</h1>
+<p class="subtitle">Teek Progression Server &nbsp;·&nbsp; Time until the next unlock</p>
+
+<div class="header-links">
+  <a href="https://key-of-swords.github.io/Key-Of-Swords-Resources/" target="_blank">🔗 KOS Guild Resources</a>
+  <a href="https://www.everquest.com/news" target="_blank">🔗 EQ Official News</a>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO COUNTDOWN (built by JS) -->
+  <div class="hero" id="hero">
+    <div class="hero-eyebrow"><span class="live-dot"></span>Next Expansion Unlock</div>
+    <div class="hero-head">
+      <div class="hero-icon" id="heroIcon"></div>
+      <div class="hero-titles">
+        <div class="hero-name" id="heroName">—</div>
+        <div class="hero-abbr" id="heroAbbr"></div>
+      </div>
+    </div>
+    <div class="hero-date" id="heroDate"></div>
+
+    <div class="counter">
+      <div class="unit"><div class="unit-num" id="u-months">0</div><div class="unit-label">Months</div></div>
+      <div class="unit"><div class="unit-num" id="u-weeks">0</div><div class="unit-label">Weeks</div></div>
+      <div class="unit"><div class="unit-num" id="u-days">0</div><div class="unit-label">Days</div></div>
+      <div class="unit"><div class="unit-num" id="u-hours">0</div><div class="unit-label">Hours</div></div>
+    </div>
+
+    <div class="hero-live-clock" id="liveClock"></div>
+
+    <div class="progress-wrap" id="progressWrap" style="display:none;">
+      <div class="progress-meta">
+        <span id="progLabel"></span>
+        <span><strong id="progPct">0%</strong> elapsed</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+    </div>
+  </div>
+
+  <!-- FULL TIMELINE -->
+  <h2 class="section-heading">⚔ Full Expansion Timeline</h2>
+  <div class="timeline" id="timeline"></div>
+
+  <div class="note">
+    <strong>Adding expansion icons:</strong> drop a square <code>.png</code> for each expansion into an
+    <code>icons/</code> folder next to this page. File names match the codes in the timeline —
+    e.g. <code>icons/sod.png</code>, <code>icons/kunark.png</code>, <code>icons/ls.png</code>.
+    Until an image is found, the abbreviation shows as a placeholder, so the page never looks broken.
+    <br><br>
+    <strong>Unlock time:</strong> every countdown targets <strong>2:00&nbsp;PM&nbsp;Pacific</strong> (DST-aware) —
+    3&nbsp;PM&nbsp;Mountain · 4&nbsp;PM&nbsp;Central · 5&nbsp;PM&nbsp;Eastern · 11&nbsp;PM&nbsp;CET/CEST.
+    Summer dates use PDT (UTC−7) and winter dates use PST (UTC−8), so the US wall-clock
+    stays consistent year-round for every viewer.
+  </div>
+
+</div>
+
+<div class="kos-footer">
+  Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   EXPANSION DATA — Teek progression server
+   Unlock = 2:00 PM Pacific wall-clock (DST-aware).
+   Summer dates use PDT (UTC-7) → T21:00:00Z
+   Winter dates use PST (UTC-8) → T22:00:00Z
+   This keeps the US times consistent year-round:
+   2 PM PT · 3 PM MT · 4 PM CT · 5 PM ET · 11 PM CET/CEST
+   code   → icon filename  (icons/<code>.png)
+   abbr   → short display label
+   weeks  → weeks the expansion stays live before the next unlock
+   cap    → standard EverQuest level cap for that expansion
+   ══════════════════════════════════════════════════════════════════════ */
+const EXPANSIONS = [
+  { code:'kunark',  abbr:'Kunark',    name:'Ruins of Kunark',                          date:'2024-05-22T21:00:00Z', weeks:12, cap:60  },
+  { code:'velious', abbr:'Velious',   name:'Scars of Velious',                         date:'2024-08-15T21:00:00Z', weeks:8,  cap:60  },
+  { code:'luclin',  abbr:'Luclin',    name:'Shadows of Luclin',                        date:'2024-10-10T21:00:00Z', weeks:8,  cap:60  },
+  { code:'pop',     abbr:'PoP / LoY', name:'Planes of Power / Legacy of Ykesha',       date:'2024-12-05T22:00:00Z', weeks:12, cap:65  },
+  { code:'ldon',    abbr:'LDoN',      name:'Lost Dungeons of Norrath',                 date:'2025-02-27T22:00:00Z', weeks:4,  cap:65  },
+  { code:'god',     abbr:'GoD',       name:'Gates of Discord',                         date:'2025-03-27T21:00:00Z', weeks:8,  cap:65  },
+  { code:'oow',     abbr:'OoW / DoN', name:'Omens of War / Dragons of Norrath',        date:'2025-05-22T21:00:00Z', weeks:12, cap:70  },
+  { code:'dod',     abbr:'DoD',       name:'Depths of Darkhollow',                     date:'2025-08-14T21:00:00Z', weeks:8,  cap:70  },
+  { code:'por',     abbr:'PoR',       name:'Prophecy of Ro',                           date:'2025-10-09T21:00:00Z', weeks:8,  cap:70  },
+  { code:'tss',     abbr:'TSS',       name:"The Serpent's Spine",                      date:'2025-12-04T22:00:00Z', weeks:12, cap:75  },
+  { code:'tbs',     abbr:'TBS',       name:'The Buried Sea',                           date:'2026-02-26T22:00:00Z', weeks:8,  cap:75  },
+  { code:'sof',     abbr:'SoF',       name:'Secrets of Faydwer',                       date:'2026-04-23T21:00:00Z', weeks:12, cap:80  },
+  { code:'sod',     abbr:'SoD',       name:'Seeds of Destruction',                     date:'2026-07-16T21:00:00Z', weeks:12, cap:85  },
+  { code:'uf',      abbr:'UF',        name:'Underfoot',                                date:'2026-10-08T21:00:00Z', weeks:8,  cap:85  },
+  { code:'hot',     abbr:'HoT',       name:'House of Thule',                           date:'2026-12-03T22:00:00Z', weeks:12, cap:90  },
+  { code:'voa',     abbr:'VoA',       name:'Veil of Alaris',                           date:'2027-02-25T22:00:00Z', weeks:12, cap:95  },
+  { code:'rof',     abbr:'RoF',       name:'Rain of Fear',                             date:'2027-05-20T21:00:00Z', weeks:12, cap:100 },
+  { code:'cof',     abbr:'CoF',       name:'Call of the Forsaken',                     date:'2027-08-12T21:00:00Z', weeks:8,  cap:100 },
+  { code:'tds',     abbr:'TDS',       name:'The Darkened Sea',                         date:'2027-10-07T21:00:00Z', weeks:12, cap:105 },
+  { code:'tbm',     abbr:'TBM',       name:'The Broken Mirror',                        date:'2027-12-30T22:00:00Z', weeks:8,  cap:105 },
+  { code:'eok',     abbr:'EoK',       name:'Empires of Kunark',                        date:'2028-02-24T22:00:00Z', weeks:8,  cap:105 },
+  { code:'ros',     abbr:'RoS',       name:'Ring of Scale',                            date:'2028-04-20T21:00:00Z', weeks:12, cap:110 },
+  { code:'tbl',     abbr:'TBL',       name:'The Burning Lands',                        date:'2028-07-13T21:00:00Z', weeks:8,  cap:110 },
+  { code:'tov',     abbr:'ToV',       name:'Torment of Velious',                       date:'2028-10-08T21:00:00Z', weeks:12, cap:115 },
+  { code:'cov',     abbr:'CoV',       name:'Claws of Veeshan',                         date:'2028-11-30T22:00:00Z', weeks:8,  cap:115 },
+  { code:'tol',     abbr:'ToL',       name:'Terror of Luclin',                         date:'2029-01-25T22:00:00Z', weeks:12, cap:120 },
+  { code:'nos',     abbr:'NoS',       name:'Night of Shadows',                         date:'2029-04-19T21:00:00Z', weeks:8,  cap:120 },
+  { code:'ls',      abbr:'LS',        name:"Laurion's Song",                           date:'2029-06-14T21:00:00Z', weeks:12, cap:125 },
+];
+
+// parse + sort by date ascending
+EXPANSIONS.forEach(e => e.dt = new Date(e.date));
+EXPANSIONS.sort((a,b) => a.dt - b.dt);
+
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(d){ return DOW[d.getDay()] + ', ' + MON[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
+function fmtShort(d){ return MON[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
+function pad(n){ return String(n).padStart(2,'0'); }
+
+/* Calendar-aware breakdown into months → weeks → days → hours → mins → secs */
+function breakdown(now, target){
+  if (target <= now) return {months:0,weeks:0,days:0,hours:0,mins:0,secs:0};
+  let cursor = new Date(now), months = 0;
+  while (true){
+    const next = new Date(cursor); next.setMonth(next.getMonth()+1);
+    if (next <= target){ cursor = next; months++; } else break;
+  }
+  let ms = target - cursor;
+  const W = 6048e5, D = 864e5, H = 36e5, M = 6e4;
+  const weeks = Math.floor(ms / W); ms -= weeks*W;
+  const days  = Math.floor(ms / D); ms -= days*D;
+  const hours = Math.floor(ms / H); ms -= hours*H;
+  const mins  = Math.floor(ms / M); ms -= mins*M;
+  const secs  = Math.floor(ms / 1000);
+  return {months, weeks, days, hours, mins, secs};
+}
+
+/* Fill an icon box with the expansion image, falling back to its abbreviation */
+function fillIcon(box, exp){
+  box.innerHTML = '';
+  const img = document.createElement('img');
+  img.alt = exp.abbr;
+  img.src = 'icons/' + exp.code + '.png';
+  const fb = document.createElement('span');
+  fb.className = 'fallback';
+  fb.textContent = exp.abbr.replace(/\s*\/\s*/,'/');
+  img.onerror = () => { img.remove(); box.appendChild(fb); };
+  box.appendChild(img);
+  return box;
+}
+/* Build a fresh icon element (used by the timeline) */
+function iconEl(exp, cls){
+  const box = document.createElement('div');
+  box.className = cls;
+  return fillIcon(box, exp);
+}
+
+/* Figure out indices: live = latest released, next = first upcoming */
+function indices(now){
+  let live = -1, next = -1;
+  for (let i=0;i<EXPANSIONS.length;i++){
+    if (EXPANSIONS[i].dt <= now) live = i;
+    else { next = i; break; }
+  }
+  return {live, next};
+}
+
+/* ── Build static timeline once ── */
+function buildTimeline(){
+  const tl = document.getElementById('timeline');
+  const now = new Date();
+  const {live, next} = indices(now);
+  EXPANSIONS.forEach((e, i) => {
+    const row = document.createElement('div');
+    row.className = 'tl-row';
+    let statusCls, statusTxt;
+    if (i === next){ row.classList.add('is-next'); statusCls='st-next'; statusTxt='Next Up'; }
+    else if (i === live){ row.classList.add('is-live'); statusCls='st-live'; statusTxt='Now Live'; }
+    else if (e.dt <= now){ row.classList.add('is-past'); statusCls='st-past'; statusTxt='Released'; }
+    else { statusCls='st-future'; statusTxt='Upcoming'; }
+
+    row.appendChild(iconEl(e, 'tl-icon'));
+
+    const body = document.createElement('div');
+    body.className = 'tl-body';
+    body.innerHTML =
+      '<div class="tl-name">' + e.name + '<span class="abbr">' + e.abbr + '</span></div>' +
+      '<div class="tl-meta"><span>' + e.weeks + ' wk live</span>' +
+      '<span class="cap">Level ' + e.cap + '</span>' +
+      '<span style="font-family:\'Chakra Petch\',monospace">icons/' + e.code + '.png</span></div>';
+    row.appendChild(body);
+
+    const right = document.createElement('div');
+    right.className = 'tl-right';
+    const dateEl = document.createElement('div');
+    dateEl.className = 'tl-date';
+    dateEl.textContent = fmtShort(e.dt);
+    right.appendChild(dateEl);
+
+    // mini live countdown — only for expansions that haven't unlocked yet
+    if (e.dt > now){
+      const cd = document.createElement('div');
+      cd.className = 'tl-countdown';
+      right.appendChild(cd);
+      TL_TIMERS.push({ exp: e, el: cd });
+    }
+
+    const st = document.createElement('span');
+    st.className = 'tl-status ' + statusCls;
+    st.textContent = statusTxt;
+    right.appendChild(st);
+    row.appendChild(right);
+
+    tl.appendChild(row);
+  });
+}
+
+/* ── Build hero from the upcoming expansion ── */
+let NEXT = null, LIVE = null;
+const TL_TIMERS = [];   // {exp, el} for each upcoming row's mini countdown
+function buildHero(){
+  const now = new Date();
+  const {live, next} = indices(now);
+  LIVE = live >= 0 ? EXPANSIONS[live] : null;
+
+  if (next === -1){
+    // everything has released
+    document.getElementById('hero').innerHTML =
+      '<div class="all-done">🐉 All expansions unlocked on Teek.<br>' +
+      '<span style="font-size:13px;color:#8aa;font-family:\'Segoe UI\',sans-serif;">The progression is complete — see you in Norrath.</span></div>';
+    return false;
+  }
+  NEXT = EXPANSIONS[next];
+
+  fillIcon(document.getElementById('heroIcon'), NEXT);
+
+  document.getElementById('heroName').textContent = NEXT.name;
+  document.getElementById('heroAbbr').textContent = NEXT.abbr + ' · Level ' + NEXT.cap + ' · ' + NEXT.weeks + '-week run';
+  document.getElementById('heroDate').innerHTML = 'Unlocks <strong>' + fmtDate(NEXT.dt) + '</strong>';
+
+  // progress through the currently-live expansion window
+  if (LIVE){
+    document.getElementById('progressWrap').style.display = 'block';
+    document.getElementById('progLabel').innerHTML =
+      '<strong>' + LIVE.abbr + '</strong> is live';
+  }
+  return true;
+}
+
+/* ── Live tick ── */
+function tick(){
+  if (!NEXT) return;
+  const now = new Date();
+
+  // if the next unlock just passed, rebuild everything
+  if (now >= NEXT.dt){
+    location.reload();
+    return;
+  }
+
+  const b = breakdown(now, NEXT.dt);
+  document.getElementById('u-months').textContent = b.months;
+  document.getElementById('u-weeks').textContent  = b.weeks;
+  document.getElementById('u-days').textContent   = b.days;
+  document.getElementById('u-hours').textContent  = b.hours;
+
+  document.getElementById('liveClock').innerHTML =
+    'and <span class="tick">' + pad(b.mins) + 'm ' + pad(b.secs) + 's</span> on the clock';
+
+  // refresh the compact countdown on every upcoming timeline row
+  for (const t of TL_TIMERS){
+    const tb = breakdown(now, t.exp.dt);
+    t.el.textContent = tb.months + 'mo ' + tb.weeks + 'w ' + tb.days + 'd ' + tb.hours + 'h';
+  }
+
+  if (LIVE){
+    const total = NEXT.dt - LIVE.dt;
+    const done  = now - LIVE.dt;
+    const pct = Math.max(0, Math.min(100, (done/total)*100));
+    document.getElementById('progFill').style.width = pct.toFixed(1) + '%';
+    document.getElementById('progPct').textContent = pct.toFixed(0) + '%';
+  }
+}
+
+/* ── Theme toggle (matches site) ── */
+if(document.documentElement.classList.contains('light')){
+  document.documentElement.classList.remove('light');
+  document.body.classList.add('light');
+}
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+}
+
+/* ── Init ── */
+buildTimeline();
+if (buildHero()){
+  tick();
+  setInterval(tick, 1000);
+}
+</script>
+
+</body>
+</html>

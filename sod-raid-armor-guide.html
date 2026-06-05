@@ -501,7 +501,6 @@
 <div class="header-links">
   <a href="https://www.raspersrealm.com/Everquest/SoD/gearVisibleArmor.html" target="_blank">🔗 Rasper's Realm — Visible Armor</a>
   <a href="https://everquest.allakhazam.com/wiki/eq:Seeds_of_Destruction_Armor_Guide" target="_blank">🔗 Allakhazam — Armor Guide</a>
-  <a href="https://key-of-swords.github.io/Key-Of-Swords-Resources/" target="_blank">🔗 KOS Guild Resources</a>
 </div>
 
 <!-- Tabs — all on one line, horizontally scrollable on small screens -->
@@ -1057,44 +1056,9 @@ function buildAllTables() {
   const container = document.getElementById('ilink-tables');
   container.innerHTML = '';
 
-  const grpLabel = document.createElement('div');
-  grpLabel.style.cssText = 'display:flex;align-items:center;gap:16px;margin:0 0 18px;padding:10px 0;';
-  grpLabel.innerHTML = '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>' +
-    '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7ecfff;white-space:nowrap;">👥 Group Armor</span>' +
-    '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>';
-  container.appendChild(grpLabel);
-
-  // ── GROUP ARMOR ──────────────────────────────────────────────────────
-  buildTable(container, 'Group Tier 3 — Concordant / Discordant (Field of Scale)', (cls, slot, si) => {
-    const [nm, type, grp] = cls;
-    return [
-      makeLink(cls[4]+si, 'Concordant', '',       buildItemName('Concordant',grp,type,slot), type, slot, 'Group T3 Concordant', nm),
-      makeLink(cls[5]+si, 'Discordant', 'orange', buildItemName('Discordant',grp,type,slot), type, slot, 'Group T3 Discordant', nm),
-    ];
-  });
-
-  buildTable(container, 'Group Tier 4 — Vested / Balanced / Chaotic (Earth)', (cls, slot, si) => {
-    const [nm, type, grp] = cls;
-    return [
-      makeLink(cls[6]+si, 'Vested',   'green',  buildItemName('Vested',  grp,type,slot), type, slot, 'Group T4 Vested',   nm),
-      makeLink(cls[7]+si, 'Balanced', 'purple', buildItemName('Balanced',grp,type,slot), type, slot, 'Group T4 Balanced', nm),
-      makeLink(cls[8]+si, 'Chaotic',  'orange', buildItemName('Chaotic', grp,type,slot), type, slot, 'Group T4 Chaotic',  nm),
-    ];
-  });
-
-  buildTable(container, 'Group Tier 4.5 — Ordained / Tarnished / Tainted / Inflicted', (cls, slot, si) => {
-    const [nm, type, grp] = cls;
-    return [
-      makeLink(cls[9] +si, 'Ordained',  'gold',   buildItemName('Ordained', grp,type,slot), type, slot, 'Group T4.5 Ordained',  nm),
-      makeLink(cls[10]+si, 'Tarnished', 'green',  buildItemName('Tarnished',grp,type,slot), type, slot, 'Group T4.5 Tarnished', nm),
-      makeLink(cls[11]+si, 'Tainted',   'purple', buildItemName('Tainted',  grp,type,slot), type, slot, 'Group T4.5 Tainted',   nm),
-      makeLink(cls[12]+si, 'Inflicted', 'red',    buildItemName('Inflicted',grp,type,slot), type, slot, 'Group T4.5 Inflicted',  nm),
-    ];
-  });
-
   // ── RAID ARMOR ───────────────────────────────────────────────────────
   const sep = document.createElement('div');
-  sep.style.cssText = 'display:flex;align-items:center;gap:16px;margin:28px 0 18px;padding:10px 0;';
+  sep.style.cssText = 'display:flex;align-items:center;gap:16px;margin:0 0 18px;padding:10px 0;';
   sep.innerHTML = '<div style="flex:1;border-top:3px solid #3a5a8a;"></div>' +
     '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#f0c060;white-space:nowrap;">⚔ Raid Armor</span>' +
     '<div style="flex:1;border-top:3px solid #3a5a8a;"></div>';
@@ -1123,6 +1087,41 @@ function buildAllTables() {
       makeLink(cls[19]+si, 'Tarnished', 'green',  buildItemName('Tarnished',raid,type,slot), type, slot, 'Raid T4.5 Tarnished', nm),
       makeLink(cls[20]+si, 'Tainted',   'purple', buildItemName('Tainted',  raid,type,slot), type, slot, 'Raid T4.5 Tainted',   nm),
       makeLink(cls[21]+si, 'Inflicted', 'red',    buildItemName('Inflicted',raid,type,slot), type, slot, 'Raid T4.5 Inflicted',  nm),
+    ];
+  });
+
+  // ── GROUP ARMOR ──────────────────────────────────────────────────────
+  const grpLabel = document.createElement('div');
+  grpLabel.style.cssText = 'display:flex;align-items:center;gap:16px;margin:28px 0 18px;padding:10px 0;';
+  grpLabel.innerHTML = '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>' +
+    '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7ecfff;white-space:nowrap;">👥 Group Armor</span>' +
+    '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>';
+  container.appendChild(grpLabel);
+
+  buildTable(container, 'Group Tier 3 — Concordant / Discordant (Field of Scale)', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[4]+si, 'Concordant', '',       buildItemName('Concordant',grp,type,slot), type, slot, 'Group T3 Concordant', nm),
+      makeLink(cls[5]+si, 'Discordant', 'orange', buildItemName('Discordant',grp,type,slot), type, slot, 'Group T3 Discordant', nm),
+    ];
+  });
+
+  buildTable(container, 'Group Tier 4 — Vested / Balanced / Chaotic (Earth)', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[6]+si, 'Vested',   'green',  buildItemName('Vested',  grp,type,slot), type, slot, 'Group T4 Vested',   nm),
+      makeLink(cls[7]+si, 'Balanced', 'purple', buildItemName('Balanced',grp,type,slot), type, slot, 'Group T4 Balanced', nm),
+      makeLink(cls[8]+si, 'Chaotic',  'orange', buildItemName('Chaotic', grp,type,slot), type, slot, 'Group T4 Chaotic',  nm),
+    ];
+  });
+
+  buildTable(container, 'Group Tier 4.5 — Ordained / Tarnished / Tainted / Inflicted', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[9] +si, 'Ordained',  'gold',   buildItemName('Ordained', grp,type,slot), type, slot, 'Group T4.5 Ordained',  nm),
+      makeLink(cls[10]+si, 'Tarnished', 'green',  buildItemName('Tarnished',grp,type,slot), type, slot, 'Group T4.5 Tarnished', nm),
+      makeLink(cls[11]+si, 'Tainted',   'purple', buildItemName('Tainted',  grp,type,slot), type, slot, 'Group T4.5 Tainted',   nm),
+      makeLink(cls[12]+si, 'Inflicted', 'red',    buildItemName('Inflicted',grp,type,slot), type, slot, 'Group T4.5 Inflicted',  nm),
     ];
   });
 }

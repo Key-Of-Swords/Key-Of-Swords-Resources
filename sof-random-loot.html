@@ -132,6 +132,17 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
 .back-btn:hover { border-color: var(--gold); }
 .back-btn-wrap { text-align: center; padding: 10px 0 0; }
 
+.bucket-panel { display: flex; gap: 12px; padding: 10px 20px; background: var(--bg-panel); border-bottom: 1px solid var(--border); }
+.bucket-col { flex: 1; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+.bucket-col h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 8px; }
+.bucket-b1 { border-color: #3a7a3a; }
+.bucket-b1 h3 { color: #6abf6a; }
+.bucket-b2 { border-color: #7a4a3a; }
+.bucket-b2 h3 { color: #bf8a6a; }
+.bucket-mob-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.bucket-mob { font-size: 12px; color: var(--text-mob); background: var(--bg-row); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; cursor: pointer; }
+.bucket-mob:hover { border-color: var(--gold); color: var(--gold); }
+
 .footer { text-align: center; padding: 16px; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 10px; }
 </style>
 </head>
@@ -160,6 +171,17 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
   <span class="bucket-badge b-rt3">Raid T3</span>
   <span class="bucket-badge b-rt4">Raid T4</span>
   <span class="legend-note">Blue mob name = dropped by a different mob than normal source &nbsp;&middot;&nbsp; CROSS-TIER DROP = item dropped from a different raid tier than normal</span>
+</div>
+
+<div class="bucket-panel">
+  <div class="bucket-col bucket-b1">
+    <h3>&#9733; Bucket 1 &mdash; Drops T3 or T4 Loot</h3>
+    <div class="bucket-mob-list" id="bucket1-list"></div>
+  </div>
+  <div class="bucket-col bucket-b2">
+    <h3>&#9675; Bucket 2 &mdash; Drops T1 or T2 Loot Only</h3>
+    <div class="bucket-mob-list" id="bucket2-list"></div>
+  </div>
 </div>
 
 <div class="controls">
@@ -380,8 +402,44 @@ function render(){
   }).join('');
 }
 
+function buildBuckets(){
+  // For each mob that has appeared in teek, determine the highest tier item they've dropped
+  const mobTiers = {};
+  DATA.forEach(r => {
+    r.teek.forEach(t => {
+      const tierNum = parseInt(r.bucket.replace('Raid T',''));
+      if(!mobTiers[t.mob] || tierNum > mobTiers[t.mob]) mobTiers[t.mob] = tierNum;
+    });
+  });
+
+  const b1 = [], b2 = [];
+  Object.keys(mobTiers).sort().forEach(mob => {
+    if(mobTiers[mob] >= 3) b1.push(mob);
+    else b2.push(mob);
+  });
+
+  function makeTag(mob, listEl){
+    const span = document.createElement('span');
+    span.className = 'bucket-mob';
+    span.textContent = mob;
+    span.title = 'Filter by ' + mob;
+    span.addEventListener('click', () => {
+      document.getElementById('f-teek-mob').value = mob;
+      render();
+      document.getElementById('f-teek-mob').scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+    listEl.appendChild(span);
+  }
+
+  const l1 = document.getElementById('bucket1-list');
+  const l2 = document.getElementById('bucket2-list');
+  b1.forEach(m => makeTag(m, l1));
+  b2.forEach(m => makeTag(m, l2));
+}
+
 computeStats();
 populateMobDropdown();
+buildBuckets();
 render();
 
 // Column header click-to-sort

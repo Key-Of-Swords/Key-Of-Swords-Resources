@@ -107,7 +107,8 @@ select.filt:focus { border-color: var(--gold); }
 .result-count { font-size: 12px; color: var(--text-muted); padding: 4px 20px; background: var(--bg-panel); border-bottom: 1px solid var(--border); text-align: right; }
 
 .tbl-wrap { overflow-x: auto; padding: 0 20px 40px; }
-tfoot td { border-top: 2px solid var(--gold); padding: 8px 12px; font-weight: 700; color: var(--gold); font-size: 13px; }
+.night-tag { display: inline-block; font-size: 10px; color: var(--text-muted); background: var(--bg-row); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; margin: 2px 2px 0 0; }
+.nights-wrap { margin-top: 4px; }
 tfoot .total-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
 tfoot .total-num { color: var(--gold); font-size: 16px; text-align: center; }
 table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
@@ -388,10 +389,14 @@ function render(){
     const sameHtml = (r.same||[]).map(m =>
       `<span class="mob-line">${escHtml(m)}</span>`
     ).join('');
+    const nightsHtml = (r.nights||[]).length
+      ? `<div class="nights-wrap">${r.nights.map(n => `<span class="night-tag">${n}</span>`).join('')}</div>`
+      : '';
     return `<tr>
       <td class="item-cell">
         ${itemDisp}
         ${r.xtier ? '<br><span class="xtier-flag">CROSS-TIER DROP</span>' : ''}
+        ${nightsHtml}
       </td>
       <td><span class="bucket-badge ${BCLS[r.bucket]||''}">${escHtml(r.bucket)}</span></td>
       <td style="color:var(--text-norm)">${normDisp}</td>

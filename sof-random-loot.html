@@ -213,6 +213,9 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
     <select class="filt" id="f-teek-mob" onchange="render()">
       <option value="">All mobs: Dropped on Teek</option>
     </select>
+    <select class="filt" id="f-date" onchange="render()">
+      <option value="">All raid dates</option>
+    </select>
   </div>
 </div>
 <select id="f-sort" style="display:none">
@@ -234,10 +237,9 @@ td.item-cell { color: var(--text-pri); font-weight: 500; }
         <th data-sort="item"   style="width:22%">Item name</th>
         <th data-sort="bucket" style="width:10%">Raid tier</th>
         <th data-sort="normal" style="width:18%">Normal source</th>
-        <th data-sort="teek"   style="width:20%">Dropped by on Teek</th>
+        <th data-sort="teek"   style="width:22%">Dropped by on Teek</th>
         <th data-sort="drops"  style="width:6%">Drops</th>
-        <th data-sort="date"   style="width:8%">First seen</th>
-        <th data-sort="same"   style="width:16%">Same bucket mobs</th>
+        <th data-sort="same"   style="width:22%">Same bucket mobs</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -308,6 +310,12 @@ function populateMobDropdown(){
     o.value = m; o.textContent = m + ': Dropped on Teek';
     sel2.appendChild(o);
   });
+  const dateSel = document.getElementById('f-date');
+  RAID_NIGHTS.forEach(n => {
+    const o = document.createElement('option');
+    o.value = n; o.textContent = n;
+    dateSel.appendChild(o);
+  });
 }
 
 let sortDir = 'asc';
@@ -319,6 +327,7 @@ function render(){
   const fx     = document.getElementById('f-xtier').value;
   const fmob     = document.getElementById('f-mob').value;
   const ftekmob  = document.getElementById('f-teek-mob').value;
+  const fdate    = document.getElementById('f-date').value;
   const sort   = document.getElementById('f-sort').value;
   const term   = search.toLowerCase();
 
@@ -328,6 +337,7 @@ function render(){
     if(fx === 'seen' && r.teek.length === 0) return false;
     if(fmob && !r.normal.split('/').map(m => m.trim()).includes(fmob)) return false;
     if(ftekmob && !r.teek.some(t => t.mob === ftekmob)) return false;
+    if(fdate && !(r.nights||[]).includes(fdate)) return false;
     if(term){
       let hay = '';
       if(scope === 'item')     hay = r.item;
@@ -361,7 +371,7 @@ function render(){
 
   const tbody = document.getElementById('tbody');
   if(!rows.length){
-    tbody.innerHTML = '<tr><td colspan="7" class="empty">No items match your search.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No items match your search.</td></tr>';
     document.getElementById('tfoot').innerHTML = '';
     return;
   }
@@ -371,7 +381,7 @@ function render(){
   const tfoot = document.getElementById('tfoot');
   if(grandTotal > 0){
     tfoot.innerHTML = `<tr>
-      <td colspan="5" class="total-label">Total drops (filtered)</td>
+      <td colspan="4" class="total-label">Total drops (filtered)</td>
       <td class="total-num">${grandTotal}</td>
       <td></td>
     </tr>`;
@@ -405,7 +415,6 @@ function render(){
       <td style="color:var(--text-norm)">${normDisp}</td>
       <td>${teekHtml}</td>
       <td style="font-weight:700;color:var(--gold);text-align:center">${totalDrops(r)||'—'}</td>
-      <td style="font-size:12px;color:var(--text-muted);text-align:center">${(r.nights||[])[0]||'—'}</td>
       <td class="same-bucket">${sameHtml}</td>
     </tr>`;
   }).join('');

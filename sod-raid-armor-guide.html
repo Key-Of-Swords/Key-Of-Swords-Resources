@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="https://key-of-swords.github.io/Key-Of-Swords-Resources/favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seeds of Destruction — Raid Armor Guide</title>
 <script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
@@ -328,11 +328,6 @@
   body.light { background: #f0ebe0 !important; color: #2a1f0e !important; }
   body.light h1 { color: #7a4a08 !important; text-shadow: none !important; }
   body.light .subtitle { color: #7a6040 !important; }
-  .back-wrap { text-align: center; margin: 12px 0 6px; }
-  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s; }
-  .back-btn:hover { border-color: #e8a020; }
-  body.light .back-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #8a5a10 !important; }
-  body.light .back-btn:hover { border-color: #8a5a10 !important; }
   body.light .header-links a { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
 
   body.light .tab-btn { color: #7a6040 !important; }
@@ -460,6 +455,19 @@
   body.light .cf-btn:hover { color: #2a1f0e !important; border-color: #a07840 !important; }
   body.light .cf-btn.active { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
 
+  .collapsible-header:hover { background: #1a2535; border-radius: 8px 8px 0 0; }
+  .collapsible-header:hover .chevron { color: #f0c060; }
+  body.light .collapsible-header:hover { background: #ddd0b8 !important; }
+
+  .expand-all-btn {
+    font-size: 11px; padding: 3px 10px; border-radius: 3px; cursor: pointer;
+    background: #0f1828; border: 1px solid #2a3a5a; color: #888;
+    transition: all .15s; margin-left: auto;
+  }
+  .expand-all-btn:hover { color: #e0e0e0; border-color: #4a6a9a; }
+  body.light .expand-all-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #5a4020 !important; }
+  body.light .expand-all-btn:hover { color: #2a1f0e !important; border-color: #a07840 !important; }
+
   /* ── FOOTER ── */
   .kos-footer {
     text-align: center;
@@ -496,11 +504,11 @@
 
 <h1>⚔️ Seeds of Destruction — Raid Armor Guide</h1>
 <p class="subtitle">Visible armor crafting — Tier 3 through Tier 5.5</p>
-<div class="back-wrap"><a class="back-btn" href="sod.html">&#8592; Seeds of Destruction</a></div>
 
 <div class="header-links">
   <a href="https://www.raspersrealm.com/Everquest/SoD/gearVisibleArmor.html" target="_blank">🔗 Rasper's Realm — Visible Armor</a>
   <a href="https://everquest.allakhazam.com/wiki/eq:Seeds_of_Destruction_Armor_Guide" target="_blank">🔗 Allakhazam — Armor Guide</a>
+  <a href="https://key-of-swords.github.io/Key-Of-Swords-Resources/" target="_blank">🔗 KOS Guild Resources</a>
 </div>
 
 <!-- Tabs — all on one line, horizontally scrollable on small screens -->
@@ -914,6 +922,7 @@
     <button class="cf-btn" onclick="filterClass('Wizard',this)">Wizard</button>
     <button class="cf-btn" onclick="filterClass('Magician',this)">Mage</button>
     <button class="cf-btn" onclick="filterClass('Enchanter',this)">Enchanter</button>
+    <button class="expand-all-btn" id="expandAllBtn" onclick="toggleAllSections(this)" style="margin-left:8px;">⊖ Collapse All</button>
   </div>
 
   <div id="ilink-tables"></div>
@@ -1003,17 +1012,41 @@ document.addEventListener('mousemove', e => { if (tipEl.style.display !== 'none'
 let activeFilter = 'all';
 let linksBuilt = false;
 
-function buildTable(container, heading, getLinks) {
+function buildTable(container, heading, getLinks, startOpen = true) {
   const card = document.createElement('div');
   card.className = 'card';
+  card.style.padding = '0';
 
+  // Clickable header
   const h = document.createElement('div');
-  h.className = 'tier-sub-heading';
-  h.textContent = heading;
+  h.className = 'tier-sub-heading collapsible-header';
+  h.style.cssText = 'cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;margin:0;border-bottom:none;user-select:none;';
+  const hText = document.createElement('span');
+  hText.textContent = heading;
+  const hChevron = document.createElement('span');
+  hChevron.className = 'chevron';
+  hChevron.style.cssText = 'font-size:11px;color:#6090b0;transition:transform 0.2s;display:inline-block;';
+  hChevron.textContent = '▼';
+  h.appendChild(hText);
+  h.appendChild(hChevron);
   card.appendChild(h);
 
+  // Collapsible body
+  const body = document.createElement('div');
+  body.className = 'collapsible-body';
+  body.style.cssText = 'overflow:hidden;transition:max-height 0.25s ease;';
+  body.style.maxHeight = startOpen ? '5000px' : '0px';
+  if (!startOpen) hChevron.style.transform = 'rotate(-90deg)';
+
+  h.addEventListener('click', () => {
+    const isOpen = body.style.maxHeight !== '0px';
+    body.style.maxHeight = isOpen ? '0px' : '5000px';
+    hChevron.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
+    h.style.borderBottom = isOpen ? 'none' : '1px solid #1a2535';
+  });
+
   const wrap = document.createElement('div');
-  wrap.style.overflowX = 'auto';
+  wrap.style.cssText = 'overflow-x:auto;padding:0 16px 12px;';
 
   const tbl = document.createElement('table');
   tbl.className = 'ilink-table';
@@ -1048,7 +1081,8 @@ function buildTable(container, heading, getLinks) {
   });
   tbl.appendChild(tbody);
   wrap.appendChild(tbl);
-  card.appendChild(wrap);
+  body.appendChild(wrap);
+  card.appendChild(body);
   container.appendChild(card);
 }
 
@@ -1056,9 +1090,44 @@ function buildAllTables() {
   const container = document.getElementById('ilink-tables');
   container.innerHTML = '';
 
+  const grpLabel = document.createElement('div');
+  grpLabel.style.cssText = 'display:flex;align-items:center;gap:16px;margin:0 0 18px;padding:10px 0;';
+  grpLabel.innerHTML = '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>' +
+    '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7ecfff;white-space:nowrap;">👥 Group Armor</span>' +
+    '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>';
+  container.appendChild(grpLabel);
+
+  // ── GROUP ARMOR ──────────────────────────────────────────────────────
+  buildTable(container, 'Group Tier 3 — Concordant / Discordant (Field of Scale)', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[4]+si, 'Concordant', '',       buildItemName('Concordant',grp,type,slot), type, slot, 'Group T3 Concordant', nm),
+      makeLink(cls[5]+si, 'Discordant', 'orange', buildItemName('Discordant',grp,type,slot), type, slot, 'Group T3 Discordant', nm),
+    ];
+  });
+
+  buildTable(container, 'Group Tier 4 — Vested / Balanced / Chaotic (Earth)', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[6]+si, 'Vested',   'green',  buildItemName('Vested',  grp,type,slot), type, slot, 'Group T4 Vested',   nm),
+      makeLink(cls[7]+si, 'Balanced', 'purple', buildItemName('Balanced',grp,type,slot), type, slot, 'Group T4 Balanced', nm),
+      makeLink(cls[8]+si, 'Chaotic',  'orange', buildItemName('Chaotic', grp,type,slot), type, slot, 'Group T4 Chaotic',  nm),
+    ];
+  });
+
+  buildTable(container, 'Group Tier 4.5 — Ordained / Tarnished / Tainted / Inflicted', (cls, slot, si) => {
+    const [nm, type, grp] = cls;
+    return [
+      makeLink(cls[9] +si, 'Ordained',  'gold',   buildItemName('Ordained', grp,type,slot), type, slot, 'Group T4.5 Ordained',  nm),
+      makeLink(cls[10]+si, 'Tarnished', 'green',  buildItemName('Tarnished',grp,type,slot), type, slot, 'Group T4.5 Tarnished', nm),
+      makeLink(cls[11]+si, 'Tainted',   'purple', buildItemName('Tainted',  grp,type,slot), type, slot, 'Group T4.5 Tainted',   nm),
+      makeLink(cls[12]+si, 'Inflicted', 'red',    buildItemName('Inflicted',grp,type,slot), type, slot, 'Group T4.5 Inflicted',  nm),
+    ];
+  });
+
   // ── RAID ARMOR ───────────────────────────────────────────────────────
   const sep = document.createElement('div');
-  sep.style.cssText = 'display:flex;align-items:center;gap:16px;margin:0 0 18px;padding:10px 0;';
+  sep.style.cssText = 'display:flex;align-items:center;gap:16px;margin:28px 0 18px;padding:10px 0;';
   sep.innerHTML = '<div style="flex:1;border-top:3px solid #3a5a8a;"></div>' +
     '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#f0c060;white-space:nowrap;">⚔ Raid Armor</span>' +
     '<div style="flex:1;border-top:3px solid #3a5a8a;"></div>';
@@ -1089,41 +1158,6 @@ function buildAllTables() {
       makeLink(cls[21]+si, 'Inflicted', 'red',    buildItemName('Inflicted',raid,type,slot), type, slot, 'Raid T4.5 Inflicted',  nm),
     ];
   });
-
-  // ── GROUP ARMOR ──────────────────────────────────────────────────────
-  const grpLabel = document.createElement('div');
-  grpLabel.style.cssText = 'display:flex;align-items:center;gap:16px;margin:28px 0 18px;padding:10px 0;';
-  grpLabel.innerHTML = '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>' +
-    '<span style="font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7ecfff;white-space:nowrap;">👥 Group Armor</span>' +
-    '<div style="flex:1;border-top:3px solid #2a3a5a;"></div>';
-  container.appendChild(grpLabel);
-
-  buildTable(container, 'Group Tier 3 — Concordant / Discordant (Field of Scale)', (cls, slot, si) => {
-    const [nm, type, grp] = cls;
-    return [
-      makeLink(cls[4]+si, 'Concordant', '',       buildItemName('Concordant',grp,type,slot), type, slot, 'Group T3 Concordant', nm),
-      makeLink(cls[5]+si, 'Discordant', 'orange', buildItemName('Discordant',grp,type,slot), type, slot, 'Group T3 Discordant', nm),
-    ];
-  });
-
-  buildTable(container, 'Group Tier 4 — Vested / Balanced / Chaotic (Earth)', (cls, slot, si) => {
-    const [nm, type, grp] = cls;
-    return [
-      makeLink(cls[6]+si, 'Vested',   'green',  buildItemName('Vested',  grp,type,slot), type, slot, 'Group T4 Vested',   nm),
-      makeLink(cls[7]+si, 'Balanced', 'purple', buildItemName('Balanced',grp,type,slot), type, slot, 'Group T4 Balanced', nm),
-      makeLink(cls[8]+si, 'Chaotic',  'orange', buildItemName('Chaotic', grp,type,slot), type, slot, 'Group T4 Chaotic',  nm),
-    ];
-  });
-
-  buildTable(container, 'Group Tier 4.5 — Ordained / Tarnished / Tainted / Inflicted', (cls, slot, si) => {
-    const [nm, type, grp] = cls;
-    return [
-      makeLink(cls[9] +si, 'Ordained',  'gold',   buildItemName('Ordained', grp,type,slot), type, slot, 'Group T4.5 Ordained',  nm),
-      makeLink(cls[10]+si, 'Tarnished', 'green',  buildItemName('Tarnished',grp,type,slot), type, slot, 'Group T4.5 Tarnished', nm),
-      makeLink(cls[11]+si, 'Tainted',   'purple', buildItemName('Tainted',  grp,type,slot), type, slot, 'Group T4.5 Tainted',   nm),
-      makeLink(cls[12]+si, 'Inflicted', 'red',    buildItemName('Inflicted',grp,type,slot), type, slot, 'Group T4.5 Inflicted',  nm),
-    ];
-  });
 }
 
 function filterClass(cls, btn) {
@@ -1133,6 +1167,15 @@ function filterClass(cls, btn) {
   document.querySelectorAll('#ilink-tables tr[data-class]').forEach(tr => {
     tr.style.display = (cls === 'all' || tr.dataset.class === cls) ? '' : 'none';
   });
+}
+
+function toggleAllSections(btn) {
+  const bodies = document.querySelectorAll('#ilink-tables .collapsible-body');
+  const chevrons = document.querySelectorAll('#ilink-tables .chevron');
+  const isCollapsing = btn.textContent.includes('Collapse');
+  bodies.forEach(b => b.style.maxHeight = isCollapsing ? '0px' : '5000px');
+  chevrons.forEach(c => c.style.transform = isCollapsing ? 'rotate(-90deg)' : 'rotate(0deg)');
+  btn.textContent = isCollapsing ? '⊕ Expand All' : '⊖ Collapse All';
 }
 
 function showTab(id, btn) {
@@ -1153,6 +1196,5 @@ function toggleTheme(){
   localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
 }
 </script>
-<div style="text-align:center;padding:18px;font-size:11px;color:#444;border-top:1px solid #1e1e38;margin-top:20px;letter-spacing:1px;">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</div>
 </body>
 </html>

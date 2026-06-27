@@ -163,6 +163,7 @@ const SECTIONS = [
   { id:'s7', icon:'👥',  label:'Fangbreaker Group Missions', zone:'Loping Plains · Bloodmoon Keep' },
   { id:'s8', icon:'⚔️',  label:'Bloodmoon Raids',            zone:'Loping Plains · Bloodmoon Keep' },
   { id:'s9', icon:'🧟',  label:'Crypt of Shade',             zone:'Hills of Shade · Crypt of Shade' },
+  { id:'s10', icon:'💎', label:'Dwinn Purity Aug Quest Line',             zone:'Hills of Shade' },
 ];
 
 const ITEMS = [
@@ -252,7 +253,7 @@ const ITEMS = [
   {s:7,sub:'',icon:'👥',text:'Mission 5: The Dark Crystals',note:'Maria Starforge — requires Mission 4',link:4376},
 
   // S8 Bloodmoon Raids
-  {s:8,sub:'',icon:'⚔️',text:'Bloodmoon Raid #1: The Fanged Moon',note:'Larquin Fangbreaker — requires all 5 group missions',link:4370},
+  {s:8,sub:'',icon:'⚔️',text:'Bloodmoon Raid #1: The Fanged Moon',note:'Larquin Fangbreaker — requires all 5 group missions',link:4377},
   {s:8,sub:'',icon:'⚔️',text:'Bloodmoon Raid #2: Crazok Moonfang',note:'Larquin Fangbreaker — requires Raid #1',link:4369},
   {s:8,sub:'',icon:'⚔️',text:"Bloodmoon Raid #3: Ralkor's Crystals",note:'Maria Starforge — requires Raid #2',link:4371},
 
@@ -264,6 +265,17 @@ const ITEMS = [
   {s:9,sub:'Cursed Obsidian Shard Task Line',icon:'🧝',text:'Making Up for Lost Time',note:"Reaver Lebanezer — Bertoxxulous' Chosen camp, Hills of Shade",link:4407},
   {s:9,sub:'',icon:'🧝',text:'One of Our Own',note:"Reaver Lebanezer — requires Amiable faction + Power of Decay, Bigger/Faster/Stronger/Dumber, I Would Exhume So, Making Up for Lost Time",link:4520},
   {s:9,sub:'',icon:'⚔️',text:'The Soulbleeder Must Bleed',note:"Reaver Lebanezer — requires One of Our Own + Ally faction to REQUEST — no flag needed to join",link:4503},
+
+  // S10 Dwinn Quest Line
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #1: What are they?",note:'Hills of Shade',link:4350},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #2: An Interrogation",note:'Hills of Shade',link:4441},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #3: The Investigation Continues",note:'Hills of Shade',link:4456},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #4: An Orcish Ritual",note:'Hills of Shade',link:4487},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #5: Assessing the Danger",note:'Hills of Shade',link:4488},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #6: The Black Crystal",note:'Hills of Shade',link:4489},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #7: The Proof is in the Bucket",note:'Hills of Shade',link:4490},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #8: A Working Crystal",note:'Hills of Shade',link:4491},
+  {s:10,sub:'',icon:'🧝',text:"Dwinn #9: It Ends Now",note:'Hills of Shade',link:4492},
 ];
 
 ITEMS.forEach((it,i)=>{ it.idx=i; });

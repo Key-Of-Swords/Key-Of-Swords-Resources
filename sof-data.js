@@ -1,4 +1,4 @@
-const RAID_NIGHTS = ["4/23","4/25","4/28","4/30","5/2","5/5","5/7","5/9","5/12","5/14","5/16","5/19","5/21","5/23","5/26","5/28","5/30","6/2","6/4","6/6","6/13","6/16","6/18","6/20","6/23","6/25","6/27","6/30"];
+const RAID_NIGHTS = ["4/23","4/25","4/28","4/30","5/2","5/5","5/7","5/9","5/12","5/14","5/16","5/19","5/21","5/23","5/26","5/28","5/30","6/2","6/4","6/6","6/13","6/16","6/18","6/20","6/23","6/25","6/27","6/30","7/2"];
 
 // Source: SOF_Master_Loot (authoritative)
 // Tier rule: bucket = tier of the mob that NORMALLY drops the item
@@ -941,19 +941,19 @@ const DATA = [
     item: "Black Shroud of Penance",
     bucket: "Raid T2",
     normal: "Soulbleeder",
-    teek: [{mob:"Breakneck", count:2},{mob:"Battle Room", count:2},{mob:"Chief Researcher Entharr", count:1},{mob:"Soulbleeder", count:1},{mob:"Brinda", count:1},{mob:"Battle Room", count:1},{mob:"Krond", count:2},{mob:"Halls of Fire", count:1}],
+    teek: [{mob:"Breakneck", count:2},{mob:"Battle Room", count:2},{mob:"Chief Researcher Entharr", count:1},{mob:"Soulbleeder", count:1},{mob:"Brinda", count:1},{mob:"Battle Room", count:1},{mob:"Krond", count:2},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1}],
     xtier: true,
     same: ["Breakneck","Battle Room","Chief Researcher Entharr","Soulbleeder","Brinda","Krond","Halls of Fire"],
-    nights: ["5/7","5/9","5/16","5/28","5/30","6/27","6/30"]
+    nights: ["5/7","5/9","5/16","5/28","5/30","6/27","6/30","7/2"]
   },
   {
     item: "Corrupted Spectral Shoulderguards",
     bucket: "Raid T2",
     normal: "Soulbleeder",
-    teek: [{mob:"Breakneck", count:2},{mob:"Ice Constructs", count:1},{mob:"Soulbleeder", count:1},{mob:"Brinda", count:2},{mob:"Halls of Fire", count:2}],
+    teek: [{mob:"Breakneck", count:2},{mob:"Ice Constructs", count:1},{mob:"Soulbleeder", count:1},{mob:"Brinda", count:2},{mob:"Halls of Fire", count:2},{mob:"Battle Room", count:1}],
     xtier: true,
-    same: ["Breakneck","Ice Constructs","Soulbleeder","Brinda","Halls of Fire"],
-    nights: ["5/7","5/14","5/28","5/30","6/13","6/16"]
+    same: ["Breakneck","Ice Constructs","Soulbleeder","Brinda","Halls of Fire","Battle Room"],
+    nights: ["5/7","5/14","5/28","5/30","6/13","6/16","7/2"]
   },
   {
     item: "Dark Redeemer's Bludgeon",
@@ -1016,8 +1016,8 @@ const DATA = [
     same: ["Soulbleeder","Aerius Windfury","Krond","Halls of Fire","Ice Constructs","Breakneck","Brinda"],
     nights: ["4/25","5/19","5/30","6/2","6/6","6/20","6/27"]
   },
-  { item: "Kidney-Removing Autoshank",         bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Ice Constructs", count:1},{mob:"Battle Room", count:1},{mob:"Krond", count:2},{mob:"Halls of Fire", count:1},{mob:"Ice Constructs", count:1}], xtier: true, same: ["Ice Constructs","Krond","Halls of Fire"], nights: ["5/19","5/21","5/30","6/2","6/27"] },
-  { item: "Oil-Resistant Facemask",            bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Brinda", count:3},{mob:"Krond", count:1},{mob:"Aerius Windfury", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Aerius Windfury", count:1},{mob:"Breakneck", count:2},{mob:"Aerius Windfury", count:2},{mob:"Bargangle", count:1},{mob:"Aerius Windfury", count:2}], xtier: true, same: ["Brinda","Krond","Aerius Windfury","Ice Constructs","Breakneck","Bargangle"], nights: ["5/2","5/16","5/19","5/21","5/30","6/2","6/13","6/16","6/20","6/23"] },
+  { item: "Kidney-Removing Autoshank",         bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Ice Constructs", count:1},{mob:"Battle Room", count:1},{mob:"Krond", count:3},{mob:"Halls of Fire", count:1},{mob:"Ice Constructs", count:1}], xtier: true, same: ["Ice Constructs","Krond","Halls of Fire"], nights: ["5/19","5/21","5/30","6/2","6/27","7/2"] },
+  { item: "Oil-Resistant Facemask",            bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Brinda", count:3},{mob:"Krond", count:2},{mob:"Aerius Windfury", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Aerius Windfury", count:1},{mob:"Breakneck", count:2},{mob:"Aerius Windfury", count:2},{mob:"Bargangle", count:1},{mob:"Aerius Windfury", count:2}], xtier: true, same: ["Brinda","Krond","Aerius Windfury","Ice Constructs","Breakneck","Bargangle"], nights: ["5/2","5/16","5/19","5/21","5/30","6/2","6/13","6/16","6/20","6/23","7/2"] },
   { item: "Reflective Gem of Communication",   bucket: "Raid T3", normal: "Battle Room",                     teek: [{mob:"Brinda", count:2},{mob:"Krond", count:3},{mob:"Battle Room", count:1},{mob:"Halls of Fire", count:1},{mob:"Bargangle", count:1}], xtier: true, same: ["Brinda","Krond","Battle Room","Halls of Fire","Bargangle"], nights: ["5/2","5/16","5/30","6/16","6/20"] },
   {
     item: "Tiny Tinkermusic Box-o-Matic",
@@ -1031,9 +1031,9 @@ const DATA = [
 
   // ── Brinda Sprockets drops ────────────────────────────────────────────────
   { item: "Impromptu Body Protector",          bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Brinda", count:1},{mob:"Aerius Windfury", count:1},{mob:"Halls of Fire", count:2},{mob:"Breakneck", count:1},{mob:"Bargangle", count:1},{mob:"Krond", count:1},{mob:"Ralkor's Crystals", count:1},{mob:"Battle Room", count:1},{mob:"Aerius Windfury", count:1}], xtier: true, same: ["Aerius Windfury","Halls of Fire","Breakneck","Bargangle","Krond","Ralkor's Crystals","Battle Room"], nights: ["5/7","5/12","5/19","5/21","5/30","6/6","6/18","6/20","6/23"] },
-  { item: "Jingling Alloy Loop",               bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Brinda", count:1},{mob:"Bargangle", count:1},{mob:"Krond", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1}], xtier: true, same: ["Bargangle","Krond","Halls of Fire","Battle Room"], nights: ["5/7","5/30","6/6","6/23","6/27"] },
-  { item: "Razor-Sharp Speedblade",            bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1},{mob:"Chief Researcher Entharr", count:1},{mob:"Halls of Fire", count:1},{mob:"Ralkor's Crystals", count:1},{mob:"Halls of Fire", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr","Halls of Fire","Ralkor's Crystals"], nights: ["4/30","5/9","5/26","6/18","6/23"] },
-  { item: "Steam-Mechanic's Faceguard",        bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:3},{mob:"Chief Researcher Entharr", count:1},{mob:"Aerius Windfury", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Soulbleeder", count:2},{mob:"Battle Room", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr","Aerius Windfury","Halls of Fire","Battle Room","Ice Constructs","Soulbleeder"], nights: ["4/30","5/9","5/12","5/26","6/6","6/20","6/23","6/25","6/27"] },
+  { item: "Jingling Alloy Loop",               bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Brinda", count:1},{mob:"Bargangle", count:3},{mob:"Krond", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1},{mob:"Breakneck", count:1}], xtier: true, same: ["Bargangle","Krond","Halls of Fire","Battle Room","Breakneck"], nights: ["5/7","5/30","6/6","6/23","6/27","7/2"] },
+  { item: "Razor-Sharp Speedblade",            bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:1},{mob:"Chief Researcher Entharr", count:1},{mob:"Halls of Fire", count:1},{mob:"Ralkor's Crystals", count:1},{mob:"Halls of Fire", count:1},{mob:"Breakneck", count:1},{mob:"Krond", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr","Halls of Fire","Ralkor's Crystals","Breakneck","Krond"], nights: ["4/30","5/9","5/26","6/18","6/23","7/2"] },
+  { item: "Steam-Mechanic's Faceguard",        bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Bargangle", count:3},{mob:"Chief Researcher Entharr", count:1},{mob:"Aerius Windfury", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Soulbleeder", count:2},{mob:"Battle Room", count:1},{mob:"Krond", count:1}], xtier: true, same: ["Bargangle","Chief Researcher Entharr","Aerius Windfury","Halls of Fire","Battle Room","Ice Constructs","Soulbleeder","Krond"], nights: ["4/30","5/9","5/12","5/26","6/6","6/20","6/23","6/25","6/27","7/2"] },
   { item: "Steamwork Welder's Multitool",      bucket: "Raid T3", normal: "Brinda Sprockets",                teek: [{mob:"Breakneck", count:1},{mob:"Aerius Windfury", count:1},{mob:"Ice Constructs", count:1},{mob:"Aerius Windfury", count:1}], xtier: true, same: ["Breakneck","Aerius Windfury","Ice Constructs"], nights: ["5/21","5/26","6/23"] },
   { item: "Version XI Serial Translatron",     bucket: "Raid T3", normal: "Brinda Sprockets / Meldrath the Malignant", teek: [{mob:"Bargangle", count:1},{mob:"Brinda", count:1},{mob:"Keeper of Stones", count:1},{mob:"Breakneck", count:1},{mob:"Kerafyrm", count:1},{mob:"Ralkor's Crystals", count:1},{mob:"Krond", count:1},{mob:"Ralkor's Crystals", count:1},{mob:"Zeixshi`Kar", count:1}], xtier: true, same: ["Bargangle","Brinda","Keeper of Stones","Breakneck","Kerafyrm","Ralkor's Crystals","Krond","Zeixshi`Kar"], nights: ["4/30","5/7","5/19","5/21","5/28","6/6","6/18","6/23"] },
 
@@ -1069,7 +1069,7 @@ const DATA = [
 
   // ── Halls of Fire drops ───────────────────────────────────────────────────
   { item: "Bauble of Prismatic Flame",         bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Breakneck", count:2},{mob:"Battle Room", count:1},{mob:"Brinda", count:1},{mob:"Aerius Windfury", count:1},{mob:"Bargangle", count:1}], xtier: true, same: ["Breakneck","Battle Room","Brinda","Aerius Windfury","Bargangle"], nights: ["5/7","5/30","6/6","6/16","6/27"] },
-  { item: "Drakeling's Mark of Allegiance",    bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Breakneck", count:1},{mob:"Aerius Windfury", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:2}], xtier: true, same: ["Breakneck","Aerius Windfury","Battle Room"], nights: ["5/7","5/19","5/21","5/26"] },
+  { item: "Drakeling's Mark of Allegiance",    bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Breakneck", count:1},{mob:"Aerius Windfury", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:2},{mob:"Bargangle", count:2}], xtier: true, same: ["Breakneck","Aerius Windfury","Battle Room","Bargangle"], nights: ["5/7","5/19","5/21","5/26","7/2"] },
   { item: "Kindjal of Martyrdom",              bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Krond", count:2},{mob:"Halls of Fire", count:2},{mob:"Breakneck", count:1},{mob:"Ice Constructs", count:1},{mob:"Ralkor's Crystals", count:1},{mob:"Bargangle", count:1}], xtier: true, same: ["Krond","Breakneck","Ice Constructs","Ralkor's Crystals","Bargangle"], nights: ["5/2","5/7","5/14","5/30","6/16","6/18","6/27"] },
   { item: "Pauldrons of Legendary Conquest",   bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Krond", count:2},{mob:"Aerius Windfury", count:3},{mob:"Brinda", count:1}], xtier: true, same: ["Krond","Aerius Windfury","Brinda"], nights: ["5/2","5/7","5/19","5/26","6/6"] },
   { item: "Spaulders of Vibrant Succor",       bucket: "Raid T4", normal: "Halls of Fire",                   teek: [{mob:"Battle Room", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Aerius Windfury", count:1},{mob:"Ralkor's Crystals", count:1}], xtier: true, same: ["Battle Room","Ice Constructs","Aerius Windfury","Ralkor's Crystals"], nights: ["5/21","5/30","6/16","6/18"] },
@@ -1082,7 +1082,7 @@ const DATA = [
   { item: "Signet of the Great Blasphemy",     bucket: "Raid T4", normal: "Ice Constructs",                  teek: [{mob:"Krond", count:2},{mob:"Bargangle", count:1},{mob:"Brinda", count:1},{mob:"Halls of Fire", count:1}], xtier: true, same: ["Krond","Bargangle","Brinda","Halls of Fire"], nights: ["5/2","6/6","6/20","6/27","6/30"] },
 
   // ── Aerius Windfury drops ─────────────────────────────────────────────────
-  { item: "Backplate of Blessed Resilience",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Brinda", count:3},{mob:"Ice Constructs", count:1},{mob:"Krond", count:1},{mob:"Battle Room", count:1}], xtier: true, same: ["Brinda","Ice Constructs","Krond","Battle Room"], nights: ["5/2","5/7","5/14","5/23","6/6"] },
+  { item: "Backplate of Blessed Resilience",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Brinda", count:6},{mob:"Ice Constructs", count:1},{mob:"Krond", count:1},{mob:"Battle Room", count:1}], xtier: true, same: ["Brinda","Ice Constructs","Krond","Battle Room"], nights: ["5/2","5/7","5/14","5/23","6/6","7/2"] },
   {
     item: "Circular Magmatic Disc",
     bucket: "Raid T4",
@@ -1092,16 +1092,16 @@ const DATA = [
     same: ["Soulbleeder","Breakneck","Halls of Fire","Brinda","Bargangle","Krond","Ice Constructs","Aerius Windfury"],
     nights: ["4/25","4/30","5/9","5/14","5/19","6/6","6/20","6/23","6/30"]
   },
-  { item: "Golem-Lord's Earring of Control",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Ice Constructs", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Krond", count:1},{mob:"Ice Constructs", count:1}], xtier: true, same: ["Ice Constructs","Battle Room","Krond"], nights: ["5/9","5/16","6/16","6/20","6/30"] },
-  { item: "Icy Dirk of Meditation",            bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Krond", count:1},{mob:"Ice Constructs", count:1},{mob:"Halls of Fire", count:1}], xtier: true, same: ["Krond","Ice Constructs","Halls of Fire"], nights: ["5/23","6/16","6/23"] },
+  { item: "Golem-Lord's Earring of Control",   bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Ice Constructs", count:1},{mob:"Battle Room", count:1},{mob:"Ice Constructs", count:1},{mob:"Krond", count:1},{mob:"Ice Constructs", count:1},{mob:"Brinda", count:1}], xtier: true, same: ["Ice Constructs","Battle Room","Krond","Brinda"], nights: ["5/9","5/16","6/16","6/20","6/30","7/2"] },
+  { item: "Icy Dirk of Meditation",            bucket: "Raid T4", normal: "Aerius Windfury",                 teek: [{mob:"Krond", count:1},{mob:"Ice Constructs", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1}], xtier: true, same: ["Krond","Ice Constructs","Halls of Fire","Battle Room"], nights: ["5/23","6/16","6/23","7/2"] },
   {
     item: "Jewel of Resolute Obedience",
     bucket: "Raid T4",
     normal: "Aerius Windfury",
-    teek: [{mob:"Soulbleeder", count:2},{mob:"Breakneck", count:2},{mob:"Brinda", count:1},{mob:"Ice Constructs", count:2},{mob:"Battle Room", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1},{mob:"Bargangle", count:1},{mob:"Aerius Windfury", count:2}],
+    teek: [{mob:"Soulbleeder", count:2},{mob:"Breakneck", count:2},{mob:"Brinda", count:1},{mob:"Ice Constructs", count:2},{mob:"Battle Room", count:1},{mob:"Halls of Fire", count:1},{mob:"Battle Room", count:1},{mob:"Bargangle", count:1},{mob:"Aerius Windfury", count:2},{mob:"Battle Room", count:1}],
     xtier: true,
     same: ["Soulbleeder","Breakneck","Brinda","Battle Room","Halls of Fire","Bargangle","Aerius Windfury"],
-    nights: ["4/25","4/30","5/7","5/9","5/16","5/19","6/6","6/20","6/25","6/30"]
+    nights: ["4/25","4/30","5/7","5/9","5/16","5/19","6/6","6/20","6/25","6/30","7/2"]
   },
 
   // ── Kildrukaun drops ──────────────────────────────────────────────────────
@@ -1154,8 +1154,8 @@ const DATA = [
   { item: "Volatile Blackflame Stiletto",      bucket: "Raid T4", normal: "Zeixshi`Kar",                     teek: [{mob:"Vyskudra", count:1},{mob:"Keeper of Stones", count:1}], xtier: false, same: ["Vyskudra","Keeper of Stones"], nights: ["5/12","5/19"] },
 
   // ── Vyskudra drops ────────────────────────────────────────────────────────
-  { item: "Crystal-Linked Cloak",              bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Zeixshi`Kar", count:2},{mob:"Brood Mother Visziaj", count:1},{mob:"Tjudawos", count:1},{mob:"Vyskudra", count:1}], xtier: false, same: ["Zeixshi`Kar","Brood Mother Visziaj","Tjudawos","Vyskudra"], nights: ["5/12","5/21","6/16","6/23"] },
-  { item: "Fingerloop of Prismatic Rage",      bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Keeper of Stones", count:1},{mob:"Kildrukaun", count:1},{mob:"Meldrath", count:1},{mob:"Vyskudra", count:1}], xtier: true, same: ["Keeper of Stones","Kildrukaun","Meldrath","Vyskudra"], nights: ["5/9","5/19","5/23","6/23"] },
+  { item: "Crystal-Linked Cloak",              bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Zeixshi`Kar", count:2},{mob:"Brood Mother Visziaj", count:1},{mob:"Tjudawos", count:1},{mob:"Vyskudra", count:1},{mob:"Meldrath", count:1}], xtier: true, same: ["Zeixshi`Kar","Brood Mother Visziaj","Tjudawos","Vyskudra","Meldrath"], nights: ["5/12","5/21","6/16","6/23","7/2"] },
+  { item: "Fingerloop of Prismatic Rage",      bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Keeper of Stones", count:1},{mob:"Kildrukaun", count:1},{mob:"Meldrath", count:2},{mob:"Vyskudra", count:1}], xtier: true, same: ["Keeper of Stones","Kildrukaun","Meldrath","Vyskudra"], nights: ["5/9","5/19","5/23","6/23","7/2"] },
   { item: "Granite Shoulderpads of Zealotry",  bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Kildrukaun", count:1},{mob:"Zeixshi`Kar", count:2},{mob:"Meldrath", count:1},{mob:"Kerafyrm", count:2}], xtier: true, same: ["Kildrukaun","Zeixshi`Kar","Meldrath","Kerafyrm"], nights: ["5/9","5/12","5/23","6/4","6/16","6/25"] },
   { item: "Highblade of the Wyvern Lord",      bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Keeper of Stones", count:1}], xtier: false, same: ["Keeper of Stones"], nights: ["5/9"] },
   { item: "Jagged Astral Ring",                bucket: "Raid T4", normal: "Vyskudra",                        teek: [{mob:"Brood Mother Visziaj", count:1},{mob:"Kerafyrm", count:1}], xtier: false, same: ["Brood Mother Visziaj","Kerafyrm"], nights: ["5/12","6/25"] },
@@ -1168,12 +1168,12 @@ const DATA = [
   { item: "Amoger the Jarring",                bucket: "Raid T4", normal: "Brood Mother Visziaj / Kerafyrm the Awakened", teek: [{mob:"Keeper of Stones", count:1},{mob:"Vyskudra", count:2},{mob:"Meldrath", count:1},{mob:"Tjudawos", count:1}], xtier: false, same: ["Keeper of Stones","Vyskudra","Meldrath","Tjudawos"], nights: ["5/19","5/21","6/2","6/6","6/16"] },
   { item: "Arcane Runed Dragonsash",           bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Kerafyrm", count:1}], xtier: false, same: [], nights: ["5/21"] },
   { item: "Crusher of the Crimson Dawn",       bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Kildrukaun", count:1},{mob:"Keeper of Stones", count:1},{mob:"Zeixshi`Kar", count:2}], xtier: false, same: ["Kildrukaun","Keeper of Stones","Zeixshi`Kar"], nights: ["5/26","6/2","6/23"] },
-  { item: "Deep-Hewn Crystal Bulwark",         bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Meldrath", count:1},{mob:"Kerafyrm", count:2},{mob:"Keeper of Stones", count:2},{mob:"Kildrukaun", count:2}], xtier: true, same: ["Meldrath","Keeper of Stones","Kerafyrm","Kildrukaun"], nights: ["5/2","5/21","6/16","6/18","6/30"] },
-  { item: "Girdle of the Great Wyrm",          bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [,{mob:"Keeper of Stones", count:1},{mob:"Brood Mother Visziaj", count:1}], xtier: false, same: ["Keeper of Stones","Brood Mother Visziaj"], nights: [,"6/2","6/25"] },
-  { item: "Golem-Construct's Enormous Bracelet", bucket: "Raid T4", normal: "Brood Mother Visziaj",           teek: [{mob:"Meldrath", count:2},{mob:"Kerafyrm", count:1},{mob:"Brood Mother Visziaj", count:1},{mob:"Kildrukaun", count:1}], xtier: true, same: ["Meldrath","Kerafyrm","Brood Mother Visziaj","Kildrukaun"], nights: ["5/2","5/12","5/30","6/25","6/30"] },
+  { item: "Deep-Hewn Crystal Bulwark",         bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Meldrath", count:1},{mob:"Kerafyrm", count:4},{mob:"Keeper of Stones", count:2},{mob:"Kildrukaun", count:2}], xtier: true, same: ["Meldrath","Keeper of Stones","Kerafyrm","Kildrukaun"], nights: ["5/2","5/21","6/16","6/18","6/30","7/2"] },
+  { item: "Girdle of the Great Wyrm",          bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [,{mob:"Keeper of Stones", count:1},{mob:"Brood Mother Visziaj", count:1},{mob:"Meldrath", count:1}], xtier: true, same: ["Keeper of Stones","Brood Mother Visziaj","Meldrath"], nights: [,"6/2","6/25","7/2"] },
+  { item: "Golem-Construct's Enormous Bracelet", bucket: "Raid T4", normal: "Brood Mother Visziaj",           teek: [{mob:"Meldrath", count:2},{mob:"Kerafyrm", count:3},{mob:"Brood Mother Visziaj", count:1},{mob:"Kildrukaun", count:1}], xtier: true, same: ["Meldrath","Kerafyrm","Brood Mother Visziaj","Kildrukaun"], nights: ["5/2","5/12","5/30","6/25","6/30","7/2"] },
   { item: "Greatmaul of the Prismatic Flight", bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [{mob:"Kerafyrm", count:1},{mob:"Meldrath", count:1}], xtier: false, same: ["Meldrath"], nights: ["5/12","5/30"] },
   { item: "Platinum Drakelord's Signet",       bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [,{mob:"Meldrath", count:1},{mob:"Kerafyrm", count:1}], xtier: true, same: ["Meldrath","Kerafyrm"], nights: [,"5/30","6/18"] },
-  { item: "Scale Loop of Tenacity",            bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [,{mob:"Meldrath", count:1},{mob:"Kildrukaun", count:1}], xtier: true, same: ["Meldrath","Kildrukaun"], nights: [,"5/30","6/30"] },
+  { item: "Scale Loop of Tenacity",            bucket: "Raid T4", normal: "Brood Mother Visziaj",             teek: [,{mob:"Meldrath", count:2},{mob:"Kildrukaun", count:1}], xtier: true, same: ["Meldrath","Kildrukaun"], nights: [,"5/30","6/30","7/2"] },
 
   // ── Kerafyrm the Awakened drops ───────────────────────────────────────────
   { item: "Ancient Dragon's Tear Necklace",    bucket: "Raid T4", normal: "Kerafyrm the Awakened",            teek: [{mob:"Tjudawos", count:2},{mob:"Meldrath", count:1}], xtier: true, same: ["Tjudawos","Meldrath"], nights: ["5/9","6/13","6/16"] },

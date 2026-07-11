@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seeds of Destruction — Void Spells by Class</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 16px; font-size: 13px; }
+  h1 { text-align: center; color: #f0c060; font-size: 20px; margin-bottom: 4px; letter-spacing: 1px; text-shadow: 0 0 10px rgba(240,192,96,0.3); }
+  .subtitle { text-align: center; color: #888; font-size: 11px; margin-bottom: 14px; }
+  .header-links { text-align: center; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .header-links a { color: #7ecfff; font-size: 11px; text-decoration: none; border: 1px solid #1a4a70; padding: 3px 10px; border-radius: 4px; background: #0f1a30; }
+  .header-links a:hover { border-color: #7ecfff; background: #1a2a40; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 10px; background: #16213e; border: 1px solid #2a2a4a; border-radius: 6px; padding: 8px 16px; }
+  .legend-item { font-size: 11px; color: #aaa; display:flex; align-items:center; gap:6px; }
+  .void-chip { display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:18px; padding:0 5px; border-radius: 4px; font-size:10px; font-weight:700; letter-spacing:.3px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; display:inline-block; box-shadow:0 0 6px currentColor; }
+  .legend-dot.h { background:#e05a4a; color:#e05a4a; }
+  .legend-dot.w { background:#f0c060; color:#f0c060; }
+  .legend-dot.g { background:#6fcf6f; color:#6fcf6f; }
+  .subsection-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6090b0; padding: 10px 14px 2px; }
+
+  .controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; align-items:center; }
+  .controls button { background: #2a2a4a; border: 1px solid #444; color: #ccc; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .controls button:hover { background: #3a3a6a; color: #fff; }
+  .controls button.save-btn { background: #0f3460; border: 1px solid #1a5aaa; color: #7ecfff; }
+  .controls button.save-btn:hover { background: #1a4a80; }
+
+  .class-nav { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:18px; }
+  .class-nav a { background:#0f1a38; border:1px solid #2a2a4a; color:#ccc; padding:5px 12px; border-radius:4px; font-size:12px; cursor:pointer; text-decoration:none; }
+  .class-nav a:hover { border-color:#7ecfff; color:#fff; }
+  .class-nav a.active { background:#0f3460; border-color:#1a5aaa; color:#7ecfff; font-weight:600; }
+
+  .sect-wrap { margin-bottom: 14px; border: 1px solid #2a3a5a; border-radius: 8px; overflow: hidden; }
+  .sect-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #16213e; cursor: pointer; user-select: none; border-bottom: 1px solid #2a3a5a; }
+  .sect-header:hover { background: #1c2a4a; }
+  .sect-title { color: #f0c060; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
+  .sect-count { color: #6090b0; font-size: 10px; font-style: italic; margin-top: 2px; }
+  .sect-toggle { color: #f0c060; font-size: 16px; transition: transform 0.2s; }
+  .sect-toggle.collapsed { transform: rotate(-90deg); }
+  .sect-body { background: #131928; }
+  .sect-body.collapsed { display:none; }
+
+  .void-group { padding: 10px 14px 4px; border-bottom: 1px solid #1a1f2e; }
+  .void-group:last-child { border-bottom:none; }
+  .void-title { font-size: 12px; font-weight:700; letter-spacing: 0.5px; padding: 4px 0 8px; display:flex; align-items:center; gap:8px; }
+  .void-title .void-chip { font-size:11px; height:20px; min-width:24px; }
+
+  .rune-group { padding: 10px 14px 4px; border-bottom: 1px solid #1a1f2e; }
+  .rune-group:last-child { border-bottom:none; }
+  .rune-title { font-size: 12px; font-weight:600; letter-spacing: 0.5px; text-transform:uppercase; padding: 4px 0 8px; display:flex; align-items:center; gap:7px; }
+  .rune-title .legend-dot { width:9px; height:9px; }
+  .rune-title.h { color: #e05a4a; }
+  .rune-title.w { color: #f0c060; }
+  .rune-title.g { color: #6fcf6f; }
+
+  ol.spells { list-style:none; padding-bottom:6px; }
+  .task-row { display: flex; align-items: flex-start; padding: 5px 6px; border-bottom: 1px solid #1a1f2e; gap: 8px; border-radius:3px; }
+  .task-row:hover { background: #1a2035; }
+  .task-row.done { background: rgba(76,175,80,0.06); }
+  .task-row.done .task-text a { color: #6a8a70; text-decoration: line-through; }
+  .task-row.done .task-num { color: #4a6a4a; }
+  .task-num { min-width: 20px; color:#556; font-size:11px; padding-top:2px; text-align:right; }
+  .task-chk { padding-top:1px; }
+  .task-chk input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #4CAF50; }
+  .task-text { flex: 1; color: #ccc; line-height: 1.4; font-size: 12px; }
+  .task-text .type-tag { color: #778; font-style: italic; margin-right: 3px; }
+  .task-text a { color: #7ecfff; text-decoration: none; border-bottom: 1px dotted #3a6a9a; }
+  .task-text a:hover { color: #f0c060; border-color: #f0c060; }
+  .task-text .rk { color: #778; font-size: 11px; font-style: italic; margin-left:4px; }
+  .task-text .rk.rk1 { color: #cc8844; font-weight: 600; }
+
+  footer.kos-footer { text-align:center;padding:18px;font-size:11px;color:#444;border-top:1px solid #1e1e38;margin-top:20px;letter-spacing:1px; transition: color 0.3s, border-color 0.3s; }
+
+  /* ── MODALS ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: #1e2a50; border: 1px solid #3a5a9a; border-radius: 10px; padding: 24px 28px; min-width: 300px; max-width: 420px; width: 90%; }
+  .modal-box h2 { color: #f0c060; font-size: 15px; margin-bottom: 12px; }
+  .io-hint { color: #888; font-size: 11px; margin-top: 6px; }
+  #ioModal textarea { width: 100%; height: 110px; background: #0f1a38; border: 1px solid #3a5a8a; color: #e0e0e0; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 11px; resize: vertical; margin-top: 6px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal-actions button { padding: 6px 18px; border-radius: 4px; cursor: pointer; font-size: 12px; border: 1px solid #3a5a8a; }
+  .btn-save { background: #2a4060; color: #f0c060; }
+  .btn-save:hover { background: #3a5070; }
+  .btn-cancel { background: #2a2a4a; color: #aaa; }
+
+  /* ── VOID CHIP COLORS (A-G) ── */
+  .vchip-A { background:#5a3a8a; color:#e6d4ff; }
+  .vchip-B { background:#3a5a8a; color:#d4e6ff; }
+  .vchip-C { background:#2a7a6a; color:#d4fff2; }
+  .vchip-D { background:#7a7a2a; color:#fffbd4; }
+  .vchip-E { background:#8a5a2a; color:#ffe6d4; }
+  .vchip-F { background:#8a3a3a; color:#ffd4d4; }
+  .vchip-G { background:#7a2a6a; color:#ffd4f2; }
+
+  /* ── LIGHT MODE ── */
+  body { transition: background 0.3s, color 0.3s; }
+  body.light { background: #f0ebe0 !important; color: #2a1f0e !important; }
+  body.light h1 { color: #7a4a08 !important; text-shadow: none !important; }
+  body.light .subtitle { color: #7a6040 !important; }
+  .back-wrap { text-align: center; margin: 12px 0 6px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s; }
+  .back-btn:hover { border-color: #e8a020; }
+  body.light .back-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #8a5a10 !important; }
+  body.light .back-btn:hover { border-color: #8a5a10 !important; }
+  body.light .legend { background: #e8dcc8 !important; border-color: #c0a878 !important; }
+  body.light .legend-item { color: #5a4020 !important; }
+  body.light .header-links a { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
+  body.light .controls button { background: #e0d4bc !important; border-color: #c0a878 !important; color: #3a2a10 !important; }
+  body.light .controls button.save-btn { background: #d0e4f8 !important; border-color: #6090c8 !important; color: #1a4a8a !important; }
+  body.light #saveStatus { background: #d0f0d8 !important; color: #1a6030 !important; border-color: #60b878 !important; }
+  body.light .class-nav a { background:#e0d4bc !important; border-color:#c0a878 !important; color:#3a2a10 !important; }
+  body.light .class-nav a.active { background:#d0e4f8 !important; border-color:#6090c8 !important; color:#1a4a8a !important; }
+  body.light .sect-wrap { border-color: #c0a878 !important; }
+  body.light .sect-header { background: #e8dcc8 !important; border-bottom-color: #c0a878 !important; }
+  body.light .sect-header:hover { background: #f0e4d0 !important; }
+  body.light .sect-title { color: #7a4a08 !important; }
+  body.light .sect-count { color: #7a6040 !important; }
+  body.light .sect-toggle { color: #8a5a10 !important; }
+  body.light .sect-body { background: #f4ece0 !important; }
+  body.light .void-group { border-bottom-color:#d8cbb0 !important; }
+  body.light .task-row { border-bottom-color: #d8cbb0 !important; }
+  body.light .task-row:hover { background: #f4e8d0 !important; }
+  body.light .task-row.done { background: rgba(76,175,80,0.10) !important; }
+  body.light .task-row.done .task-text a { color: #6a8a5a !important; }
+  body.light .task-text { color: #2a1f0e !important; }
+  body.light .task-num { color:#a89878 !important; }
+  body.light .kos-footer { color:#9a7a50 !important; border-top-color:#c8a870 !important; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { position: fixed; top: 12px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
+  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
+  body.light .toggle-thumb { transform: translateX(18px); }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<h1><svg class="title-icon" width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-6px;margin-right:5px;">
+  <defs>
+    <linearGradient id="scrollBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#efe0b8"/>
+      <stop offset="100%" stop-color="#dcc48a"/>
+    </linearGradient>
+  </defs>
+  <path d="M 24 34 Q 30 30 36 33 T 50 32 T 64 33 T 76 30 L 76 68 Q 70 72 64 69 T 50 70 T 36 69 T 24 72 Z"
+        fill="url(#scrollBody)" stroke="#8a6f33" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="50" cy="30" rx="26" ry="8" fill="#e8d4a0" stroke="#6e5526" stroke-width="2.5"/>
+  <ellipse cx="50" cy="72" rx="26" ry="8" fill="#e8d4a0" stroke="#6e5526" stroke-width="2.5"/>
+  <path d="M 36 43 Q 50 41 64 43" fill="none" stroke="#8a6f33" stroke-width="2" opacity="0.7"/>
+  <path d="M 36 51 Q 50 49 64 51" fill="none" stroke="#8a6f33" stroke-width="2" opacity="0.7"/>
+  <path d="M 36 59 Q 48 57 58 59" fill="none" stroke="#8a6f33" stroke-width="2" opacity="0.7"/>
+</svg>Seeds of Destruction — Rune/Void Spells</h1>
+<p class="subtitle">Songs, spells &amp; tomes by class — Rune tiers first, then Void tiers below · click a class to jump to it</p>
+<div class="back-wrap"><a class="back-btn" href="sod.html">&#8592; Seeds of Destruction</a></div>
+
+<div class="header-links">
+  <a href="https://everquest.allakhazam.com/db/quest.html?quest=4659" target="_blank">🔗 Seeds of Destruction Rank III Spells</a>
+</div>
+
+<div class="legend">
+  <span class="legend-item"><i class="legend-dot h"></i>Humming Fleshwrought Rune</span>
+  <span class="legend-item"><i class="legend-dot w"></i>Whirring Archaen Rune</span>
+  <span class="legend-item"><i class="legend-dot g"></i>Glowing Entropic Rune</span>
+</div>
+
+<div class="legend" id="voidLegend"></div>
+
+<div class="class-nav" id="classNav"></div>
+
+<div class="controls" id="saveBar">
+  <span id="saveStatus" style="font-size:11px;padding:4px 10px;border-radius:4px;background:#1e3a1e;color:#6fcf6f;border:1px solid #2e6a2e;">✓ Auto-save active</span>
+  <button onclick="exportSave()" class="save-btn">Export Save</button>
+  <button onclick="openImport()" class="save-btn">Import Save</button>
+</div>
+
+<div class="controls">
+  <button onclick="expandAll()">Expand All</button>
+  <button onclick="collapseAll()">Collapse All</button>
+  <button onclick="openResetConfirm()" style="border-color:#7a2020;color:#f08080;">Reset All</button>
+</div>
+
+<div id="sectContainer"></div>
+
+<div id="ioModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2 id="ioTitle">Export Save</h2>
+    <p class="io-hint" id="ioHint"></p>
+    <textarea id="ioTextarea"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeIOModal()">Close</button>
+      <button class="btn-save" id="ioCopyBtn" onclick="copyIO()">Copy to Clipboard</button>
+      <button class="btn-save" id="ioImportBtn" style="display:none" onclick="doImport()">Import</button>
+    </div>
+  </div>
+</div>
+
+<footer class="kos-footer">Key of Swords &nbsp;&middot;&nbsp; Teek Server &nbsp;&middot;&nbsp; Created by Temujin of Teek</footer>
+
+<script>
+const RUNES = [
+  {key:"h", cls:"h", name:"Humming Fleshwrought Rune"},
+  {key:"w", cls:"w", name:"Whirring Archaen Rune"},
+  {key:"g", cls:"g", name:"Glowing Entropic Rune"}
+];
+
+const DATA = {
+  "Bards": {
+    h: [["Silence of the Void Rk. III","80873"],["Serenity of Oceangreen Rk. III","81755"],["Cantata of Rodcet Rk. III","85105"],["Aria of the Poet Rk. III","84799"],["Trakanon's Chant of Disease Rk. III","84712"],["Requiem for the Lost Rk. III","84802"]],
+    w: [["Dirge of the Fallen Rathe Rk. III","85044"],["Fatesong of the Gelidran Rk. III","81683"],["Gorenaire's Chant of Frost Rk. III","84831"],["Pulse of Rodcet Rk. III","84705"],["Chorus of Rodcet Rk. III","82666"],["Dance of the Dragorn Rk. III","82793"],["Druzzil's Psalm of Potency Rk. III","83153"],["Severilous' Chant of Poison Rk. III","85100"],["Talendor's Aria Rk. III","84704"]],
+    g: [["Firiona's Blessed Clarinet Rk. III","80022"],["Voice of the Mindshear Rk. III","83405"],["Slumber of the Mindshear Rk. III","85064"],["War March of Brekt Rk. III","83236"],["Mirror Melody Rk. III","84907"],["Denon's Dirge of Discord Rk. III","84725"],["Talendor's Chant of Flame Rk. III","78805"],["Aura of the Poet Rk. III","84794"]]
+  },
+  "Beastlords": {
+    h: [["Salve of Reshan Rk. III","80763"],["Ikaav Blood Rk. III","80764"],["Focus of Yemall Rk. III","80765"]],
+    w: [["Cadmael's Mending Rk. III","80510"],["Spiritual Verve Rk. III","80865"],["Tsetsian Endemic Rk. III","80866"],["Minax's Mending Rk. III","81026"],["Unrivaled Rapidity Rk. III","81025"]],
+    g: [["Spirit of Vaxztn Rk. III","81505"],["Frigid Lance Rk. III","81506"],["Spiritual Edification Rk. III","81555"],["Fellgrip Jaws Rk. III","18137"],["Savage Ferocity Rk. III","83144"],["Spellbreaker's Aegis Rk. III","18162"]]
+  },
+  "Berserkers": {
+    h: [["Tome of Tendon Shear Rk. III","79538"]],
+    w: [["Tome of Distressing Scream Rk. III","85514"],["Tome of Fourth Wind Rk. III","79823"],["Tome of Temple Bash Rk. III","83121"],["Tome of Blood Hatchet Rk. III","81677"]],
+    g: [["Tome of Jarring Clash Rk. III","82402"]]
+  },
+  "Clerics": {
+    h: [["Blessing of Loyalty Rk. III","78727"],["Devout Remedy Rk. III","80212"],["Symbol of Darianna Rk. III","80451"],["Ward of the Devout Rk. III","81226"],["Aweshake Rk. III","80146"],["Yaulp X Rk. III","80147"],["Reconcile Rk. III","81524"]],
+    w: [["Gallantry Rk. III","79834"],["Devout Elixir Rk. III","80139"],["Reprehend Rk. III","80140"],["Aura of Loyalty Rk. III","80807"],["Ward of Admonishment Rk. III","81465"],["Divine Eminence Rk. III","80808"],["Distract the Departed Rk. III","80809"],["Repel Corruption Rk. III","80601"],["Palladium of Vie Rk. III","80867"],["Devout Light Rk. III","80868"],["Sound of Reverberance Rk. III","80869"],["Sermon of Castigation Rk. III","80870"],["Providence Rk. III","80923"]],
+    g: [["Mark of the Unsullied Rk. III","81587"],["Tectonic Tumult Rk. III","80318"],["Abolish Corruption Rk. III","81588"],["Silent Edict Rk. III","80973"],["Unwavering Hammer of Zeal Rk. III","81046"],["Purified Blood Rk. III","80421"],["Order of the Devout Rk. III","81622"],["Armor of the Devout Rk. III","81154"],["Darianna's Mark Rk. III","81155"],["Hand of Gallantry Rk. III","81159"],["Elixir of Expiation Rk. III","82631"],["Rallied Palladium of Vie Rk. III","81665"],["Frenetic Renewal Rk. III","81666"],["Word of Recovery Rk. III","81667"]]
+  },
+  "Druids": {
+    h: [["Withering Sunray Rk. III","78655"],["Squall of the Stormborn Rk. III","80200"],["Cascading Hail Rk. III","80054"],["Nature's Peace Rk. III","80061"],["Beast's Befriending Rk. III","80154"],["Carve Whistle Rk. III","80221"],["Spirit of the Resolute Rk. III","79790"]],
+    w: [["Coldwhisper Breath Rk. III","79836"],["Brierbloom Bulwark Rk. III","80357"],["Heartwood Skin Rk. III","80358"],["Granvida Rk. III","80396"],["Harvesting Inferno Rk. III","83140"],["Promised Reknit Rk. III","83890"],["Wild Growth Rk. III","78870"],["Repel Corruption Rk. III","80601"],["Skin to Flora Rk. III","80602"],["Horde of the Hive Rk. III","80661"],["Brierbloom Coat Rk. III","80662"],["Morning's Glory Rk. III","80687"]],
+    g: [["Tectonic Tumult Rk. III","80318"],["Purified Blood Rk. III","80421"],["Blanched Frost Rk. III","81105"],["Sunsinge Rk. III","80767"],["Summer Solstice Rk. III","80822"],["Chant of the Burynai Rk. III","80757"],["Talisman of the Resolute Rk. III","80801"],["Legacy of Brierbloom Rk. III","81149"],["Blessing of the Heartwood Rk. III","81175"],["Glaciating Crystals Rk. III","81466"],["Mask of the Raptor Rk. III","81478"],["Adrenaline Burst Rk. III","81497"],["Lunulation Rk. III","81498"]]
+  },
+  "Enchanters": {
+    h: [["Fragmented Consciousness Rk. III","79182"],["Pearlescent Rune Rk. III","79183"],["Shield of the Void Rk. III","78658"],["Yozan's Animation Rk. III","79504"],["Rune of Yozan Rk. III","79505"],["Befuddling Flash Rk. III","79525"]],
+    w: [["Hushed Mind Rk. III","79383"],["Bark of Tashan Rk. III","79397"],["Seduction Rk. III","79398"],["Befuddle Rk. III","79527"],["Prescience Rk. III","79959"],["Aegis of Xadrith Rk. III","79960"],["Polychaotic Assault Rk. III","79964"],["Docility Rk. III","79965"],["Smother Rk. III","79967"]],
+    g: [["Ensorcelling Wave Rk. III","79414"],["Dermal Brimstone Rk. III","79415"],["Color Conflux Rk. III","80143"],["The Downward Spiral Rk. III","80394"],["Legion of Xadrith Rk. III","82844"],["Rune of the Void Rk. III","82981"],["Dominate Rk. III","80544"],["Voice of Prescience Rk. III","81452"],["Ward of Befuddlement Rk. III","80598"],["Polychaotic Rune Rk. III","80697"],["Tears of Xadrith Rk. III","80698"],["Mind Twist Rk. III","80699"]]
+  },
+  "Magicians": {
+    h: [["Shield of the Void Rk. III","78658"],["Malosenea Rk. III","78882"],["Brimstoneskin Rk. III","80872"],["Bolt of Molten Scoria Rk. III","81184"],["Burnout VIII Rk. III","81451"]],
+    w: [["Wand of Ethereal Transvergence Rk. III","80261"],["Rain of Molten Scoria Rk. III","81123"],["Empyrean Guardian Rk. III","81124"],["Shock of Discordant Steel Rk. III","81142"],["Beam of Molten Scoria Rk. III","81450"],["Torrid Skin Rk. III","81453"],["Earthen Stance Rk. III","81474"],["Torrid Sands Rk. III","81475"],["Renewal of Cadwin Rk. III","81477"]],
+    g: [["Summon Frigid Paradox Rk. III","81724"],["Circle of Brimstoneskin Rk. III","81725"],["Deluge of Thunderbolts Rk. III","81726"],["Iceflame Efflux Rk. III","81762"],["Burning Pyroshroud Rk. III","81763"],["Fickle Blaze Rk. III","81768"],["Ethereal Symbiosis Rk. III","81797"],["Mass Ethereal Transvergence Rk. III","81798"],["Ravenous Flames Rk. III","77770"],["Hulking Bodyguard Rk. III","81810"]]
+  },
+  "Monks": {
+    h: [["Tome of Phantom Apparition Rk. III","78879"]],
+    w: [["Tome of Fourth Wind Rk. III","79823"],["Tome of Chrono Projection Rk. III","82753"],["Tome of Echo of Distraction Rk. III","83216"]],
+    g: [["Tome of Punch Through Rk. III","80504"],["Tome of Moment of Placidity Rk. III","82791"]]
+  },
+  "Necromancers": {
+    h: [["Shield of the Void Rk. III","78658"],["Withering Venin Rk. III","80136"],["Megrima's Decay Rk. III","81410"],["Drain Essence Rk. III","80895"]],
+    w: [["Mortal Coil Rk. III","79832"],["Fellid's Grasp Rk. III","80423"],["Scent of Gloom Rk. III","80515"],["Putrescence Rk. III","80874"],["Bone-Rattling Shriek Rk. III","81006"],["Corpseskin Rk. III","81070"],["Voidwhisper Manacles Rk. III","81150"],["Icy Stitches Rk. III","81675"]],
+    g: [["Clawing Darkness Rk. III","81467"],["Fellid's Pallid Haze Rk. III","81598"],["Netherside Rk. III","81678"],["Mind Decomposition Rk. III","81696"],["Ignite Energy Rk. III","81743"],["Exigency for Blood Rk. III","81749"],["Fellid's Command Rk. III","81757"],["Splart Rk. III","81939"]]
+  },
+  "Paladins": {
+    h: [["Devout Touch Rk. III","79370"],["Devout Force Rk. III","81162"],["Expiation Rk. III","131162"],["Eulogy Rk. III","84769"],["Devoted Purity Rk. III","84793"],["Mark of the Crusader Rk. III","84810"]],
+    w: [["Symbol of Jeneca Rk. III","80582"],["Shining Light Rk. III","80894"],["Lesson of Compunction Rk. III","83100"],["Crush of the Crying Seas Rk. III","82674"],["Armor of Unwavering Faith Rk. III","82831"],["Devout Cleansing Rk. III","83104"],["Tome of Armor of Endless Honor Rk. III","83201"],["Tome of Withstand Rk. III","83188"]],
+    g: [["Jeneca's Mark Rk. III","80649"],["Wave of Remitment Rk. III","82739"],["Brell's Loamy Ward Rk. III","81668"],["Mark of the Pious Rk. III","83270"],["Sworn Keeper Rk. III","84529"],["Force of the Crying Seas Rk. III","83832"],["Devout Fury Rk. III","84268"],["Crush of Compunction Rk. III","83234"]]
+  },
+  "Rangers": {
+    h: [["Carve Whistle Rk. III","80221"],["Shield of Dryspines Rk. III","81531"],["Beetle Swarm Rk. III","81526"],["Oceangreen Aquifer Rk. III","84795"],["Drifting Mist Rk. III","89006"]],
+    w: [["Strength of the Tracker Rk. III","80449"],["Windwhip Bite Rk. III","81031"],["Cloak of Feathers Rk. III","80516"],["Burynai Balm Rk. III","81164"],["Yowl of the Predator Rk. III","81165"],["Cataclysm Ash Rk. III","81170"],["Heartpierce Rk. III","81171"],["Spinecoat Rk. III","81172"]],
+    g: [["Mottlescale Rk. III","83283"],["Eyes of the Nocturnal Rk. III","83284"],["Barrage of Arrows Rk. III","83285"],["Heartshear Rk. III","83282"],["Protection of the Paw Rk. III","83280"],["Crackling Blades Rk. III","83281"],["Enraging Shot Rk. III","95701"]]
+  },
+  "Rogues": {
+    h: [["Tome of Blinding Spark Rk. III","81728"],["Tome of Ambush Rk. III","83278"]],
+    w: [["Tome of Fourth Wind Rk. III","79823"],["Tome of Jugular Slice Rk. III","81631"],["Tome of Bleed Rk. III","83150"],["Tome of Lesson in Toxicity Rk. III","82726"]],
+    g: [["Tome of Pinpoint Vitals Rk. III","80836"],["Tome of Smokescreen Rk. III","83235"]]
+  },
+  "Shadowknights": {
+    h: [["Bond of Laarthik Rk. III","79540"],["Laarthik's Bite Rk. III","83203"],["Terror of Jelvalak Rk. III","82825"]],
+    w: [["Shroud of the Blightborn Rk. III","80744"],["Blood of Laarthik Rk. III","81516"],["Plague of the Karanas Rk. III","83190"],["Tome of Withstand Rk. III","83188"],["Minion of Sebilis Rk. III","82625"],["Gift of Sathir Rk. III","83189"],["Venril's Covenant Rk. III","83193"],["Tome of Malarian Carapace Rk. III","83194"]],
+    g: [["Malarian Spear Rk. III","81110"],["Burst of Spite Rk. III","83272"],["Drape of Korafax Rk. III","82782"],["Touch of Lanys Rk. III","83156"],["Touch of Tharoff Rk. III","83157"],["Curse of Frailty Rk. III","83158"]]
+  },
+  "Shaman": {
+    h: [["Wild Growth Rk. III","78870"],["Severilous' Spear of Venom Rk. III","79510"],["Spirit of the Resolute Rk. III","79790"],["Breath of Queen Malarian Rk. III","79791"],["Unity of the Spirits Rk. III","79968"]],
+    w: [["Malosenea Rk. III","78882"],["Aina's Faithful Rk. III","80201"],["Feralization Rk. III","80202"],["Dannal's Mending Rk. III","80324"],["Ancestral Obligation Rk. III","80325"],["Halcyon Whisper Rk. III","80359"]],
+    g: [["Chant of the Burynai Rk. III","80757"],["Talisman of the Resolute Rk. III","80801"],["Ice Sheet Rk. III","80847"],["Mojo Rk. III","80924"],["Nectar of the Slitheren Rk. III","80925"],["Blood of Jaled'Dar Rk. III","80956"],["Talisman of Unity Rk. III","80957"],["Shadow of Renewal Rk. III","80996"],["Blood of Avoling Rk. III","81022"]]
+  },
+  "Warriors": {
+    h: [["Tome of Armor of Timeworn Runes Rk. III","79721"],["Tome of Bazu Bluster Rk. III","79737"]],
+    w: [["Tome of Fourth Wind Rk. III","79823"]],
+    g: [["Tome of Maelstrom Blade Rk. III","80060"],["Tome of Punch Through Rk. III","80504"],["Tome of Jeer Rk. III","80503"]]
+  },
+  "Wizards": {
+    h: [["Shield of the Void Rk. III","78658"],["Voidfrost Lure Rk. III","78889"],["Tears of the Pyrilen Rk. III","79517"],["Concussive Flash Rk. III","80070"],["Aegis of Calrena Rk. III","80134"],["Nethervoid March Rk. III","80393"]],
+    w: [["Talendor's Presence Rk. III","79824"],["Serene Harvest Rk. III","80069"],["Cloudburst Levin Rk. III","80126"],["Leap of Static Jolts Rk. III","80127"],["Flarelure Rk. III","80841"],["Squamae of the Crystalwing Rk. III","80193"],["Leap of Lightning Sprites Rk. III","80194"],["Ribbon Lightning Rk. III","80228"],["Nethermist Guard Rk. III","80229"]],
+    g: [["Crystalwing Shell Rk. III","80608"],["Magmatic Eruption Rk. III","80609"],["Icesheet Cascade Rk. III","80610"],["Daveron's Pyroblade Rk. III","80691"],["Chaos Combustion Rk. III","80759"],["Ethereal Combustion Rk. III","80758"],["Claw of Gorenaire Rk. III","80762"],["Telajara Rk. III","80815"],["Icicle Torrent Rk. III","80816"],["Klixcxyk's Fire Rk. III","80817"],["Thricewoven Energy Rk. III","81840"]]
+  }
+};
+
+const VOID_ORDER = ["A","B","C","D","E","F","G"];
+const VOID_NAMES = {A:"Void A",B:"Void B",C:"Void C",D:"Void D",E:"Void E",F:"Void F",G:"Void G"};
+
+const CLASS_VOID_DATA = {
+  "Bards": {
+    "C": [["Song","Aura of Rodcet",165,"78760"]],
+    "D": [["Song","Pests of the Piper",175,"79434"]],
+    "F": [["Song","Arcane Arietta",195,"79879"], ["Song","Cantata of Courage",195,"79880"], ["Song","Gruber's Lively Crescendo",195,"79878"]],
+  },
+  "Beastlords": {
+    "D": [["Spell","Bite of the Vitrik",175,"79439"], ["Spell","Promised Rejuvenation",175,"79438"]],
+    "E": [["Spell","Growl of the Jaguar",185,"79578"], ["Spell","Yowl at the Moon Rk. III",390,"79529"]],
+    "F": [["Spell","Yowl at the Moon",195,"79881"], ["Tome","Foray",195,"79882"]],
+  },
+  "Berserkers": {
+    "B": [["Tome","Overpowering Frenzy Rk. III",310,"84774"]],
+    "E": [["Tome","Eradicator's Volley",185,"79575"]],
+    "F": [["Tome","Combat Frenzy",195,"79883"]],
+    "G": [["Tome","Overpowering Frenzy",155,"85501"]],
+  },
+  "Clerics": {
+    "A": [["Spell","Twelfth Night Rk. III",330,"78866"]],
+    "B": [["Spell","Vow of Valiance",155,"78626"]],
+    "C": [["Spell","Twelfth Night",165,"78761"]],
+    "D": [["Spell","Holy Ground",175,"79441"], ["Spell","Promised Recuperation",175,"79440"]],
+    "E": [["Spell","Blessed Aquifer",185,"79577"], ["Spell","Blood of the Unsullied Rk. III",390,"79418"], ["Spell","Chromassail",185,"79576"]],
+    "F": [["Spell","Blood of the Unsullied",195,"79884"]],
+  },
+  "Druids": {
+    "A": [["Spell","Frondspur Rk. III",310,"79503"], ["Spell","Twincast Rk. III",390,"79417"], ["Spell","Winter's Flare Rk. III",350,"78636"]],
+    "B": [["Spell","Frondspur",155,"78627"]],
+    "D": [["Spell","Annihilate the Anomalous",175,"79338"], ["Spell","Survival of the Felicitous",175,"79339"], ["Spell","Winter's Flare",175,"79337"]],
+    "E": [["Spell","Carapace of the Reptile",185,"79579"]],
+    "F": [["Spell","Nature's Searing Wrath",195,"79885"], ["Spell","Twincast",195,"79888"]],
+    "G": [["Spell","Annihilate the Anomalous Rk. III",350,"79727"], ["Spell","Carapace of the Reptile Rk. III",370,"79396"], ["Spell","Nature's Searing Wrath Rk. III",390,"79522"], ["Spell","Survival of the Felicitous Rk. III",350,"79384"]],
+  },
+  "Enchanters": {
+    "A": [["Spell","Runic Shimmer Aura Rk. III",330,"79495"]],
+    "B": [["Spell","Befuddler's Aura Rk. III",330,"79562"]],
+    "C": [["Spell","Befuddler's Aura",165,"78762"], ["Spell","Dominating Aura",165,"78763"], ["Spell","Runic Shimmer Aura",165,"78759"]],
+    "D": [["Spell","Aura of Abstract Acumen",175,"79341"]],
+    "E": [["Spell","Mana Reiterate Aura Rk. III",390,"79416"], ["Spell","Twincast Aura",185,"79580"], ["Spell","Twincast Aura Rk. III",370,"79533"]],
+    "F": [["Spell","Mana Reiterate Aura",195,"79886"]],
+    "G": [["Spell","Mana Reiterate",175,"79340"]],
+  },
+  "Magicians": {
+    "A": [["Spell","Twincast Rk. III",390,"79417"]],
+    "C": [["Spell","Jolt of Many",165,"78733"]],
+    "D": [["Spell","Annihilate the Anomalous",175,"79338"], ["Spell","Promised Rejuvenation",175,"79438"]],
+    "F": [["Spell","Rumbling Servant",195,"79887"], ["Spell","Twincast",195,"79888"]],
+    "G": [["Spell","Annihilate the Anomalous Rk. III",350,"79727"]],
+  },
+  "Monks": {
+    "B": [["Tome","Calanin's Synergy",155,"82572"], ["Tome","Calanin's Synergy Rk. III",310,"82573"]],
+    "E": [["Tome","Whorl of Fists",185,"79581"]],
+    "F": [["Tome","Defer Death",195,"79889"]],
+  },
+  "Necromancers": {
+    "A": [["Spell","Bonestitch Effigy Rk. III",330,"79428"], ["Spell","Finsternacht Orb Rk. III",310,"79542"], ["Spell","Scorching Shadow Rk. III",390,"79425"], ["Spell","Slitheren Venom Rk. III",390,"79833"], ["Spell","Soul Reaper's Pyre Rk. III",185,"79407"], ["Spell","Withering Decay Rk. III",350,"79429"]],
+    "B": [["Spell","Finsternacht Orb",155,"78628"]],
+    "C": [["Spell","Bonestitch Effigy",165,"78764"]],
+    "D": [["Spell","Pyre of the Forgotten",175,"79342"], ["Spell","Withering Decay",175,"79343"]],
+    "E": [["Spell","Pyre of the Forgotten Rk. III",350,"79733"], ["Spell","Soul Reaper's Pyre",185,"79582"]],
+    "F": [["Spell","Scorching Shadow",195,"79891"], ["Spell","Slitheren Venom",195,"79890"]],
+  },
+  "Paladins": {
+    "B": [["Spell","Charge for Honor Rk. III",330,"79512"]],
+    "C": [["Spell","Charge for Honor",165,"78765"]],
+    "D": [["Spell","Burst of Dawnlight",175,"79435"]],
+    "E": [["Spell","Aurora of Dawnlight Rk. III",390,"79424"], ["Spell","Steely Stance",185,"79583"]],
+    "F": [["Spell","Aurora of Dawnlight",195,"79893"], ["Spell","Preservation of Tunare",195,"79892"]],
+  },
+  "Rangers": {
+    "A": [["Spell","Summer's Mist Rk. III",370,"79400"]],
+    "C": [["Spell","Jolting Swings",165,"78766"], ["Tome","Jolting Frontkicks",165,"78734"]],
+    "E": [["Spell","Devastating Blades",185,"79585"], ["Spell","Summer's Mist",185,"79584"]],
+    "F": [["Tome","Sureshot Discipline",195,"79894"]],
+  },
+  "Rogues": {
+    "E": [["Tome","Procure Sap",185,"79586"]],
+    "F": [["Tome","Daggerlunge",195,"79895"]],
+  },
+  "Shadowknights": {
+    "B": [["Spell","Mindshear Horror",155,"78629"]],
+    "C": [["Spell","Charge for Power",165,"78767"], ["Spell","Charge for Power Rk. III",330,"79725"]],
+    "E": [["Spell","Malarian Skin Rk. III",390,"79421"], ["Spell","Steely Stance",185,"79583"]],
+    "F": [["Spell","Malarian Skin",195,"79897"], ["Tome","Final Breath",195,"79896"]],
+  },
+  "Shaman": {
+    "A": [["Spell","Grezan's Drowse Rk. III",300,"78634"], ["Spell","Listlessness Rk. III",330,"79728"]],
+    "B": [["Spell","Talisman of the Lynx",155,"78630"]],
+    "C": [["Spell","Grezan's Drowse",165,"78768"], ["Spell","Listlessness",165,"78769"]],
+    "D": [["Spell","Antecedent's Intervention",175,"79335"], ["Spell","Bite of the Ukun",175,"79344"]],
+    "F": [["Spell","Pack of Aina",195,"79899"], ["Spell","Pack of Aina Rk. III",390,"79420"], ["Spell","Ward of Restoration",195,"79898"]],
+  },
+  "Warriors": {
+    "D": [["Tome","Shield Topple",175,"79336"]],
+    "E": [["Tome","Shield Topple Rk. III",390,"79731"]],
+    "F": [["Tome","Knuckle Crush",195,"79900"]],
+  },
+  "Wizards": {
+    "A": [["Spell","Mindfreeze Rk. III",330,"78982"], ["Spell","Twincast Rk. III",390,"79417"]],
+    "B": [["Spell","Wildmagic Blast",155,"78631"]],
+    "C": [["Spell","Mindfreeze",165,"78770"], ["Spell","Wildmagic Blast Rk. III",310,"79539"]],
+    "D": [["Spell","Funnel of Frigidity",175,"79437"], ["Spell","Gelid Snap",175,"79436"]],
+    "E": [["Spell","Ethereal Iceblight",185,"79588"], ["Spell","Flashblaze",185,"79587"]],
+    "F": [["Spell","Twincast",195,"79888"]],
+  },
+};
+
+const SAVE_KEY = 'sod_class_void_v1';
+let checks = {};
+function loadChecks(){
+  try{ const raw = localStorage.getItem(SAVE_KEY); if(raw) checks = JSON.parse(raw) || {}; }catch(e){ checks = {}; }
+}
+function saveChecks(){
+  try{
+    localStorage.setItem(SAVE_KEY, JSON.stringify(checks));
+    const el = document.getElementById('saveStatus');
+    if(el){ el.textContent = '✓ Saved'; setTimeout(()=>{ el.textContent = '✓ Auto-save active'; }, 1200); }
+  }catch(e){ /* storage unavailable */ }
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-'); }
+function zamLink(id){ return "https://everquest.allakhazam.com/db/item.html?item=" + id; }
+function zamSearchLink(name){ return "https://everquest.allakhazam.com/search.html?q=" + encodeURIComponent(name.replace(/Rk\.\s*III/g, "Rk. III")); }
+
+loadChecks();
+
+// Void legend
+const legend = document.getElementById('voidLegend');
+VOID_ORDER.forEach(v => {
+  const span = document.createElement('span');
+  span.className = 'legend-item';
+  span.innerHTML = '<span class="void-chip vchip-' + v + '">' + v + '</span> First unlocks in ' + VOID_NAMES[v];
+  legend.appendChild(span);
+});
+
+const classNames = Object.keys(CLASS_VOID_DATA);
+const nav = document.getElementById('classNav');
+const container = document.getElementById('sectContainer');
+let sectOpen = {};
+
+function classItemIds(cls){
+  const ids = [];
+  RUNES.forEach(r => { (DATA[cls] && DATA[cls][r.key] ? DATA[cls][r.key] : []).forEach((sp, i) => ids.push(slug(cls) + '-' + r.key + '-' + i)); });
+  VOID_ORDER.forEach(v => {
+    const items = CLASS_VOID_DATA[cls][v];
+    if(!items) return;
+    items.forEach((item, i) => ids.push(slug(cls) + '-' + v + '-' + i));
+  });
+  return ids;
+}
+
+classNames.forEach((cls, si) => {
+  sectOpen[si] = false;
+
+  const a = document.createElement('a');
+  a.textContent = cls;
+  a.href = '#' + slug(cls);
+  a.dataset.si = si;
+  a.addEventListener('click', e => { e.preventDefault(); jumpToSection(si); });
+  nav.appendChild(a);
+
+  const total = classItemIds(cls).length;
+  const wrap = document.createElement('div');
+  wrap.className = 'sect-wrap';
+  wrap.id = 'sect-' + si;
+
+  const header = document.createElement('div');
+  header.className = 'sect-header';
+  header.onclick = () => toggleSect(si);
+  header.innerHTML = '<div><div class="sect-title">' + esc(cls) + '</div>' +
+                      '<div class="sect-count" id="count-' + si + '"></div></div>' +
+                      '<div class="sect-toggle collapsed" id="tog-' + si + '">▾</div>';
+  wrap.appendChild(header);
+
+  const body = document.createElement('div');
+  body.className = 'sect-body collapsed';
+  body.id = 'body-' + si;
+
+  // ── RUNE TIERS ──
+  if(DATA[cls]){
+    const runeLabel = document.createElement('div');
+    runeLabel.className = 'subsection-label';
+    runeLabel.textContent = 'Rune Tiers';
+    body.appendChild(runeLabel);
+
+    RUNES.forEach(r => {
+      const list = DATA[cls][r.key] || [];
+      if(!list.length) return;
+      const rg = document.createElement('div');
+      rg.className = 'rune-group';
+      let html = '<div class="rune-title ' + r.cls + '"><i class="legend-dot ' + r.cls + '"></i>' + r.name + '</div><ol class="spells">';
+      list.forEach((entry, i) => {
+        const isPair = Array.isArray(entry);
+        const sp = isPair ? entry[0] : entry;
+        const itemId = isPair ? entry[1] : null;
+        const linkUrl = itemId ? zamLink(itemId) : zamSearchLink(sp);
+        const id = slug(cls) + '-' + r.key + '-' + i;
+        const isDone = !!checks[id];
+        html += '<li class="task-row' + (isDone?' done':'') + '" id="row-' + id + '">' +
+                '<div class="task-chk"><input type="checkbox" id="chk-' + id + '"' + (isDone?' checked':'') + '></div>' +
+                '<div class="task-num">' + (i+1) + '.</div>' +
+                '<div class="task-text"><a href="' + linkUrl + '" target="_blank" rel="noopener">' + esc(sp) + ' ↗</a></div></li>';
+      });
+      html += '</ol>';
+      rg.innerHTML = html;
+      body.appendChild(rg);
+    });
+  }
+
+  // ── VOID TIERS ──
+  const voidLabel = document.createElement('div');
+  voidLabel.className = 'subsection-label';
+  voidLabel.textContent = 'Void Tiers';
+  body.appendChild(voidLabel);
+
+  VOID_ORDER.forEach(v => {
+    const items = CLASS_VOID_DATA[cls][v];
+    if(!items || !items.length) return;
+    const vg = document.createElement('div');
+    vg.className = 'void-group';
+    let html = '<div class="void-title"><span class="void-chip vchip-' + v + '">' + v + '</span>' + esc(VOID_NAMES[v]) + '</div><ol class="spells">';
+    items.forEach((item, i) => {
+      const [type, name, cost, spellId] = item;
+      const id = slug(cls) + '-' + v + '-' + i;
+      const isDone = !!checks[id];
+      html += '<li class="task-row' + (isDone?' done':'') + '" id="row-' + id + '">' +
+              '<div class="task-chk"><input type="checkbox" id="chk-' + id + '"' + (isDone?' checked':'') + '></div>' +
+              '<div class="task-num">' + (i+1) + '.</div>' +
+              '<div class="task-text"><span class="type-tag">' + esc(type) + ':</span>' +
+              '<a href="' + zamLink(spellId) + '" target="_blank" rel="noopener">' + esc(name) + ' ↗</a>' +
+              '<span class="rk">' + cost.toLocaleString() + ' Chronobines</span></div></li>';
+    });
+    html += '</ol>';
+    vg.innerHTML = html;
+    body.appendChild(vg);
+  });
+
+  wrap.appendChild(body);
+  container.appendChild(wrap);
+
+  // wire rune checkboxes
+  if(DATA[cls]){
+    RUNES.forEach(r => {
+      (DATA[cls][r.key] || []).forEach((sp, i) => {
+        const id = slug(cls) + '-' + r.key + '-' + i;
+        const cb = document.getElementById('chk-' + id);
+        if(!cb) return;
+        cb.addEventListener('change', function(){
+          checks[id] = this.checked;
+          document.getElementById('row-' + id).classList.toggle('done', this.checked);
+          updateCount(si);
+          saveChecks();
+        });
+      });
+    });
+  }
+
+  // wire void checkboxes
+  VOID_ORDER.forEach(v => {
+    const items = CLASS_VOID_DATA[cls][v];
+    if(!items) return;
+    items.forEach((item, i) => {
+      const id = slug(cls) + '-' + v + '-' + i;
+      const cb = document.getElementById('chk-' + id);
+      cb.addEventListener('change', function(){
+        checks[id] = this.checked;
+        document.getElementById('row-' + id).classList.toggle('done', this.checked);
+        updateCount(si);
+        saveChecks();
+      });
+    });
+  });
+
+  updateCount(si);
+});
+
+function updateCount(si){
+  const cls = classNames[si];
+  const ids = classItemIds(cls);
+  const done = ids.filter(id => checks[id]).length;
+  const el = document.getElementById('count-' + si);
+  if(el) el.textContent = done + ' / ' + ids.length + ' obtained';
+}
+
+function toggleSect(si){
+  sectOpen[si] = !sectOpen[si];
+  document.getElementById('body-'+si).classList.toggle('collapsed', !sectOpen[si]);
+  document.getElementById('tog-'+si).classList.toggle('collapsed', !sectOpen[si]);
+  document.querySelector('#classNav a[data-si="'+si+'"]').classList.toggle('active', sectOpen[si]);
+}
+function jumpToSection(si){
+  if(!sectOpen[si]) toggleSect(si);
+  document.getElementById('sect-'+si).scrollIntoView({behavior:'smooth', block:'start'});
+}
+function expandAll(){ classNames.forEach((_,si)=>{ if(!sectOpen[si]) toggleSect(si); }); }
+function collapseAll(){ classNames.forEach((_,si)=>{ if(sectOpen[si]) toggleSect(si); }); }
+function openResetConfirm(){
+  if(!confirm('Reset ALL checked spells? This cannot be undone.')) return;
+  checks = {};
+  saveChecks();
+  document.querySelectorAll('.task-row').forEach(row => row.classList.remove('done'));
+  document.querySelectorAll('.task-chk input[type="checkbox"]').forEach(cb => cb.checked = false);
+  classNames.forEach((_, si) => updateCount(si));
+}
+
+function serialize(){ return JSON.stringify({checks}); }
+function deserialize(str){
+  try{
+    const o = JSON.parse(str);
+    if(o && typeof o.checks === 'object') { checks = o.checks; return true; }
+    return false;
+  }catch(e){ return false; }
+}
+function refreshAllFromChecks(){
+  classNames.forEach((cls, si) => {
+    classItemIds(cls).forEach(id => {
+      const cb = document.getElementById('chk-' + id);
+      const row = document.getElementById('row-' + id);
+      const isDone = !!checks[id];
+      if(cb) cb.checked = isDone;
+      if(row) row.classList.toggle('done', isDone);
+    });
+    updateCount(si);
+  });
+}
+
+function exportSave(){
+  document.getElementById('ioTitle').textContent = 'Export Save';
+  document.getElementById('ioHint').textContent = 'Copy this text and keep it safe. Use Import Save to restore progress.';
+  document.getElementById('ioCopyBtn').style.display = 'inline-block';
+  document.getElementById('ioImportBtn').style.display = 'none';
+  document.getElementById('ioTextarea').value = serialize();
+  document.getElementById('ioModal').classList.add('open');
+}
+function openImport(){
+  document.getElementById('ioTitle').textContent = 'Import Save';
+  document.getElementById('ioHint').textContent = 'Paste your previously exported save data below, then click Import.';
+  document.getElementById('ioCopyBtn').style.display = 'none';
+  document.getElementById('ioImportBtn').style.display = 'inline-block';
+  document.getElementById('ioTextarea').value = '';
+  document.getElementById('ioModal').classList.add('open');
+  document.getElementById('ioTextarea').focus();
+}
+function closeIOModal(){ document.getElementById('ioModal').classList.remove('open'); }
+function copyIO(){
+  const ta = document.getElementById('ioTextarea');
+  ta.select();
+  try{ navigator.clipboard.writeText(ta.value).catch(()=>document.execCommand('copy')); }catch(e){ document.execCommand('copy'); }
+  const btn = document.getElementById('ioCopyBtn');
+  btn.textContent = 'Copied!';
+  setTimeout(()=>{ btn.textContent = 'Copy to Clipboard'; }, 2000);
+}
+function doImport(){
+  const val = document.getElementById('ioTextarea').value.trim();
+  if(!val) return;
+  if(deserialize(val)){
+    closeIOModal();
+    saveChecks();
+    refreshAllFromChecks();
+  } else {
+    alert('Import failed — save data appears invalid or corrupted.');
+  }
+}
+document.getElementById('ioModal').addEventListener('click', e => { if(e.target === document.getElementById('ioModal')) closeIOModal(); });
+</script>
+
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+  function toggleTheme(){
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

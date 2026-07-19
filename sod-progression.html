@@ -227,7 +227,9 @@ const SECTIONS = [
   { id:'s9',  icon:'🐸', label:'Invasion of Earth',    zone:'Korascian Warrens' },
   { id:'s10', icon:'🏕️', label:'Old Bloodfields',      zone:'Old Bloodfields · City of Dranik' },
   { id:'s11', icon:'🔮', label:'Korafax',               zone:'Korafax, Home of the Riders' },
-  { id:'s12', icon:'⏳', label:'Timeshear',              zone:'All Seeds of Destruction zones · Hero\'s Journey Achievement' },
+  { id:'s12', icon:'🎭', label:'Bone Mask of the Ancient Iksar',  zone:'Field of Scale · Kaesora · Kurn\'s Stronghold · reward: Illusion Ancient Iksar (non-KOS to all Iksars in Field of Scale theme)' },
+  { id:'s13', icon:'💀', label:"Baron Yosig's Skeleton",          zone:'Field of Scale · Kaesora · Kurn\'s Stronghold · reward: Illusion Iksar Skeleton · combines in Bone Wiring Tool (sold by Tynoc, Herald of Scale)' },
+  { id:'s14', icon:'⏳', label:'Timeshear',              zone:'All Seeds of Destruction zones · Hero\'s Journey Achievement' },
 ];
 
 // link: confirmed Allakhazam quest ID  |  no link property = no link (unconfirmed)
@@ -387,47 +389,80 @@ const ITEMS = [
   {s:11,sub:'Korafax, Home of the Riders',icon:'👥',text:'Telivar Group #3: Meeting Adjourned',note:"Telivar S'Vik — Korafax · keyword: \"more of us\" — ready",link:4812},
   {s:11,sub:'Korafax, Home of the Riders',icon:'👥',text:'Stardouser (12-man mini raid) - NOT REQUIRED FOR VOID F',note:"Telivar S'Vik — Korafax · keyword: \"more of us\" — ready",link:4802},
 
+  // ── BONE MASK OF THE ANCIENT IKSAR ──────────────────────────────────
+  {s:12,sub:'Phara Dar: The Grand Illusion',icon:'🧝',text:'Phara Dar: The Grand Illusion',note:'Phara Dar — Field of Scale · say "see this through" to request · cannot pre-loot anything — request all sub-tasks first',link:4713},
+  {s:12,sub:'Sub-Tasks (request all before looting)',icon:'🧝',text:'Purify the Body → Iksar Ribcage',note:'Phara Dar — Field of Scale · collect Iksar Ribcage, Sebalisian Fire & Viscid Tar · turn ins to Talendor · timed flame spawn at 11pm game time',link:4714},
+  {s:12,sub:'Sub-Tasks (request all before looting)',icon:'🧝',text:'Idle Hands → Iksar Skeletal Hand',note:'Shade of Tharoff — Field of Scale · say "Earthly Remains" to Shade · then loot Tharoff\'s Bones near Kaesora (clear guards first)',link:4716},
+  {s:12,sub:'Sub-Tasks (request all before looting)',icon:'🧝',text:'Evil Afoot → Iksar Skeletal Foot',note:'Marthor\'s Remains — Kaesora area · kill 2 Iksar Master guards (lvl 85) · /open and /loot',link:4715},
+  {s:12,sub:'Sub-Tasks (request all before looting)',icon:'🧝',text:'The Skull of the Ancient → Petrified Iksar Skull',note:'Commander Koth (undead) — Field of Bone (Kaesora ruins, NOT Field of Scale) · soloable with merc',link:4717},
+  {s:12,sub:'Final Hand-In',icon:'🔐',text:'Speak with Phara Dar → Bone Mask of the Ancient Iksar',note:'Field of Scale · reward: Illusion Ancient Iksar (makes you non-KOS to all Iksars in Field of Scale, Kaesora & Kurn\'s Stronghold) · NOT repeatable',isKey:true},
+
+  // ── BARON YOSIG'S SKELETON ──────────────────────────────────────────
+  // Purchase 6x Bone Wiring Tool from Tynoc, Herald of Scale (combine container)
+  {s:13,sub:"Iksar Left Leg Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Drake Scourge → Iksar Left Foot Bones',note:'Any Ring of Scale Dragon — Field of Scale',link:4689},
+  {s:13,sub:"Iksar Left Leg Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Broodling in the Hand → Iksar Left Lower Leg Bones',note:'Kaesora Hatchery',link:4728},
+  {s:13,sub:"Iksar Left Leg Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Sarnak Recovery (Burynai) → Iksar Left Upper Leg Bones',note:'Any Ring of Scale Dragon — Field of Scale',link:4798},
+  {s:13,sub:"Iksar Left Arm Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Phara Dar: Idle Hands → Iksar Left Hand Bones',note:'Shade of Tharoff — Field of Scale',link:4716},
+  {s:13,sub:"Iksar Left Arm Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Supplies → Iksar Left Lower Arm Bones',note:'Any Ring of Scale Dragon — Field of Scale',link:4807},
+  {s:13,sub:"Iksar Left Arm Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:"Parley With Ganak → Iksar Left Upper Arm Bones",note:"Jaled'Dar — Field of Scale",link:4719},
+  {s:13,sub:"Iksar Right Leg Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Dark Sentry → Iksar Right Foot Bones',note:'Field of Scale',link:4729},
+  {s:13,sub:"Iksar Right Leg Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'The Grudge → Iksar Right Lower Leg Bones',note:'Field of Scale',link:4688},
+  {s:13,sub:"Iksar Right Leg Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Sarnak Recovery (Kurn) → Iksar Right Upper Leg Bones',note:'Any Ring of Scale Dragon — Field of Scale',link:4799},
+  {s:13,sub:"Iksar Right Arm Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Phara Dar: Evil Afoot → Iksar Right Hand Bones',note:"Marthor's Remains — Kaesora area",link:4715},
+  {s:13,sub:"Iksar Right Arm Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Raising Cabilis → Iksar Right Lower Arm Bones',note:'Any Ring of Scale Dragon — Field of Scale',link:4797},
+  {s:13,sub:"Iksar Right Arm Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Food Supplies → Iksar Right Upper Arm Bones',note:'Any Ring of Scale Dragon — Field of Scale',link:4667},
+  {s:13,sub:"Iksar Torso Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Phara Dar: The Grand Illusion → Iksar Left Ribcage Bones',note:'Phara Dar — Field of Scale',link:4713},
+  {s:13,sub:"Iksar Torso Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Phara Dar: Purify the Body → Iksar Right Ribcage Bones',note:'Phara Dar — Field of Scale',link:4714},
+  {s:13,sub:"Iksar Torso Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Cutting Off The Arms → Iksar Spine Bones',note:'Field of Scale',link:4730},
+  {s:13,sub:"Iksar Torso Bone Assembly (combine in Bone Wiring Tool)",icon:'🧝',text:'Sarnak Recovery (Sokokar) → Iksar Hip Bone',note:'Any Ring of Scale Dragon — Field of Scale',link:4800},
+  {s:13,sub:'Final Combine — combine 5 Assemblies + 3 loose bones in Bone Wiring Tool',icon:'🧝',text:'Havoc in the Hatchery → Iksar Skull',note:'Field of Scale',link:4731},
+  {s:13,sub:'Final Combine — combine 5 Assemblies + 3 loose bones in Bone Wiring Tool',icon:'🧝',text:"Lost and Found → Iksar Jawbone",note:"Jaled'Dar — Field of Scale",link:4718},
+  {s:13,sub:'Final Combine — combine 5 Assemblies + 3 loose bones in Bone Wiring Tool',icon:'🧝',text:"Phara Dar: The Skull of the Ancient → Iksar Tail Bones",note:'Phara Dar — Field of Scale',link:4717},
+  {s:13,sub:'Final Combine — combine 5 Assemblies + 3 loose bones in Bone Wiring Tool',icon:'🔐',text:"Combine all 8 items → Baron Yosig's Skeleton",note:"Buy 6x Bone Wiring Tool from Tynoc, Herald of Scale · reward: Illusion Iksar Skeleton (FACE slot, unlimited charges)",isKey:true},
+
   // ── TIMESHEAR ───────────────────────────────────────────────────────
   // Black Square Fragment
-  {s:12,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Kill the Shearspawn → Timeshear Black Fragment Azia',note:'Telivar Group #1 — Korafax',link:4810},
-  {s:12,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Inside Information → Timeshear Black Fragment Beza',note:'Telivar Group #2 — Korafax',link:4811},
-  {s:12,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Meeting Adjourned → Timeshear Black Fragment Caza',note:'Telivar Group #3 — Korafax',link:4812},
-  {s:12,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Stardouser → Timeshear Black Fragment Dena',note:'Telivar — Korafax',link:4802},
+  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Kill the Shearspawn → Timeshear Black Fragment Azia',note:'Telivar Group #1 — Korafax',link:4810},
+  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Inside Information → Timeshear Black Fragment Beza',note:'Telivar Group #2 — Korafax',link:4811},
+  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Meeting Adjourned → Timeshear Black Fragment Caza',note:'Telivar Group #3 — Korafax',link:4812},
+  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Stardouser → Timeshear Black Fragment Dena',note:'Telivar — Korafax',link:4802},
   // Blue Moon Fragment
-  {s:12,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Studying the Portal → Timeshear Blue Fragment Azia',note:'Yemall the Arcane — City of Dranik',link:4770},
-  {s:12,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Holding the Fort → Timeshear Blue Fragment Beza',note:'General Vurig the Imposing — Old Bloodfields',link:4771},
+  {s:14,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Studying the Portal → Timeshear Blue Fragment Azia',note:'Yemall the Arcane — City of Dranik',link:4770},
+  {s:14,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Holding the Fort → Timeshear Blue Fragment Beza',note:'General Vurig the Imposing — Old Bloodfields',link:4771},
   // Green Hexagonal Fragment
-  {s:12,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Cruel Overseers → Timeshear Green Fragment Azia',note:'Toskirakk',link:4796},
-  {s:12,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Spies, Lies, and Prison Cells → Timeshear Green Fragment Beza',note:'Toskirakk',link:4816},
-  {s:12,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Hiding in Plain Sight → Timeshear Green Fragment Caza',note:'Toskirakk',link:4813},
-  {s:12,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'The Crystal Bloom → Timeshear Green Fragment Dena',note:'Ulgin Darkhammer — Korascian Warrens',link:4678},
-  {s:12,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:"Murdunk's Last Stand → Timeshear Green Fragment Ena",note:'Ylatra the Vassal — Korascian Warrens',link:4701},
+  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Cruel Overseers → Timeshear Green Fragment Azia',note:'Toskirakk',link:4796},
+  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Spies, Lies, and Prison Cells → Timeshear Green Fragment Beza',note:'Toskirakk',link:4816},
+  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Hiding in Plain Sight → Timeshear Green Fragment Caza',note:'Toskirakk',link:4813},
+  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'The Crystal Bloom → Timeshear Green Fragment Dena',note:'Ulgin Darkhammer — Korascian Warrens',link:4678},
+  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:"Murdunk's Last Stand → Timeshear Green Fragment Ena",note:'Ylatra the Vassal — Korascian Warrens',link:4701},
   // Orange Moon Fragment
-  {s:12,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Safe Passage → Timeshear Orange Fragment Azia',note:'Commander Barvian — Bloody Kithicor',link:4706},
-  {s:12,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Bitter Victuals → Timeshear Orange Fragment Beza',note:'Firiona Vie — Bloody Kithicor',link:4686},
+  {s:14,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Safe Passage → Timeshear Orange Fragment Azia',note:'Commander Barvian — Bloody Kithicor',link:4706},
+  {s:14,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Bitter Victuals → Timeshear Orange Fragment Beza',note:'Firiona Vie — Bloody Kithicor',link:4686},
   // Purple Octagonal Fragment
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'A Corrupted Arch Priest → Timeshear Purple Fragment Azia',note:'Apothecary Cadmael — Oceangreen Village',link:4725},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Remove the Head and the Disease Will Die → Timeshear Purple Fragment Beza',note:'Apothecary Cadmael — Oceangreen Village',link:4814},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'The Bubonians Are Coming! → Timeshear Purple Fragment Caza',note:'Jerom Bertrand — Oceangreen Hills',link:4641},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Freedom! → Timeshear Purple Fragment Dena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4682},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Beat the Blackburrow Boss → Timeshear Purple Fragment Ena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4683},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Disrupting the Ritual → Timeshear Purple Fragment Fana',note:'Old Blackburrow',link:4664},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Familiarity is the Key → Timeshear Purple Fragment Geza',note:'Captain Hiran Tillin — Oceangreen Hills',link:4661},
-  {s:12,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Stop the Contamination → Timeshear Purple Fragment Heda',note:'Captain Hiran Tillin — Oceangreen Hills',link:4662},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'A Corrupted Arch Priest → Timeshear Purple Fragment Azia',note:'Apothecary Cadmael — Oceangreen Village',link:4725},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Remove the Head and the Disease Will Die → Timeshear Purple Fragment Beza',note:'Apothecary Cadmael — Oceangreen Village',link:4814},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'The Bubonians Are Coming! → Timeshear Purple Fragment Caza',note:'Jerom Bertrand — Oceangreen Hills',link:4641},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Freedom! → Timeshear Purple Fragment Dena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4682},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Beat the Blackburrow Boss → Timeshear Purple Fragment Ena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4683},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Disrupting the Ritual → Timeshear Purple Fragment Fana',note:'Old Blackburrow',link:4664},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Familiarity is the Key → Timeshear Purple Fragment Geza',note:'Captain Hiran Tillin — Oceangreen Hills',link:4661},
+  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Stop the Contamination → Timeshear Purple Fragment Heda',note:'Captain Hiran Tillin — Oceangreen Hills',link:4662},
   // Red Hexagonal Fragment
-  {s:12,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Price of Knowledge → Timeshear Red Fragment Azia',note:"Jaled'Dar — Field of Scale",link:4722},
-  {s:12,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Brood of an Emperor → Timeshear Red Fragment Beza',note:"Jaled'Dar — Field of Scale",link:4721},
-  {s:12,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'An Impenetrable Shield → Timeshear Red Fragment Caza',note:"Jaled'Dar — Field of Scale",link:4724},
-  {s:12,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Audience with the Warmaster → Timeshear Red Fragment Dena',note:"Jaled'Dar — Field of Scale",link:4720},
-  {s:12,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Defeat the Dragonbane Phalanx → Timeshear Red Fragment Ena',note:"Jaled'Dar — Field of Scale",link:4723},
+  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Price of Knowledge → Timeshear Red Fragment Azia',note:"Jaled'Dar — Field of Scale",link:4722},
+  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Brood of an Emperor → Timeshear Red Fragment Beza',note:"Jaled'Dar — Field of Scale",link:4721},
+  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'An Impenetrable Shield → Timeshear Red Fragment Caza',note:"Jaled'Dar — Field of Scale",link:4724},
+  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Audience with the Warmaster → Timeshear Red Fragment Dena',note:"Jaled'Dar — Field of Scale",link:4720},
+  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Defeat the Dragonbane Phalanx → Timeshear Red Fragment Ena',note:"Jaled'Dar — Field of Scale",link:4723},
   // Final combine
-  {s:12,sub:'Final Combine',icon:'🔐',text:'Combine all 6 Fragments in a Timeshear Coalescing Device → Timeshear',note:'Buy Timeshear Fragment Coalescing Device (sub-combines) and Timeshear Coalescing Device (final combine) from any Herald in any SoD zone · ~113pp each · consumed per combine',isKey:true},
+  {s:14,sub:'Final Combine',icon:'🔐',text:'Combine all 6 Fragments in a Timeshear Coalescing Device → Timeshear',note:'Buy Timeshear Fragment Coalescing Device (sub-combines) and Timeshear Coalescing Device (final combine) from any Herald in any SoD zone · ~113pp each · consumed per combine',isKey:true},
 ];
 
 const DIVIDERS = {
   0: { label:'⚔️ Raid Progression', color:'#c8942a' },
   6: { label:'👥 Group Progression', color:'#4a90c8' },
-  12: { label:'⏳ Timeshear', color:'#9a6acc' },
+  12: { label:'🎭 Bone Mask of the Ancient Iksar', color:'#c8784a' },
+  13: { label:"💀 Baron Yosig's Skeleton", color:'#8aaa6a' },
+  14: { label:'⏳ Timeshear', color:'#9a6acc' },
 };
 
 ITEMS.forEach((it,i)=>{ it.idx=i; });

@@ -5,7 +5,6 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seeds of Destruction — Raid Strategy Vault</title>
-<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('kos-light');</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
   :root {
@@ -56,10 +55,6 @@
   body.light-mode .ornament-divider{color:#b07820;}
   body.light-mode .phase-header{color:#7a5010;border-top-color:#c8bfaa;}
   body.light-mode .site-footer{border-top-color:#c8bfaa;color:#8a8478;}
-  .back-wrap { text-align: center; margin: 12px 0 6px; }
-  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s; }
-  .back-btn:hover { border-color: #e8a020; }
-  body.light-mode .back-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #8a5a10 !important; }
   body.light-mode .collapse-chevron{color:#b07820;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Crimson Pro',Georgia,serif;background:var(--deep-bg);color:var(--text-primary);line-height:1.7;font-size:17px;}
@@ -175,7 +170,6 @@
 <header class="site-header">
   <h1>Seeds of Destruction</h1>
   <p class="subtitle">Guild Raid Strategy Vault — Teek Server &nbsp;·&nbsp; Key of Swords</p>
-  <div class="back-wrap"><a class="back-btn" href="sod.html">&#8592; Seeds of Destruction</a></div>
   <div class="xpac-badge">Launches July 17, 2026</div>
   <div style="margin-top:10px; position:relative; z-index:1;">
     <a href="https://key-of-swords.github.io/Key-Of-Swords-Resources/sod.html"
@@ -279,8 +273,9 @@
         <h3>Boss Stats</h3>
         <div class="stat-row"><span class="label">Max Hit</span><span class="value danger">~13,000</span></div>
         <div class="stat-row"><span class="label">HP</span><span class="value">~21 million</span></div>
-        <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes</span></div>
         <div class="stat-row"><span class="label">Rampage</span><span class="value danger">No</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
         <div class="stat-row"><span class="label">Adds Mezzable?</span><span class="value safe">Yes — extra weak to Fire</span></div>
         <div class="stat-row"><span class="label">Adds Despawn on Kill?</span><span class="value danger">No — must be<br>cleared after</span></div>
       </div>
@@ -331,7 +326,7 @@
     <div class="phase-header">Emotes</div>
     <div class="phase-block phase-red">
       <h4>"Queen Malarian anchors her feet to the ground and prepares to unleash a wave of burning acid."</h4>
-      <p>Run entire raid out of room. 18k AE hits all who remain near her.</p>
+      <p>Entire raid runs out of range (80). 18k AE hits all who remain near her.</p>
     </div>
     <div class="phase-block phase-amber">
       <h4>"You see the queen glare at you, aiming her sickening ball of fluids at you."</h4>
@@ -474,15 +469,28 @@
       P -623.5035, 9.0424, -71.1528, 0, 0, 0, 3, Totem_7<br>
       P -18.1345, 457.2399, -58.5636, 0, 0, 0, 3, Totem_8
     </div>
+    <div class="phase-header">Totem Map Waypoints</div>
+    <div class="map-coords">
+      <strong>/way coordinates</strong>
+      Totem 1&nbsp;&nbsp;&nbsp;&nbsp;-450, 25, -55<br>
+      Totem 2&nbsp;&nbsp;&nbsp;&nbsp;-263, 373, 183<br>
+      Totem 3&nbsp;&nbsp;&nbsp;&nbsp;-210, -150, -215<br>
+      Totem 4&nbsp;&nbsp;&nbsp;&nbsp;-125, 350, 150<br>
+      Totem 5&nbsp;&nbsp;&nbsp;&nbsp;-25, 620, 70<br>
+      Totem 6&nbsp;&nbsp;&nbsp;&nbsp;40, 590, -140<br>
+      Totem 7&nbsp;&nbsp;&nbsp;&nbsp;70, 405, -170<br>
+      Totem 8&nbsp;&nbsp;&nbsp;&nbsp;290, 555, -130
+    </div>
     <div class="ornament-divider">Strategy</div>
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
       <ol>
         <li><strong>Stage at OGH at the Blackburrow entrance.</strong> Do not zone in until full raid is ready and buffed.</li>
         <li>Zone in — <strong>DO NOT MOVE FORWARD</strong> until everyone is in. When ready, move slightly forward. Trash mobs run away; only the Wrext Mal Martyr remains. <strong>Do NOT aggro/kill the martyr yet.</strong></li>
-        <li><strong>Split raid into 8 groups</strong> and position each at a Totem location (use map coords above).</li>
+        <li><strong>Split raid into 8 groups</strong> (one mezzer in each group) and position each at a Totem location (use map coords above). <strong>SUSPEND ALL PETS AND NO DOTS.</strong></li>
+        <li>(&gt; 9 in camp, including pets &amp; swarm pets) you will get an extra set of 3 mobs.</li>
         <li>Once all 8 groups in position — <strong>kill the Wrext Mal Martyr.</strong> Once aggro'd, you have five minutes to kill it to initiate the event. Once killed a totem, 2 gnarls, and 1 "a Wrext Mal mundunugu" will spawn at each location. If too slow, martyr suicides and mobs spawn anyway.</li>
-        <li>Per camp: Kill 2 Gnarls → bring Mundunugu to 20% → hold at 5%. <strong>If more than 9 players or pets are on aggro at a camp, you will get an extra set of 3 mobs.</strong></li>
+        <li>Per camp: Kill 2 Gnarls → bring Mundunugu to 20%, then to 10% and hold.</li>
         <li><strong>On call: kill ALL 8 Mundunugu within 1 minute.</strong> If all of the Mundunugu are not killed, the camps all respawn.</li>
         <li>Regroup. Rottrued the Twisted spawns far east. <strong>DO NOT SLOW HIM.</strong> Doing so will power up Rottrued significantly. Tank + burn to kill.</li>
         <li>After Rottrued dies, head east to "a hidden agent." Hail it to spawn chest. Invisible flag granted on Rottrued death.</li>
@@ -2230,6 +2238,42 @@
   <div class="raid-card-body">
     <div class="section-grid">
       <div class="info-block">
+        <h3>Boss Stats — Head Scryer Ytta</h3>
+        <div class="stat-row"><span class="label">Max Hit</span><span class="value danger">~14,000</span></div>
+        <div class="stat-row"><span class="label">Perma Rooted</span><span class="value safe">Yes</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">Summon</span><span class="value danger">Yes @ 100%</span></div>
+      </div>
+      <div class="info-block">
+        <h3>Boss Stats — Head Scryer Oomk</h3>
+        <div class="stat-row"><span class="label">Max Hit</span><span class="value danger">~14,000</span></div>
+        <div class="stat-row"><span class="label">Perma Rooted</span><span class="value safe">Yes</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Yes (rarely)</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">Summon</span><span class="value danger">Yes @ 100%</span></div>
+      </div>
+      <div class="info-block">
+        <h3>Boss Stats — Head Scryer Imta</h3>
+        <div class="stat-row"><span class="label">Max Hit</span><span class="value danger">~14,000</span></div>
+        <div class="stat-row"><span class="label">Perma Rooted</span><span class="value safe">Yes</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value safe">No</span></div>
+        <div class="stat-row"><span class="label">Summon</span><span class="value danger">Yes @ 100%</span></div>
+      </div>
+      <div class="info-block">
+        <h3>Boss Stats — Head Scryer Llkth</h3>
+        <div class="stat-row"><span class="label">Max Hit</span><span class="value danger">~14,000</span></div>
+        <div class="stat-row"><span class="label">Perma Rooted</span><span class="value safe">Yes</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Yes (rarely)</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Yes (rarely)</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value danger">Yes (rarely)</span></div>
+        <div class="stat-row"><span class="label">Summon</span><span class="value danger">Yes @ 100%</span></div>
+      </div>
+      <div class="info-block">
         <h3>Loot — a chest (1–2 Tower Keys + 2 Runes + 2 Warped Coeval Essences + 2 gear)</h3>
         <ul>
           <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=81792" target="_blank" rel="noopener">Timestealer's Mantle ↗</a></li>
@@ -2245,37 +2289,51 @@
         </ul>
       </div>
     </div>
+    <table class="spells-table">
+      <thead><tr><th>Spell</th><th>Source</th><th>Type</th><th>Effect</th><th>Counter</th></tr></thead>
+      <tbody>
+        <tr><td><a class="spell-link" href="https://everquest.allakhazam.com/db/spell.html?spell=16959" target="_blank" rel="noopener"><strong class="spell-name">Corruption of Discord ↗</strong></a></td><td>Oomk</td><td>Single · Corruption (−100) · Range 120</td><td style="color:#e07060;">10,000 DD</td><td>Heal through</td></tr>
+        <tr><td><a class="spell-link" href="https://everquest.allakhazam.com/db/spell.html?spell=16955" target="_blank" rel="noopener"><strong class="spell-name">Complete Domination ↗</strong></a></td><td>Imta</td><td>Single · Magic (−600)</td><td style="color:#e07060;">Mesmerize · 3 ticks</td><td><strong>Mez-break — tank swap</strong></td></tr>
+        <tr><td><a class="spell-link" href="https://everquest.allakhazam.com/db/spell.html?spell=16957" target="_blank" rel="noopener"><strong class="spell-name">Insidious Theft ↗</strong></a></td><td>Imta</td><td>PB AE · AE Range 93 · Corruption (−100)</td><td style="color:#e07060;">5,500 Mana</td><td>Mana burn — casters watch mana</td></tr>
+        <tr><td><a class="spell-link" href="https://everquest.allakhazam.com/db/spell.html?spell=16956" target="_blank" rel="noopener"><strong class="spell-name">Sluggish Time ↗</strong></a></td><td>Imta</td><td>PB AE · AE Range 93 · Magic (−600)</td><td style="color:#e07060;">−50% Spell Haste · 3 ticks</td><td>Casters back out</td></tr>
+      </tbody>
+    </table>
+    <div class="phase-header">Emotes</div>
+    <div class="phase-block phase-red">
+      <h4>"The flames from the Braziers were dancing beautifully and nearly distracted the Head Scryers but a magical force extinguished them. Perhaps you need to light more of them to distract the Head Scryers!"</h4>
+      <p>All braziers go out and have to be relit.</p>
+    </div>
     <div class="phase-header">Trash — Notable Dangers (Most Guilds Banner Skip)</div>
     <div class="phase-block phase-amber">
       <h4>Key Trash Rules</h4>
       <ul>
-        <li><strong>Mastruq:</strong> Face TOWARD raid (rear 10k DD). Can mez but wake each other if close.</li>
-        <li><strong>Discordlings:</strong> Cast Rebounding Spikes (15k PBAE) on death — possibly multiple times. <strong>Back out before they die.</strong></li>
+        <li><strong>Mastruq:</strong> Face TOWARD raid (rear 10k DD). Can mez but wake each other if close. Keep them spread out if mezzing.</li>
+        <li><strong>Discordlings:</strong> Cast Rebounding Spikes (62 range, 15k PBAE) on death — possibly multiple times. Back out before they die.</li>
         <li><strong>Ikaav pairs:</strong> Envenomed Mana (3.5k DoT + 2.5k mana drain) + Ikaav Entrancement (viral mez 30 sec). Handle carefully.</li>
+        <li><strong>Nocs:</strong> Pure melee and flurry.</li>
+        <li><strong>Kyv:</strong> Cast Blinding Shot (12k DD w/blind).</li>
+        <li><strong>Aneuks:</strong> Cast Chains of Destruction (ST snare w/3k DD).</li>
         <li><strong>Ra'tuks:</strong> Healer's Bane AE — reduces healing by 4,000. <strong>Do NOT cure</strong> — curing = 15k HP+mana loss to curer.</li>
-        <li><strong>Lightning guys:</strong> Emote "drawn" north or south. Mez mob straight back. Keep 2nd lightning guy mezzed at all times. Keep first tanked outside its room. Emote fail = 50k AE DD (blocked by walls).</li>
-        <li><strong>Vitriks:</strong> Flux + levitation inhibitor. Attack from <strong>front or wing only</strong> — not sides.</li>
-        <li><strong>Ixts (goats):</strong> Knockback. Attack from the <strong>side only.</strong></li>
       </ul>
     </div>
     <div class="phase-header">Event — Scryers + Bowl Lighting</div>
     <div class="phase-block phase-blue">
       <ul>
         <li>Enter room to trigger. Scryers attack — each drops a Scryer's Torch (15-sec recast clicky).</li>
-        <li>Each killed Scryer spawns mezzable adds. <strong>Kill adds before next Scryer group.</strong></li>
+        <li>Each killed Scryer spawns mezzable adds. Kill adds before killing the next set of Scryers.</li>
         <li>Loot torches → light all 12 bowls around the room. Each bowl lit spawns more mezzable adds from the west.</li>
-        <li><strong>Light all 12 quickly</strong> — if Head Scryers emote while lighting, bowls extinguish and must be relit (more adds).</li>
-        <li>All 12 lit → 4 Head Scryers go active.</li>
+        <li>Once you start lighting you need to get all 12 lit quickly or the Head Scryers will emote and they get blown out resulting in a need to relight (getting more adds).</li>
+        <li>After all 12 are lit → 4 Head Scryers go active.</li>
       </ul>
     </div>
-    <div class="phase-header">4 Head Scryers — Kill Order (All Permarooted · Summon · Up to 14k Hit)</div>
+    <div class="phase-header">4 Head Scryers — Kill Order (All Permarooted · Summon · Max Hit ~ 14k)</div>
     <table class="spells-table">
       <thead><tr><th>Head Scryer</th><th>Class</th><th>Key Ability</th><th>Kill Priority</th></tr></thead>
       <tbody>
         <tr><td><strong>Ytta</strong></td><td>Cleric</td><td>Heals all Head Scryers</td><td><strong>1st — stop the heals</strong></td></tr>
         <tr><td><strong>Oomk</strong></td><td>Shadow Knight</td><td>Harm Touch · Lifetaps · Fear · Corruption of Discord (10k DD)</td><td>2nd</td></tr>
         <tr><td><strong>Imta</strong></td><td>Enchanter</td><td>Tash · Charm · Complete Domination (18-sec mez)</td><td>3rd</td></tr>
-        <tr><td><strong>Llkth</strong></td><td>Warrior</td><td>AE Rampage — no spells</td><td>4th — tank it out</td></tr>
+        <tr><td><strong>Llkth</strong></td><td>Warrior</td><td>AE Rampage — no spells</td><td>4th</td></tr>
       </tbody>
     </table>
     <div class="callout callout-green">
@@ -2286,10 +2344,12 @@
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
       <ol>
-        <li><strong>Trash (or banner skip).</strong> Key rules: Mastruq face toward raid; back out before Discordling deaths; never cure Healer's Bane; lightning guys — mez straight back, keep 2nd mezzed at all times; Vitriks — front/wing only; Ixts — side only.</li>
-        <li>Enter room → Scryers attack. Kill them, loot Scryer Torches. Kill mezzable adds before moving to next Scryer group.</li>
-        <li>Light all 12 bowls quickly. Mez west adds as they spawn. Speed matters — Head Scryers emoting = bowls go dark = start over.</li>
-        <li>Head Scryers activate. <strong>Kill order: Ytta → Oomk → Imta → Llkth.</strong></li>
+        <li><strong>Trash (or banner skip).</strong> Key rules: Mastruq face toward raid; back out before Discordling deaths; never cure Healer's Bane.</li>
+        <li>Assign designated people to loot the torches and light the braziers.</li>
+        <li>Enter room → Scryers attack (Dragorn models). Kill them, loot Scryer Torches. Kill mezzable adds before moving to next Scryer group.</li>
+        <li>Once all 12 torches are looted, light all 12 bowls quickly or the Head Scryers will emote and they get blown out resulting in a need to relight (getting more adds). Mez west adds as they spawn. Speed matters.</li>
+        <li>Head Scryers activate. Assign 4 tanks and summon tank them.</li>
+        <li><strong>Kill order: Ytta → Oomk → Imta → Llkth.</strong></li>
         <li>All 4 dead → adds despawn → chest spawns.</li>
       </ol>
     </div>
@@ -2642,12 +2702,6 @@
       if (i > 0) c.classList.add('collapsed');
     });
   });
-</script>
-<script>
-  if(document.documentElement.classList.contains('kos-light')){
-    document.documentElement.classList.remove('kos-light');
-    document.body.classList.add('light-mode');
-  }
 </script>
 </body>
 </html>

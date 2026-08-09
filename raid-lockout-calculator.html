@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raid Lockout Calculator</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 16px 16px 0;
+    font-size: 13px;
+    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(900px 480px at 50% -120px, rgba(240,192,96,0.10), transparent 70%),
+      radial-gradient(700px 500px at 85% 10%, rgba(126,207,255,0.06), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  h1 {
+    text-align: center;
+    color: #f0c060;
+    font-family: 'Cinzel', 'Segoe UI', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 14px rgba(240,192,96,0.35);
+  }
+  .subtitle { text-align: center; color: #888; font-size: 11px; margin-bottom: 18px; letter-spacing: 0.5px; }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  /* ─────────────── HERO ─────────────── */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(600px 300px at 50% -40px, rgba(240,192,96,0.10), transparent 70%),
+      linear-gradient(160deg, #1b2848 0%, #131d36 100%);
+    border: 1px solid #3a5a8a;
+    border-radius: 14px;
+    padding: 22px 20px 24px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(240,192,96,0.06), 0 10px 40px rgba(0,0,0,0.45);
+    animation: heroGlow 5s ease-in-out infinite;
+  }
+  @keyframes heroGlow {
+    0%,100% { box-shadow: 0 0 0 1px rgba(240,192,96,0.05), 0 10px 40px rgba(0,0,0,0.45); border-color:#3a5a8a; }
+    50%     { box-shadow: 0 0 26px rgba(240,192,96,0.16), 0 10px 40px rgba(0,0,0,0.45); border-color:#5a7ab0; }
+  }
+  .hero::after {
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(140px 140px at 0% 0%, rgba(126,207,255,0.05), transparent 70%),
+      radial-gradient(140px 140px at 100% 100%, rgba(126,207,255,0.05), transparent 70%);
+  }
+
+  .hero-eyebrow {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #7ecfff;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .hero-eyebrow .live-dot {
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:#f0c060; margin-right:7px; vertical-align:middle;
+    box-shadow:0 0 8px #f0c060; animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.35; transform:scale(.7);} }
+
+  .clock-now {
+    text-align:center; margin-bottom:18px;
+    font-family:'Chakra Petch',monospace; font-variant-numeric:tabular-nums;
+    font-size:15px; color:#6fa0d0; letter-spacing:0.1em;
+  }
+  .clock-now .tick { color:#7ecfff; }
+
+  .field-label {
+    text-align:center; font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:#7a90b4; margin-bottom:10px;
+  }
+
+  /* count units, repurposed as duration inputs */
+  .counter { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:520px; margin:0 auto; }
+  .unit {
+    background: linear-gradient(180deg, #0f1c38 0%, #0c1630 100%);
+    border:1px solid #2f4a74;
+    border-radius:10px;
+    padding:10px 6px 9px;
+    text-align:center;
+    position:relative;
+  }
+  .unit-input {
+    width:100%; background:transparent; border:none; outline:none;
+    font-family:'Chakra Petch','Segoe UI',monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight:700; font-size:32px; line-height:1; color:#f0c060;
+    text-shadow:0 0 14px rgba(240,192,96,0.30);
+    text-align:center; -moz-appearance:textfield;
+  }
+  .unit-input::-webkit-outer-spin-button, .unit-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+  .unit-input:focus { color:#fff; }
+  .unit-label { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#7a90b4; margin-top:7px; }
+
+  .calc-btn {
+    display:block; width:100%; max-width:520px; margin:16px auto 0;
+    background: linear-gradient(180deg, #f0c060, #c8901a);
+    border: 1px solid #8a5a10;
+    border-radius: 8px;
+    color: #1a1206;
+    font-family: 'Cinzel', 'Segoe UI', serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px;
+    cursor: pointer;
+    transition: filter 0.15s ease, transform 0.05s ease;
+  }
+  .calc-btn:hover { filter: brightness(1.08); }
+  .calc-btn:active { transform: translateY(1px); }
+
+  .hero-date { text-align:center; color:#aab; font-size:12.5px; margin: 18px 0 4px; letter-spacing:0.4px; display:none; }
+  .hero-date strong { color:#e8c878; font-weight:600; }
+  .hero-live-clock {
+    text-align:center; margin-top:4px; display:none;
+    font-family:'Chakra Petch',monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; color:#6fa0d0; letter-spacing:0.1em;
+  }
+  .hero-live-clock .tick { color:#7ecfff; }
+
+  /* ─────────────── SECTION HEADING ─────────────── */
+  .section-heading {
+    color: #f0c060;
+    font-family:'Cinzel','Segoe UI',serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    margin: 26px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2a3a5a;
+  }
+
+  /* ─────────────── TIMELINE (raid rows) ─────────────── */
+  .timeline { position:relative; padding-left: 8px; }
+  .tl-row {
+    position:relative;
+    display:flex; align-items:center; gap:12px;
+    padding:10px 12px;
+    margin-bottom:8px;
+    border-radius:10px;
+    background:#16213e;
+    border:1px solid #2a3a5a;
+    transition:border-color .15s, background .15s, transform .15s;
+  }
+  .tl-row:hover { border-color:#3a5a8a; transform:translateX(2px); }
+
+  .tl-icon {
+    width:46px; height:46px; flex-shrink:0; border-radius:9px;
+    border:1px solid #2f4a74; background:#0e1730;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+    font-size:20px;
+  }
+
+  .tl-body { flex:1; min-width:0; }
+  .tl-name { font-weight:600; color:#e8edf6; font-size:13.5px; }
+  .tl-name .abbr { color:#7ecfff; font-weight:600; font-size:11px; letter-spacing:0.08em; margin-left:6px; }
+  .tl-meta { font-size:11px; color:#7a90b4; margin-top:3px; display:flex; flex-wrap:wrap; gap:10px; }
+
+  .tl-right { text-align:right; flex-shrink:0; }
+  .tl-date { font-family:'Chakra Petch',monospace; font-size:12px; color:#cdd6e6; font-variant-numeric:tabular-nums; }
+  .tl-countdown {
+    font-family:'Chakra Petch',monospace; font-variant-numeric:tabular-nums;
+    font-size:11px; color:#7ecfff; margin-top:4px; letter-spacing:0.03em; white-space:nowrap;
+  }
+  .tl-status {
+    display:inline-block; margin-top:5px; font-size:9.5px; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase; padding:2px 8px; border-radius:999px;
+  }
+  .st-clear  { background:#0f2818; color:#6fcf6f; border:1px solid #1a5a2a; }
+  .st-locked { background:#2a0f10; color:#ff6f6f; border:1px solid #6a1a1a; }
+
+  .tl-row.is-clear  { border-color:#1a5a2a; background:linear-gradient(160deg,#16273a,#142a20); }
+  .tl-row.is-locked { border-color:#6a1a1a; background:linear-gradient(160deg,#28161a,#1a1030); }
+
+  /* ─────────────── NOTE BOX ─────────────── */
+  .note {
+    background:#131928; border-left:3px solid #3a5a8a; border-radius:0 6px 6px 0;
+    padding:12px 14px; font-size:12px; color:#8a93a6; margin-top:14px; line-height:1.6;
+  }
+  .note strong { color:#aab8cc; font-weight:600; }
+  .note code {
+    font-family:'Chakra Petch',monospace; background:#0c1428; border:1px solid #243049;
+    color:#7ecfff; padding:1px 6px; border-radius:4px; font-size:11px;
+  }
+
+  /* ─────────────── THEME TOGGLE ─────────────── */
+  .theme-toggle {
+    position: fixed; top: 12px; right: 16px; z-index: 1000;
+    display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none;
+  }
+  .toggle-track {
+    width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a;
+    border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0;
+  }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb {
+    position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
+    border-radius: 50%; background: #e8a020; transition: transform 0.25s;
+  }
+  body.light .toggle-thumb { transform: translateX(18px); }
+
+  /* ─────────────── FOOTER ─────────────── */
+  .kos-footer {
+    text-align:center; padding:22px 18px 26px; font-size:11px; color:#444;
+    border-top:1px solid #1e1e38; margin-top:28px; letter-spacing:1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .kos-footer a { color:#6090b0; text-decoration:none; }
+  .kos-footer a:hover { color:#7ecfff; }
+
+  /* ─────────────── LIGHT MODE ─────────────── */
+  body.light { background:#f0ebe0 !important; color:#2a1f0e !important;
+    background-image: radial-gradient(900px 480px at 50% -120px, rgba(200,160,96,0.22), transparent 70%) !important; }
+  body.light h1 { color:#7a4a08 !important; text-shadow:none !important; }
+  body.light .subtitle { color:#7a6040 !important; }
+  .back-wrap { text-align: center; margin: 12px 0 6px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s; }
+  .back-btn:hover { border-color: #e8a020; }
+  body.light .back-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #8a5a10 !important; }
+  body.light .back-btn:hover { border-color: #8a5a10 !important; }
+
+  body.light .hero { background:linear-gradient(160deg,#fbf4e4,#f1e7d0) !important; border-color:#c0a878 !important; box-shadow:0 8px 30px rgba(120,90,40,0.18) !important; animation:none !important; }
+  body.light .hero-eyebrow { color:#1a4a8a !important; }
+  body.light .clock-now { color:#8a6a40 !important; }
+  body.light .clock-now .tick { color:#1a6a8a !important; }
+  body.light .field-label { color:#9a7a50 !important; }
+  body.light .unit { background:#fdf8ec !important; border-color:#c8a878 !important; }
+  body.light .unit-input { color:#9a6a08 !important; text-shadow:none !important; }
+  body.light .unit-input:focus { color:#5a3406 !important; }
+  body.light .unit-label { color:#9a7a50 !important; }
+  body.light .calc-btn { background:linear-gradient(180deg,#e8a020,#b87810) !important; border-color:#8a5a10 !important; color:#2a1a04 !important; }
+  body.light .hero-date { color:#7a6040 !important; }
+  body.light .hero-date strong { color:#8a5a0a !important; }
+  body.light .hero-live-clock { color:#8a6a40 !important; }
+  body.light .hero-live-clock .tick { color:#1a6a8a !important; }
+
+  body.light .section-heading { color:#7a4a08 !important; border-bottom-color:#c0a878 !important; }
+  body.light .tl-row { background:#f4ecdc !important; border-color:#c8a878 !important; }
+  body.light .tl-row:hover { border-color:#a07840 !important; }
+  body.light .tl-icon { background:#fdf8ec !important; border-color:#c8a878 !important; }
+  body.light .tl-name { color:#2a1f0e !important; }
+  body.light .tl-meta { color:#7a6040 !important; }
+  body.light .tl-date { color:#3a2a10 !important; }
+  body.light .tl-countdown { color:#1a4a8a !important; }
+  body.light .tl-row.is-clear  { background:linear-gradient(160deg,#eef4e0,#e2f0d4) !important; border-color:#60b878 !important; }
+  body.light .tl-row.is-locked { background:linear-gradient(160deg,#f8e0e0,#f4d0d0) !important; border-color:#c86060 !important; }
+  body.light .st-clear  { background:#d0f0d8 !important; color:#1a6030 !important; border-color:#60b878 !important; }
+  body.light .st-locked { background:#f8d0d0 !important; color:#8a1a1a !important; border-color:#c86060 !important; }
+  body.light .note { background:#ede0cc !important; border-left-color:#c0a878 !important; color:#5a4a30 !important; }
+  body.light .note strong { color:#3a2a10 !important; }
+  body.light .note code { background:#fdf8ec !important; border-color:#c8a878 !important; color:#1a4a8a !important; }
+  body.light .kos-footer { color:#9a7a50 !important; border-top-color:#c8a870 !important; }
+  body.light .kos-footer a { color:#5a7aaa !important; }
+
+  /* ─────────────── RESPONSIVE ─────────────── */
+  @media (max-width: 560px) {
+    h1 { font-size: 20px; }
+    .counter { grid-template-columns: repeat(2,1fr); max-width:300px; }
+    .unit-input { font-size:28px; }
+    .tl-meta { gap:7px; font-size:10.5px; }
+    .tl-right { min-width:78px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle (matches the rest of the site) -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<h1>⏳ Raid Lockout Calculator</h1>
+<p class="subtitle">Key of Swords &nbsp;·&nbsp; Instance lockout timer</p>
+<div class="back-wrap"><a class="back-btn" href="resources.html">&#8592; Resources</a></div>
+
+<div class="wrap">
+
+  <div class="hero" id="hero">
+    <div class="hero-eyebrow"><span class="live-dot"></span>Time Remaining On Lockout</div>
+
+    <div class="clock-now" id="clockNow">—</div>
+
+    <div class="field-label">Enter Time Remaining</div>
+    <div class="counter">
+      <div class="unit"><input class="unit-input" type="number" id="days" min="0" value="0"><div class="unit-label">Days</div></div>
+      <div class="unit"><input class="unit-input" type="number" id="hours" min="0" value="0"><div class="unit-label">Hours</div></div>
+      <div class="unit"><input class="unit-input" type="number" id="minutes" min="0" value="0"><div class="unit-label">Minutes</div></div>
+      <div class="unit"><input class="unit-input" type="number" id="seconds" min="0" value="0"><div class="unit-label">Seconds</div></div>
+    </div>
+
+    <button class="calc-btn" id="calcBtn">Calculate Expiration</button>
+
+    <div class="hero-date" id="heroDate"></div>
+    <div class="hero-live-clock" id="heroCountdown"></div>
+  </div>
+
+  <h2 class="section-heading">⚔ Next Raid Times</h2>
+  <div class="timeline" id="raidTimeline"></div>
+
+  <div class="note">
+    <strong>Raid schedule:</strong> raids run <code>Tue</code>, <code>Thu</code>, and <code>Sat</code> at
+    <strong>7:00&nbsp;PM Mountain</strong> — every time on this page, including the raid rows above, is converted
+    to your browser's local time zone automatically.
+    <br><br>
+    A raid row shows <strong>Clear</strong> when your lockout expires before that raid starts, or
+    <strong>Locked</strong> if it's still active when the raid begins.
+  </div>
+
+</div>
+
+<div class="kos-footer">
+  Key of Swords &nbsp;&middot;&nbsp; Raid Lockout Calculator
+</div>
+
+<script>
+const MT_ZONE = 'America/Denver'; // guild raid schedule is fixed to Mountain time
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function localClockParts(date){
+  const timeFmt = new Intl.DateTimeFormat('en-US', { hour:'2-digit', minute:'2-digit', hour12:true });
+  const zone = new Intl.DateTimeFormat('en-US', { timeZoneName:'short' })
+    .formatToParts(date).find(p => p.type === 'timeZoneName').value;
+  return { time: timeFmt.format(date), zone };
+}
+
+function tickClock(){
+  const now = new Date();
+  const { time, zone } = localClockParts(now);
+  document.getElementById('clockNow').innerHTML =
+    'Now &nbsp;<span class="tick">' + time + '</span>&nbsp; ' + zone;
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+function fmtDateTime(date){
+  const dateFmt = new Intl.DateTimeFormat('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  const timeFmt = new Intl.DateTimeFormat('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true, timeZoneName:'short' });
+  return dateFmt.format(date) + ' at ' + timeFmt.format(date);
+}
+
+function pluralize(n, word){ return n + ' ' + word + (n === 1 ? '' : 's'); }
+
+/* Next occurrence of a Mountain-time weekday+hour, using a fixed-offset
+   trick so wall-clock date math stays correct regardless of viewer TZ. */
+function getNextRaidTimes(now){
+  const mtNowFake = new Date(now.toLocaleString('en-US', { timeZone: MT_ZONE }));
+  const offsetMs = now.getTime() - mtNowFake.getTime();
+
+  const raidDows = [2, 4, 6]; // Tue, Thu, Sat
+  return raidDows.map(dow => {
+    let daysAhead = (dow - mtNowFake.getDay() + 7) % 7;
+    const targetFake = new Date(mtNowFake);
+    targetFake.setDate(mtNowFake.getDate() + daysAhead);
+    targetFake.setHours(19, 0, 0, 0);
+    if (daysAhead === 0 && targetFake.getTime() <= mtNowFake.getTime()){
+      targetFake.setDate(targetFake.getDate() + 7);
+    }
+    return new Date(targetFake.getTime() + offsetMs);
+  });
+}
+
+function renderRaidTimeline(expires){
+  const now = new Date();
+  const raidDates = getNextRaidTimes(now);
+  const tl = document.getElementById('raidTimeline');
+  tl.innerHTML = '';
+
+  raidDates.forEach(date => {
+    const clear = expires ? expires <= date : false;
+    const dayFmt = new Intl.DateTimeFormat('en-US', { weekday:'long' }).format(date);
+    const dateFmt = new Intl.DateTimeFormat('en-US', { month:'short', day:'numeric' }).format(date);
+    const timeFmt = new Intl.DateTimeFormat('en-US', { hour:'numeric', minute:'2-digit', hour12:true }).format(date);
+
+    const untilMs = date - now;
+    const untilH = Math.max(0, Math.floor(untilMs / 3.6e6));
+    const untilM = Math.max(0, Math.floor((untilMs % 3.6e6) / 6e4));
+
+    const row = document.createElement('div');
+    row.className = 'tl-row ' + (clear ? 'is-clear' : 'is-locked');
+    row.innerHTML =
+      '<div class="tl-icon">⚔</div>' +
+      '<div class="tl-body">' +
+        '<div class="tl-name">' + dayFmt + ' Raid</div>' +
+        '<div class="tl-meta"><span>' + dateFmt + ', ' + timeFmt + '</span></div>' +
+      '</div>' +
+      '<div class="tl-right">' +
+        '<div class="tl-countdown">in ' + pluralize(untilH, 'hr') + ' ' + pluralize(untilM, 'min') + '</div>' +
+        '<span class="tl-status ' + (clear ? 'st-clear' : 'st-locked') + '">' + (clear ? 'Clear' : 'Locked') + '</span>' +
+      '</div>';
+    tl.appendChild(row);
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const days = parseInt(document.getElementById('days').value, 10) || 0;
+  const hours = parseInt(document.getElementById('hours').value, 10) || 0;
+  const minutes = parseInt(document.getElementById('minutes').value, 10) || 0;
+  const seconds = parseInt(document.getElementById('seconds').value, 10) || 0;
+
+  const totalMs = (((days * 24 + hours) * 60 + minutes) * 60 + seconds) * 1000;
+  const now = new Date();
+  const expires = new Date(now.getTime() + totalMs);
+
+  document.getElementById('heroDate').innerHTML = 'Lockout expires <strong>' + fmtDateTime(expires) + '</strong>';
+  document.getElementById('heroDate').style.display = 'block';
+
+  let parts = [];
+  if (days) parts.push(pluralize(days, 'day'));
+  if (hours) parts.push(pluralize(hours, 'hour'));
+  if (minutes) parts.push(pluralize(minutes, 'minute'));
+  if (seconds || parts.length === 0) parts.push(pluralize(seconds, 'second'));
+  document.getElementById('heroCountdown').innerHTML =
+    totalMs > 0 ? 'Locked for <span class="tick">' + parts.join(', ') + '</span> from now' : 'Lockout already expired';
+  document.getElementById('heroCountdown').style.display = 'block';
+
+  renderRaidTimeline(expires);
+});
+
+/* ── Theme toggle (matches site) ── */
+if (document.documentElement.classList.contains('light')){
+  document.documentElement.classList.remove('light');
+  document.body.classList.add('light');
+}
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+}
+
+/* ── Init: show raid timeline immediately even before a calculation ── */
+renderRaidTimeline(null);
+</script>
+
+</body>
+</html>

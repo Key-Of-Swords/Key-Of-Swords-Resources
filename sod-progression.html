@@ -229,7 +229,8 @@ const SECTIONS = [
   { id:'s11', icon:'🔮', label:'Korafax',               zone:'Korafax, Home of the Riders' },
   { id:'s12', icon:'🎭', label:'Bone Mask of the Ancient Iksar',  zone:'Field of Scale · Kaesora · Kurn\'s Stronghold · reward: Illusion Ancient Iksar (non-KOS to all Iksars in Field of Scale theme)' },
   { id:'s13', icon:'💀', label:"Baron Yosig's Skeleton",          zone:'Field of Scale · Kaesora · Kurn\'s Stronghold · reward: Illusion Iksar Skeleton · combines in Bone Wiring Tool (sold by Tynoc, Herald of Scale)' },
-  { id:'s14', icon:'⏳', label:'Timeshear',              zone:'All Seeds of Destruction zones · Hero\'s Journey Achievement' },
+  { id:'s14', icon:'🛡️', label:"Bayle's Heraldic Crest",           zone:'Oceangreen Hills · Oceangreen Village · Blackburrow · reward: Augment (32 AC, 75 HP/Mana/End, Heroic Charisma) · need Indifferent faction with Cirtan, Bayle\'s Herald to buy containers' },
+  { id:'s15', icon:'⏳', label:'Timeshear',              zone:'All Seeds of Destruction zones · Hero\'s Journey Achievement' },
 ];
 
 // link: confirmed Allakhazam quest ID  |  no link property = no link (unconfirmed)
@@ -420,41 +421,80 @@ const ITEMS = [
   {s:13,sub:'Final Combine — combine 5 Assemblies + 3 loose bones in Bone Wiring Tool',icon:'🧝',text:"Phara Dar: The Skull of the Ancient → Iksar Tail Bones",note:'Phara Dar — Field of Scale',link:4717},
   {s:13,sub:'Final Combine — combine 5 Assemblies + 3 loose bones in Bone Wiring Tool',icon:'🔐',text:"Combine all 8 items → Baron Yosig's Skeleton",note:"Buy 6x Bone Wiring Tool from Tynoc, Herald of Scale · reward: Illusion Iksar Skeleton (FACE slot, unlimited charges)",isKey:true},
 
+  // ── BAYLE'S HERALDIC CREST ──────────────────────────────────────────
+  // Need 5x Heraldic Crest Repair Kit (sub-combines) + 1x Empty Heraldic Crest Frame (final)
+  // Buy from Cirtan, Bayle's Herald — need Indifferent+ faction
+
+  // A — Heraldic Keep (combine in Heraldic Crest Repair Kit)
+  {s:14,sub:'A — Heraldic Keep (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Does This Look Infected? → Crest Keep Wall Frame',note:'Tabron Caulria — Oceangreen Hills · say "Plague" · prereq: none',link:4649},
+  {s:14,sub:'A — Heraldic Keep (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Salving Grace → Crest Keep Frame',note:'Tabron Caulria — Oceangreen Hills · say "Plague" · prereq: Does This Look Infected?'},
+  {s:14,sub:'A — Heraldic Keep (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Test the Waters → Crest Keep Tower Frame',link:4653,note:'Tabron Caulria — Hills Fort · say "Plague" · prereq: Does This Look Infected? & Salving Grace'},
+  {s:14,sub:'A — Heraldic Keep (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Plague from Above → Crest Keep Tower Plate',link:4660,note:'Archon Darianna Althus — Hills Fort · say "Willing to serve" · prereq: Test the Waters & No Cure for Death'},
+  {s:14,sub:'A — Heraldic Keep (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Thinning the Ranks → Crest Keep Plate',link:4654,note:'Archon Darianna Althus — Hills Fort · say "Other work" · prereq: Plague from Above'},
+  {s:14,sub:'A — Heraldic Keep (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Follow Your Nose → Crest Keep Wall Plate',link:4643,note:'Jeneca Orlofen — Hills Fort · say "Vengeance" · prereq: none'},
+
+  // B — Crest Right Field (combine in Heraldic Crest Repair Kit)
+  {s:14,sub:'B — Crest Right Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'No Cure for Death → Crest Upper Right Field Frame',note:'Sergeant Bronal Cadran — Oceangreen Hills · say "Useful" · prereq: Man the Defenses',link:4642},
+  {s:14,sub:'B — Crest Right Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Good Seeds → Crest Lower Right Field Frame',link:4655,note:'Yvette Miller — Oceangreen Village · say "Find some" · prereq: none'},
+  {s:14,sub:'B — Crest Right Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Man the Defenses → Crest Upper Right Field Plate',note:'Sergeant Bronal Cadran — Oceangreen Hills · say "Useful" · prereq: none',link:4638},
+  {s:14,sub:'B — Crest Right Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Arms of the Dead → Crest Lower Right Field Plate',link:4645,note:'Dan Hearthpride — Oceangreen Village · say "Bring" · prereq: none'},
+
+  // C — Crest Left Field (combine in Heraldic Crest Repair Kit)
+  {s:14,sub:'C — Crest Left Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Poach the Poachers → Crest Upper Left Field Frame',link:4755,note:'Kerrin the Unkempt — Hills Glade · say "Do this" · prereq: none'},
+  {s:14,sub:'C — Crest Left Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'The Deathless → Crest Upper Left Field Plate',note:'Seradi Stormcaller — Hills Fort · say "Do that" · prereq: Poach the Poachers, Stop the Spreading & Test the Waters'},
+  {s:14,sub:'C — Crest Left Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Reduce the Risk → Crest Lower Left Field Plate',link:4666,note:'Garvin Windrunner — Hills Fort · say "Test" · prereq: none'},
+  {s:14,sub:'C — Crest Left Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Names for the Faceless → Crest Lower Left Field Frame',link:4650,note:'Garvin Windrunner — Hills Fort · say "Work" · prereq: Reduce the Risk'},
+
+  // D — Crest Lower Field (combine in Heraldic Crest Repair Kit)
+  {s:14,sub:'D — Crest Lower Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Stop the Spreading → Crest Lower Field Frame',link:4646,note:'Kerrin the Unkempt — Hills Glade · say "Shears" · prereq: Cure the Crud'},
+  {s:14,sub:'D — Crest Lower Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Paint Supplies → Crest Lower Field Plate',link:4656,note:'Viktor Snowborn — Oceangreen Village · say "Can get" · prereq: none'},
+
+  // E — Crest Upper Field (combine in Heraldic Crest Repair Kit)
+  {s:14,sub:'E — Crest Upper Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'A Secret Hidden in Plain Sight → Crest Left Upper Field Frame',note:'Apothecary Cadmael — Oceangreen Village · say "Investigate" · prereq: none',link:4670},
+  {s:14,sub:'E — Crest Upper Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'What Evil Lurks in the Heart of Gnolls? → Crest Left Upper Field Plate',note:'Fripp Darkpaw — Hills Camp · say "Get supplies" · prereq: none',link:4648},
+  {s:14,sub:'E — Crest Upper Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Invading the Invaders → Crest Right Upper Field Frame',note:'Elder Mystic Foppye — Hills Camp · say "Help" · prereq: none',link:4668},
+  {s:14,sub:'E — Crest Upper Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Summary Execution → Crest Right Upper Field Plate',note:'Bracka Darkpaw — Hills Camp · say "Hunt" · prereq: none',link:4669},
+  {s:14,sub:'E — Crest Upper Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Send the Message → Crest Center Upper Field Frame',link:4647,note:'Fripp Darkpaw — Hills Camp · say "Message" · prereq: none'},
+  {s:14,sub:'E — Crest Upper Field (combine in Heraldic Crest Repair Kit)',icon:'🧝',text:'Run to Daylight → Crest Center Upper Field Plate',link:4680,note:'Guard Ellery — Blackburrow · say "Help" · prereq: none'},
+
+  // Final Combine
+  {s:14,sub:'Final Combine (in Empty Heraldic Crest Frame)',icon:'🔐',text:"Combine 5 sub-assemblies → Bayle's Heraldic Crest",note:'Combine all 5 Heraldic Crest Repair Kit results in the Empty Heraldic Crest Frame · buy both containers from Cirtan, Bayle\'s Herald · reward: Augment (32 AC, 75 HP/Mana/Endurance, Heroic Charisma)',isKey:true},
+
   // ── TIMESHEAR ───────────────────────────────────────────────────────
   // Black Square Fragment
-  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Kill the Shearspawn → Timeshear Black Fragment Azia',note:'Telivar Group #1 — Korafax',link:4810},
-  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Inside Information → Timeshear Black Fragment Beza',note:'Telivar Group #2 — Korafax',link:4811},
-  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Meeting Adjourned → Timeshear Black Fragment Caza',note:'Telivar Group #3 — Korafax',link:4812},
-  {s:14,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Stardouser → Timeshear Black Fragment Dena',note:'Telivar — Korafax',link:4802},
+  {s:15,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Kill the Shearspawn → Timeshear Black Fragment Azia',note:'Telivar Group #1 — Korafax',link:4810},
+  {s:15,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Inside Information → Timeshear Black Fragment Beza',note:'Telivar Group #2 — Korafax',link:4811},
+  {s:15,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Meeting Adjourned → Timeshear Black Fragment Caza',note:'Telivar Group #3 — Korafax',link:4812},
+  {s:15,sub:'Timeshear Black Square Fragment',icon:'🧝',text:'Stardouser → Timeshear Black Fragment Dena',note:'Telivar — Korafax',link:4802},
   // Blue Moon Fragment
-  {s:14,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Studying the Portal → Timeshear Blue Fragment Azia',note:'Yemall the Arcane — City of Dranik',link:4770},
-  {s:14,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Holding the Fort → Timeshear Blue Fragment Beza',note:'General Vurig the Imposing — Old Bloodfields',link:4771},
+  {s:15,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Studying the Portal → Timeshear Blue Fragment Azia',note:'Yemall the Arcane — City of Dranik',link:4770},
+  {s:15,sub:'Timeshear Blue Moon Fragment',icon:'🧝',text:'Holding the Fort → Timeshear Blue Fragment Beza',note:'General Vurig the Imposing — Old Bloodfields',link:4771},
   // Green Hexagonal Fragment
-  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Cruel Overseers → Timeshear Green Fragment Azia',note:'Toskirakk',link:4796},
-  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Spies, Lies, and Prison Cells → Timeshear Green Fragment Beza',note:'Toskirakk',link:4816},
-  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Hiding in Plain Sight → Timeshear Green Fragment Caza',note:'Toskirakk',link:4813},
-  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'The Crystal Bloom → Timeshear Green Fragment Dena',note:'Ulgin Darkhammer — Korascian Warrens',link:4678},
-  {s:14,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:"Murdunk's Last Stand → Timeshear Green Fragment Ena",note:'Ylatra the Vassal — Korascian Warrens',link:4701},
+  {s:15,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Cruel Overseers → Timeshear Green Fragment Azia',note:'Toskirakk',link:4796},
+  {s:15,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Spies, Lies, and Prison Cells → Timeshear Green Fragment Beza',note:'Toskirakk',link:4816},
+  {s:15,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'Hiding in Plain Sight → Timeshear Green Fragment Caza',note:'Toskirakk',link:4813},
+  {s:15,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:'The Crystal Bloom → Timeshear Green Fragment Dena',note:'Ulgin Darkhammer — Korascian Warrens',link:4678},
+  {s:15,sub:'Timeshear Green Hexagonal Fragment',icon:'🧝',text:"Murdunk's Last Stand → Timeshear Green Fragment Ena",note:'Ylatra the Vassal — Korascian Warrens',link:4701},
   // Orange Moon Fragment
-  {s:14,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Safe Passage → Timeshear Orange Fragment Azia',note:'Commander Barvian — Bloody Kithicor',link:4706},
-  {s:14,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Bitter Victuals → Timeshear Orange Fragment Beza',note:'Firiona Vie — Bloody Kithicor',link:4686},
+  {s:15,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Safe Passage → Timeshear Orange Fragment Azia',note:'Commander Barvian — Bloody Kithicor',link:4706},
+  {s:15,sub:'Timeshear Orange Moon Fragment',icon:'🧝',text:'Bitter Victuals → Timeshear Orange Fragment Beza',note:'Firiona Vie — Bloody Kithicor',link:4686},
   // Purple Octagonal Fragment
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'A Corrupted Arch Priest → Timeshear Purple Fragment Azia',note:'Apothecary Cadmael — Oceangreen Village',link:4725},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Remove the Head and the Disease Will Die → Timeshear Purple Fragment Beza',note:'Apothecary Cadmael — Oceangreen Village',link:4814},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'The Bubonians Are Coming! → Timeshear Purple Fragment Caza',note:'Jerom Bertrand — Oceangreen Hills',link:4641},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Freedom! → Timeshear Purple Fragment Dena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4682},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Beat the Blackburrow Boss → Timeshear Purple Fragment Ena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4683},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Disrupting the Ritual → Timeshear Purple Fragment Fana',note:'Old Blackburrow',link:4664},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Familiarity is the Key → Timeshear Purple Fragment Geza',note:'Captain Hiran Tillin — Oceangreen Hills',link:4661},
-  {s:14,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Stop the Contamination → Timeshear Purple Fragment Heda',note:'Captain Hiran Tillin — Oceangreen Hills',link:4662},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'A Corrupted Arch Priest → Timeshear Purple Fragment Azia',note:'Apothecary Cadmael — Oceangreen Village',link:4725},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Remove the Head and the Disease Will Die → Timeshear Purple Fragment Beza',note:'Apothecary Cadmael — Oceangreen Village',link:4814},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'The Bubonians Are Coming! → Timeshear Purple Fragment Caza',note:'Jerom Bertrand — Oceangreen Hills',link:4641},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Freedom! → Timeshear Purple Fragment Dena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4682},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Beat the Blackburrow Boss → Timeshear Purple Fragment Ena',note:'Raxtor Darkpaw — Oceangreen Hills',link:4683},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Disrupting the Ritual → Timeshear Purple Fragment Fana',note:'Old Blackburrow',link:4664},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Familiarity is the Key → Timeshear Purple Fragment Geza',note:'Captain Hiran Tillin — Oceangreen Hills',link:4661},
+  {s:15,sub:'Timeshear Purple Octagonal Fragment',icon:'🧝',text:'Stop the Contamination → Timeshear Purple Fragment Heda',note:'Captain Hiran Tillin — Oceangreen Hills',link:4662},
   // Red Hexagonal Fragment
-  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Price of Knowledge → Timeshear Red Fragment Azia',note:"Jaled'Dar — Field of Scale",link:4722},
-  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Brood of an Emperor → Timeshear Red Fragment Beza',note:"Jaled'Dar — Field of Scale",link:4721},
-  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'An Impenetrable Shield → Timeshear Red Fragment Caza',note:"Jaled'Dar — Field of Scale",link:4724},
-  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Audience with the Warmaster → Timeshear Red Fragment Dena',note:"Jaled'Dar — Field of Scale",link:4720},
-  {s:14,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Defeat the Dragonbane Phalanx → Timeshear Red Fragment Ena',note:"Jaled'Dar — Field of Scale",link:4723},
+  {s:15,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Price of Knowledge → Timeshear Red Fragment Azia',note:"Jaled'Dar — Field of Scale",link:4722},
+  {s:15,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'The Brood of an Emperor → Timeshear Red Fragment Beza',note:"Jaled'Dar — Field of Scale",link:4721},
+  {s:15,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'An Impenetrable Shield → Timeshear Red Fragment Caza',note:"Jaled'Dar — Field of Scale",link:4724},
+  {s:15,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Audience with the Warmaster → Timeshear Red Fragment Dena',note:"Jaled'Dar — Field of Scale",link:4720},
+  {s:15,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Defeat the Dragonbane Phalanx → Timeshear Red Fragment Ena',note:"Jaled'Dar — Field of Scale",link:4723},
   // Final combine
-  {s:14,sub:'Final Combine',icon:'🔐',text:'Combine all 6 Fragments in a Timeshear Coalescing Device → Timeshear',note:'Buy Timeshear Fragment Coalescing Device (sub-combines) and Timeshear Coalescing Device (final combine) from any Herald in any SoD zone · ~113pp each · consumed per combine',isKey:true},
+  {s:15,sub:'Final Combine',icon:'🔐',text:'Combine all 6 Fragments in a Timeshear Coalescing Device → Timeshear',note:'Buy Timeshear Fragment Coalescing Device (sub-combines) and Timeshear Coalescing Device (final combine) from any Herald in any SoD zone · ~113pp each · consumed per combine',isKey:true},
 ];
 
 const DIVIDERS = {
@@ -462,7 +502,8 @@ const DIVIDERS = {
   6: { label:'👥 Group Progression', color:'#4a90c8' },
   12: { label:'🎭 Bone Mask of the Ancient Iksar', color:'#c8784a' },
   13: { label:"💀 Baron Yosig's Skeleton", color:'#8aaa6a' },
-  14: { label:'⏳ Timeshear', color:'#9a6acc' },
+  14: { label:"🛡️ Bayle's Heraldic Crest", color:'#cc2222' },
+  15: { label:'⏳ Timeshear', color:'#9a6acc' },
 };
 
 ITEMS.forEach((it,i)=>{ it.idx=i; });

@@ -231,6 +231,7 @@ const SECTIONS = [
   { id:'s13', icon:'💀', label:"Baron Yosig's Skeleton",          zone:'Field of Scale · Kaesora · Kurn\'s Stronghold · reward: Illusion Iksar Skeleton · combines in Bone Wiring Tool (sold by Tynoc, Herald of Scale)' },
   { id:'s14', icon:'🛡️', label:"Bayle's Heraldic Crest",           zone:'Oceangreen Hills · Oceangreen Village · Blackburrow · reward: Augment (32 AC, 75 HP/Mana/End, Heroic Charisma) · need Indifferent faction with Cirtan, Bayle\'s Herald to buy containers' },
   { id:'s15', icon:'⏳', label:'Timeshear',              zone:'All Seeds of Destruction zones · Hero\'s Journey Achievement' },
+  { id:'s16', icon:'💎', label:'Dark Soul Crystal',       zone:'Tower of Discord · Korafax · reward: Augment · buy Discordant Crystal Repair Kit from Herald Argoth (requires Amiable)' },
 ];
 
 // link: confirmed Allakhazam quest ID  |  no link property = no link (unconfirmed)
@@ -495,6 +496,52 @@ const ITEMS = [
   {s:15,sub:'Timeshear Red Hexagonal Fragment',icon:'🧝',text:'Defeat the Dragonbane Phalanx → Timeshear Red Fragment Ena',note:"Jaled'Dar — Field of Scale",link:4723},
   // Final combine
   {s:15,sub:'Final Combine',icon:'🔐',text:'Combine all 6 Fragments in a Timeshear Coalescing Device → Timeshear',note:'Buy Timeshear Fragment Coalescing Device (sub-combines) and Timeshear Coalescing Device (final combine) from any Herald in any SoD zone · ~113pp each · consumed per combine',isKey:true},
+
+  // ── DARK SOUL CRYSTAL ───────────────────────────────────────────────
+  // Buy Discordant Crystal Repair Kit from Herald Argoth (requires Amiable faction)
+
+  // Babel Crystal
+  {s:16,sub:'Babel Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'The Kyv are Coming → Babel Crystal Ort',note:'Tower of Discord',link:4746},
+  {s:16,sub:'Babel Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Impairing the Ikaav → Babel Crystal Fragment',note:'Tower of Discord',link:4747},
+  {s:16,sub:'Babel Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Undoing the Ukun → Babel Crystal Shard',note:'Tower of Discord',link:4748},
+  {s:16,sub:'Babel Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Lost Memories → Babel Crystal Chip',note:'Tower of Discord',link:4745},
+  {s:16,sub:'Babel Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine 4 → Babel Crystal',note:'In Discordant Crystal Repair Kit',isKey:true},
+
+  // Entropy Crystal
+  {s:16,sub:'Entropy Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Deliver the Message → Entropy Crystal Ort',note:'Tower of Discord',link:4743},
+  {s:16,sub:'Entropy Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'The Ultimate Weapon → Entropy Crystal Fragment',note:'Tower of Discord',link:4789},
+  {s:16,sub:'Entropy Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Supply Interruption → Entropy Crystal Shard',note:'Tower of Discord',link:4744},
+  {s:16,sub:'Entropy Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Knockdown the Noc → Entropy Crystal Chip',note:'Tower of Discord',link:4749},
+  {s:16,sub:'Entropy Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine 4 → Entropy Crystal',note:'In Discordant Crystal Repair Kit',isKey:true},
+
+  // Turmoil Crystal
+  {s:16,sub:'Turmoil Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Lifting the Fog → Turmoil Crystal Ort',note:'Tower of Discord',link:4820},
+  {s:16,sub:'Turmoil Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Blunting the Spears → Turmoil Crystal Fragment',note:'Tower of Discord',link:4821},
+  {s:16,sub:'Turmoil Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Vile Weaponry → Turmoil Crystal Shard',note:'Tower of Discord',link:4793},
+  {s:16,sub:'Turmoil Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Acolytes of Despair → Turmoil Crystal Chip',note:'Tower of Discord',link:4822},
+  {s:16,sub:'Turmoil Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine 4 → Turmoil Crystal',note:'In Discordant Crystal Repair Kit',isKey:true},
+
+  // Chaos Crystal
+  {s:16,sub:'Chaos Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'The Missing Chalice → Chaos Crystal Ort',note:'Tower of Discord',link:4742},
+  {s:16,sub:'Chaos Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'The Rescuers → Chaos Crystal Fragment',note:'Tower of Discord',link:4823},
+  {s:16,sub:'Chaos Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Favors of the Hopelost → Chaos Crystal Shard',note:'Tower of Discord',link:4819},
+  {s:16,sub:'Chaos Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🧝',text:'A Limit to Despair → Chaos Crystal Chip',note:'Tower of Discord',link:4824},
+  {s:16,sub:'Chaos Crystal (combine 4 in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine 4 → Chaos Crystal',note:'In Discordant Crystal Repair Kit',isKey:true},
+
+  // Anarchy Crystal
+  {s:16,sub:'Anarchy Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Disheveled Human #1: Kill the Mindshear Attendants → Anarchy Crystal Section',note:'Korafax, Home of the Riders',link:4803},
+  {s:16,sub:'Anarchy Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Disheveled Human #2: Kill the Corporifers → Anarchy Crystal Segment',note:'Korafax, Home of the Riders',link:4804},
+  {s:16,sub:'Anarchy Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Disheveled Human #3: Free My Mind → Anarchy Crystal Slice',note:'Korafax, Home of the Riders',link:4805},
+  {s:16,sub:'Anarchy Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine 3 → Anarchy Crystal',note:'In Discordant Crystal Repair Kit',isKey:true},
+
+  // Bedlam Crystal
+  {s:16,sub:'Bedlam Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Disheveled Human #4: Find Telivar → Bedlam Crystal Section',note:'Korafax, Home of the Riders',link:4806},
+  {s:16,sub:'Bedlam Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Telivar Solo #1: You Pay the Price → Bedlam Crystal Segment',note:'Korafax, Home of the Riders',link:4808},
+  {s:16,sub:'Bedlam Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🧝',text:'Telivar Solo #2: Assist the Riftseekers → Bedlam Crystal Slice',note:'Korafax, Home of the Riders',link:4809},
+  {s:16,sub:'Bedlam Crystal (combine 3 in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine 3 → Bedlam Crystal',note:'In Discordant Crystal Repair Kit',isKey:true},
+
+  // Final Combine
+  {s:16,sub:'Final Combine (in Discordant Crystal Repair Kit)',icon:'🔐',text:'Combine all 6 Crystals → Dark Soul Crystal',note:'Babel + Entropy + Turmoil + Chaos + Anarchy + Bedlam · combine in Discordant Crystal Repair Kit · reward: Dark Soul Crystal augment',isKey:true},
 ];
 
 const DIVIDERS = {
@@ -504,6 +551,7 @@ const DIVIDERS = {
   13: { label:"💀 Baron Yosig's Skeleton", color:'#8aaa6a' },
   14: { label:"🛡️ Bayle's Heraldic Crest", color:'#cc2222' },
   15: { label:'⏳ Timeshear', color:'#9a6acc' },
+  16: { label:'💎 Dark Soul Crystal', color:'#4a8aaa' },
 };
 
 ITEMS.forEach((it,i)=>{ it.idx=i; });

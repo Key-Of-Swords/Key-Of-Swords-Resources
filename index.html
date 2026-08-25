@@ -292,6 +292,27 @@ body.light .badge-future {
   background: #e0d8c8; color: #9a8a70; border-color: #c0b090;
 }
 
+.badge-archive {
+  display: inline-block; font-family: 'Cinzel', serif;
+  font-size: 9px; padding: 2px 9px; border-radius: 2px;
+  font-weight: 700; letter-spacing: 1px;
+  background: #1a1810; color: #7a6a40; border: 1px solid #3a3020;
+}
+body.light .badge-archive {
+  background: #e8e0c8; color: #6a5a30; border-color: #a09060;
+}
+
+.archive-label {
+  padding: 28px 40px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  color: #3a3020;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+}
+body.light .archive-label { color: #7a6030; }
+
 .badge-tools {
   display: inline-block; font-family: 'Cinzel', serif;
   font-size: 9px; padding: 2px 9px; border-radius: 2px;
@@ -343,26 +364,18 @@ body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
   <a class="card" href="resources.html">
     <div class="card-icon" style="background:#060d1e; border-color:#1a3060;">
       <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <!-- Open tome / spellbook -->
-        <!-- Book spine -->
         <rect x="20" y="7" width="3" height="30" rx="1" fill="#2a4a8a"/>
-        <!-- Left page -->
         <path d="M20 9 Q10 10 8 12 L8 35 Q10 33 20 33 Z" fill="#1a3060" stroke="#2a4a8a" stroke-width="0.75"/>
-        <!-- Right page -->
         <path d="M23 9 Q33 10 35 12 L35 35 Q33 33 23 33 Z" fill="#1a3060" stroke="#2a4a8a" stroke-width="0.75"/>
-        <!-- Left page lines -->
         <line x1="10.5" y1="15" x2="18.5" y2="14.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.8"/>
         <line x1="10.5" y1="18.5" x2="18.5" y2="18" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
         <line x1="10.5" y1="22" x2="18.5" y2="21.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
         <line x1="10.5" y1="25.5" x2="18.5" y2="25" stroke="#3a6aaa" stroke-width="0.75" opacity="0.4"/>
-        <!-- Right page lines -->
         <line x1="24.5" y1="14.5" x2="33" y2="15" stroke="#3a6aaa" stroke-width="0.75" opacity="0.8"/>
         <line x1="24.5" y1="18" x2="33" y2="18.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
         <line x1="24.5" y1="21.5" x2="33" y2="22" stroke="#3a6aaa" stroke-width="0.75" opacity="0.6"/>
         <line x1="24.5" y1="25" x2="33" y2="25.5" stroke="#3a6aaa" stroke-width="0.75" opacity="0.4"/>
-        <!-- Glowing rune on right page -->
         <text x="29" y="30" text-anchor="middle" font-size="7" font-weight="700" fill="#5ba4f5" opacity="0.9" font-family="serif">✦</text>
-        <!-- Clasp / bookmark ribbon -->
         <rect x="20.5" y="5" width="2" height="6" rx="1" fill="#c8901c"/>
       </svg>
     </div>
@@ -373,42 +386,10 @@ body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
     <span class="card-arrow">&#8594;</span>
   </a>
 
-  <!-- SECRETS OF FAYDWER -->
-  <a class="card" href="sof.html">
-    <div class="card-icon" style="background:#0e0818; border-color:#3a1860;">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <!-- Mechanotus gear/clockwork orb feel — arcane crystal -->
-        <!-- Outer glow ring -->
-        <circle cx="22" cy="22" r="16" fill="none" stroke="#4a2a80" stroke-width="0.75" stroke-dasharray="3,3"/>
-        <!-- Crystal facets -->
-        <polygon points="22,5 30,16 22,20 14,16" fill="#3c2870" stroke="#6a4ab0" stroke-width="0.75"/>
-        <polygon points="22,20 30,16 32,28 22,32" fill="#2e1e58" stroke="#6a4ab0" stroke-width="0.75"/>
-        <polygon points="22,20 14,16 12,28 22,32" fill="#261848" stroke="#6a4ab0" stroke-width="0.75"/>
-        <polygon points="22,32 12,28 22,38 32,28" fill="#1e1040" stroke="#6a4ab0" stroke-width="0.75"/>
-        <!-- Inner light -->
-        <polygon points="22,10 27,18 22,22 17,18" fill="#7050c0" opacity="0.6"/>
-        <!-- Core gem -->
-        <circle cx="22" cy="20" r="3.5" fill="#b07af5"/>
-        <circle cx="22" cy="20" r="2" fill="#e8a020"/>
-        <circle cx="21" cy="19" r="0.8" fill="white" opacity="0.7"/>
-        <!-- Arcane sparks -->
-        <circle cx="12" cy="12" r="1" fill="#b07af5" opacity="0.5"/>
-        <circle cx="32" cy="10" r="0.75" fill="#e8a020" opacity="0.4"/>
-        <circle cx="34" cy="30" r="1" fill="#b07af5" opacity="0.4"/>
-      </svg>
-    </div>
-    <div class="card-title">Secrets of Faydwer</div>
-    <div class="card-sub">Level cap 80</div>
-    <div><span class="badge-active">ACTIVE</span></div>
-    <div class="card-count">4 tools available</div>
-    <span class="card-arrow">&#8594;</span>
-  </a>
-
-  <!-- SEEDS OF DESTRUCTION — future -->
+  <!-- SEEDS OF DESTRUCTION — active -->
   <a class="card" href="sod.html">
-    <div class="card-icon" style="background:#0e0e1c; border-color:#222230;">
+    <div class="card-icon" style="background:#0e0e1c; border-color:#3a1870;">
       <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <!-- Hourglass / time rift icon -->
         <polygon points="12,8 32,8 26,22 32,36 12,36 18,22" fill="#1a0d2b" stroke="#9060e0" stroke-width="1"/>
         <line x1="12" y1="8" x2="32" y2="8" stroke="#b080f0" stroke-width="1.5"/>
         <line x1="12" y1="36" x2="32" y2="36" stroke="#b080f0" stroke-width="1.5"/>
@@ -418,7 +399,7 @@ body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
     </div>
     <div class="card-title">Seeds of Destruction</div>
     <div class="card-sub">Level cap 85</div>
-    <div><span class="badge-future">FUTURE</span></div>
+    <div><span class="badge-active">ACTIVE</span></div>
     <div class="card-count">4 tools available</div>
     <span class="card-arrow">&#8594;</span>
   </a>
@@ -427,7 +408,6 @@ body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
   <div class="card future-card">
     <div class="card-icon" style="background:#0e0e1c; border-color:#222230;">
       <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <!-- Stone/rune circle -->
         <circle cx="22" cy="22" r="14" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1"/>
         <circle cx="22" cy="22" r="9" fill="none" stroke="#252535" stroke-width="1" stroke-dasharray="2,3"/>
         <line x1="22" y1="10" x2="22" y2="34" stroke="#252535" stroke-width="0.75"/>
@@ -440,6 +420,55 @@ body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
     <div><span class="badge-future">FUTURE</span></div>
     <span class="card-arrow">&#8594;</span>
   </div>
+
+  <!-- HOUSE OF THULE — future -->
+  <div class="card future-card">
+    <div class="card-icon" style="background:#0e0e1c; border-color:#222230;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <circle cx="22" cy="22" r="14" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1"/>
+        <circle cx="22" cy="22" r="9" fill="none" stroke="#252535" stroke-width="1" stroke-dasharray="2,3"/>
+        <line x1="22" y1="10" x2="22" y2="34" stroke="#252535" stroke-width="0.75"/>
+        <line x1="10" y1="22" x2="34" y2="22" stroke="#252535" stroke-width="0.75"/>
+        <circle cx="22" cy="22" r="2" fill="#252535"/>
+      </svg>
+    </div>
+    <div class="card-title">House of Thule</div>
+    <div class="card-sub">Level cap 90</div>
+    <div><span class="badge-future">FUTURE</span></div>
+    <span class="card-arrow">&#8594;</span>
+  </div>
+
+</div>
+
+<!-- ARCHIVED EXPANSIONS -->
+<div class="archive-label">Archived Expansions</div>
+
+<div class="card-grid">
+
+  <!-- SECRETS OF FAYDWER — archived -->
+  <a class="card" href="sof.html" style="opacity:0.6;">
+    <div class="card-icon" style="background:#0e0818; border-color:#3a1860;">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <circle cx="22" cy="22" r="16" fill="none" stroke="#4a2a80" stroke-width="0.75" stroke-dasharray="3,3"/>
+        <polygon points="22,5 30,16 22,20 14,16" fill="#3c2870" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,20 30,16 32,28 22,32" fill="#2e1e58" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,20 14,16 12,28 22,32" fill="#261848" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,32 12,28 22,38 32,28" fill="#1e1040" stroke="#6a4ab0" stroke-width="0.75"/>
+        <polygon points="22,10 27,18 22,22 17,18" fill="#7050c0" opacity="0.6"/>
+        <circle cx="22" cy="20" r="3.5" fill="#b07af5"/>
+        <circle cx="22" cy="20" r="2" fill="#e8a020"/>
+        <circle cx="21" cy="19" r="0.8" fill="white" opacity="0.7"/>
+        <circle cx="12" cy="12" r="1" fill="#b07af5" opacity="0.5"/>
+        <circle cx="32" cy="10" r="0.75" fill="#e8a020" opacity="0.4"/>
+        <circle cx="34" cy="30" r="1" fill="#b07af5" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="card-title">Secrets of Faydwer</div>
+    <div class="card-sub">Level cap 80</div>
+    <div><span class="badge-archive">ARCHIVED</span></div>
+    <div class="card-count">4 tools available</div>
+    <span class="card-arrow">&#8594;</span>
+  </a>
 
 </div>
 

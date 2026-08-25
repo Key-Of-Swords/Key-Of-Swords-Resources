@@ -282,6 +282,16 @@ body.light .badge-active {
   background: #d0f0d8; color: #1a6030; border-color: #60b878;
 }
 
+.badge-wip {
+  display: inline-block; font-family: 'Cinzel', serif;
+  font-size: 9px; padding: 2px 9px; border-radius: 2px;
+  font-weight: 700; letter-spacing: 1px;
+  background: #2b2000; color: #e8c040; border: 1px solid #5a4000;
+}
+body.light .badge-wip {
+  background: #f8ecc0; color: #7a5000; border-color: #c09020;
+}
+
 .badge-future {
   display: inline-block; font-family: 'Cinzel', serif;
   font-size: 9px; padding: 2px 9px; border-radius: 2px;
@@ -404,22 +414,24 @@ body.light .footer { color: #9a7a50; border-top-color: #c8a870; }
     <span class="card-arrow">&#8594;</span>
   </a>
 
-  <!-- UNDERFOOT — future -->
-  <div class="card future-card">
-    <div class="card-icon" style="background:#0e0e1c; border-color:#222230;">
+  <!-- UNDERFOOT — active -->
+  <a class="card" href="uf.html">
+    <div class="card-icon" style="background:#0d1a0d; border-color:#3a6a28;">
       <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <circle cx="22" cy="22" r="14" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1"/>
-        <circle cx="22" cy="22" r="9" fill="none" stroke="#252535" stroke-width="1" stroke-dasharray="2,3"/>
-        <line x1="22" y1="10" x2="22" y2="34" stroke="#252535" stroke-width="0.75"/>
-        <line x1="10" y1="22" x2="34" y2="22" stroke="#252535" stroke-width="0.75"/>
-        <circle cx="22" cy="22" r="2" fill="#252535"/>
+        <circle cx="22" cy="22" r="14" fill="#0d1a0d" stroke="#5a8a40" stroke-width="1"/>
+        <circle cx="22" cy="22" r="9" fill="none" stroke="#3a6a28" stroke-width="1" stroke-dasharray="2,3"/>
+        <line x1="22" y1="10" x2="22" y2="34" stroke="#5a8a40" stroke-width="0.75"/>
+        <line x1="10" y1="22" x2="34" y2="22" stroke="#5a8a40" stroke-width="0.75"/>
+        <circle cx="22" cy="22" r="3" fill="#5a8a40"/>
+        <circle cx="22" cy="22" r="1.2" fill="#e8a020"/>
       </svg>
     </div>
     <div class="card-title">Underfoot</div>
     <div class="card-sub">Level cap 85</div>
-    <div><span class="badge-future">FUTURE</span></div>
+    <div><span class="badge-wip">WORK IN PROGRESS</span></div>
+    <div class="card-count">1 tool available</div>
     <span class="card-arrow">&#8594;</span>
-  </div>
+  </a>
 
   <!-- HOUSE OF THULE — future -->
   <div class="card future-card">

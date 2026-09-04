@@ -225,10 +225,10 @@ const GROUP_START_SECT = 4;
 const ALLA = 'https://everquest.allakhazam.com/db/quest.html?quest=';
 
 const SECTIONS = [
-  { id:'s0',  icon:'🐺', label:'Raid Tier 6a: Open Raids',            zone:"Brell's Rest · The Cooling Chamber · Pellucid Grotto · no zone-in flag required" },
-  { id:'s1',  icon:'🪙', label:'Raid Tier 6b: Coin of Brell Raids',   zone:'The Foundation · The Underquarry · Arthicrex' },
-  { id:'s2',  icon:'🔥', label:'Raid Tier 7: Emblem of Brell Raids',  zone:"Lichen Creep · Fungal Forest · Brell's Temple" },
-  { id:'s3',  icon:'🏛️', label:'Raid Tier 8: The Convorteum',         zone:'Convorteum · 7 sequential events in one instance' },
+  { id:'s0',  icon:'🐺', label:'Raid Tier 6: Open Raids',            zone:"Brell's Rest · The Cooling Chamber · Pellucid Grotto · no zone-in flag required" },
+  { id:'s1',  icon:'🪙', label:'Raid Tier 7: Coin of Brell Raids',   zone:'The Foundation · The Underquarry · Arthicrex' },
+  { id:'s2',  icon:'🔥', label:'Raid Tier 8: Emblem of Brell Raids',  zone:"Lichen Creep · Fungal Forest · Brell's Temple" },
+  { id:'s3',  icon:'🏛️', label:'Raid Tier 9: The Convorteum',         zone:'Convorteum · 7 sequential events in one instance' },
   { id:'s4',  icon:'🐺', label:"Tier 6: Brell's Rest",                zone:"Brell's Rest" },
   { id:'s5',  icon:'❄️', label:'Tier 6: The Cooling Chamber',         zone:'The Cooling Chamber' },
   { id:'s6',  icon:'💎', label:'Tier 6: Pellucid Grotto',             zone:'Pellucid Grotto' },
@@ -246,38 +246,38 @@ const SECTIONS = [
 // link: confirmed Allakhazam quest ID  |  no link property = no link (unconfirmed)
 const ITEMS = [
 
-  // ── RAID TIER 6a: OPEN RAIDS ────────────────────────────────────────
+  // ── RAID TIER 6: OPEN RAIDS ────────────────────────────────────────
   {s:0,sub:"Brell's Rest — Fippy's Revenge",icon:'👥',text:"Don't Fear the Destroyer (group mission)",note:"Algera Chindlebolt — Brell's Rest · required to request the raid",link:4919},
   {s:0,sub:"Brell's Rest — Fippy's Revenge",icon:'⚔️',text:"Fippy's Revenge - RAID",note:"Algera Chindlebolt — Brell's Rest · request: \"face him\" · enter: \"way\" · no zone-in flag · drops 9 Coin of Brell",link:4940,isRaid:true},
   {s:0,sub:'The Cooling Chamber — The Beast Below',icon:'👥',text:'Tasnise Underbelly (group mission)',note:'Rodrick Cleanheart — The Cooling Chamber · required to request the raid',link:4926},
   {s:0,sub:'The Cooling Chamber — The Beast Below',icon:'⚔️',text:'The Beast Below - RAID',note:'Rodrick Cleanheart — The Cooling Chamber · request: "plot" · enter: "ready" · no zone-in flag · drops 9 Coin of Brell',link:4957,isRaid:true},
   {s:0,sub:'Pellucid Grotto — The Unburrowing',icon:'👥',text:'Seeding Frenzy (group mission)',note:'Tronten the Subnexus — Pellucid Grotto · required to request the raid',link:4930},
   {s:0,sub:'Pellucid Grotto — The Unburrowing',icon:'⚔️',text:'The Unburrowing - RAID',note:'Kronk Kollus — Pellucid Grotto · request: "will try" · enter: "prepared" · no zone-in flag · drops 9 Coin of Brell',link:4977,isRaid:true},
-  {s:0,sub:'Flag for Tier 6b',icon:'🔐',text:'Coin of Brell — looted and clicked',isKey:true,note:'Every raider needs this flag to zone into the Tier 6b raids · 9 drop per Tier 6a event'},
+  {s:0,sub:'Flag for Tier 7',icon:'🔐',text:'Coin of Brell — looted and clicked',isKey:true,note:'Every raider needs this flag to zone into the Tier 7 raids · 9 drop per Tier 6 event'},
 
-  // ── RAID TIER 6b: COIN OF BRELL RAIDS ───────────────────────────────
+  // ── RAID TIER 7: COIN OF BRELL RAIDS ───────────────────────────────
   {s:1,sub:'The Foundation — Masked Invaders',icon:'👥',text:'The Search for Saunk (group mission)',note:'Darott — The Foundation · required to request the raid',link:4956},
-  {s:1,sub:'The Foundation — Masked Invaders',icon:'⚔️',text:'Masked Invaders - RAID',note:'Greph — The Foundation · request: "face" · enter: "ready" · requires all 3 Tier 6a raids · Coin of Brell flag to zone in · drops 6 Emblem of Brell',link:5031,isRaid:true},
+  {s:1,sub:'The Foundation — Masked Invaders',icon:'⚔️',text:'Masked Invaders - RAID',note:'Greph — The Foundation · request: "face" · enter: "ready" · requires all 3 Tier 6 raids · Coin of Brell flag to zone in · drops 6 Emblem of Brell',link:5031,isRaid:true},
   {s:1,sub:'The Underquarry — The Wrath of Brath',icon:'👥',text:'Scent of a Woman (group mission)',note:'Tenkar Everhot — The Underquarry · required to request the raid',link:4945},
-  {s:1,sub:'The Underquarry — The Wrath of Brath',icon:'⚔️',text:'The Wrath of Brath - RAID',note:'Tenkar Everhot — The Underquarry · request: "mobilize" · enter: "report" · requires all 3 Tier 6a raids · Coin of Brell flag to zone in · drops 6 Emblem of Brell',link:5030,isRaid:true},
+  {s:1,sub:'The Underquarry — The Wrath of Brath',icon:'⚔️',text:'The Wrath of Brath - RAID',note:'Tenkar Everhot — The Underquarry · request: "mobilize" · enter: "report" · requires all 3 Tier 6 raids · Coin of Brell flag to zone in · drops 6 Emblem of Brell',link:5030,isRaid:true},
   {s:1,sub:'Arthicrex — Cliknar Hive Guardians & The Cliknar Queen',icon:'👥',text:'To Serve Sporali (group mission)',note:'Grogald Elderhammer — Arthicrex · required to request the raids',link:4971},
   {s:1,sub:'Arthicrex — Cliknar Hive Guardians & The Cliknar Queen',icon:'⚔️',text:'Cliknar Hive Guardians - RAID',note:'Grogald Elderhammer — Arthicrex · request: "dealt with" · enter: "ready to go" · first event in the instance · drops 6 Emblem of Brell',link:5034,isRaid:true},
   {s:1,sub:'Arthicrex — Cliknar Hive Guardians & The Cliknar Queen',icon:'⚔️',text:'The Cliknar Queen - RAID',note:'Grogald Elderhammer — Arthicrex · second event — Cliknar Hive Guardians must be defeated or on lockout · drops 9 Emblem of Brell',link:5035,isRaid:true},
-  {s:1,sub:'Flag for Tier 7',icon:'🔐',text:'Emblem of Brell — looted and clicked',isKey:true,note:'Every raider needs this flag to zone into the Tier 7 raids · 6 drop per event (9 off the Queen)'},
+  {s:1,sub:'Flag for Tier 8',icon:'🔐',text:'Emblem of Brell — looted and clicked',isKey:true,note:'Every raider needs this flag to zone into the Tier 8 raids · 6 drop per event (9 off the Queen)'},
 
-  // ── RAID TIER 7: EMBLEM OF BRELL RAIDS ──────────────────────────────
+  // ── RAID TIER 8: EMBLEM OF BRELL RAIDS ──────────────────────────────
   {s:2,sub:'Lichen Creep — A Cunning Plan',icon:'👥',text:'Bonfire of the Adherents (group mission)',note:'Gweddon Tinkertasker — Lichen Creep · required to request the raid',link:5004},
-  {s:2,sub:'Lichen Creep — A Cunning Plan',icon:'⚔️',text:'A Cunning Plan - RAID',note:'Excavator Borga — Lichen Creep · request: "stop" · enter: "ready" · requires all 7 Tier 6 raids · Emblem of Brell flag to zone in · drops 6 Amulet of Brell',link:5072,isRaid:true},
+  {s:2,sub:'Lichen Creep — A Cunning Plan',icon:'⚔️',text:'A Cunning Plan - RAID',note:'Excavator Borga — Lichen Creep · request: "stop" · enter: "ready" · requires all 7 Tier 6 & 7 raids · Emblem of Brell flag to zone in · drops 6 Amulet of Brell',link:5072,isRaid:true},
   {s:2,sub:'Fungal Forest — The Fungal Corruption',icon:'👥',text:'The Fungal Bloom (group mission)',note:'Adeena — Fungal Forest · required to request the raid',link:5000},
-  {s:2,sub:'Fungal Forest — The Fungal Corruption',icon:'⚔️',text:'The Fungal Corruption - RAID',note:'Stewac Grabsor — Fungal Forest · request: hail only · enter: "ready" · requires all 7 Tier 6 raids · Emblem of Brell flag to zone in · drops 6 Amulet of Brell',link:5071,isRaid:true},
+  {s:2,sub:'Fungal Forest — The Fungal Corruption',icon:'⚔️',text:'The Fungal Corruption - RAID',note:'Stewac Grabsor — Fungal Forest · request: hail only · enter: "ready" · requires all 7 Tier 6 & 7 raids · Emblem of Brell flag to zone in · drops 6 Amulet of Brell',link:5071,isRaid:true},
   {s:2,sub:"Brell's Temple — Trials",icon:'👥',text:'Fire in the Hole (group mission)',note:"Gotonur — Brell's Temple · required to request the raids",link:4992},
-  {s:2,sub:"Brell's Temple — Trials",icon:'⚔️',text:'Trial of Deconstruction - RAID',note:"The Font Guardian — Brell's Temple · request: \"ready\" · enter: \"time\" · requires all 7 Tier 6 raids · Emblem of Brell flag to zone in · drops 9 Amulet of Brell",link:5080,isRaid:true},
-  {s:2,sub:"Brell's Temple — Trials",icon:'⚔️',text:'Trial of Creation - RAID',note:"The Font Guardian — Brell's Temple · request: \"ready\" · enter: \"time\" · requires all 7 Tier 6 raids · Emblem of Brell flag to zone in · drops 9 Amulet of Brell",link:5081,isRaid:true},
+  {s:2,sub:"Brell's Temple — Trials",icon:'⚔️',text:'Trial of Deconstruction - RAID',note:"The Font Guardian — Brell's Temple · request: \"ready\" · enter: \"time\" · requires all 7 Tier 6 & 7 raids · Emblem of Brell flag to zone in · drops 9 Amulet of Brell",link:5080,isRaid:true},
+  {s:2,sub:"Brell's Temple — Trials",icon:'⚔️',text:'Trial of Creation - RAID',note:"The Font Guardian — Brell's Temple · request: \"ready\" · enter: \"time\" · requires all 7 Tier 6 & 7 raids · Emblem of Brell flag to zone in · drops 9 Amulet of Brell",link:5081,isRaid:true},
   {s:2,sub:"Brell's Temple — An Audience with Brell Serilis",icon:'🔐',text:'Amulet of Brell — looted and clicked',isKey:true,note:'Required to zone into An Audience with Brell Serilis · 6 drop from Lichen Creep and Fungal Forest, 9 from each Temple trial'},
-  {s:2,sub:"Brell's Temple — An Audience with Brell Serilis",icon:'⚔️',text:'An Audience with Brell Serilis - RAID',note:"The Font Guardian — Brell's Temple · request: \"the way\" · enter: \"announce\" · requester needs all 11 Tier 6 & 7 raids · zone-in requires Amulet of Brell plus both Trials · flags for the Convorteum",link:5084,isRaid:true},
+  {s:2,sub:"Brell's Temple — An Audience with Brell Serilis",icon:'⚔️',text:'An Audience with Brell Serilis - RAID',note:"The Font Guardian — Brell's Temple · request: \"the way\" · enter: \"announce\" · requester needs all 11 Tier 6-8 raids · zone-in requires Amulet of Brell plus both Trials · flags for the Convorteum",link:5084,isRaid:true},
 
-  // ── RAID TIER 8: THE CONVORTEUM ─────────────────────────────────────
-  {s:3,sub:'Convorteum Access',icon:'🔐',text:'An Audience with Brell Serilis completed',isKey:true,link:5084,note:'Required to zone into the Convorteum · requester also needs all 5 Tier 7 raids'},
+  // ── RAID TIER 9: THE CONVORTEUM ─────────────────────────────────────
+  {s:3,sub:'Convorteum Access',icon:'🔐',text:'An Audience with Brell Serilis completed',isKey:true,link:5084,note:'Required to zone into the Convorteum · requester also needs all 5 Tier 8 raids'},
   {s:3,sub:'Convorteum Raid Instance (7 sequential events)',icon:'⚔️',text:'Convorteum Event #1: The Gatekeeper',note:'Grif Iceblock — Convorteum · request: "willing" · enter: "ready" · loot is not doubled on this event',link:5086,isRaid:true},
   {s:3,sub:'Convorteum Raid Instance (7 sequential events)',icon:'⚔️',text:'Convorteum Event #2: The Stone Warden',note:'Convorteum · second event in the instance',link:5087,isRaid:true},
   {s:3,sub:'Convorteum Raid Instance (7 sequential events)',icon:'⚔️',text:'Convorteum Event #3: Unstable Creation',note:'Convorteum · third event in the instance',link:5088,isRaid:true},

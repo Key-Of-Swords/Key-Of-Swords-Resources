@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underfoot — Raid Progression</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1020;
+    --panel:#16213e;
+    --panel2:#0f1a38;
+    --line:#2a3a5a;
+    --gold:#e8a020;
+    --gold-bright:#f0c060;
+    --blue:#7ecfff;
+    --blue-dim:#6090b0;
+    --text:#ddd6c8;
+    --muted:#8b93a6;
+    --raid:#c8942a;
+    --key:#5fd0a0;
+    --final:#e05a3a;
+    --glow1:#1c2440;
+    --glow2:#1a1228;
+  }
+  body.light{
+    --bg:#f2ece0;
+    --panel:#fbf7ef;
+    --panel2:#f3ece0;
+    --line:#d8cbb4;
+    --gold:#a87418;
+    --gold-bright:#8a5e12;
+    --blue:#2a6a90;
+    --blue-dim:#7a6040;
+    --text:#3a3228;
+    --muted:#6f6656;
+    --raid:#a87418;
+    --key:#1f7a55;
+    --final:#a83a20;
+    --glow1:#e8dec8;
+    --glow2:#e4dcd0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Crimson Text',Georgia,serif;
+    background:
+      radial-gradient(ellipse at 50% 0%, var(--glow1) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, var(--glow2) 0%, transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--text);
+    padding:26px 18px 48px;
+    min-height:100vh;
+  }
+  .sheet{max-width:1080px;margin:0 auto;}
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; width: max-content; margin: 0 0 8px auto; }
+  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
+  body.light .toggle-thumb { transform: translateX(18px); }
+
+  /* ---- Title ---- */
+  .title-block{text-align:center;margin-bottom:28px;}
+  .eyebrow{
+    font-family:'Cinzel',serif;font-size:12px;letter-spacing:6px;
+    color:var(--blue-dim);text-transform:uppercase;margin-bottom:10px;
+  }
+  h1{
+    font-family:'Cinzel',serif;font-weight:700;font-size:44px;
+    color:var(--gold-bright);letter-spacing:3px;line-height:1.1;
+    text-shadow:0 0 24px rgba(232,160,32,.35);
+  }
+  body.light h1{text-shadow:none;}
+  .title-rule{
+    width:260px;height:1px;margin:16px auto 10px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .subtitle{font-size:16px;color:var(--muted);font-style:italic;}
+
+  /* ---- Legend ---- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:18px;justify-content:center;
+    font-size:13px;color:var(--muted);margin:14px 0 26px;
+  }
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:10px;height:10px;border-radius:2px;display:inline-block;}
+
+  /* ---- Tier band ---- */
+  .tier{margin-bottom:6px;}
+  .tier-head{
+    display:flex;align-items:baseline;gap:14px;
+    border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,160,32,.13),transparent 70%);
+    padding:9px 16px;margin-bottom:16px;
+  }
+  .tier-name{
+    font-family:'Cinzel',serif;font-weight:700;font-size:19px;
+    color:var(--gold-bright);letter-spacing:2px;white-space:nowrap;
+  }
+  .tier-zones{font-size:14px;color:var(--blue-dim);font-style:italic;}
+
+  /* ---- Raid cards ---- */
+  .cards{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+  .card{
+    flex:1 1 230px;max-width:300px;
+    background:linear-gradient(160deg,var(--panel) 0%,var(--panel2) 100%);
+    border:1px solid var(--line);border-top:2px solid var(--raid);
+    border-radius:5px;padding:13px 15px;
+    box-shadow:0 3px 14px rgba(0,0,0,.45);
+  }
+  body.light .card{box-shadow:0 2px 8px rgba(90,70,40,.12);}
+  .card .rname{
+    font-family:'Cinzel',serif;font-weight:600;font-size:15px;
+    color:var(--text);line-height:1.3;margin-bottom:6px;
+  }
+  .card .rzone{font-size:13.5px;color:var(--blue);margin-bottom:8px;}
+  .card .rnote{font-size:13px;color:var(--muted);font-style:italic;line-height:1.35;}
+  .prereq{
+    border-top:1px dashed var(--line);margin-top:8px;padding-top:7px;
+    font-size:12.5px;line-height:1.4;
+  }
+  .prereq .plabel{
+    display:block;font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:1.5px;
+    color:var(--key);text-transform:uppercase;margin-bottom:2px;
+  }
+  .prereq .pname{color:var(--text);}
+  .prereq .pnpc{color:var(--muted);font-style:italic;}
+
+  .card .rname a, .capstone .rname a, .event .ename a{
+    color:inherit;text-decoration:none;
+    border-bottom:1px dotted rgba(126,207,255,.35);
+  }
+  .card .rname a:hover, .capstone .rname a:hover, .event .ename a:hover{
+    color:var(--blue);border-bottom-color:var(--blue);
+  }
+
+  /* ---- Gate / key ---- */
+  .gate-wrap{display:flex;flex-direction:column;align-items:center;margin:14px 0 18px;}
+  .arrow{width:1px;height:20px;background:linear-gradient(180deg,transparent,var(--key));}
+  .arrow.down{background:linear-gradient(180deg,var(--key),transparent);}
+  .gate{
+    display:inline-flex;flex-direction:column;align-items:center;
+    border:1px solid rgba(95,208,160,.45);border-radius:999px;
+    background:rgba(95,208,160,.07);
+    padding:8px 30px;box-shadow:0 0 22px rgba(95,208,160,.13);text-align:center;
+  }
+  body.light .gate{border-color:rgba(31,122,85,.4);background:rgba(31,122,85,.07);box-shadow:none;}
+  .gate .glabel{
+    font-family:'Cinzel',serif;font-weight:700;font-size:14.5px;
+    color:var(--key);letter-spacing:2.5px;text-transform:uppercase;
+  }
+  .gate .gnote{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:2px;}
+
+  /* ---- Capstone ---- */
+  .capstone{
+    max-width:600px;margin:0 auto;text-align:center;
+    border:1px solid var(--gold);border-radius:5px;
+    background:linear-gradient(160deg,rgba(232,160,32,.16),var(--panel2));
+    padding:15px 20px;box-shadow:0 0 26px rgba(232,160,32,.16);
+  }
+  body.light .capstone{box-shadow:none;}
+  .capstone .rname{
+    font-family:'Cinzel',serif;font-weight:700;font-size:18px;
+    color:var(--gold-bright);letter-spacing:1px;margin-bottom:5px;
+  }
+  .capstone .rnote{font-size:13px;color:var(--muted);font-style:italic;}
+  .capstone .prereq{max-width:420px;margin:9px auto 0;text-align:center;}
+
+  /* ---- Convorteum chain ---- */
+  .chain{max-width:620px;margin:0 auto;}
+  .event{
+    display:flex;align-items:center;gap:14px;
+    background:linear-gradient(90deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);border-radius:5px;
+    padding:10px 16px;margin-bottom:8px;
+  }
+  .event .num{
+    font-family:'Cinzel',serif;font-weight:700;font-size:16px;
+    color:var(--raid);min-width:32px;text-align:center;
+  }
+  .event .ename{font-family:'Cinzel',serif;font-size:15px;color:var(--text);}
+  .event.last{
+    border-color:var(--final);
+    background:linear-gradient(90deg,rgba(224,90,58,.18),var(--panel2));
+    box-shadow:0 0 22px rgba(224,90,58,.15);
+  }
+  body.light .event.last{box-shadow:none;}
+  .event.last .num,.event.last .ename{color:var(--final);font-weight:700;}
+
+  /* ---- Footer ---- */
+  footer{
+    text-align:center;margin-top:34px;padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted);letter-spacing:1px;
+  }
+
+  @media (max-width:640px){
+    h1{font-size:30px;letter-spacing:1px;}
+    .tier-head{flex-direction:column;gap:2px;}
+    .card{max-width:100%;}
+  }
+  @media print{
+    body{background:#fff;color:#000;}
+    .theme-toggle{display:none;}
+  }
+  .back-wrap { text-align: center; margin: 12px 0 6px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s; }
+  .back-btn:hover { border-color: #e8a020; }
+  body.light .back-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #8a5a10 !important; }
+</style>
+</head>
+<body>
+
+<div class="back-wrap"><a class="back-btn" href="uf.html">&#8592; Underfoot</a></div>
+
+<div class="sheet">
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+
+  <div class="title-block">
+    <div class="eyebrow">EverQuest</div>
+    <h1>UNDERFOOT</h1>
+    <div class="title-rule"></div>
+    <div class="subtitle">Raid Progression · Tier 6 through Tier 9</div>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--raid)"></i>Raid event</span>
+    <span><i class="swatch" style="background:var(--key)"></i>Flag / prerequisite</span>
+    <span><i class="swatch" style="background:var(--final)"></i>Final encounter</span>
+  </div>
+
+  <!-- TIER 6 -->
+  <div class="tier">
+    <div class="tier-head">
+      <div class="tier-name">TIER 6 · OPEN RAIDS</div>
+      <div class="tier-zones">No zone-in flag required</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=4940" target="_blank" rel="noopener">Fippy's Revenge</a></div>
+        <div class="rzone">Brell's Rest</div>
+        <div class="rnote">Drops 9 Coin of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Don't Fear the Destroyer</span><br>
+          <span class="pnpc">Algera Chindlebolt</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=4957" target="_blank" rel="noopener">The Beast Below</a></div>
+        <div class="rzone">The Cooling Chamber</div>
+        <div class="rnote">Drops 9 Coin of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Tasnise Underbelly</span><br>
+          <span class="pnpc">Rodrick Cleanheart</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=4977" target="_blank" rel="noopener">The Unburrowing</a></div>
+        <div class="rzone">Pellucid Grotto</div>
+        <div class="rnote">Drops 9 Coin of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Seeding Frenzy</span><br>
+          <span class="pnpc">Tronten the Subnexus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate-wrap">
+    <div class="arrow"></div>
+    <div class="gate">
+      <div class="glabel">Coin of Brell</div>
+      <div class="gnote">Every raider must loot and click to zone into Tier 7</div>
+    </div>
+    <div class="arrow down"></div>
+  </div>
+
+  <!-- TIER 7 -->
+  <div class="tier">
+    <div class="tier-head">
+      <div class="tier-name">TIER 7 · COIN OF BRELL RAIDS</div>
+      <div class="tier-zones">All three Tier 6 raids required to request</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5031" target="_blank" rel="noopener">Masked Invaders</a></div>
+        <div class="rzone">The Foundation</div>
+        <div class="rnote">Drops 6 Emblem of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">The Search for Saunk</span><br>
+          <span class="pnpc">Darott</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5030" target="_blank" rel="noopener">The Wrath of Brath</a></div>
+        <div class="rzone">The Underquarry</div>
+        <div class="rnote">Drops 6 Emblem of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Scent of a Woman</span><br>
+          <span class="pnpc">Tenkar Everhot</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5034" target="_blank" rel="noopener">Cliknar Hive Guardians</a></div>
+        <div class="rzone">Arthicrex</div>
+        <div class="rnote">First event · drops 6 Emblem of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">To Serve Sporali</span><br>
+          <span class="pnpc">Grogald Elderhammer</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5035" target="_blank" rel="noopener">The Cliknar Queen</a></div>
+        <div class="rzone">Arthicrex</div>
+        <div class="rnote">Second event · Hive Guardians must be defeated or on lockout · drops 9 Emblem of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">To Serve Sporali</span><br>
+          <span class="pnpc">Grogald Elderhammer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate-wrap">
+    <div class="arrow"></div>
+    <div class="gate">
+      <div class="glabel">Emblem of Brell</div>
+      <div class="gnote">Every raider must loot and click to zone into Tier 8</div>
+    </div>
+    <div class="arrow down"></div>
+  </div>
+
+  <!-- TIER 8 -->
+  <div class="tier">
+    <div class="tier-head">
+      <div class="tier-name">TIER 8 · EMBLEM OF BRELL RAIDS</div>
+      <div class="tier-zones">All seven Tier 6 &amp; 7 raids required to request</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5072" target="_blank" rel="noopener">A Cunning Plan</a></div>
+        <div class="rzone">Lichen Creep</div>
+        <div class="rnote">Drops 6 Amulet of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Bonfire of the Adherents</span><br>
+          <span class="pnpc">Gweddon Tinkertasker</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5071" target="_blank" rel="noopener">The Fungal Corruption</a></div>
+        <div class="rzone">Fungal Forest</div>
+        <div class="rnote">Drops 6 Amulet of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">The Fungal Bloom</span><br>
+          <span class="pnpc">Adeena</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5080" target="_blank" rel="noopener">Trial of Deconstruction</a></div>
+        <div class="rzone">Brell's Temple</div>
+        <div class="rnote">Drops 9 Amulet of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Fire in the Hole</span><br>
+          <span class="pnpc">Gotonur</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5081" target="_blank" rel="noopener">Trial of Creation</a></div>
+        <div class="rzone">Brell's Temple</div>
+        <div class="rnote">Drops 9 Amulet of Brell</div>
+        <div class="prereq">
+          <span class="plabel">Group mission required</span>
+          <span class="pname">Fire in the Hole</span><br>
+          <span class="pnpc">Gotonur</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate-wrap">
+    <div class="arrow"></div>
+    <div class="gate">
+      <div class="glabel">Amulet of Brell</div>
+      <div class="gnote">Amulet plus both Temple Trials required to zone in</div>
+    </div>
+    <div class="arrow down"></div>
+  </div>
+
+  <div class="capstone">
+    <div class="rname"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5084" target="_blank" rel="noopener">An Audience with Brell Serilis</a></div>
+    <div class="rnote">Brell's Temple · The Font Guardian · requester needs all 11 Tier 6–8 raids · flags for the Convorteum</div>
+  </div>
+
+  <div class="gate-wrap">
+    <div class="arrow"></div>
+    <div class="gate">
+      <div class="glabel">Convorteum Access</div>
+      <div class="gnote">An Audience with Brell Serilis completed · requester also needs all five Tier 8 raids</div>
+    </div>
+    <div class="arrow down"></div>
+  </div>
+
+  <!-- TIER 9 -->
+  <div class="tier">
+    <div class="tier-head">
+      <div class="tier-name">TIER 9 · THE CONVORTEUM</div>
+      <div class="tier-zones">Seven sequential events in one instance</div>
+    </div>
+    <div class="chain">
+      <div class="event"><div class="num">I</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5086" target="_blank" rel="noopener">The Gatekeeper</a></div></div>
+      <div class="event"><div class="num">II</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5087" target="_blank" rel="noopener">The Stone Warden</a></div></div>
+      <div class="event"><div class="num">III</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5088" target="_blank" rel="noopener">Unstable Creation</a></div></div>
+      <div class="event"><div class="num">IV</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5089" target="_blank" rel="noopener">The Keymaster</a></div></div>
+      <div class="event"><div class="num">V</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5090" target="_blank" rel="noopener">The Hall of Records</a></div></div>
+      <div class="event"><div class="num">VI</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5091" target="_blank" rel="noopener">Magus Sisters</a></div></div>
+      <div class="event last"><div class="num">VII</div><div class="ename"><a href="https://everquest.allakhazam.com/db/quest.html?quest=5092" target="_blank" rel="noopener">The First Creation</a></div></div>
+    </div>
+  </div>
+
+  <footer>Key of Swords · Teek Server · Created by Temujin of Teek</footer>
+
+</div>
+
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+  function toggleTheme(){
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

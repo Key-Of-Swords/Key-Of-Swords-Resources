@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underfoot Armor Guide — Key of Swords</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1020;
+  --bg2:#111a2e;
+  --panel:#15203a;
+  --panel2:#1b2848;
+  --ink:#e6ecf7;
+  --ink-dim:#9fb0cc;
+  --gold:#e8a020;
+  --gold-soft:#f0c060;
+  --line:#2a3a5c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Crimson Text',Georgia,serif;
+  font-size:18px;
+  line-height:1.65;
+}
+body.light{
+  --bg:#f4efe4;
+  --bg2:#ece4d4;
+  --panel:#fffaf0;
+  --panel2:#f6eeddff;
+  --ink:#231b10;
+  --ink-dim:#6b5c44;
+  --gold:#9a6407;
+  --gold-soft:#7a4f05;
+  --line:#d8c9a8;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+
+/* Header */
+header{
+  border-bottom:2px solid var(--line);
+  background:linear-gradient(180deg,var(--bg2),var(--bg));
+  padding:38px 20px 30px;
+  text-align:center;
+  position:relative;
+}
+h1{
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  color:var(--gold);
+  font-size:2.3rem;
+  letter-spacing:.04em;
+  margin:0 0 6px;
+}
+.sub{color:var(--ink-dim);margin:0;font-style:italic}
+.badge{
+  display:inline-block;margin-top:14px;padding:4px 14px;
+  border:1px solid var(--gold);border-radius:20px;
+  color:var(--gold);font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;
+}
+a:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* Nav */
+nav.toc{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  margin:26px 0 10px;
+}
+nav.toc a{
+  font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.06em;
+  color:var(--ink-dim);text-decoration:none;
+  border:1px solid var(--line);border-radius:5px;padding:6px 12px;
+}
+nav.toc a:hover{color:var(--gold);border-color:var(--gold)}
+
+section{margin-top:44px}
+h2{
+  font-family:'Cinzel',serif;color:var(--gold);font-size:1.4rem;
+  border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;
+}
+h3{font-family:'Cinzel',serif;color:var(--gold-soft);font-size:1.02rem;margin:24px 0 8px}
+section p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.note{
+  background:var(--panel);border-left:3px solid var(--gold);
+  padding:12px 16px;margin:16px 0;color:var(--ink-dim);
+}
+.note strong{color:var(--ink)}
+
+/* Recipe strip */
+.recipe{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.recipe .step{
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:12px 18px;min-width:150px;
+}
+.recipe .step b{display:block;font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem}
+.recipe .step span{color:var(--ink-dim);font-size:.88rem}
+.recipe .op{color:var(--gold);font-size:1.5rem;font-family:'Cinzel',serif}
+
+/* Tables */
+.scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;margin-top:10px;font-size:.94rem}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{
+  background:var(--panel2);color:var(--gold);
+  font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.05em;font-weight:600;
+}
+tbody tr:nth-child(odd){background:var(--panel)}
+/* Filterable tables restripe in JS so hidden rows don't break the banding */
+#groupTbl tbody tr,#raidTbl tbody tr{background:transparent}
+#groupTbl tbody tr.odd,#raidTbl tbody tr.odd{background:var(--panel)}
+td.cls{font-family:'Cinzel',serif;color:var(--ink);white-space:nowrap}
+.mat{color:var(--gold-soft)}
+a.setlink{
+  color:inherit;text-decoration:none;
+  border-bottom:1px dotted var(--gold-soft);
+}
+a.setlink:hover{border-bottom-style:solid}
+a.setlink:hover .mat{color:var(--gold)}
+a.setlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+a.advlink{
+  font-size:.74rem;color:var(--ink-dim);text-decoration:none;white-space:nowrap;
+  border:1px solid var(--line);border-radius:3px;padding:0 5px;margin-left:2px;
+}
+a.advlink:hover{color:var(--gold);border-color:var(--gold)}
+a.advlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+tr.hit td.cls{color:var(--gold)}
+
+.filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.filter label{font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.06em;color:var(--ink-dim)}
+select{
+  background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:6px;padding:7px 11px;font-family:'Crimson Text',serif;font-size:.95rem;
+}
+
+/* Tier cards */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:14px}
+.tier{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:14px 16px}
+.tier h4{font-family:'Cinzel',serif;color:var(--gold);margin:0 0 4px;font-size:1rem}
+.tier .mats{color:var(--gold-soft);font-size:.86rem;margin-bottom:8px}
+.tier .mats strong{font-weight:700;color:var(--gold)}
+.tier ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:.92rem}
+
+ul.plain{list-style:none;padding-left:0}
+ul.plain li{padding:4px 0;border-bottom:1px solid var(--line);color:var(--ink-dim)}
+ul.plain li b{color:var(--ink);font-family:'Cinzel',serif;font-size:.85rem}
+
+footer{
+  margin-top:60px;padding:22px 20px;border-top:1px solid var(--line);
+  text-align:center;color:var(--ink-dim);font-size:.85rem;
+}
+.srcs{font-size:.82rem;color:var(--ink-dim);margin-top:10px}
+.srcs a{color:var(--gold-soft)}
+@media (max-width:640px){
+  h1{font-size:1.6rem}
+  body{font-size:17px}
+}
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { position: fixed; top: 12px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
+  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
+  body.light .toggle-thumb { transform: translateX(18px); }
+  .back-wrap { text-align: center; margin: 12px 0 0; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s; }
+  .back-btn:hover { border-color: #e8a020; }
+  body.light .back-btn { background: #e0d4bc !important; border-color: #c0a878 !important; color: #8a5a10 !important; }
+</style>
+</head>
+<body>
+
+<div class="back-wrap"><a class="back-btn" href="uf.html">&#8592; Underfoot</a></div>
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<header>
+  <h1>Underfoot Armor</h1>
+  <p class="sub">Visible armor for tiers 6 through 9 — what drops it, what builds it, what it's called.</p>
+  <div class="badge">PRELIMINARY DRAFT</div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <a href="#how">How it works</a>
+  <a href="#tiers">Tiers &amp; clay</a>
+  <a href="#slots">Slot names</a>
+  <a href="#agents">Bonding agents</a>
+  <a href="#templates">Templates</a>
+  <a href="#sets">Set names</a>
+  <a href="#extras">Odds &amp; ends</a>
+</nav>
+
+<section id="how">
+  <h2>How Underfoot armor works</h2>
+  <p>Every visible armor piece in Underfoot is built from three parts combined in a kiln. The combine does not fail. There is no upgrade chain — tier 8 armor does not consume tier 7 armor, and raid armor is not progressive either. Each piece stands on its own, so a character can skip straight to whatever tier they can actually farm.</p>
+
+  <div class="recipe">
+    <div class="step"><b>Clay</b><span>No Trade. Drops off named mobs.</span></div>
+    <div class="op">+</div>
+    <div class="step"><b>Template</b><span>Tradeable. Player-crafted.</span></div>
+    <div class="op">+</div>
+    <div class="step"><b>Bonding Agent</b><span>Vendor, 1050pp.</span></div>
+    <div class="op">=</div>
+    <div class="step"><b>Armor piece</b><span>Combine in a kiln.</span></div>
+  </div>
+
+  <div class="note">
+    <strong>Where to do it:</strong> the Useful Automated Vendor sits in Brell's Rest, across from the Gatekeeper up the ramp toward the Shining City. There is a kiln next to it, so agent purchase and combine happen in the same spot.
+  </div>
+</section>
+
+<section id="tiers">
+  <h2>Tiers, zones, and clay</h2>
+  <p>Clay is named <span class="mat">(Material) Encrusted (Slot) Clay</span>. The material tells you the tier; the slot word tells you the piece. Each named mob has one slot it drops most often, with a smaller chance at the others.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <h4>Tier 6</h4>
+      <div class="mats">Group: Stellite · <strong>Raid: Palladium</strong></div>
+      <ul><li>Brell's Rest</li><li>Pellucid Grotto</li><li>The Cooling Chamber</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Tier 7</h4>
+      <div class="mats">Group: Celestrium · <strong>Raid: Palladium</strong></div>
+      <ul><li>Arthicrex</li><li>The Foundation</li><li>The Underquarry</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Tier 8</h4>
+      <div class="mats">Group: Vitallium · <strong>Raid: Iridium</strong></div>
+      <ul><li>Brell's Temple</li><li>Fungal Forest</li><li>Kernagir, The Shining City</li><li>Lichen Creep</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Tier 9</h4>
+      <div class="mats">Group: Damascite · <strong>Raid: Rhodium</strong></div>
+      <ul><li>Volska's Husk</li><li>The Convorteum</li></ul>
+    </div>
+  </div>
+
+  <div class="note">
+    Tiers 6 and 7 share a single raid armor material — <strong>Palladium</strong> covers raid events in both. Tier 8 raids drop <strong>Iridium</strong>, tier 9 raids drop <strong>Rhodium</strong>.
+  </div>
+</section>
+
+<section id="slots">
+  <h2>Slot names on clay</h2>
+  <p>The clay uses anatomical wording rather than slot wording. The item itself also lists the slot, so nobody has to memorize these — but they come up constantly in loot chat.</p>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Clay word</th><th>Slot</th></tr></thead>
+    <tbody>
+      <tr><td>Cephalic</td><td>Head</td></tr>
+      <tr><td>Thoracic</td><td>Chest</td></tr>
+      <tr><td>Brachial</td><td>Arms</td></tr>
+      <tr><td>Crural</td><td>Legs</td></tr>
+      <tr><td>Carpal</td><td>Wrist — two slots to fill</td></tr>
+      <tr><td>Tarsal</td><td>Feet</td></tr>
+      <tr><td>Phalangeal</td><td>Hands</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="agents">
+  <h2>Bonding agents</h2>
+  <p>Bought from the Useful Automated Vendor for roughly 1050pp each. One agent covers two classes, and the agent is what keys the piece to your class.</p>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Agent</th><th>Classes</th></tr></thead>
+    <tbody>
+      <tr><td>Consort Bonding Agent</td><td>Beastlord, Magician</td></tr>
+      <tr><td>Dedicant Bonding Agent</td><td>Cleric, Shaman</td></tr>
+      <tr><td>Dream Bonding Agent</td><td>Bard, Enchanter</td></tr>
+      <tr><td>Druadic Bonding Agent</td><td>Ranger, Druid</td></tr>
+      <tr><td>Intensity Bonding Agent</td><td>Wizard, Berserker</td></tr>
+      <tr><td>Martialism Bonding Agent</td><td>Warrior, Rogue</td></tr>
+      <tr><td>Necrotic Bonding Agent</td><td>Necromancer, Shadow Knight</td></tr>
+      <tr><td>Purification Bonding Agent</td><td>Monk, Paladin</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="templates">
+  <h2>Templates</h2>
+  <p>Templates are tradeable and player-made, so a guild crafter can supply the whole raid. Which template you need depends on your armor class, not your tier — the same template works at every tier.</p>
+
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Armor type</th><th>Template line</th><th>Skill</th><th>Classes</th></tr></thead>
+    <tbody>
+      <tr><td>Plate</td><td>Vanadium Plate</td><td>Smithing</td><td>Warrior, Cleric, Paladin, Shadow Knight, Bard</td></tr>
+      <tr><td>Chain</td><td>Vanadium Chain</td><td>Smithing</td><td>Ranger, Rogue, Shaman, Berserker</td></tr>
+      <tr><td>Silk</td><td>Immaculate Silk</td><td>Tailoring</td><td>Enchanter, Necromancer, Magician, Wizard</td></tr>
+      <tr><td>Leather</td><td>Immaculate Leather</td><td>Tailoring</td><td>Beastlord, Druid, Monk</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Template combines</h3>
+  <ul class="plain">
+    <li><b>Vanadium Plate / Chain</b> — Brimstone Coal, Metal Tempering Chemicals, the matching mold, Smithy Hammer, and 1–3 Vanadium Ore depending on slot.</li>
+    <li><b>Immaculate Silk</b> — Faysilk Filament, Silk Curing Chemicals, Silk Pattern, Simple Sewing Needle, and 2–6 Immaculate Silk depending on slot.</li>
+    <li><b>Immaculate Leather</b> — Faysilk Filament, Tanning Chemicals, Leather Pattern, Simple Sewing Needle, and 1–3 Immaculate Animal Pelt depending on slot.</li>
+  </ul>
+
+  <h3>Trivials and raw material per slot</h3>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Slot</th><th>Trivial</th><th>Immaculate Silk</th><th>Immaculate Pelt</th><th>Vanadium Ore</th></tr></thead>
+    <tbody>
+      <tr><td>Wrist</td><td><strong>488</strong></td><td>2</td><td>1</td><td>1</td></tr>
+      <tr><td>Hands</td><td><strong>490</strong></td><td>2</td><td>1</td><td>1</td></tr>
+      <tr><td>Head</td><td><strong>492</strong></td><td>4</td><td>2</td><td>2</td></tr>
+      <tr><td>Arms</td><td><strong>494</strong></td><td>4</td><td>2</td><td>2</td></tr>
+      <tr><td>Feet</td><td><strong>496</strong></td><td>4</td><td>2</td><td>2</td></tr>
+      <tr><td>Legs</td><td><strong>498</strong></td><td>6</td><td>3</td><td>3</td></tr>
+      <tr><td>Chest</td><td><strong>510</strong></td><td>6</td><td>3</td><td>3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">Trivials run well north of 480, so these are not casual combines — line up a crafter early.</div>
+</section>
+
+<section id="sets">
+  <h2>Set names by class</h2>
+  <p>The set name stays fixed per class; only the material word changes with tier. Group and raid lines use different names entirely, so a Warrior farms Earthwall in groups and Terraguard on raids.</p>
+
+  <div class="filter">
+    <label for="clsPick">Show class</label>
+    <select id="clsPick">
+      <option value="">All classes</option>
+    </select>
+  </div>
+
+  <h3>Group armor</h3>
+  <div class="scroller">
+  <table id="groupTbl">
+    <thead><tr><th>Class</th><th>Tier 6 — Stellite</th><th>Tier 7 — Celestrium</th><th>Tier 8 — Vitallium</th><th>Tier 9 — Damascite</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+
+  <h3>Raid armor</h3>
+  <div class="scroller">
+  <table id="raidTbl">
+    <thead><tr><th>Class</th><th>Tier 6 &amp; 7 — Palladium</th><th>Tier 8 — Iridium</th><th>Tier 9 — Rhodium</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+</section>
+
+<section id="extras">
+  <h2>Odds and ends</h2>
+
+  <h3>Wrist focus swaps</h3>
+  <p>Shadow Knights, Shamans, Necromancers and Beastlords can put a finished wrist piece into a <strong>Box of Latent Energies</strong> — also sold by the Useful Automated Vendor — to change its focus effect. Worth knowing before anyone rolls on a second Carpal clay.</p>
+
+  <h3>All/All drops in Volska's Husk</h3>
+  <p>Four non-clay pieces drop at random in Volska's Husk and fit any class, which makes them useful filler while clay luck sorts itself out: Autarchian Sandals (feet), Autarchian Fistwraps (hands), Autarchian Linked Leggings (legs), and the Autarchian Robe (chest).</p>
+
+  <h3>Access reminders</h3>
+  <p>Tier 8 opens after clearing one group mission in each of the six tier 6 and 7 zones — the Gatekeeper in Brell's Rest tracks it and will name the next zone if you hail him with "enter." Tier 9 opens after the four tier 8 missions, and the Convorteum needs the Greken hatchlings mission out of Volska's Husk.</p>
+
+  <div class="note">
+    <strong>Still to confirm for this page:</strong> per-named clay slot tendencies by zone, exact Brellium/token costs for the vendor, and whether the tier 6 raid route substitutes cleanly for the tier 6 group missions on Teek.
+  </div>
+
+  <p class="srcs">Compiled from the Allakhazam Underfoot Armor Guide and Fanra's EverQuest Wiki. Verify against live server behavior before relying on it for a raid night.</p>
+</section>
+
+</div>
+
+<footer>Key of Swords · Teek Server · Created by Temujin of Teek</footer>
+
+<script>
+(function(){
+  var CLASSES = [
+    ["Bard","Lorerunner Armor","Mythkeeper Armor"],
+    ["Beastlord","Bestialcry Armor","Feralcall Armor"],
+    ["Berserker","Ireblood Armor","Furyblind Armor"],
+    ["Cleric","Graceheart Armor","Mercytouched Armor"],
+    ["Druid","Terraheart Armor","Natureborn Armor"],
+    ["Enchanter","Egoshatter Armor","Psychesnap Armor"],
+    ["Magician","Primalelement Armor","Cardinalcore Armor"],
+    ["Monk","Armor of the Disciplined Animus","Enlightened Anima Armor"],
+    ["Necromancer","Grimblight Armor","Fleshbane Armor"],
+    ["Paladin","Lifedefender Armor","Lightguard Armor"],
+    ["Ranger","Trailwarden Armor","Skychaser Armor"],
+    ["Rogue","Shadowborn Armor","Umbrastalker Armor"],
+    ["Shadow Knight","Deathwatch Armor","Shadowguard Armor"],
+    ["Shaman","Fatecaster Armor","Doomherald Armor"],
+    ["Warrior","Earthwall Armor","Terraguard Armor"],
+    ["Wizard","Firetorrent Armor","Sleetstorm Armor"]
+  ];
+  var GROUP_MATS = ["Stellite","Celestrium","Vitallium","Damascite"];
+  var RAID_MATS  = ["Palladium","Iridium","Rhodium"];
+
+  /* Confirmed Allakhazam links, keyed by class then material.
+     Group and raid materials never overlap, so material alone is unambiguous.
+     Add entries only from confirmed URLs — do not generate them from the pattern. */
+  var LINKS = {
+    "Bard": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+lorerunner"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+lorerunner"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+lorerunner"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+lorerunner"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+mythkeeper"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+mythkeeper"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+mythkeeper"}
+    },
+    "Beastlord": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+bestialcry"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+bestialcry"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+bestialcry"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+bestialcry"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+feralcall"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+Feralcall"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+Feralcall"}
+    },
+    "Berserker": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+ireblood"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+ireblood"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+ireblood"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+ireblood"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+furyblind"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+furyblind"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+furyblind"}
+    },
+    "Cleric": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+graceheart"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+graceheart"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+graceheart"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+graceheart"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+mercytouched"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+Mercytouched"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+Mercytouched"}
+    },
+    "Druid": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+terraheart"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+terraheart"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+terraheart"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+terraheart"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+natureborn"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+natureborn"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+natureborn"}
+    },
+    "Enchanter": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+egoshatter"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+egoshatter"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+egoshatter"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+egoshatter"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+psychesnap"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+psychesnap"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+psychesnap"}
+    },
+    "Magician": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+primalelement"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+primalelement"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+primalelement"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+primalelement"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+cardinalcore"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+cardinalcore"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+cardinalcore"}
+    },
+    "Monk": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=Disciplined+Animus"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=Disciplined+Animus"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=Disciplined+Animus"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=Disciplined+Animus"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=enlightened+anima",adv:"https://everquest.allakhazam.com/db/adv_search.html?classes=class_MNK&race=0&slot=0&type=Armor&effect=99999&fzone=0&foodtype=0&potimestat=0&elemtypes=0&banetypes=0&skillmod=0&dmgplustype=---Any---&instrument=0&stype=0&lon_relation=Any&min_level=0&max_level=85&stat1=None&statlim1=0&stat2=None&statlim2=0&stat3=None&statlim3=0&stat4=None&statlim4=0&stat5=None&statlim5=0&qt=b&aug=y&attune=y&evolve=y&planar=y&nodrop=y&crafted=y&gm=n&temp=n&unattain=n&infuse=y&new_stubs=y&scash=y&pristat=l.ac&priwt=2&secstat=l.hp&secwt=1&tristat=none&triwt=0&st=palladium"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=enlightened+anima",adv:"https://everquest.allakhazam.com/db/adv_search.html?classes=class_MNK&race=0&slot=0&type=Armor&effect=99999&fzone=0&foodtype=0&potimestat=0&elemtypes=0&banetypes=0&skillmod=0&dmgplustype=---Any---&instrument=0&stype=0&lon_relation=Any&min_level=0&max_level=85&stat1=None&statlim1=0&stat2=None&statlim2=0&stat3=None&statlim3=0&stat4=None&statlim4=0&stat5=None&statlim5=0&qt=b&aug=y&attune=y&evolve=y&planar=y&nodrop=y&crafted=y&gm=n&temp=n&unattain=n&infuse=y&new_stubs=y&scash=y&pristat=l.ac&priwt=2&secstat=l.hp&secwt=1&tristat=none&triwt=0&st=iridium"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=enlightened+anima",adv:"https://everquest.allakhazam.com/db/adv_search.html?classes=class_MNK&race=0&slot=0&type=Armor&effect=99999&fzone=0&foodtype=0&potimestat=0&elemtypes=0&banetypes=0&skillmod=0&dmgplustype=---Any---&instrument=0&stype=0&lon_relation=Any&min_level=0&max_level=85&stat1=None&statlim1=0&stat2=None&statlim2=0&stat3=None&statlim3=0&stat4=None&statlim4=0&stat5=None&statlim5=0&qt=b&aug=y&attune=y&evolve=y&planar=y&nodrop=y&crafted=y&gm=n&temp=n&unattain=n&infuse=y&new_stubs=y&scash=y&pristat=l.ac&priwt=2&secstat=l.hp&secwt=1&tristat=none&triwt=0&st=rhodium"}
+    },
+    "Necromancer": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+grimblight"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+grimblight"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+grimblight"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+grimblight"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+fleshbane"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+Fleshbane"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+Fleshbane"}
+    },
+    "Paladin": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+lifedefender"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+lifedefender"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+lifedefender"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+lifedefender"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+lightguard"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+lightguard"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+lightguard"}
+    },
+    "Ranger": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+trailwarden"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+trailwarden"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+trailwarden"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+trailwarden"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+skychaser"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+skychaser"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+skychaser"}
+    },
+    "Rogue": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+shadowborn"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+shadowborn"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+shadowborn"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+shadowborn"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+umbrastalker"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+Umbrastalker"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+Umbrastalker"}
+    },
+    "Shadow Knight": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+deathwatch"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+deathwatch"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+deathwatch"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+deathwatch"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+shadowguard"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+shadowguard"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+shadowguard"}
+    },
+    "Shaman": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+fatecaster"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+fatecaster"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+fatecaster"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+fatecaster"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+doomherald"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=iridium+doomherald"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+doomherald"}
+    },
+    "Warrior": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+earthwall"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+earthwall"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+earthwall"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+earthwall"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+terraguard"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+Terraguard"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+Terraguard"}
+    },
+    "Wizard": {
+      "Stellite":{url:"https://everquest.allakhazam.com/search.html?q=stellite+firetorrent"},
+      "Celestrium":{url:"https://everquest.allakhazam.com/search.html?q=celestrium+firetorrent"},
+      "Vitallium":{url:"https://everquest.allakhazam.com/search.html?q=vitallium+firetorrent"},
+      "Damascite":{url:"https://everquest.allakhazam.com/search.html?q=damascite+firetorrent"},
+      "Palladium":{url:"https://everquest.allakhazam.com/search.html?q=palladium+sleetstorm"},
+      "Iridium":{url:"https://everquest.allakhazam.com/search.html?q=Iridium+Sleetstorm"},
+      "Rhodium":{url:"https://everquest.allakhazam.com/search.html?q=rhodium+Sleetstorm"}
+    }
+  };
+
+  function cell(mat, suffix, cls){
+    var td = document.createElement("td");
+    var matEl = document.createElement("span");
+    matEl.className = "mat";
+    matEl.textContent = mat;
+
+    var entry = LINKS[cls] && LINKS[cls][mat];
+    if (entry && entry.url){
+      var a = document.createElement("a");
+      a.className = "setlink";
+      a.href = entry.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.appendChild(matEl);
+      a.appendChild(document.createTextNode(" " + suffix));
+      td.appendChild(a);
+      if (entry.adv){
+        var adv = document.createElement("a");
+        adv.className = "advlink";
+        adv.href = entry.adv;
+        adv.target = "_blank";
+        adv.rel = "noopener";
+        adv.textContent = "this tier";
+        adv.title = "Advanced search filtered to " + mat + " only";
+        td.appendChild(document.createTextNode(" "));
+        td.appendChild(adv);
+      }
+    } else {
+      td.appendChild(matEl);
+      td.appendChild(document.createTextNode(" " + suffix));
+    }
+    return td;
+  }
+
+  var gBody = document.querySelector("#groupTbl tbody");
+  var rBody = document.querySelector("#raidTbl tbody");
+  var pick  = document.getElementById("clsPick");
+
+  CLASSES.forEach(function(c){
+    var gr = document.createElement("tr");
+    gr.dataset.cls = c[0];
+    var gc = document.createElement("td");
+    gc.className = "cls"; gc.textContent = c[0];
+    gr.appendChild(gc);
+    GROUP_MATS.forEach(function(m){ gr.appendChild(cell(m, c[1], c[0])); });
+    gBody.appendChild(gr);
+
+    var rr = document.createElement("tr");
+    rr.dataset.cls = c[0];
+    var rc = document.createElement("td");
+    rc.className = "cls"; rc.textContent = c[0];
+    rr.appendChild(rc);
+    RAID_MATS.forEach(function(m){ rr.appendChild(cell(m, c[2], c[0])); });
+    rBody.appendChild(rr);
+
+    var opt = document.createElement("option");
+    opt.value = c[0]; opt.textContent = c[0];
+    pick.appendChild(opt);
+  });
+
+  function restripe(tbl){
+    var i = 0;
+    Array.prototype.forEach.call(tbl.querySelectorAll("tbody tr"), function(tr){
+      if (tr.style.display === "none"){ tr.classList.remove("odd"); return; }
+      tr.classList.toggle("odd", i % 2 === 0);
+      i++;
+    });
+  }
+
+  function applyFilter(){
+    var v = pick.value;
+    Array.prototype.forEach.call(
+      document.querySelectorAll("#groupTbl tbody tr, #raidTbl tbody tr"),
+      function(tr){
+        var on = !v || tr.dataset.cls === v;
+        tr.style.display = on ? "" : "none";
+        tr.classList.toggle("hit", !!v && on);
+      });
+    restripe(document.getElementById("groupTbl"));
+    restripe(document.getElementById("raidTbl"));
+  }
+
+  pick.addEventListener("change", applyFilter);
+  applyFilter();
+
+})();
+</script>
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+  function toggleTheme(){
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

@@ -5,7 +5,6 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Underfoot — Raid Strategy Vault</title>
-<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('kos-light');</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
   :root {
@@ -163,17 +162,17 @@
   .map-coords strong{color:var(--gold-dark);font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.1em;display:block;margin-bottom:.4rem;}
 </style>
 </head>
-<body>
-<div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-  <span class="toggle-option active" id="optDark">☾ DARK</span>
-  <span class="toggle-option" id="optLight">☀ LIGHT</span>
+<body class="light-mode">
+<div class="theme-toggle" id="themeToggle" onclick="var isLight=document.body.classList.toggle('light-mode');document.getElementById('optDark').classList.toggle('active',!isLight);document.getElementById('optLight').classList.toggle('active',isLight);">
+  <span class="toggle-option" id="optDark">☾ DARK</span>
+  <span class="toggle-option active" id="optLight">☀ LIGHT</span>
 </div>
 <header class="site-header">
   <h1>Underfoot</h1>
   <p class="subtitle">Guild Raid Strategy Vault — Teek Server &nbsp;·&nbsp; Key of Swords</p>
   <div class="xpac-badge">Launch Date: October 8, 2026</div>
   <div style="margin-top:10px; position:relative; z-index:1;">
-    <a href="uf.html"
+    <a href="https://key-of-swords.github.io/Key-Of-Swords-Resources/underfoot.html"
        style="display:inline-block; font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:0.1em; color:var(--gold); background:var(--deep-bg); border:1px solid var(--gold-dark); padding:7px 18px; border-radius:3px; text-decoration:none; transition:color 0.15s, border-color 0.15s;"
        onmouseover="this.style.color='var(--gold-light)';this.style.borderColor='var(--gold)'"
        onmouseout="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dark)'">
@@ -2202,14 +2201,14 @@
 <article class="raid-card collapsed" id="trialofdeconstruction">
   <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
     <div>
-      <div class="boss-name">Trial of Deconstruction — Brell's Temple: Brell's Trials</div>
+      <div class="boss-name">Trial of Deconstruction — Brell's Temple</div>
       <a href="#" class="top-btn" onclick="event.stopPropagation();window.scrollTo({top:0,behavior:'smooth'});return false;">↑ TOP</a>
       <div class="boss-meta">
-        <span><strong>Zone:</strong> Brell's Temple: Brell's Trials</span>
-        <span><strong>NPC:</strong> <em>TBD</em></span>
-        <span><strong>Requirements:</strong> <em>TBD</em></span>
-        <span><strong>Request Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Entry Phrase:</strong> <em>TBD</em></span>
+        <span><strong>Zone:</strong> Brell's Temple</span>
+        <span><strong>NPC:</strong> The Font Guardian &mdash; at the main junction, behind a locked door (keystone required to open &mdash; reward from the "Fire in the Hole" group task)</span>
+        <span><strong>Requirements:</strong> Emblem of Brell</span>
+        <span><strong>Request Phrase:</strong> "Ready"</span>
+        <span><strong>Entry Phrase:</strong> "Time"</span>
         <span><strong>Required to Request:</strong> Fire in the Hole &amp; all Tier 6 &amp; Tier 7 raids</span>
       </div>
       <div class="badges" style="margin-top:10px;">
@@ -2222,11 +2221,14 @@
     <div class="section-grid">
       <div class="info-block">
         <h3>Boss Stats</h3>
-        <div class="stat-row"><span class="label">Max Hit</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">AE Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Flurry</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Summons</span><span class="value"><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; cliknar (West)</span><span class="value danger">11,000</span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; clockworks (East)</span><span class="value danger">12,000</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value safe">None</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">None</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value safe">None</span></div>
+        <div class="stat-row"><span class="label">Cliknar CC</span><span class="value danger">Immune to mez, stun, charm, snare</span></div>
+        <div class="stat-row"><span class="label">Cliknar Summons</span><span class="value danger">When damaged (97%)</span></div>
+        <div class="stat-row"><span class="label">Clockwork Summons</span><span class="value danger">From 100%</span></div>
       </div>
       <div class="info-block">
         <h3>Loot — <em>TBD</em></h3>
@@ -2238,27 +2240,227 @@
     <table class="spells-table">
       <thead><tr><th>Spell</th><th>Source</th><th>Type</th><th>Effect</th><th>Counter</th></tr></thead>
       <tbody>
+        <tr><td colspan="5" style="padding:14px 12px 6px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;border-bottom:1px solid var(--panel-border);">West Side &mdash; Cliknar</td></tr>
         <tr>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
+          <td><strong class="spell-name">Four-arm Shrug</strong></td>
+          <td><strong>a cliknar forestriker &mdash; Wave 1</strong></td>
+          <td>PB AE 50' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">20,000 DD<br>Knockback (6) and Toss Up (2)<br>Occasionally mem-blurs</td>
+          <td>Tanks watch for aggro loss after a blur</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Sandstorm</strong></td>
+          <td><strong>a cliknar sandblight &mdash; Wave 1</strong></td>
+          <td>PB AE 50' &middot; Magic (-650)</td>
+          <td style="color:#e07060;">20,000 DD<br>Blindness</td>
+          <td>Separate the mobs &mdash; keep the raid out of 50'</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Slicing Chitin</strong></td>
+          <td><strong>a cliknar sandblight &mdash; Wave 1</strong></td>
+          <td>Single Target &middot; Unresistable (-1000)</td>
+          <td style="color:#e07060;">10,000 DD<br>5,000 DoT per tick</td>
+          <td>Heals on the tank</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Smoldering Acid</strong></td>
+          <td><strong>a cliknar sandblight &mdash; Wave 1</strong></td>
+          <td>Area &mdash; PC Only 80' &middot; Poison (-700)</td>
+          <td style="color:#e07060;">18,000 DD</td>
+          <td>Spread out &mdash; this one reaches 80', not 50'</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Swarm of Fleas</strong></td>
+          <td><strong>a cliknar lifemender &mdash; Wave 2</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Reuse Timer by 30.00 sec<br>10,000 DoT per tick<br><strong>72 Disease Counters</strong></td>
+          <td>Cure Disease</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Joint Rot</strong></td>
+          <td><strong>a cliknar lifemender &mdash; Wave 2</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">10,000 DoT per tick<br>Inhibit Melee Attacks (150%)<br>Decrease Movement by 50%<br><strong>24 Corruption Counters</strong></td>
+          <td>Cure Corruption</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Health Infusion</strong></td>
+          <td><strong>a cliknar lifemender &mdash; Wave 2</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Increase Hitpoints by 50,000</td>
+          <td>Burn the lifemender down &mdash; 50k back per cast</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Fiendish Detonation</strong></td>
+          <td><strong>a cliknar shell &mdash; Wave 3</strong></td>
+          <td>PB AE 75' &middot; Chromatic (-700)</td>
+          <td style="color:#e07060;">70,000 DD<br>Stun (10.00 sec)<br>10,000 DoT per tick</td>
+          <td><strong>Run to the hallway on the emote &mdash; MT stays put</strong></td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Barrier of Blades</strong></td>
+          <td><strong>a cliknar bladeguard &mdash; Wave 3</strong></td>
+          <td>Self 0' &middot; Magic (0)</td>
+          <td style="color:#e07060;">Increase Damage Shield by 8,000<br><strong>9 Corruption Counters</strong></td>
+          <td>Shielding AA + no-damage mainhand, or <strong>range DPS only</strong></td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr><td colspan="5" style="padding:14px 12px 6px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;border-bottom:1px solid var(--panel-border);">East Side &mdash; Clockworks</td></tr>
+        <tr>
+          <td><strong class="spell-name">Spinning Blade Pushback</strong></td>
+          <td><strong>a rotocopter sentinel (chopper)</strong></td>
+          <td>PB AE 100' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Knockback (2) and Toss Up (1)</td>
+          <td>Expect to be thrown &mdash; reposition</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Whirring Copter Blades</strong></td>
+          <td><strong>a rotocopter sentinel (chopper)</strong></td>
+          <td>PB AE 25' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 100,000<br>Emote series fires every 20 seconds</td>
+          <td><strong>YELLOW text &mdash; move 25'+ within 4 seconds. MT included.</strong></td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Spreading Tetanus</strong></td>
+          <td><strong>a rusted skitterer (spider)</strong></td>
+          <td>Single Target &middot; Poison (0)</td>
+          <td style="color:#e07060;">15,000 DD<br>20,000 DoT per tick<br>Cast every 30&ndash;60 seconds<br>Spreads to everyone nearby if not cured<br><strong>128 Poison Counters</strong></td>
+          <td>Run from the raid and get cured &mdash; Paladin splash cures it</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Greasy Goo</strong></td>
+          <td><strong>a Brell-forged gnomework</strong></td>
+          <td>Goo pool</td>
+          <td style="color:#e07060;">One spawns every 30 seconds on a random player<br>8,000 HP / 500 Mana / 500 Endurance DoT + Snare + Melee Inhibit<br><strong>12 Corruption Counters</strong></td>
+          <td>Move off the goo, then Corruption cure</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Caustic Goo</strong></td>
+          <td><strong>a Brell-forged gnomework</strong></td>
+          <td>Single Target</td>
+          <td style="color:#e07060;">8,000 DD &mdash; chain-nukes anyone standing in the goo</td>
+          <td>Move off the goo</td>
         </tr>
       </tbody>
     </table>
     <div class="phase-header">Emotes</div>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">West Side</div>
+    <div class="phase-block phase-red">
+      <h4>"a cliknar shell shudders, about to explode near Temujin!"</h4>
+      <p>Run away from the raid, into the hallway. <strong>MT DO NOT RUN TO THE HALLWAY OR YOU WILL LEASH THE MOB AND DT THE RAID.</strong></p>
+    </div>
+    <div class="phase-block phase-red">
+      <h4>"a cliknar shell begins to cast a spell. &lt;Fiendish Detonation&gt;"</h4>
+      <p>70,000 DD centred on the targeted player. AE range = 93'.</p>
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">East Side</div>
+    <div class="phase-block phase-red">
+      <h4>"generating a high-pitched screech"</h4>
+      <p>MOVE AWAY! <strong>Main tank included</strong> &mdash; it won't summon you during the emote/AE.</p>
+    </div>
     <div class="phase-block phase-amber">
-      <h4><em>TBD</em></h4>
-      <p><em>TBD</em></p>
+      <h4>"Your skin is pierced by a rusty fang!"</h4>
+      <p>MOVE AWAY! Main tank, set up a hotkey asking for splash/cures.</p>
+    </div>
+    <div class="phase-block phase-amber">
+      <h4>"You are covered in a thick greasy goo"</h4>
+      <p>MOVE OFF THE GOO! Get Corruption cured.</p>
+    </div>
+    <div class="phase-block phase-amber">
+      <h4>"this goo is caustic!"</h4>
+      <p>MOVE OFF THE GOO!</p>
     </div>
     <div class="phase-header">Overview</div>
-    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><em>TBD</em></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>Time event.</strong> Both the East and West sides need to be completed within <strong>15 minutes</strong>.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">The <strong>WEST</strong> side consists of THREE waves of various cliknar adds at timed intervals &mdash; 6 when the event is triggered, then 4, then 6 to finish this side. Kill from the 1st pad on the left as you enter the room, working clockwise around the room.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">For the final stage west (6x cliknar) there are TWO mob types: <strong>Shells</strong> and <strong>Bladeguards</strong>. SHELLS = 70k AE, Bladeguards = 8k melee damage shield.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">For <strong>Shells</strong>, the 70k AE is targeted at a random player and AEs their location. You MUST set up the proper trigger and run to the hallway when it fires, to avoid killing everyone near you. The warning pattern is: <em>about to explode near your_name</em>.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">For <strong>Bladeguards</strong> &mdash; ALL MELEE with AA Shielding Resistance (Archetype, 5 ranks), bandolier to a no-damage mainhand and a weapon offhand to avoid the damage shield and still do DPS on the bladeguards. If you lack the above AA and setup, then <strong>RANGE DPS ONLY</strong> the bladeguards or you'll just die to the damage shield.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>DO NOT use ANY special melee attacks (i.e. kick) against bladeguards</strong>, unless you are range DPSing.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">The <strong>EAST</strong> side is a bit more involved. We kill clockwork minibosses that drop items, which we then hand in to creation NPCs located around the room. East has THREE flavors of clockwork, each with an emote you'll have to react to or die &mdash; and kill us all in a big epic scene. Successfully complete the East side event by handing in all 12 items to the proper creations.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><strong>Any mob leashed beyond its respective room will reset HP and DT the person responsible.</strong></p>
+    <div class="phase-header">Event Timers</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Both East and West sides must be completed within <strong>15 minutes</strong> from trigger. Timers below are for the West side.</p>
+    <table class="spells-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Time</th><th>Event</th><th>Mobs</th></tr></thead>
+      <tbody>
+        <tr><td><strong class="spell-name">0:00</strong></td><td>ADD WAVE 1</td><td>3x a cliknar forestriker &amp; 3x a cliknar sandblight</td></tr>
+        <tr><td><strong class="spell-name">5:00</strong></td><td>ADD WAVE 2</td><td>2x a cliknar lifemender &amp; 2x a cliknar chitinguard</td></tr>
+        <tr><td><strong class="spell-name">7:00</strong></td><td>ADD WAVE 3</td><td>3x a cliknar shell &amp; a cliknar bladeguard &mdash; these will most likely spawn as soon as Wave 2 is dead</td></tr>
+      </tbody>
+    </table>
+    <div class="phase-header">NPC Hand-Ins</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Twelve items drop and none repeat. Six of the twelve creations spawn each run, chosen at random &mdash; hand each looted item to its matching creation.</p>
+    <table class="spells-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Item</th><th>Hand In To</th></tr></thead>
+      <tbody>
+        <tr><td><strong class="spell-name">Ball of Clay</strong></td><td>a muddite creation</td></tr>
+        <tr><td><strong class="spell-name">Beaded Necklace</strong></td><td>a kobold creation</td></tr>
+        <tr><td><strong class="spell-name">Bronze Headband</strong></td><td>a genari creation</td></tr>
+        <tr><td><strong class="spell-name">Chitinous Barding</strong></td><td>a worker creation</td></tr>
+        <tr><td><strong class="spell-name">Crystalline Mandible</strong></td><td>a sessiloid creation</td></tr>
+        <tr><td><strong class="spell-name">Crystalline Stinger</strong></td><td>an ambuloid creation</td></tr>
+        <tr><td><strong class="spell-name">Downy Feathers</strong></td><td>a telmira creation</td></tr>
+        <tr><td><strong class="spell-name">Frozen Shield</strong></td><td>a coldain creation</td></tr>
+        <tr><td><strong class="spell-name">Squirming Aphid</strong></td><td>a soldier creation</td></tr>
+        <tr><td><strong class="spell-name">Spined Wristguard</strong></td><td>a gigyn creation</td></tr>
+        <tr><td><strong class="spell-name">Studded Leather Collar</strong></td><td>a gnollish creation</td></tr>
+        <tr><td><strong class="spell-name">Tinkerer's Tools</strong></td><td>a gnomish creation</td></tr>
+      </tbody>
+    </table>
+    <div class="phase-header">East Side Mobs</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>a rotocopter sentinel (chopper)</strong> &mdash; when you see YELLOW text on screen, GET AWAY from the mob. This includes the MT. Move at least 25 range or get DT'd. <strong>YOU HAVE 4 SECONDS TO MOVE.</strong> When you see RED text the DT has fired and it is safe to come back in. The rotocopter doesn't summon while it's casting these emote spells, so the tank must also get away from it. This series of emotes happens every 20 seconds. <strong>IF YOU CANNOT FOLLOW EMOTES, YOU NEED TO RANGE THIS MOB.</strong></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>a rusted skitterer (spider)</strong> &mdash; casts Spreading Tetanus on three random people every 30&ndash;60 seconds. If you get hit with this you must run away from the raid and get a cure &mdash; <strong>128 Poison Counters</strong>. If it isn't cured within several seconds it spreads itself to everyone around the inflicted player. Paladin splashes can cure this.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><strong>a Brell-forged gnomework</strong> &mdash; every 30 seconds on aggro the mob spawns a non-aggro "greasy goo" on a random player. Anyone standing in the goo is hit with Greasy Goo and chain-nuked by Caustic Goo for as long as they stand in it. <strong>When you see a goo spawn, MOVE OUT OF THE GOO!</strong></p>
+    <div class="phase-header">Positioning</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Tanks need to stand at their assigned platforms on the <strong>WEST</strong> side.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">The raid needs to stay away from the centre of the room on the <strong>EAST</strong> side, so the tanks can pull the mobs when they activate.</p>
+    <div class="phase-header">Failure / Reset</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A &mdash; the only hard limit is the 15-minute timer.</p>
     <div class="ornament-divider">Strategy</div>
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Option 1 &mdash; Raid Stays Together</div>
       <ol style="counter-reset:strat 0;">
-        <li><em>TBD</em></li>
+        <li>Raid stays together and alternates between West &amp; East.</li>
+        <li>West side &mdash; load <strong>Corruption &amp; Disease</strong> cures.</li>
+        <li>East side &mdash; load <strong>Corruption &amp; Poison</strong> cures.</li>
+        <li><strong>Any mob leashed beyond its respective room will reset HP and DT the person responsible.</strong></li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">West Side &mdash; Wave 1</div>
+      <ol style="counter-reset:strat 4;">
+        <li>Start on the West side.</li>
+        <li>At event trigger, 6x cliknar mobs spawn.</li>
+        <li>Cliknar have a small aggro range, but they are linked and will all aggro together.</li>
+        <li>Send in a DA Paladin to get aggro on all six.</li>
+        <li>Assign tanks to each mob on the Xtarget.</li>
+        <li>Separate the mobs and pull them back to the back wall. The mobs have AoEs and need to be separated.</li>
+        <li>Melee on the forestrikers, range on the sandblights.</li>
+        <li>Kill the 1st wave of 6x cliknar adds.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">East Side</div>
+      <ol style="counter-reset:strat 12;">
+        <li>Once the first wave of cliknar are dead, move to the East side and begin killing mobs one at a time.</li>
+        <li>Six non-aggro "creations" will surround the room.</li>
+        <li>One clockwork will spawn at a time. Kill them as they spawn, loot their item, and hand that item to the correct creation.</li>
+        <li>Which clockwork spawns is random. There may be a delay from spawn before you can attack.</li>
+        <li>Which six of the twelve creations spawn is also random.</li>
+        <li>There are 12 items that drop and none repeat.</li>
+        <li>Keep killing mobs until you get the correct 6 to hand in. This will require you to kill at least 6 mobs and at most 12 mobs.</li>
+        <li>Turning in an item to the correct creation despawns that mob. Do this for all six creations around the room to complete the East side.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">West Side &mdash; Waves 2 &amp; 3</div>
+      <ol style="counter-reset:strat 20;">
+        <li>Kill mobs on the East side until just before the 5:00 minute mark, when the 2nd wave of cliknar spawn. Then move back to the West side for Wave 2.</li>
+        <li>At the 5:00 minute mark, 4x cliknar mobs spawn.</li>
+        <li>Kill the 2nd wave of 4x cliknar adds.</li>
+        <li>After the 2nd wave is dead, 6x cliknar mobs spawn (or they possibly spawn at the 7:00 mark).</li>
+        <li>Kill the 3rd wave of 6x cliknar adds to complete the West side portion of the event.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Finish</div>
+      <ol style="counter-reset:strat 25;">
+        <li>Once the 3rd wave is dead, move back to the East side to finish the event.</li>
+        <li>Continue to kill mobs one at a time until you have the correct 6 items to turn in. Once all 6 items are turned in, the chest will spawn near the NPCs.</li>
       </ol>
     </div>
   </div>
@@ -2268,14 +2470,14 @@
 <article class="raid-card collapsed" id="trialofcreation">
   <div class="raid-card-header" onclick="this.closest('.raid-card').classList.toggle('collapsed')">
     <div>
-      <div class="boss-name">Trial of Creation — Brell's Temple: Brell's Trials</div>
+      <div class="boss-name">Trial of Creation — Brell's Temple</div>
       <a href="#" class="top-btn" onclick="event.stopPropagation();window.scrollTo({top:0,behavior:'smooth'});return false;">↑ TOP</a>
       <div class="boss-meta">
-        <span><strong>Zone:</strong> Brell's Temple: Brell's Trials</span>
-        <span><strong>NPC:</strong> <em>TBD</em></span>
-        <span><strong>Requirements:</strong> <em>TBD</em></span>
-        <span><strong>Request Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Entry Phrase:</strong> <em>TBD</em></span>
+        <span><strong>Zone:</strong> Brell's Temple</span>
+        <span><strong>NPC:</strong> The Font Guardian &mdash; at the main junction, behind a locked door (keystone required to open &mdash; reward from the "Fire in the Hole" group task)</span>
+        <span><strong>Requirements:</strong> Emblem of Brell</span>
+        <span><strong>Request Phrase:</strong> "Ready"</span>
+        <span><strong>Entry Phrase:</strong> "Time"</span>
         <span><strong>Required to Request:</strong> Fire in the Hole &amp; all Tier 6 &amp; Tier 7 raids</span>
       </div>
       <div class="badges" style="margin-top:10px;">
@@ -2288,43 +2490,390 @@
     <div class="section-grid">
       <div class="info-block">
         <h3>Boss Stats</h3>
-        <div class="stat-row"><span class="label">Max Hit</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">AE Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Flurry</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Summons</span><span class="value"><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">West &mdash; ore golems</span><span class="value danger">~22,000</span></div>
+        <div class="stat-row"><span class="label">West &mdash; jeweled golems</span><span class="value danger">~16,000</span></div>
+        <div class="stat-row"><span class="label">West &mdash; clay oozes</span><span class="value danger">~16,000</span></div>
+        <div class="stat-row"><span class="label">West &mdash; frenzied kobolds</span><span class="value danger">~16,000</span></div>
+        <div class="stat-row"><span class="label">West &mdash; stringy plants</span><span class="value danger">~16,000</span></div>
+        <div class="stat-row"><span class="label">West &mdash; woodland treants</span><span class="value danger">~16,000</span></div>
+        <div class="stat-row"><span class="label">East &mdash; a lava golem</span><span class="value danger">~15,000</span></div>
+        <div class="stat-row"><span class="label">East &mdash; crystal golems</span><span class="value danger">~15,000</span></div>
+        <div class="stat-row"><span class="label">East &mdash; earth golems</span><span class="value danger">~15,000</span></div>
+        <div class="stat-row"><span class="label">East &mdash; a water mephit</span><span class="value danger">~4,000</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value safe">None</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value safe">None</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value safe">None</span></div>
+        <div class="stat-row"><span class="label">West CC</span><span class="value danger">Immune to mez, stun, charm, normal snare</span></div>
+        <div class="stat-row"><span class="label">West Summons</span><span class="value danger">When damaged</span></div>
       </div>
       <div class="info-block">
-        <h3>Loot — <em>TBD</em></h3>
+        <h3>Loot — a chest</h3>
         <ul>
-          <li><em>TBD</em></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89365" target="_blank" rel="noopener">Adorned Shield of Potency ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89366" target="_blank" rel="noopener">Band of Living Clay ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89340" target="_blank" rel="noopener">Banded Crystalline Earring ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89714" target="_blank" rel="noopener">Choker of the Arbiter ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89451" target="_blank" rel="noopener">Chronicle of the Trials ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89668" target="_blank" rel="noopener">Cloak of the Challenger ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89333" target="_blank" rel="noopener">Etched Axe of Judgment ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89992" target="_blank" rel="noopener">Hoop of Untamed Creation ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89336" target="_blank" rel="noopener">Katar of Bound Elements ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89335" target="_blank" rel="noopener">Razor of the Underfoot ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89567" target="_blank" rel="noopener">Ring of Pooled Energy ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89450" target="_blank" rel="noopener">Ring of Scalding Steam ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89334" target="_blank" rel="noopener">Sanctified Hammer of Wrath ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89772" target="_blank" rel="noopener">Shining Symbol of Influence ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89332" target="_blank" rel="noopener">Spined Crystal Band ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89462" target="_blank" rel="noopener">Tempered Band of Elements ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89331" target="_blank" rel="noopener">Veil of Reflective Crystal ↗</a></li>
         </ul>
       </div>
     </div>
     <table class="spells-table">
       <thead><tr><th>Spell</th><th>Source</th><th>Type</th><th>Effect</th><th>Counter</th></tr></thead>
       <tbody>
+        <tr><td colspan="5" style="padding:14px 12px 6px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;border-bottom:1px solid var(--panel-border);">West Side</td></tr>
         <tr>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
+          <td><strong class="spell-name">Spiteful Demeanor</strong></td>
+          <td><strong>an ore golem</strong></td>
+          <td>Self 0' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Block Next Spell<br><strong>9 Corruption Counters</strong></td>
+          <td>Aura &mdash; leave it alone</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Unimposing Demeanor</strong></td>
+          <td><strong>an ore golem</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Trigger Effect: Imposition on Fade</td>
+          <td>See Imposition below</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Imposition</strong></td>
+          <td><strong>an ore golem &mdash; triggered on fade</strong></td>
+          <td>Single Target</td>
+          <td style="color:#e07060;">Wipe Aggro up to level 0 at 100% chance</td>
+          <td><strong>TANKS: DO NOT TAUNT the ore golem &mdash; taunting fades your aggro entirely. Remove taunt from your hot bar.</strong></td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Refraction of Light</strong></td>
+          <td><strong>a jeweled golem</strong></td>
+          <td>Targeted AE 10' &middot; Magic (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 30,000</td>
+          <td>Avoided entirely by staying inside the golem&rsquo;s melee range &mdash; but you will be silenced there</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Silencing Splendor</strong></td>
+          <td><strong>a jeweled golem</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Silence</td>
+          <td>The trade-off for standing in melee range</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Coated with Clay</strong></td>
+          <td><strong>a clay ooze</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Block Next Spell<br>Decrease Movement by 70%</td>
+          <td><strong>Lands on the tank &mdash; they cannot be healed until it wears off. Kill the ooze immediately.</strong></td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Vein Corruption</strong></td>
+          <td><strong>a frenzied kobold</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Increase Incoming Spell Damage by 1000%<br>Decrease Poison Resist by 600<br><strong>36 Corruption Counters</strong></td>
+          <td>Cure Corruption ASAP</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Shambler Throw</strong></td>
+          <td><strong>a stringy plant</strong></td>
+          <td>PB AE 200' &middot; Magic (0)</td>
+          <td style="color:#e07060;">Knockback (12) and Toss Up (2)</td>
+          <td>Expect to be thrown a long way</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Shambler Vines</strong></td>
+          <td><strong>a stringy plant</strong></td>
+          <td>PB AE 200' &middot; Magic (0)</td>
+          <td style="color:#e07060;">Amnesia (Silence vs Melee)<br>Silence<br>Decrease Movement by 75%</td>
+          <td><strong>The ONLY cure is to walk into the plant&rsquo;s melee range</strong></td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Leafrot</strong></td>
+          <td><strong>a woodland treant</strong></td>
+          <td>Single Target &middot; Disease (0)</td>
+          <td style="color:#e07060;">10,000 DoT per tick<br>10,000 DD<br><strong>8 Disease Counters</strong></td>
+          <td><strong>CURE Leafrot</strong></td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Sweet Sap</strong></td>
+          <td><strong>a woodland treant</strong></td>
+          <td>Single Target &middot; Magic (0)</td>
+          <td style="color:#e07060;">Increase Hitpoints by 15,000 per tick<br>Increase HP when cast by 15,000<br>If Cured, Trigger on Curer: Inebriating Sap<br><strong>1 Disease Counter</strong></td>
+          <td><strong>DO NOT CURE Sweet Sap. NO DRUID AURAS</strong> &mdash; their Disease cure will trip it</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Inebriating Sap</strong></td>
+          <td><strong>a woodland treant &mdash; triggered on the curer</strong></td>
+          <td>Single Target</td>
+          <td style="color:#e07060;">Drunk (if Alcohol Tolerance under 1000)<br>Stun (6.00 sec)</td>
+          <td>The penalty for curing Sweet Sap</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr><td colspan="5" style="padding:14px 12px 6px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;border-bottom:1px solid var(--panel-border);">East Side &mdash; Phase 1 (Prime Fire Elemental)</td></tr>
+        <tr>
+          <td><strong class="spell-name">Flickering Fire Form</strong></td>
+          <td><strong>Prime Fire Elemental</strong></td>
+          <td>Self 0' &middot; Fire (0)</td>
+          <td style="color:#e07060;">Increase Incoming Spell Damage by 60%<br>Increase Damage Shield by 3,500<br>Limit: Resist (Cold allowed)<br><strong>9 Corruption Counters</strong></td>
+          <td>Caster DPS on the elemental; melee stay off it</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Flaming Fire Form</strong></td>
+          <td><strong>a lava golem</strong></td>
+          <td>Self 0' &middot; Fire (0)</td>
+          <td style="color:#e07060;">Increase Incoming Spell Damage by 60%<br>Spell-Damage Shield (-12,500)<br>Limit: Resist (Cold allowed)<br><strong>9 Corruption Counters</strong></td>
+          <td><strong>NO CASTERS on the golem &mdash; including slow.</strong> Melee only</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr><td colspan="5" style="padding:14px 12px 6px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;border-bottom:1px solid var(--panel-border);">East Side &mdash; Phase 2 (Prime Earth Elemental)</td></tr>
+        <tr>
+          <td><strong class="spell-name">Reflective Crystal</strong></td>
+          <td><strong>a crystal golem</strong></td>
+          <td>Self 0' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Spell Resist Rate by 1000%<br>Increase Chance to Reflect Spell by 100%<br><strong>99 Poison Counters</strong></td>
+          <td><strong>MELEE ONLY on crystal golems</strong></td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Earthen Fist</strong></td>
+          <td><strong>an earth golem</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 30,000</td>
+          <td>Anyone can attack earth golems</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Earthen Root</strong></td>
+          <td><strong>an earth golem</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Root</td>
+          <td>Earth golems also mem-blur &mdash; watch for aggro swap</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr><td colspan="5" style="padding:14px 12px 6px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;border-bottom:1px solid var(--panel-border);">East Side &mdash; Phase 4 (Prime Air Elemental)</td></tr>
+        <tr>
+          <td><strong class="spell-name">Whirling Air Form</strong></td>
+          <td><strong>Prime Air Elemental</strong></td>
+          <td>Self</td>
+          <td style="color:#e07060;">Increase Incoming Spell Damage by 1%<br>Limit: Resist (Magic allowed)<br><strong>9 Corruption Counters</strong></td>
+          <td>MAGIC nukes do bonus damage. Knockback aura &mdash; this is a ranged fight</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Disintegrating Winds</strong></td>
+          <td><strong>an insubstantial force<br>a whirling force</strong></td>
+          <td>DoT</td>
+          <td style="color:#e07060;">Increase Hitpoints by 1 per tick</td>
+          <td>Cured by attacking the insubstantial forces</td>
         </tr>
       </tbody>
     </table>
     <div class="phase-header">Emotes</div>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">West Side</div>
     <div class="phase-block phase-amber">
-      <h4><em>TBD</em></h4>
-      <p><em>TBD</em></p>
+      <h4>"The shambler vines go slack and no longer restrict your movement."</h4>
+      <p>You have been cured of Shambler Vines, by walking into the plant's melee range.</p>
     </div>
     <div class="phase-header">Overview</div>
-    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><em>TBD</em></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>Time event.</strong> Both the East and West sides need to be completed within <strong>15 minutes</strong>. The raid will be split into two to complete each side simultaneously.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">The <strong>WEST</strong> side consists of 12 mobs with special emotes and AEs. Each mob drops tradeskill components, which we combine into items and hand in to Brell Serilis to complete the side. There are six types &mdash; you will kill two of each type. Mobs spawn in the centre of the room and have a small aggro range.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">West mobs hit for 16,000&ndash;22,000, are immune to mez, stun, charm and normal snare, do not flurry or rampage, and summon when damaged.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">One person will be assigned to loot the tradeskill drops and do the combines. Be sure to have your portable tradeskill kits on you &mdash; <strong>Sewing Kit, Fletching Kit and Jewelry Crafting Kit</strong>. If you start a new event, the looted items will disappear from your inventory.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>TANKS: DO NOT USE TAUNT on anything on the WEST side. Remove it from your hot bar.</strong></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">The <strong>EAST</strong> side consists of four elemental minibosses. Each has special mechanics &mdash; AEs, adds, and emotes with a DT or AE on failure. Each elemental changes form every 25%. They do not hit back, but have various AEs and mechanics that have to be dealt with.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>WARNING &mdash; EAST, PET OWNERS: DO NOT EQUIP YOUR PET WITH COLD/FIRE PROC WEAPONS. This will wipe the raid.</strong></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>WARNING &mdash; EAST, ALL MELEE: check your weapons and make sure you do not have a COLD/FIRE PROC. This will wipe the raid.</strong></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><strong>Any mob leashed beyond its respective room will reset HP and DT the person responsible.</strong></p>
+    <div class="phase-header">Event Timers</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Both East and West sides must be completed within <strong>15 minutes</strong> from trigger.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><strong>EAST SIDE:</strong> three minutes must pass before you can "phase" each elemental &mdash; their forms switch at 75%, 50% and 30%.</p>
+    <div class="phase-header">West Side Mob Notes</div>
+    <table class="spells-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Mob</th><th>Handling</th></tr></thead>
+      <tbody>
+        <tr><td><strong class="spell-name">an ore golem</strong></td><td>Cannot be taunted. <strong>Remove taunt from your hot bar.</strong></td></tr>
+        <tr><td><strong class="spell-name">a jeweled golem</strong></td><td>Has an aura &mdash; everyone stack inside its aura.</td></tr>
+        <tr><td><strong class="spell-name">a clay ooze</strong></td><td>Needs to be picked up by a tank and killed immediately. They cast "Coated with Clay" on the tank, preventing them from being healed until it wears off.</td></tr>
+        <tr><td><strong class="spell-name">a frenzied kobold</strong></td><td>Casts Vein Corruption. Cure ASAP &mdash; <strong>36 Corruption Counters</strong>.</td></tr>
+        <tr><td><strong class="spell-name">a stringy plant</strong></td><td>Kill fast. Everyone stay in melee range to cure Shambler Vines.</td></tr>
+        <tr><td><strong class="spell-name">a woodland treant</strong></td><td>Cure Leafrot. <strong>DO NOT cure Sweet Sap &mdash; NO DRUID AURA</strong>, as they have a Disease cure. Curing Sweet Sap gets the curer Drunk + a 6 second stun.</td></tr>
+      </tbody>
+    </table>
+    <div class="phase-header">West Side Combines</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Looting all 12 mobs yields exactly enough for all six items &mdash; there is nothing spare, so every combine has to be right.</p>
+    <table class="spells-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Component</th><th>Total Looted</th></tr></thead>
+      <tbody>
+        <tr><td><strong class="spell-name">Brellian Ore</strong></td><td>x10</td></tr>
+        <tr><td><strong class="spell-name">Eternal Water</strong></td><td>x14</td></tr>
+        <tr><td><strong class="spell-name">Raw Gemstone</strong></td><td>x10</td></tr>
+        <tr><td><strong class="spell-name">Raw Wood</strong></td><td>x8</td></tr>
+        <tr><td><strong class="spell-name">Strands of Vines</strong></td><td>x10</td></tr>
+        <tr><td><strong class="spell-name">Sweet Sap</strong></td><td>x2</td></tr>
+        <tr><td><strong class="spell-name">Thick Kobold Hide</strong></td><td>x8</td></tr>
+        <tr><td><strong class="spell-name">Waxy Clay</strong></td><td>x8</td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Brell's Basic Companion</div>
+    <table class="spells-table" style="margin-bottom:1.2rem;">
+      <thead><tr><th>Station</th><th>Components</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x1 + Raw Gemstone x2 + Eternal Water x1</td><td>Muddite Head</td></tr>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x2 + Eternal Water x1</td><td>Muddite Torso</td></tr>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x1 + Raw Wood x1 + Eternal Water x1</td><td>Pair of Muddite Limbs</td></tr>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x1 + Raw Wood x1 + Eternal Water x1</td><td>Pair of Muddite Limbs</td></tr>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x1 + Muddite Head x1 + Muddite Torso x1 + Pair of Muddite Limbs x2 + Eternal Water x1</td><td>Unfired Muddite Companion</td></tr>
+        <tr><td>Pottery Kiln</td><td>Unfired Muddite Companion</td><td><strong class="spell-name">Brell's Basic Companion</strong></td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Brell's Broad-headed Hammer</div>
+    <table class="spells-table" style="margin-bottom:1.2rem;">
+      <thead><tr><th>Station</th><th>Components</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Forge</td><td>Brellian Ore x2 + Eternal Water x1</td><td>Block of Brellian Metal</td></tr>
+        <tr><td>Forge</td><td>Brellian Ore x2 + Eternal Water x1</td><td>Block of Brellian Metal</td></tr>
+        <tr><td>Forge</td><td>Block of Brellian Metal x2</td><td>Mallet Head</td></tr>
+        <tr><td>Tailoring Loom</td><td>Thick Kobold Hide x1</td><td>Kobold Leather Straps</td></tr>
+        <tr><td>Tailoring Loom</td><td>Thick Kobold Hide x1</td><td>Kobold Leather Straps</td></tr>
+        <tr><td>Fletching</td><td>Raw Wood x2 + Kobold Leather Straps x2</td><td>Leather Hilted Handle</td></tr>
+        <tr><td>Forge</td><td>Mallet Head + Leather Hilted Handle</td><td><strong class="spell-name">Brell's Broad-headed Hammer</strong></td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Brell's Candled Crown</div>
+    <table class="spells-table" style="margin-bottom:1.2rem;">
+      <thead><tr><th>Station</th><th>Components</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Tailoring Loom</td><td>Strands of Vines x1</td><td>Candle Wicks</td></tr>
+        <tr><td>Tailoring Loom</td><td>Strands of Vines x1</td><td>Candle Wicks</td></tr>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x1 + Candle Wicks x1</td><td>Bundle of Candles</td></tr>
+        <tr><td>Pottery Wheel</td><td>Waxy Clay x1 + Candle Wicks x1</td><td>Bundle of Candles</td></tr>
+        <tr><td>Forge</td><td>Brellian Ore x1 + Eternal Water x1</td><td>Brellian Sheet Metal</td></tr>
+        <tr><td>Jewelcraft</td><td>Brellian Sheet Metal x1</td><td>Gemless Brellian Crown</td></tr>
+        <tr><td>Jewelcraft</td><td>Raw Gemstone x4</td><td>Sparkling Gemstones</td></tr>
+        <tr><td>Jewelcraft</td><td>Sparkling Gemstones x1 + Gemless Brellian Crown x1</td><td>Jeweled Brellian Crown</td></tr>
+        <tr><td>Jewelcraft</td><td>Jeweled Brellian Crown x1 + Bundle of Candles x2</td><td><strong class="spell-name">Brell's Candled Crown</strong></td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Brell's Hooded Cloak</div>
+    <table class="spells-table" style="margin-bottom:1.2rem;">
+      <thead><tr><th>Station</th><th>Components</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Tailoring Loom</td><td>Strands of Vines x2 &mdash; repeat 4 times in total</td><td>Strands of Thread x4</td></tr>
+        <tr><td>Tailoring Loom</td><td>Strands of Thread x1 + Thick Kobold Hide x3</td><td>Kobold Leather Cloak</td></tr>
+        <tr><td>Tailoring Loom</td><td>Strands of Thread x1 + Thick Kobold Hide x1</td><td>Kobold Leather Hood</td></tr>
+        <tr><td>Forge</td><td>Brellian Ore x1 + Eternal Water x1</td><td>Brellian Sheet Metal</td></tr>
+        <tr><td>Jewelcraft</td><td>Brellian Sheet Metal x1 + Strands of Thread x1</td><td>Hood Clasp</td></tr>
+        <tr><td>Tailoring Loom</td><td>Strands of Thread x1 + Kobold Leather Cloak x1 + Kobold Leather Hood x1 + Hood Clasp x1</td><td><strong class="spell-name">Brell's Hooded Cloak</strong></td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Brell's Jeweled Bracers</div>
+    <table class="spells-table" style="margin-bottom:1.2rem;">
+      <thead><tr><th>Station</th><th>Components</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Forge</td><td>Brellian Ore x1 + Eternal Water x1</td><td>Brellian Sheet Metal</td></tr>
+        <tr><td>Forge</td><td>Brellian Ore x1 + Eternal Water x1</td><td>Brellian Sheet Metal</td></tr>
+        <tr><td>Tailoring Loom</td><td>Thick Kobold Hide x2</td><td>Kobold Leather Padding</td></tr>
+        <tr><td>Forge</td><td>Brellian Sheet Metal x2 + Kobold Leather Padding x1</td><td>Gemless Bracers</td></tr>
+        <tr><td>Jewelcraft</td><td>Raw Gemstone x4</td><td>Sparkling Gemstones</td></tr>
+        <tr><td>Jewelcraft</td><td>Gemless Bracers x1 + Sparkling Gemstones x1</td><td><strong class="spell-name">Brell's Jeweled Bracers</strong></td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Keg of Brellian Brew</div>
+    <table class="spells-table" style="margin-bottom:1.2rem;">
+      <thead><tr><th>Station</th><th>Components</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Brewing</td><td>Sweet Sap x2 + Eternal Water x1</td><td>Brellian Brew</td></tr>
+        <tr><td>Forge</td><td>Brellian Ore x1 + Eternal Water x1</td><td>Brellian Sheet Metal</td></tr>
+        <tr><td>Forge</td><td>Brellian Ore x1 + Eternal Water x1</td><td>Brellian Sheet Metal</td></tr>
+        <tr><td>Forge</td><td>Brellian Sheet Metal x2</td><td>Brellian Metal Bands</td></tr>
+        <tr><td>Fletching</td><td>Raw Wood x4</td><td>Bundle of Wooden Staves</td></tr>
+        <tr><td>Fletching</td><td>Bundle of Wooden Staves x1 + Brellian Metal Bands x1</td><td>Brew Keg</td></tr>
+        <tr><td>Brewing</td><td>Brellian Brew x1 + Brew Keg x1</td><td><strong class="spell-name">Keg of Brellian Brew</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Hand these six items in to <strong>Brell Serilis, the Creator</strong>. The order does not matter, and they can be handed in at any time during the event.</p>
+    <div class="phase-header">Positioning</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">The raid splits into two. <strong>Two groups on the East side</strong>; the rest of the raid on the <strong>West side</strong>.</p>
+    <div class="phase-header">Failure / Reset</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Not completing each side within the 15 minute timer.</p>
     <div class="ornament-divider">Strategy</div>
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Setup</div>
       <ol style="counter-reset:strat 0;">
-        <li><em>TBD</em></li>
+        <li>Two groups East, the rest of the raid West.</li>
+        <li><strong>Any mob leashed beyond its respective room will reset HP and DT the person responsible.</strong></li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">West Side</div>
+      <ol style="counter-reset:strat 2;">
+        <li>Assign one crafter to do the tradeskill combines on the West side.</li>
+        <li>West side will get adds one at a time that have a small aggro range.</li>
+        <li>Kill 12 mobs and have the tradeskill person loot the components and do the combines.</li>
+        <li>Kill the adds as fast as possible to minimise the negative effects of each mob.</li>
+        <li>Once the 12th mob is killed, everyone except the tradeskill person moves to the East side. Mobs will continue to spawn.</li>
+        <li><strong>The tradeskill person STAYS OUT OF AGGRO RANGE</strong> and completes all combines.</li>
+        <li>Once all combines are done, hand in the six items to <strong>Brell Serilis, the Creator</strong>. The items can be handed in at any time during the event.</li>
+        <li>Handing in all six items completes the event for the West side.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">East &mdash; Phase 1 (Prime Fire Elemental)</div>
+      <ol style="counter-reset:strat 10;">
+        <li>The Fire Elemental switches forms AFTER 3 minutes have passed <em>and</em> it has been DPS'd down to 75%. <strong>There cannot be a golem up when it switches.</strong></li>
+        <li>It spawns single adds called "a lava golem" about every 60 seconds.</li>
+        <li>Caster DPS on the prime elemental, melee DPS on the adds.</li>
+        <li><strong>No casters on the golem</strong> &mdash; including slow &mdash; due to the spell reflect and increased spell damage.</li>
+        <li><strong>No lassitude on the tanks on the EAST side.</strong></li>
+        <li>Bring the Fire Elemental to <strong>80% and hold</strong>.</li>
+        <li>AFTER 3 minutes have passed, kill the next golem spawn, then burn the Fire Elemental down to 75% until it switches forms.</li>
+        <li>If any lava golems are still alive 30 seconds after it changes form, the golems may gain a death touch proc.</li>
+        <li><em>Option 2: if DPS on East is an issue, bring the entire raid East to help phase the Fire &amp; Earth Elementals, then send them back West to finish up their side.</em></li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">East &mdash; Phase 2 (Prime Earth Elemental)</div>
+      <ol style="counter-reset:strat 19;">
+        <li>The Prime Earth Elemental has no self-buffs and can be attacked by anyone.</li>
+        <li>It spawns adds two at a time ("a crystal golem" and "an earth golem") on phase and about every 60 seconds.</li>
+        <li>Crystal golems have a spell reflect &mdash; <strong>melee only on the crystal golems</strong>.</li>
+        <li>Earth golems can be attacked by anyone. They mem-blur, so watch for aggro swap.</li>
+        <li>The Prime Earth Elemental switches forms AFTER 3 minutes have passed <em>and</em> it has been DPS'd down to 50%.</li>
+        <li>Bring the Prime Earth Elemental to <strong>55% and hold</strong> (casters).</li>
+        <li>AFTER 3 minutes have passed, kill the next golem spawn, then burn the Earth Elemental down to 50% until it switches forms.</li>
+        <li>If any golems are still alive 30 seconds after it changes form, they may gain a death touch proc.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">East &mdash; Phase 3 (Prime Water Elemental)</div>
+      <ol style="counter-reset:strat 27;">
+        <li>The Prime Water Elemental has no self-buffs, so anyone can do damage to it.</li>
+        <li><strong>NO FIRE OR COLD</strong> spells, procs, DoTs, etc. on the Water Elemental. OK to use on adds, but not on the Elemental.</li>
+        <li>Check your spells, weapon procs and pet weapon procs and make sure there are no FIRE or COLD effects.</li>
+        <li><strong>COLD</strong> nukes and procs (and possibly DoTs) <strong>heal it</strong>.</li>
+        <li><strong>FIRE</strong> nukes and procs (and possibly DoTs) <strong>trigger an AE DEATH TOUCH = WIPE</strong>.</li>
+        <li>During this phase 5 water mephits spawn on phase and every 60 seconds. These have low HP and only hit for 4,000.</li>
+        <li>The Prime Water Elemental switches forms AFTER 3 minutes have passed <em>and</em> it has been DPS'd down to 30%.</li>
+        <li>Bring the Prime Water Elemental to <strong>35% and hold</strong>.</li>
+        <li>AFTER 3 minutes have passed, kill the next mephit spawn, then burn the Water Elemental down to 30% until it switches forms.</li>
+        <li><strong>If any mephits are still alive 30 seconds after it changes form, they start multiplying exponentially and wipe the raid.</strong></li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">East &mdash; Phase 4 (Prime Air Elemental)</div>
+      <ol style="counter-reset:strat 37;">
+        <li>The Prime Air Elemental has a knockback aura. <strong>This is a ranged fight.</strong></li>
+        <li>It also has a self buff, "Whirling Air Form", that increases the damage MAGIC nukes do to it.</li>
+        <li>Range kill the Air Elemental ASAP.</li>
+        <li>It spawns adds called "an insubstantial force" and "a whirling force". Both add types cast "Disintegrating Winds".</li>
+        <li>Insubstantial forces are killed by being mezzed.</li>
+        <li>Normal DPS to kill the whirling forces (melee).</li>
+        <li>The Winds DoT is cured by attacking the insubstantial forces.</li>
+        <li>People attacking the insubstantial forces will break the mez, so spam mez them.</li>
+        <li>Unlike the previous three elemental phases, <strong>there is no minimum timer here</strong> &mdash; you can kill it at any time once it changes to its air elemental form.</li>
+        <li>Killing the Air Elemental completes the East side.</li>
       </ol>
     </div>
   </div>
@@ -2861,7 +3410,7 @@
 
 </main>
 <footer class="site-footer">
-  Underfoot Raid Strategy Vault &nbsp;·&nbsp; Key of Swords &nbsp;·&nbsp; Teek Server &nbsp;·&nbsp; Created by Temujin of Teek
+  Underfoot Raid Strategy Vault &nbsp;·&nbsp; Key of Swords &nbsp;·&nbsp; Teek Server &nbsp;·&nbsp; Strategy compiled from KOS raid experience
 </footer>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -2869,22 +3418,6 @@
       if (i > 0) c.classList.add('collapsed');
     });
   });
-</script>
-<script>
-  function setThemeUI(isLight){
-    document.getElementById('optDark').classList.toggle('active',!isLight);
-    document.getElementById('optLight').classList.toggle('active',isLight);
-  }
-  if(document.documentElement.classList.contains('kos-light')){
-    document.documentElement.classList.remove('kos-light');
-    document.body.classList.add('light-mode');
-    setThemeUI(true);
-  }
-  function toggleTheme(){
-    const isLight=document.body.classList.toggle('light-mode');
-    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
-    setThemeUI(isLight);
-  }
 </script>
 </body>
 </html>

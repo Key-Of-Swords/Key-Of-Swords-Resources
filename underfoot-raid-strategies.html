@@ -3155,11 +3155,11 @@
       <a href="#" class="top-btn" onclick="event.stopPropagation();window.scrollTo({top:0,behavior:'smooth'});return false;">↑ TOP</a>
       <div class="boss-meta">
         <span><strong>Zone:</strong> Convorteum</span>
-        <span><strong>NPC:</strong> <em>TBD</em></span>
-        <span><strong>Requirements:</strong> <em>TBD</em></span>
-        <span><strong>Request Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Entry Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Required to Request:</strong> A Cunning Plan, The Fungal Corruption &amp; An Audience with Brell Serilis</span>
+        <span><strong>NPC:</strong> Grif Iceblock &mdash; just inside Convorteum, after entering from Volska's Husk</span>
+        <span><strong>Requirements:</strong> An Audience with Brell Serilis raid</span>
+        <span><strong>Request Phrase:</strong> "willing"</span>
+        <span><strong>Entry Phrase:</strong> "ready"</span>
+        <span><strong>Required to Request:</strong> A Cunning Plan, The Fungal Corruption &amp; An Audience with Brell Serilis; Kill the Hatchlings group mission (must have access to the Convorteum zone through group progression)</span>
       </div>
       <div class="badges" style="margin-top:10px;">
         <span class="badge badge-green">Tier 9 Raid &nbsp;·&nbsp; Event 1</span>
@@ -3171,16 +3171,24 @@
     <div class="section-grid">
       <div class="info-block">
         <h3>Boss Stats</h3>
-        <div class="stat-row"><span class="label">Max Hit</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">AE Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Flurry</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Summons</span><span class="value"><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Max Hit</span><span class="value danger">~18,000</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value danger">Single target</span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value danger">Occasionally</span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value danger">Yes</span></div>
+        <div class="stat-row"><span class="label">Summons</span><span class="value "><em>TBD</em></span></div>
       </div>
       <div class="info-block">
-        <h3>Loot — <em>TBD</em></h3>
+        <h3>Loot — Gatekeepers Chest</h3>
         <ul>
-          <li><em>TBD</em></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89526" target="_blank" rel="noopener">Clayworker's Drape ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89474" target="_blank" rel="noopener">Dried Chips of Everliving Clay ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89659" target="_blank" rel="noopener">Emblem of the Gatekeeper ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89634" target="_blank" rel="noopener">Gatekeeper's Locket ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89746" target="_blank" rel="noopener">Kilt of Divine Protection ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89682" target="_blank" rel="noopener">Poncho of the Core Traveler ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89579" target="_blank" rel="noopener">Resplendent Guiding Light ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89794" target="_blank" rel="noopener">Trenchant Visage of Hardened Clay ↗</a></li>
+          <li><a class="spell-link" href="https://everquest.allakhazam.com/db/item.html?item=89658" target="_blank" rel="noopener">Ward of the Gatekeeper ↗</a></li>
         </ul>
       </div>
     </div>
@@ -3188,26 +3196,53 @@
       <thead><tr><th>Spell</th><th>Source</th><th>Type</th><th>Effect</th><th>Counter</th></tr></thead>
       <tbody>
         <tr>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
+          <td><strong class="spell-name">Horn of Fury</strong></td>
+          <td><strong>The Gatekeeper</strong></td>
+          <td>PB AE 200'</td>
+          <td style="color:#e07060;">Increase Incoming Spell Damage by 35% (Detrimental only)<br>Decrease Movement by 50%</td>
+          <td>Raid-wide &mdash; healers expect bigger incoming spell hits</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">None Shall Pass</strong></td>
+          <td><strong>The Gatekeeper</strong></td>
+          <td>Single Target</td>
+          <td style="color:#e07060;">35,000 DD<br>Stun (0.50 sec)</td>
+          <td><strong>INTERRUPT IT &mdash; cast every 60 seconds</strong></td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Whirling Steel</strong></td>
+          <td><strong>The Gatekeeper</strong></td>
+          <td>PB AE 35' &middot; Magic (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 18,000</td>
+          <td>Non-melee stay outside 35'</td>
         </tr>
       </tbody>
     </table>
     <div class="phase-header">Emotes</div>
-    <div class="phase-block phase-amber">
-      <h4><em>TBD</em></h4>
-      <p><em>TBD</em></p>
-    </div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A &mdash; this event has no emotes.</p>
     <div class="phase-header">Overview</div>
-    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><em>TBD</em></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>Tank and spank fight.</strong></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Set up in the tunnel N/NE of the zone-in, just below the steep slope down. Pull the Gatekeeper into the tunnel, set ramp, and DPS until dead.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Interrupt the <strong>"None Shall Pass"</strong> spell.</p>
+    <div class="phase-header">Event Timers</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A &mdash; the only thing on a clock is <strong>None Shall Pass</strong>, cast every 60 seconds.</p>
+    <div class="phase-header">Positioning</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Set up in the tunnel N/NE of the zone-in, just below the steep slope down.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Tank and ramp tank set up in the crevice, on the left side of the tunnel.</p>
+    <div class="phase-header">Failure / Reset</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A</p>
     <div class="ornament-divider">Strategy</div>
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
       <ol style="counter-reset:strat 0;">
-        <li><em>TBD</em></li>
+        <li>Set up in the tunnel N/NE of the zone-in, just below the steep slope down.</li>
+        <li>Assign a Ramp Tank.</li>
+        <li>Tank and ramp tank set up in the crevice, on the left side of the tunnel.</li>
+        <li>Pull the Gatekeeper into the tunnel.</li>
+        <li>DPS the Gatekeeper until dead.</li>
+        <li>Every 60 seconds, <strong>interrupt "None Shall Pass"</strong>.</li>
+        <li>Invis and move straight across the lava to The First Creation statue. Stack in the centre of the shoulder blades.</li>
+        <li>The chest will spawn just below the statue.</li>
       </ol>
     </div>
   </div>

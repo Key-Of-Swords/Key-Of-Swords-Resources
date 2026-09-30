@@ -3229,6 +3229,8 @@
     <div class="phase-header">Positioning</div>
     <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Set up in the tunnel N/NE of the zone-in, just below the steep slope down.</p>
     <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Tank and ramp tank set up in the crevice, on the left side of the tunnel.</p>
+    <div class="phase-header">Optional &mdash; Stone of the Plundered Mind</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Attack the <strong>Stone of the Plundered Mind</strong> orb to get 6x <strong>Shard of the Plundered Mind</strong>. These are carried into the <strong>Stone Warden</strong> event, where they are used to interrupt Headcrusher. The orb is located just above the head of the statue.</p>
     <div class="phase-header">Failure / Reset</div>
     <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A</p>
     <div class="ornament-divider">Strategy</div>
@@ -3256,11 +3258,11 @@
       <a href="#" class="top-btn" onclick="event.stopPropagation();window.scrollTo({top:0,behavior:'smooth'});return false;">↑ TOP</a>
       <div class="boss-meta">
         <span><strong>Zone:</strong> Convorteum</span>
-        <span><strong>NPC:</strong> <em>TBD</em></span>
-        <span><strong>Requirements:</strong> <em>TBD</em></span>
-        <span><strong>Request Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Entry Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Required to Request:</strong> A Cunning Plan, The Fungal Corruption &amp; An Audience with Brell Serilis</span>
+        <span><strong>NPC:</strong> Grif Iceblock &mdash; just inside Convorteum, after entering from Volska's Husk</span>
+        <span><strong>Requirements:</strong> An Audience with Brell Serilis raid</span>
+        <span><strong>Request Phrase:</strong> "willing"</span>
+        <span><strong>Entry Phrase:</strong> "ready"</span>
+        <span><strong>Required to Request:</strong> A Cunning Plan, The Fungal Corruption &amp; An Audience with Brell Serilis; Kill the Hatchlings group mission (must have access to the Convorteum zone through group progression)</span>
       </div>
       <div class="badges" style="margin-top:10px;">
         <span class="badge badge-green">Tier 9 Raid &nbsp;·&nbsp; Event 2</span>
@@ -3272,11 +3274,16 @@
     <div class="section-grid">
       <div class="info-block">
         <h3>Boss Stats</h3>
-        <div class="stat-row"><span class="label">Max Hit</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">AE Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Flurry</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Summons</span><span class="value"><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; The Stone Warden</span><span class="value danger">~20,000</span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; Bellikos Sisters</span><span class="value danger">~17,000</span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; a lost soul</span><span class="value danger">~12,000</span></div>
+        <div class="stat-row"><span class="label">Stone Warden inherits</span><span class="value danger">Each slain sister&rsquo;s AEs and emotes</span></div>
+        <div class="stat-row"><span class="label">Sisters</span><span class="value danger">Banish random players into the lava</span></div>
+        <div class="stat-row"><span class="label">Lost soul CC</span><span class="value safe">Stunnable</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value "><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value "><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value "><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Summons</span><span class="value "><em>TBD</em></span></div>
       </div>
       <div class="info-block">
         <h3>Loot — <em>TBD</em></h3>
@@ -3289,26 +3296,129 @@
       <thead><tr><th>Spell</th><th>Source</th><th>Type</th><th>Effect</th><th>Counter</th></tr></thead>
       <tbody>
         <tr>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
+          <td><strong class="spell-name">Earthen Root</strong></td>
+          <td><strong>Morthira</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Root</td>
+          <td>Expect to be held in place</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Seething Corruption</strong></td>
+          <td><strong>Morthira</strong></td>
+          <td>Targeted AE 25' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Increase Incoming Spell Damage by 1000%<br>Limit: Spell (Seething Fury allowed)<br>2,000 DoT per tick</td>
+          <td><strong>RUN 25' FROM THE RAID and get Corruption cured</strong> &mdash; Seething Fury follows in ~12 seconds</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Seething Fury</strong></td>
+          <td><strong>Morthira &mdash; ~12 sec after Seething Corruption</strong></td>
+          <td>Targeted AE 25' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 20,000<br><strong>200,000 if you still have Seething Corruption</strong></td>
+          <td>Cure Seething Corruption before this lands</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Frostbolt</strong></td>
+          <td><strong>Calyssta</strong></td>
+          <td>Single Target 120' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 35,000<br>Add Effect: Frostbolt Effect</td>
+          <td>See Frostbolt Effect below</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Frostbolt Effect</strong></td>
+          <td><strong>Calyssta &mdash; lasts one hour</strong></td>
+          <td>Single Target</td>
+          <td style="color:#e07060;">Decrease Spell Haste by 50%<br>Inhibit Melee Attacks (50%)<br>3,000 DoT per tick (max 3,000)<br><strong>20 Corruption Counters</strong></td>
+          <td><strong>Cure Corruption</strong> &mdash; it runs an hour if left on</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Firestorm</strong></td>
+          <td><strong>Syrana</strong></td>
+          <td>Single Target 120' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 25,000<br>Add Effect: Flashfire (60% chance)</td>
+          <td>See Flashfire below</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Flashfire</strong></td>
+          <td><strong>Syrana &mdash; 60% chance from Firestorm</strong></td>
+          <td>Viral</td>
+          <td style="color:#e07060;">10,000 DoT per tick (max 15,000)</td>
+          <td><strong>Run away from others to prevent it spreading</strong></td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Headcrusher</strong></td>
+          <td><strong>The Stone Warden</strong></td>
+          <td>Single Target 120' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 75,000<br>Feign Death<br>6 second cast time &mdash; interruptible</td>
+          <td><strong>INTERRUPT IT</strong> &mdash; Shard of the Plundered Mind or any stun. Cast every 35 seconds</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Whirling Fist</strong></td>
+          <td><strong>The Stone Warden</strong></td>
+          <td>PB AE 62' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 15,000</td>
+          <td>Non-melee stay outside 62'</td>
         </tr>
       </tbody>
     </table>
     <div class="phase-header">Emotes</div>
-    <div class="phase-block phase-amber">
-      <h4><em>TBD</em></h4>
-      <p><em>TBD</em></p>
+    <div class="phase-block phase-red">
+      <h4>"Seething Corruption BURNS within you, Temujin!"</h4>
+      <p>This player has been targeted for Seething Corruption and must <strong>run 25 range from the raid</strong>.<br>"Seething corruption on YOU!" will also flash on your screen in red.</p>
     </div>
     <div class="phase-header">Overview</div>
-    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><em>TBD</em></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Kill the THREE Bellikos Sisters (Calyssta, Syrana and Morthira) and then the main boss, <strong>The Stone Warden</strong>.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">The Stone Warden <strong>inherits the AEs and emotes of each slain sister</strong>, and also hits harder and has a bit more HP than they do. All three sisters banish random players into the lava.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Assign <strong>6 people</strong> to use the Shard of the Plundered Mind during the Stone Warden fight to interrupt <strong>Headcrusher</strong>. Headcrusher channels for 6 seconds.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;"><strong>Death penalty during Stone Warden:</strong> each time a player dies there is a chance that either a lost soul add spawns, or the Stone Warden heals.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">KILL each sister, and THEN engage and burn the Stone Warden, using the Shards of the Plundered Mind to interrupt Headcrusher.</p>
+    <div class="phase-header">The Bellikos Sisters &mdash; AEs &amp; Emotes</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Every sister&rsquo;s mechanic carries forward &mdash; the Stone Warden gains it once she dies, so by the final fight he has all three.</p>
+    <table class="spells-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Sister</th><th>Mechanic</th></tr></thead>
+      <tbody>
+        <tr><td><strong class="spell-name">Morthira</strong></td><td>1000% spell debuff, targeted (Seething Corruption). Follows with a 20k AE (Seething Fury), which means <strong>if you still have the debuff it will hit you for 200k</strong>.</td></tr>
+        <tr><td><strong class="spell-name">Syrana</strong></td><td>Viral AE &mdash; when targeted, <strong>run away from others</strong> to prevent it spreading.</td></tr>
+        <tr><td><strong class="spell-name">Calyssta</strong></td><td>React when emoted and <strong>get Corruption cured</strong>.</td></tr>
+      </tbody>
+    </table>
+    <div class="phase-header">Event Timers</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><strong>Headcrusher</strong> is cast every <strong>35 seconds</strong> during the Stone Warden fight, with a 6 second channel to interrupt it.</p>
+    <div class="phase-header">Death Penalty</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">During the Stone Warden fight, each time a player dies there is a chance that either <strong>a lost soul</strong> add spawns, or <strong>the Stone Warden heals</strong>. Lost souls hit for ~12,000 and are stunnable.</p>
+    <div class="phase-header">Positioning</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A</p>
+    <div class="phase-header">Failure / Reset</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A</p>
     <div class="ornament-divider">Strategy</div>
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Opening</div>
       <ol style="counter-reset:strat 0;">
-        <li><em>TBD</em></li>
+        <li>Hail The First Creation and follow the text, ending in <em>"You're in for a surprise"</em>.</li>
+        <li>The First Creation casts an AE stun and wanders off.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">The Bellikos Sisters</div>
+      <ol style="counter-reset:strat 2;">
+        <li>Assign THREE groups to OT each sister, <em>or</em> assign two kiters to kite the other two sisters while one is being killed.</li>
+        <li>The rest of the raid will kill one sister at a time.</li>
+        <li>Sister kill order: <strong>Morthira &rarr; Syrana &rarr; Calyssta</strong>.</li>
+        <li>The Stone Warden is up and KOS, but has a small aggro range and will not aggro unless someone gets too close.</li>
+        <li>Just before Calyssta dies, pull The Stone Warden into the same room as Calyssta, in an opposite corner.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">The Stone Warden</div>
+      <ol style="counter-reset:strat 7;">
+        <li>Once Calyssta is dead, engage The Stone Warden.</li>
+        <li>Drop all wards during The Stone Warden fight.</li>
+        <li>Be ready to MGB CR, AA, Wood, etc. when called.</li>
+        <li>The Stone Warden has his own abilities, in addition to the ones he inherits from each of the dead sisters.</li>
+        <li>Use the 6 <strong>Shards of the Plundered Mind</strong> obtained after The Gatekeeper event to interrupt <strong>Headcrusher</strong>. You have 6 seconds to interrupt this spell. Any other ability that stuns also works.</li>
+        <li><strong>Death penalty:</strong> each time a player dies there is a chance that either a lost soul add spawns, or the Stone Warden heals.</li>
+        <li>The raid gets off The Stone Warden and kills a lost soul any time one spawns.</li>
+        <li>Follow emotes and avoid AEs.</li>
+        <li>Burn down The Stone Warden.</li>
       </ol>
     </div>
   </div>

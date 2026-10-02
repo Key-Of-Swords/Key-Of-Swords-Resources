@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underfoot Weapon Reforging — Key of Swords</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1020;
+  --bg2:#111a2e;
+  --panel:#15203a;
+  --panel2:#1b2848;
+  --ink:#e6ecf7;
+  --ink-dim:#9fb0cc;
+  --gold:#e8a020;
+  --gold-soft:#f0c060;
+  --line:#2a3a5c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Crimson Text',Georgia,serif;
+  font-size:18px;
+  line-height:1.65;
+}
+body.light{
+  --bg:#f4efe4;
+  --bg2:#ece4d4;
+  --panel:#fffaf0;
+  --panel2:#f6eeddff;
+  --ink:#231b10;
+  --ink-dim:#6b5c44;
+  --gold:#9a6407;
+  --gold-soft:#7a4f05;
+  --line:#d8c9a8;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+
+/* Header */
+header{
+  border-bottom:2px solid var(--line);
+  background:linear-gradient(180deg,var(--bg2),var(--bg));
+  padding:38px 20px 30px;
+  text-align:center;
+  position:relative;
+}
+h1{
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  color:var(--gold);
+  font-size:2.3rem;
+  letter-spacing:.04em;
+  margin:0 0 6px;
+}
+.sub{color:var(--ink-dim);margin:0;font-style:italic}
+a:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* Nav */
+nav.toc{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  margin:26px 0 10px;
+}
+nav.toc a{
+  font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.06em;
+  color:var(--ink-dim);text-decoration:none;
+  border:1px solid var(--line);border-radius:5px;padding:6px 12px;
+}
+nav.toc a:hover{color:var(--gold);border-color:var(--gold)}
+
+section{margin-top:44px}
+h2{
+  font-family:'Cinzel',serif;color:var(--gold);font-size:1.4rem;
+  border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;
+}
+h3{font-family:'Cinzel',serif;color:var(--gold-soft);font-size:1.02rem;margin:24px 0 8px}
+section p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.note{
+  background:var(--panel);border-left:3px solid var(--gold);
+  padding:12px 16px;margin:16px 0;color:var(--ink-dim);
+}
+.note strong{color:var(--ink)}
+
+/* Recipe strip */
+.recipe{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.recipe .step{
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:12px 18px;min-width:150px;
+}
+.recipe .step b{display:block;font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem}
+.recipe .step span{color:var(--ink-dim);font-size:.88rem}
+.recipe .op{color:var(--gold);font-size:1.5rem;font-family:'Cinzel',serif}
+
+/* Tables */
+.scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;margin-top:10px;font-size:.94rem}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{
+  background:var(--panel2);color:var(--gold);
+  font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.05em;font-weight:600;
+}
+tbody tr:nth-child(odd){background:var(--panel)}
+/* Filterable table restripes in JS so hidden rows don't break the banding */
+#rhoTbl tbody tr{background:transparent}
+#rhoTbl tbody tr.odd{background:var(--panel)}
+td.cls{font-family:'Cinzel',serif;color:var(--ink);white-space:nowrap}
+.mat{color:var(--gold-soft)}
+a.setlink{
+  color:inherit;text-decoration:none;
+  border-bottom:1px dotted var(--gold-soft);
+}
+a.setlink:hover{border-bottom-style:solid;color:var(--gold)}
+a.setlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+tr.hit td.cls{color:var(--gold)}
+
+.filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.filter label{font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.06em;color:var(--ink-dim)}
+select{
+  background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:6px;padding:7px 11px;font-family:'Crimson Text',serif;font-size:.95rem;
+}
+
+/* Tier cards */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:14px}
+.tier{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:14px 16px}
+.tier h4{font-family:'Cinzel',serif;color:var(--gold);margin:0 0 4px;font-size:1rem}
+.tier .mats{color:var(--gold-soft);font-size:.86rem;margin-bottom:8px}
+.tier .mats strong{font-weight:700;color:var(--gold)}
+.tier ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:.92rem}
+
+ul.plain{list-style:none;padding-left:0}
+ul.plain li{padding:4px 0;border-bottom:1px solid var(--line);color:var(--ink-dim)}
+ul.plain li b{color:var(--ink);font-family:'Cinzel',serif;font-size:.85rem}
+
+ol.steps{padding-left:22px;color:var(--ink-dim)}
+ol.steps li{padding:3px 0}
+ol.steps li b{color:var(--ink)}
+
+footer{
+  margin-top:60px;padding:22px 20px;border-top:1px solid var(--line);
+  text-align:center;color:var(--ink-dim);font-size:.85rem;
+}
+@media (max-width:640px){
+  h1{font-size:1.6rem}
+  body{font-size:17px}
+}
+
+/* ── BACK TO HUB (copied from uf.html) ── */
+.back-btn { display: inline-flex; align-items: center; gap: 6px; margin: 16px auto; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s, color 0.3s; }
+.back-btn:hover { border-color: #e8a020; }
+body.light .back-btn { background: #e0d4bc; border-color: #c0a878; color: #8a5a10; }
+body.light .back-btn:hover { border-color: #8a5a10; }
+/* uf.html uses Arial and normal line spacing; pin both so the button looks identical */
+.back-btn { font-family: Arial, sans-serif; line-height: normal; }
+header .back-btn { margin: 14px 0 0; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { position: fixed; top: 12px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
+  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
+  body.light .toggle-thumb { transform: translateX(18px); }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<header>
+  <h1>Underfoot Weapon Reforging</h1>
+  <p class="sub">Trade two raid weapons you don't want for one you do — same tier, your pick.</p>
+  <a class="back-btn" href="uf.html">&#8592; Underfoot</a>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <a href="#how">How it works</a>
+  <a href="#where">Saria Everhot</a>
+  <a href="#tiers">Tiers &amp; metals</a>
+  <a href="#walk">Walkthrough</a>
+  <a href="#rewards">Rewards</a>
+  <a href="#extras">Odds &amp; ends</a>
+</nav>
+
+<section id="how">
+  <h2>How reforging works</h2>
+  <p>Raid loot in Underfoot rarely lands on the person who wants it. The Weapon Reforging tasks fix that: hand two unwanted raid weapons to a smith in Kernagir, and she remakes them into one weapon of your choosing from the same raid tier. She keeps the leftover ore as her fee. It is a straight two-for-one swap — nothing to farm, no tradeskill, no platinum.</p>
+
+  <div class="recipe">
+    <div class="step"><b>Raid weapon</b><span>Hand to Saria. Returns crushed metal.</span></div>
+    <div class="op">+</div>
+    <div class="step"><b>Raid weapon</b><span>Same tier. Second crushed metal.</span></div>
+    <div class="op">=</div>
+    <div class="step"><b>2 Crushed metal</b><span>Palladium, Iridium, or Rhodium.</span></div>
+    <div class="op">&#8594;</div>
+    <div class="step"><b>New weapon</b><span>Your choice from events you've beaten.</span></div>
+  </div>
+
+  <div class="note">
+    <strong>Crushing is permanent.</strong> Once Saria breaks a weapon down it cannot be restored. Check the reward list for your tier before you hand anything over, and make sure the weapon you want is actually on it.
+  </div>
+</section>
+
+<section id="where">
+  <h2>Saria Everhot</h2>
+  <p>All three tasks come from the same NPC. Saria Everhot stands in the forge in Kernagir, the Shining City, at roughly <strong>1160, 625, 320</strong>. The forge is easy to overshoot — use the Find window (Ctrl+F) to path straight to her.</p>
+  <p>Hailing her opens a short conversation about her family's "amazing skills," and at the end a task window offers all three reforging tasks at once — one per raid tier. Pick the tier that matches the weapons you're turning in.</p>
+
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Detail</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Zone</td><td>Kernagir, the Shining City (tier 8 access required)</td></tr>
+      <tr><td>Location</td><td>1160, 625, 320 — inside the forge</td></tr>
+      <tr><td>Task type</td><td>Solo task, repeatable</td></tr>
+      <tr><td>Level</td><td>85</td></tr>
+      <tr><td>Goal</td><td>Deliver 2 Crushed (metal) to Saria Everhot</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="tiers">
+  <h2>Tiers and crushed metals</h2>
+  <p>The three tasks follow the same raid tiers as Underfoot raid armor, and use the same material names. A tier 6 or 7 raid weapon crushes to Palladium, tier 8 to Iridium, tier 9 to Rhodium. You can only swap within a tier — two Palladium weapons can never become a Rhodium one.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <h4>Weapon Reforging: Palladium</h4>
+      <div class="mats">Tiers 6 &amp; 7 · <strong>Crushed Palladium</strong></div>
+      <ul><li>Brell's Rest</li><li>The Cooling Chamber</li><li>Pellucid Grotto</li><li>Arthicrex</li><li>The Foundation</li><li>The Underquarry</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Weapon Reforging: Iridium</h4>
+      <div class="mats">Tier 8 · <strong>Crushed Iridium</strong></div>
+      <ul><li>Fungal Forest</li><li>Lichen Creep</li><li>Brell's Temple (three raids)</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Weapon Reforging: Rhodium</h4>
+      <div class="mats">Tier 9 · <strong>Crushed Rhodium</strong></div>
+      <ul><li>Volska's Husk</li><li>The Convorteum</li></ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Rewards are gated by your kills.</strong> Saria only offers weapons from raid events <em>you personally</em> have completed. If you've never beaten an event, its weapons won't show up in your reward window — so a character who skipped a raid can't use this to shop for that raid's loot.
+  </div>
+</section>
+
+<section id="walk">
+  <h2>Walkthrough</h2>
+  <ol class="steps">
+    <li><b>Collect two unwanted raid weapons</b> from the same tier.</li>
+    <li><b>Hail Saria Everhot</b> in the Kernagir forge and click through the dialogue: <em>yes → skills → another → price → weapon → crush → remake → sure</em>.</li>
+    <li><b>Accept the matching task</b> from the window — Palladium, Iridium, or Rhodium.</li>
+    <li><b>Hand her the first weapon.</b> She returns one Crushed (metal).</li>
+    <li><b>Hand her the second weapon.</b> She returns a second Crushed (metal).</li>
+    <li><b>Hand both crushed metals back.</b> The task completes and a reward window opens.</li>
+    <li><b>Pick your weapon</b> from the list of events you've beaten.</li>
+  </ol>
+
+  <div class="note">
+    <strong>Not ready to choose?</strong> The Rhodium reward list includes <strong>2x Crushed Rhodium</strong> as an option, which hands your metal back so you can finish the task later — useful if the weapon you want is from an event you haven't killed yet.
+  </div>
+</section>
+
+<section id="rewards">
+  <h2>Reward lists</h2>
+
+  <h3>Palladium — tiers 6 &amp; 7</h3>
+  <p>Any of the 18 weapons from the tier 6 and 7 raid events you've completed. Players report the pool covering the Fippy, Beast, Masked Invaders, Unburrowing, Brath, and both Arthicrex events (the Guardians and the Queen). One reported swap: a Black Revenge and a Bloodied Crook of Wrath turned into an Edge of Oblivion.</p>
+
+  <h3>Iridium — tier 8</h3>
+  <p>Any weapon from the Fungal Forest, Lichen Creep, and three Brell's Temple raid events you've completed. No confirmed per-weapon list has been published for this tier yet.</p>
+
+  <h3>Rhodium — tier 9</h3>
+  <p>The confirmed list below assumes credit for all seven Convorteum raid events, including The First Creation. Fewer kills means a shorter list. Names link to Allakhazam.</p>
+
+  <div class="filter">
+    <label for="typePick">Show weapon type</label>
+    <select id="typePick">
+      <option value="">All types</option>
+    </select>
+  </div>
+
+  <div class="scroller">
+  <table id="rhoTbl">
+    <thead><tr><th>Type</th><th>Weapon</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+</section>
+
+<section id="extras">
+  <h2>Odds and ends</h2>
+
+  <h3>Why trade two for one?</h3>
+  <p>Because the drop table doesn't care what your raid needs. If the guild has a pile of weapons nobody wants and the one your tank is waiting on never drops, two spares become the right one. It's also a clean way to convert DPS weapons into aggro weapons for a tank, or the reverse.</p>
+
+  <h3>Before you crush</h3>
+  <ul class="plain">
+    <li><b>Check the list</b> — open the task window and look at what's actually offered to you before handing over a single weapon.</li>
+    <li><b>Check lore</b> — don't pick a lore weapon you already own.</li>
+    <li><b>Match the tier</b> — both weapons must crush to the same metal for the task you accepted.</li>
+  </ul>
+
+  <h3>Access reminder</h3>
+  <p>Saria lives in Kernagir, a tier 8 zone. Characters still working through tier 6 and 7 progression need the six-zone Gatekeeper flag before they can reach her, even for the Palladium task.</p>
+</section>
+
+</div>
+
+<footer>Key of Swords · Teek Server · Created by Temujin of Teek</footer>
+
+<script>
+(function(){
+  /* Rhodium reward pool — confirmed from the Allakhazam quest page (quest 5065).
+     URLs are the item pages listed there; add others only from confirmed URLs. */
+  var A = "https://everquest.allakhazam.com/db/item.html?item=";
+  var RHODIUM = [
+    ["1-Hand Slashing","Cassarah, Iron Will of Brell",89485],
+    ["1-Hand Slashing","Hatchet of the Final Assault",89538],
+    ["1-Hand Slashing","Soulguard, Battleaxe of the Learned",89498],
+    ["1-Hand Slashing","Runemuse Hatchet",89499],
+    ["2-Hand Slashing","Forcible Axe of the Ward",89488],
+    ["2-Hand Slashing","Hephae, Restorer of First's Laurels",89539],
+    ["1-Hand Blunt","Darkheart the Unstable",89490],
+    ["1-Hand Blunt","Heidrun, Hammer of the Lifeforge",89500],
+    ["1-Hand Blunt","Magi's Mallet of Purest Energy",89522],
+    ["1-Hand Blunt","Vexed Mallet of Dwarven Artistry",89489],
+    ["1-Hand Blunt","Whisperwind, Kertrasia's Voice",89496],
+    ["2-Hand Blunt","Acrimony, Morthira's Corruption",89486],
+    ["2-Hand Blunt","Staff of Earthen Retribution",89501],
+    ["1-Hand Piercing","Creation's Destruction",89535],
+    ["1-Hand Piercing","Flowing Clay Carver",89487],
+    ["1-Hand Piercing","Gut Ripper of the Creation",89497],
+    ["2-Hand Piercing","Firstborne, Brell's Equal",89537],
+    ["Hand-to-Hand","Bloodletter, Katar of the Sisters",89523],
+    ["Hand-to-Hand","Burning Ash of the Lake",89502],
+    ["Ranged","Amis, Individual's Sacrifice",89524],
+    ["Deferral","2x Crushed Rhodium",89022]
+  ];
+
+  var body = document.querySelector("#rhoTbl tbody");
+  var pick = document.getElementById("typePick");
+  var seen = {};
+
+  RHODIUM.forEach(function(w){
+    var tr = document.createElement("tr");
+    tr.dataset.type = w[0];
+    var tc = document.createElement("td");
+    tc.className = "cls"; tc.textContent = w[0];
+    var nc = document.createElement("td");
+    var a = document.createElement("a");
+    a.className = "setlink";
+    a.href = A + w[2];
+    a.target = "_blank"; a.rel = "noopener";
+    a.textContent = w[1];
+    nc.appendChild(a);
+    tr.appendChild(tc); tr.appendChild(nc);
+    body.appendChild(tr);
+
+    if (!seen[w[0]]){
+      seen[w[0]] = true;
+      var opt = document.createElement("option");
+      opt.value = w[0]; opt.textContent = w[0];
+      pick.appendChild(opt);
+    }
+  });
+
+  function restripe(tbl){
+    var i = 0;
+    Array.prototype.forEach.call(tbl.querySelectorAll("tbody tr"), function(tr){
+      if (tr.style.display === "none"){ tr.classList.remove("odd"); return; }
+      tr.classList.toggle("odd", i % 2 === 0);
+      i++;
+    });
+  }
+
+  function applyFilter(){
+    var v = pick.value;
+    Array.prototype.forEach.call(body.querySelectorAll("tr"), function(tr){
+      var on = !v || tr.dataset.type === v;
+      tr.style.display = on ? "" : "none";
+      tr.classList.toggle("hit", !!v && on);
+    });
+    restripe(document.getElementById("rhoTbl"));
+  }
+
+  pick.addEventListener("change", applyFilter);
+  applyFilter();
+})();
+</script>
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+  function toggleTheme(){
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

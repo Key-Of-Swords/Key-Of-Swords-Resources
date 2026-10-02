@@ -104,9 +104,22 @@ th{
   font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.05em;font-weight:600;
 }
 tbody tr:nth-child(odd){background:var(--panel)}
+/* Tier pills + weapon table */
+#wpnTbl tbody tr{background:transparent}
+#wpnTbl tbody tr.odd{background:var(--panel)}
+.tierpill{display:inline-block;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.06em;padding:1px 9px;border-radius:3px;border:1px solid;white-space:nowrap}
+.tierpill.Palladium{color:#c8d0dc;border-color:#6a7488;background:rgba(160,170,190,.10)}
+.tierpill.Iridium{color:#8fb8ff;border-color:#3a5a9a;background:rgba(80,130,220,.10)}
+.tierpill.Rhodium{color:#f0c060;border-color:#8a6418;background:rgba(232,160,32,.10)}
+body.light .tierpill.Palladium{color:#4a5262;border-color:#9aa2b2;background:#eef0f4}
+body.light .tierpill.Iridium{color:#1a4a8a;border-color:#6090c8;background:#e4eefa}
+body.light .tierpill.Rhodium{color:#7a4f05;border-color:#c09020;background:#f8ecc0}
+td.src{color:var(--ink-dim);font-size:.9rem}
+.unv{color:var(--gold);font-weight:700;margin-left:3px;cursor:help}
+.filter .count{color:var(--ink-dim);font-size:.85rem;font-style:italic}
+td.cls.tbd{color:var(--ink-dim);font-style:italic}
+p.foot{font-size:.85rem;color:var(--ink-dim);margin-top:8px}
 /* Filterable table restripes in JS so hidden rows don't break the banding */
-#rhoTbl tbody tr{background:transparent}
-#rhoTbl tbody tr.odd{background:var(--panel)}
 td.cls{font-family:'Cinzel',serif;color:var(--ink);white-space:nowrap}
 .mat{color:var(--gold-soft)}
 a.setlink{
@@ -128,6 +141,8 @@ select{
 .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:14px}
 .tier{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:14px 16px}
 .tier h4{font-family:'Cinzel',serif;color:var(--gold);margin:0 0 4px;font-size:1rem}
+.tier h4 a.questlink{color:inherit;text-decoration:none;border-bottom:1px dotted var(--gold-soft)}
+.tier h4 a.questlink:hover{border-bottom-style:solid;color:var(--gold-soft)}
 .tier .mats{color:var(--gold-soft);font-size:.86rem;margin-bottom:8px}
 .tier .mats strong{font-weight:700;color:var(--gold)}
 .tier ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:.92rem}
@@ -236,17 +251,17 @@ header .back-btn { margin: 14px 0 0; }
 
   <div class="tiers">
     <div class="tier">
-      <h4>Weapon Reforging: Palladium</h4>
+      <h4><a class="questlink" href="https://everquest.allakhazam.com/db/quest.html?quest=5063" target="_blank" rel="noopener">Weapon Reforging: Palladium</a></h4>
       <div class="mats">Tiers 6 &amp; 7 · <strong>Crushed Palladium</strong></div>
       <ul><li>Brell's Rest</li><li>The Cooling Chamber</li><li>Pellucid Grotto</li><li>Arthicrex</li><li>The Foundation</li><li>The Underquarry</li></ul>
     </div>
     <div class="tier">
-      <h4>Weapon Reforging: Iridium</h4>
+      <h4><a class="questlink" href="https://everquest.allakhazam.com/db/quest.html?quest=5064" target="_blank" rel="noopener">Weapon Reforging: Iridium</a></h4>
       <div class="mats">Tier 8 · <strong>Crushed Iridium</strong></div>
       <ul><li>Fungal Forest</li><li>Lichen Creep</li><li>Brell's Temple (three raids)</li></ul>
     </div>
     <div class="tier">
-      <h4>Weapon Reforging: Rhodium</h4>
+      <h4><a class="questlink" href="https://everquest.allakhazam.com/db/quest.html?quest=5065" target="_blank" rel="noopener">Weapon Reforging: Rhodium</a></h4>
       <div class="mats">Tier 9 · <strong>Crushed Rhodium</strong></div>
       <ul><li>Volska's Husk</li><li>The Convorteum</li></ul>
     </div>
@@ -276,29 +291,40 @@ header .back-btn { margin: 14px 0 0; }
 
 <section id="rewards">
   <h2>Reward lists</h2>
+  <p>Every raid weapon in Underfoot, pulled from the loot tables in the KoS Raid Strategy Vault and grouped by the metal it crushes to. Remember the reward window only offers weapons from events <em>you</em> have completed, and a reforge never crosses tiers.</p>
 
   <h3>Palladium — tiers 6 &amp; 7</h3>
-  <p>Any of the 18 weapons from the tier 6 and 7 raid events you've completed. Players report the pool covering the Fippy, Beast, Masked Invaders, Unburrowing, Brath, and both Arthicrex events (the Guardians and the Queen). One reported swap: a Black Revenge and a Bloodied Crook of Wrath turned into an Edge of Oblivion.</p>
+  <p>Allakhazam counts 18 weapons in this pool; the vault's loot tables turn up 17, so one drop may still be missing from the vault. One reported swap: a Black Revenge and a Bloodied Crook of Wrath turned into an Edge of Oblivion.</p>
 
   <h3>Iridium — tier 8</h3>
-  <p>Any weapon from the Fungal Forest, Lichen Creep, and three Brell's Temple raid events you've completed. No confirmed per-weapon list has been published for this tier yet.</p>
+  <p>Saria's own reward list for this tier hasn't been published anywhere, so these 20 come from the vault's loot tables for Lichen Creep, Fungal Forest, and the three Brell's Temple raids. Shields are left out — the task only takes weapons.</p>
 
   <h3>Rhodium — tier 9</h3>
-  <p>The confirmed list below assumes credit for all seven Convorteum raid events, including The First Creation. Fewer kills means a shorter list. Names link to Allakhazam.</p>
+  <p>Confirmed against the Allakhazam quest page. Ten are already in the vault's loot tables; the other ten come from the last three Convorteum events, whose loot tables are still TBD in the vault.</p>
 
   <div class="filter">
     <label for="typePick">Show weapon type</label>
     <select id="typePick">
       <option value="">All types</option>
+      <option>1-Hand Slashing</option>
+      <option>2-Hand Slashing</option>
+      <option>1-Hand Blunt</option>
+      <option>2-Hand Blunt</option>
+      <option>1-Hand Piercing</option>
+      <option>2-Hand Piercing</option>
+      <option>Hand-to-Hand</option>
+      <option>Ranged</option>
     </select>
+    <span class="count" id="wpnCount"></span>
   </div>
 
   <div class="scroller">
-  <table id="rhoTbl">
-    <thead><tr><th>Type</th><th>Weapon</th></tr></thead>
+  <table id="wpnTbl">
+    <thead><tr><th>Type</th><th>Weapon</th><th>Tier</th><th>Dropped by</th></tr></thead>
     <tbody></tbody>
   </table>
   </div>
+  <p class="foot">Types are verified against each weapon's Allakhazam item page. <span class="unv">&#8224;</span> Claws of the Destroyer is the one exception &mdash; its page couldn't be checked, so Hand-to-Hand is a guess from the name.</p>
 </section>
 
 <section id="extras">
@@ -324,77 +350,119 @@ header .back-btn { margin: 14px 0 0; }
 
 <script>
 (function(){
-  /* Rhodium reward pool — confirmed from the Allakhazam quest page (quest 5065).
-     URLs are the item pages listed there; add others only from confirmed URLs. */
+  /* Underfoot raid weapons by reforging tier.
+     Palladium/Iridium: pulled from the loot tables in underfoot-raid-strategies.html.
+     Rhodium: confirmed from the Allakhazam quest page (quest 5065).
+     Fields: name, item id, tier, dropped by, type, verified (1 = type checked on Allakhazam,
+     0 = type guessed from name). Update a row to 1 with the exact type once it's confirmed. */
   var A = "https://everquest.allakhazam.com/db/item.html?item=";
-  var RHODIUM = [
-    ["1-Hand Slashing","Cassarah, Iron Will of Brell",89485],
-    ["1-Hand Slashing","Hatchet of the Final Assault",89538],
-    ["1-Hand Slashing","Soulguard, Battleaxe of the Learned",89498],
-    ["1-Hand Slashing","Runemuse Hatchet",89499],
-    ["2-Hand Slashing","Forcible Axe of the Ward",89488],
-    ["2-Hand Slashing","Hephae, Restorer of First's Laurels",89539],
-    ["1-Hand Blunt","Darkheart the Unstable",89490],
-    ["1-Hand Blunt","Heidrun, Hammer of the Lifeforge",89500],
-    ["1-Hand Blunt","Magi's Mallet of Purest Energy",89522],
-    ["1-Hand Blunt","Vexed Mallet of Dwarven Artistry",89489],
-    ["1-Hand Blunt","Whisperwind, Kertrasia's Voice",89496],
-    ["2-Hand Blunt","Acrimony, Morthira's Corruption",89486],
-    ["2-Hand Blunt","Staff of Earthen Retribution",89501],
-    ["1-Hand Piercing","Creation's Destruction",89535],
-    ["1-Hand Piercing","Flowing Clay Carver",89487],
-    ["1-Hand Piercing","Gut Ripper of the Creation",89497],
-    ["2-Hand Piercing","Firstborne, Brell's Equal",89537],
-    ["Hand-to-Hand","Bloodletter, Katar of the Sisters",89523],
-    ["Hand-to-Hand","Burning Ash of the Lake",89502],
-    ["Ranged","Amis, Individual's Sacrifice",89524],
-    ["Deferral","2x Crushed Rhodium",89022]
+  var W = [
+    ["Black Revenge",86472,"Palladium","Fippy's Revenge","1-Hand Slashing",1],
+    ["Bloodied Crook of Wrath",87647,"Palladium","Fippy's Revenge","1-Hand Blunt",1],
+    ["Runed Sabertooth Femur",86750,"Palladium","Fippy's Revenge","1-Hand Blunt",1],
+    ["Chitin-Joint Bow",87705,"Palladium","The Unburrowing","Ranged",1],
+    ["Etched Mace of the Hive-Mind",87180,"Palladium","The Unburrowing","1-Hand Blunt",1],
+    ["Hive Custodian's Blade",87683,"Palladium","The Unburrowing","1-Hand Slashing",1],
+    ["Chamber Etching Spike",88484,"Palladium","The Beast Below","1-Hand Piercing",1],
+    ["Lake-Cooled Greatsword",87717,"Palladium","The Beast Below","2-Hand Slashing",1],
+    ["Claws of the Destroyer",88243,"Palladium","Masked Invaders","Hand-to-Hand",0],
+    ["Edge of Oblivion",88239,"Palladium","Masked Invaders","1-Hand Slashing",1],
+    ["Firefang",88245,"Palladium","Masked Invaders","1-Hand Piercing",1],
+    ["Blade of Living Clay",88294,"Palladium","The Wrath of Brath","1-Hand Slashing",1],
+    ["Emberstrike",88282,"Palladium","The Wrath of Brath","2-Hand Piercing",1],
+    ["Ruinous Baton",88725,"Palladium","The Wrath of Brath","1-Hand Blunt",1],
+    ["Cliknar Impaler",88981,"Palladium","Cliknar Hive Guardians","2-Hand Piercing",1],
+    ["Scepter of the War Priest",88299,"Palladium","Cliknar Hive Guardians","1-Hand Blunt",1],
+    ["Gleaming Cliknar Pincer",88469,"Palladium","The Cliknar Queen","1-Hand Piercing",1],
+    ["Battle Staff of Torment",89180,"Iridium","A Cunning Plan","2-Hand Blunt",1],
+    ["Hammer of Ravenous Lichen",89179,"Iridium","A Cunning Plan","1-Hand Blunt",1],
+    ["War-Torn Axe of Mayhem",89178,"Iridium","A Cunning Plan","1-Hand Slashing",1],
+    ["Winged Axe of Rebellion",89181,"Iridium","A Cunning Plan","2-Hand Slashing",1],
+    ["Axe of the Fungal Gloom",89174,"Iridium","The Fungal Corruption","1-Hand Slashing",1],
+    ["Growth Covered Martel",89173,"Iridium","The Fungal Corruption","1-Hand Blunt",1],
+    ["Mirelance of the Shadows",89176,"Iridium","The Fungal Corruption","2-Hand Piercing",1],
+    ["Sinister Staff of the Dim",89175,"Iridium","The Fungal Corruption","2-Hand Blunt",1],
+    ["Axe of Relentless Assault",89227,"Iridium","Trial of Deconstruction","1-Hand Slashing",1],
+    ["Katar of the Temple",89234,"Iridium","Trial of Deconstruction","Hand-to-Hand",1],
+    ["Kris of Failed Creation",89253,"Iridium","Trial of Deconstruction","1-Hand Piercing",1],
+    ["Martel of Unwavering Resolve",89228,"Iridium","Trial of Deconstruction","1-Hand Blunt",1],
+    ["Etched Axe of Judgment",89333,"Iridium","Trial of Creation","1-Hand Slashing",1],
+    ["Katar of Bound Elements",89336,"Iridium","Trial of Creation","Hand-to-Hand",1],
+    ["Razor of the Underfoot",89335,"Iridium","Trial of Creation","1-Hand Piercing",1],
+    ["Sanctified Hammer of Wrath",89334,"Iridium","Trial of Creation","1-Hand Blunt",1],
+    ["Bloodscream",89466,"Iridium","An Audience with Brell Serilis","Ranged",1],
+    ["Curved Blade of the Destructor",89229,"Iridium","An Audience with Brell Serilis","1-Hand Piercing",1],
+    ["Earthrend",89464,"Iridium","An Audience with Brell Serilis","2-Hand Slashing",1],
+    ["Scepter of Creation",89465,"Iridium","An Audience with Brell Serilis","1-Hand Blunt",1],
+    ["Acrimony, Morthira's Corruption",89486,"Rhodium","The Stone Warden","2-Hand Blunt",1],
+    ["Cassarah, Iron Will of Brell",89485,"Rhodium","The Stone Warden","1-Hand Slashing",1],
+    ["Flowing Clay Carver",89487,"Rhodium","The Stone Warden","1-Hand Piercing",1],
+    ["Forcible Axe of the Ward",89488,"Rhodium","The Stone Warden","2-Hand Slashing",1],
+    ["Amis, Individual's Sacrifice",89524,"Rhodium","Unstable Creation","Ranged",1],
+    ["Darkheart the Unstable",89490,"Rhodium","Unstable Creation","1-Hand Blunt",1],
+    ["Vexed Mallet of Dwarven Artistry",89489,"Rhodium","Unstable Creation","1-Hand Blunt",1],
+    ["Burning Ash of the Lake",89502,"Rhodium","The Keymaster","Hand-to-Hand",1],
+    ["Gut Ripper of the Creation",89497,"Rhodium","The Keymaster","1-Hand Piercing",1],
+    ["Whisperwind, Kertrasia's Voice",89496,"Rhodium","The Keymaster","1-Hand Blunt",1],
+    ["Bloodletter, Katar of the Sisters",89523,"Rhodium","Convorteum — events 5–7","Hand-to-Hand",1],
+    ["Creation's Destruction",89535,"Rhodium","Convorteum — events 5–7","1-Hand Piercing",1],
+    ["Firstborne, Brell's Equal",89537,"Rhodium","Convorteum — events 5–7","2-Hand Piercing",1],
+    ["Hatchet of the Final Assault",89538,"Rhodium","Convorteum — events 5–7","1-Hand Slashing",1],
+    ["Heidrun, Hammer of the Lifeforge",89500,"Rhodium","Convorteum — events 5–7","1-Hand Blunt",1],
+    ["Hephae, Restorer of First's Laurels",89539,"Rhodium","Convorteum — events 5–7","2-Hand Slashing",1],
+    ["Magi's Mallet of Purest Energy",89522,"Rhodium","Convorteum — events 5–7","1-Hand Blunt",1],
+    ["Runemuse Hatchet",89499,"Rhodium","Convorteum — events 5–7","1-Hand Slashing",1],
+    ["Soulguard, Battleaxe of the Learned",89498,"Rhodium","Convorteum — events 5–7","1-Hand Slashing",1],
+    ["Staff of Earthen Retribution",89501,"Rhodium","Convorteum — events 5–7","2-Hand Blunt",1]
   ];
 
-  var body = document.querySelector("#rhoTbl tbody");
-  var pick = document.getElementById("typePick");
-  var seen = {};
 
-  RHODIUM.forEach(function(w){
+  var body  = document.querySelector("#wpnTbl tbody");
+  var pick  = document.getElementById("typePick");
+  var count = document.getElementById("wpnCount");
+
+  W.forEach(function(w){
     var tr = document.createElement("tr");
-    tr.dataset.type = w[0];
-    var tc = document.createElement("td");
-    tc.className = "cls"; tc.textContent = w[0];
+    tr.dataset.type = w[4];
+
+    var tyc = document.createElement("td");
+    tyc.className = "cls"; tyc.textContent = w[4];
+    if (!w[5]){
+      var u = document.createElement("span");
+      u.className = "unv"; u.textContent = "\u2020";
+      u.title = "Type guessed from the name; item page not yet checked";
+      tyc.appendChild(u);
+    }
+
     var nc = document.createElement("td");
     var a = document.createElement("a");
-    a.className = "setlink";
-    a.href = A + w[2];
+    a.className = "setlink"; a.href = A + w[1];
     a.target = "_blank"; a.rel = "noopener";
-    a.textContent = w[1];
+    a.textContent = w[0];
     nc.appendChild(a);
-    tr.appendChild(tc); tr.appendChild(nc);
-    body.appendChild(tr);
 
-    if (!seen[w[0]]){
-      seen[w[0]] = true;
-      var opt = document.createElement("option");
-      opt.value = w[0]; opt.textContent = w[0];
-      pick.appendChild(opt);
-    }
+    var tc = document.createElement("td");
+    var pill = document.createElement("span");
+    pill.className = "tierpill " + w[2];
+    pill.textContent = w[2];
+    tc.appendChild(pill);
+
+    var sc = document.createElement("td");
+    sc.className = "src"; sc.textContent = w[3];
+
+    tr.appendChild(tyc); tr.appendChild(nc); tr.appendChild(tc); tr.appendChild(sc);
+    body.appendChild(tr);
   });
 
-  function restripe(tbl){
-    var i = 0;
-    Array.prototype.forEach.call(tbl.querySelectorAll("tbody tr"), function(tr){
-      if (tr.style.display === "none"){ tr.classList.remove("odd"); return; }
-      tr.classList.toggle("odd", i % 2 === 0);
-      i++;
-    });
-  }
-
   function applyFilter(){
-    var v = pick.value;
+    var v = pick.value, i = 0;
     Array.prototype.forEach.call(body.querySelectorAll("tr"), function(tr){
       var on = !v || tr.dataset.type === v;
       tr.style.display = on ? "" : "none";
-      tr.classList.toggle("hit", !!v && on);
+      tr.classList.remove("odd"); tr.classList.toggle("hit", !!v && on);
+      if (on){ tr.classList.toggle("odd", i % 2 === 0); i++; }
     });
-    restripe(document.getElementById("rhoTbl"));
+    count.textContent = i + " weapon" + (i === 1 ? "" : "s");
   }
 
   pick.addEventListener("change", applyFilter);

@@ -3851,11 +3851,11 @@
       <a href="#" class="top-btn" onclick="event.stopPropagation();window.scrollTo({top:0,behavior:'smooth'});return false;">↑ TOP</a>
       <div class="boss-meta">
         <span><strong>Zone:</strong> Convorteum</span>
-        <span><strong>NPC:</strong> <em>TBD</em></span>
-        <span><strong>Requirements:</strong> <em>TBD</em></span>
-        <span><strong>Request Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Entry Phrase:</strong> <em>TBD</em></span>
-        <span><strong>Required to Request:</strong> A Cunning Plan, The Fungal Corruption &amp; An Audience with Brell Serilis</span>
+        <span><strong>NPC:</strong> Grif Iceblock &mdash; just inside Convorteum, after entering from Volska's Husk</span>
+        <span><strong>Requirements:</strong> An Audience with Brell Serilis raid</span>
+        <span><strong>Request Phrase:</strong> "willing"</span>
+        <span><strong>Entry Phrase:</strong> "ready"</span>
+        <span><strong>Required to Request:</strong> A Cunning Plan, The Fungal Corruption &amp; An Audience with Brell Serilis; Kill the Hatchlings group mission (must have access to the Convorteum zone through group progression)</span>
       </div>
       <div class="badges" style="margin-top:10px;">
         <span class="badge badge-green">Tier 9 Raid &nbsp;·&nbsp; Event 5</span>
@@ -3867,11 +3867,14 @@
     <div class="section-grid">
       <div class="info-block">
         <h3>Boss Stats</h3>
-        <div class="stat-row"><span class="label">Max Hit</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">AE Rampage</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Flurry</span><span class="value"><em>TBD</em></span></div>
-        <div class="stat-row"><span class="label">Summons</span><span class="value"><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; Rockfist (Wave 1)</span><span class="value danger">~19,000</span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; Keldra Blightmind (Wave 2)</span><span class="value danger">~20,000</span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; The Anvil (Wave 3)</span><span class="value danger">~22,500</span></div>
+        <div class="stat-row"><span class="label">Max Hit &mdash; Kilrek the Cleaner (Final)</span><span class="value danger">~22,500</span></div>
+        <div class="stat-row"><span class="label">Rampage</span><span class="value "><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">AE Rampage</span><span class="value "><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Flurry</span><span class="value "><em>TBD</em></span></div>
+        <div class="stat-row"><span class="label">Summons</span><span class="value "><em>TBD</em></span></div>
       </div>
       <div class="info-block">
         <h3>Loot — <em>TBD</em></h3>
@@ -3884,26 +3887,135 @@
       <thead><tr><th>Spell</th><th>Source</th><th>Type</th><th>Effect</th><th>Counter</th></tr></thead>
       <tbody>
         <tr>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
-          <td><em>TBD</em></td>
+          <td><strong class="spell-name">Big Fist</strong></td>
+          <td><strong>Rockfist &mdash; Wave 1</strong></td>
+          <td>Single Target &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 25,000<br>Stun (6.00 sec)</td>
+          <td>Watch for aggro swap during the stun</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Tortured Mind</strong></td>
+          <td><strong>Keldra Blightmind &mdash; Wave 2</strong></td>
+          <td>PB AE 50' &middot; Magic (0)</td>
+          <td style="color:#e07060;">5% chance to trigger Mind Control (charm)<br>Add Effect: Mental Blight &mdash; blindness, decreased spell haste and attack speed</td>
+          <td>Stay outside 50' if possible</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Hammerfall</strong></td>
+          <td><strong>The Anvil &mdash; Wave 3</strong></td>
+          <td>PB AE 200' &middot; Magic (0)</td>
+          <td style="color:#e07060;">15,000&ndash;25,000 DD (random)</td>
+          <td>Stay outside 200' if possible</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Whirling Fist</strong></td>
+          <td><strong>The Anvil &mdash; Wave 3</strong></td>
+          <td>PB AE 50' &middot; Unresistable (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 15,000</td>
+          <td>Non-melee stay outside 50'</td>
+        </tr>
+        <tr class="spell-divider"><td colspan="5" style="padding:0;line-height:0;font-size:0;border-bottom:2px solid var(--gold-dark);"></td></tr>
+        <tr>
+          <td><strong class="spell-name">Cleansing</strong></td>
+          <td><strong>Kilrek the Cleaner</strong></td>
+          <td>Single Target &middot; Magic (0)</td>
+          <td style="color:#e07060;"><strong>Decrease Hitpoints by 5,000,000</strong> &mdash; a death touch</td>
+          <td>Watch for his DT emote</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Clear The Mind</strong></td>
+          <td><strong>Kilrek the Cleaner</strong></td>
+          <td>Targeted AE 100' &middot; Magic (0)</td>
+          <td style="color:#e07060;">Stun (1.00 sec)<br>Add Effect: Enfeeble &mdash; snare, and spell haste and melee attacks reduced 50% for 3 ticks</td>
+          <td>Comes with the "Set free your minds" emote</td>
+        </tr>
+        <tr>
+          <td><strong class="spell-name">Spiteful Lashing</strong></td>
+          <td><strong>Kilrek the Cleaner</strong></td>
+          <td>Single Target &middot; Magic (0)</td>
+          <td style="color:#e07060;">Decrease Hitpoints by 50,000</td>
+          <td>Heals on the tank</td>
         </tr>
       </tbody>
     </table>
     <div class="phase-header">Emotes</div>
+    <div class="phase-block phase-red">
+      <h4>The Anvil says, 'Temujin, you will not escape me!'</h4>
+      <p>The person who gets the emote needs to <strong>run away from The Anvil</strong>.</p>
+    </div>
     <div class="phase-block phase-amber">
-      <h4><em>TBD</em></h4>
-      <p><em>TBD</em></p>
+      <h4>Kilrek the Cleaner shouts 'Set free your minds, weaklings!'</h4>
+      <p>He is casting <strong>Clear The Mind</strong>.</p>
+    </div>
+    <div class="phase-block phase-red">
+      <h4>Kilrek the Cleaner shouts 'A mind is a terrible thing to waste, but in YOUR case I'll make an exception!'</h4>
+      <p>He is casting his <strong>DT</strong>.</p>
     </div>
     <div class="phase-header">Overview</div>
-    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><em>TBD</em></p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Say <strong>"clear"</strong> to Kierin Stonemist to trigger the event.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">This event has three phases. Each phase consists of three waves of adds, followed by a mini-boss. Waves are made up of various mob types &mdash; Bellikos, gigyns and telmirans &mdash; and the number of adds increases each wave.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Waves path towards the friendly NPCs we are trying to protect: <strong>Bordrick Fellhammer, Kierin Stonemist and the Telmiran Adherent</strong>.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.6rem;">Adds spawn in various locations: in the cubbies/side rooms on the first floor, and up the large ramp and around the corner. All adds will be kited by SKs and Bards.</p>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">After all three waves of adds and their mini-bosses, the final boss spawns: <strong>Kilrek the Cleaner</strong>. Kill Kilrek the Cleaner to complete the event.</p>
+    <div class="phase-header">Mini-Bosses</div>
+    <table class="spells-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Wave</th><th>Boss</th><th>Max Hit</th><th>Watch For</th></tr></thead>
+      <tbody>
+        <tr><td><strong class="spell-name">Wave 1</strong></td><td>Rockfist</td><td>~19,000</td><td>Big Fist &mdash; 6 second stun. Watch aggro swap.</td></tr>
+        <tr><td><strong class="spell-name">Wave 2</strong></td><td>Keldra Blightmind</td><td>~20,000</td><td>Tortured Mind &mdash; stay outside 50'.</td></tr>
+        <tr><td><strong class="spell-name">Wave 3</strong></td><td>The Anvil</td><td>~22,500</td><td>Hammerfall &mdash; stay outside 200'. Run on his emote.</td></tr>
+        <tr><td><strong class="spell-name">Final</strong></td><td>Kilrek the Cleaner</td><td>~22,500</td><td>Clear The Mind, Spiteful Lashing and a DT. Watch emotes.</td></tr>
+      </tbody>
+    </table>
+    <div class="phase-header">Event Timers</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">N/A</p>
+    <div class="phase-header">Positioning</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">The raid sets up in the cubby on the <strong>South</strong> side of the room.</p>
+    <div class="phase-header">Failure / Reset</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;"><strong>Fewer than 6 people alive at any time during the event = reset.</strong></p>
     <div class="ornament-divider">Strategy</div>
     <div class="strategy-box">
       <h3>KOS Raid Strategy</h3>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Setup</div>
       <ol style="counter-reset:strat 0;">
-        <li><em>TBD</em></li>
+        <li>The raid moves up the ramp to Kierin Stonemist, then clears lots of trash. Clear all the trash in the event area.</li>
+        <li>Talk to Kierin Stonemist to start the event. Say <strong>"clear"</strong>.</li>
+        <li>The raid sets up in the cubby on the South side of the room.</li>
+        <li>Each phase, mobs spawn in three different locations: 1. the entrance to the hall (Kierin Stonemist); 2. the side rooms; 3. up the large ramp and around the corner.</li>
+        <li>Three waves of adds, with a mini-boss at the end of each wave.</li>
+        <li>The adds are trying to kill the friendly NPCs (Bordrick Fellhammer, Kierin Stonemist, Telmiran Adherent) &mdash; our job is to keep them alive.</li>
+        <li>Each wave will consist of between 6 to 12+ adds.</li>
+        <li>Adds spawn in various locations and will need to be picked up and pulled to the first floor, where they will be kited.</li>
+        <li>SKs and Bards kite the adds as they spawn. Make sure to go find them and pull/kite them on the first floor.</li>
+        <li>Watch out for the floating tables &mdash; both players and mobs can get caught up on them.</li>
+        <li>All other tanks pick off a few adds at a time and pull them to the raid to be killed.</li>
+        <li>Casters/range try to out-range the mini-bosses' AEs. They range from 50' to 200'.</li>
+        <li>Paladins/Clerics splash at the raid as needed &mdash; Waves 2&ndash;3 and the final boss.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Wave 1</div>
+      <ol style="counter-reset:strat 13;">
+        <li>Kite the adds as they spawn. Pull them in a couple at a time and DPS them down.</li>
+        <li>Once all adds are down, Rockfist will spawn. Kill Rockfist.</li>
+        <li>Watch for aggro swap due to Rockfist's 6 second stun.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Wave 2</div>
+      <ol style="counter-reset:strat 16;">
+        <li>Kite the adds as they spawn. Pull them in a couple at a time and DPS them down.</li>
+        <li>Once all adds are down, Keldra Blightmind will spawn. Kill Keldra Blightmind.</li>
+        <li>If possible, stay outside of 50' range to avoid Tortured Mind (blind, decreased spell haste and attack speed).</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Wave 3</div>
+      <ol style="counter-reset:strat 19;">
+        <li>Kite the adds as they spawn. Pull them in a couple at a time and DPS them down.</li>
+        <li>Once all adds are down, The Anvil will spawn. Kill The Anvil.</li>
+        <li>If possible, stay outside of 200' range to avoid the DD.</li>
+      </ol>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold-dark);text-transform:uppercase;margin:.8rem 0 .5rem;">Final Boss &mdash; Kilrek the Cleaner</div>
+      <ol style="counter-reset:strat 22;">
+        <li>After The Anvil dies, the final boss spawns: Kilrek the Cleaner.</li>
+        <li>Kill Kilrek to beat the event.</li>
       </ol>
     </div>
   </div>

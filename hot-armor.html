@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>House of Thule Armor Guide — Key of Swords</title>
+<script>if(localStorage.getItem('kos-theme')==='light')document.documentElement.classList.add('light');</script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1020;
+  --bg2:#111a2e;
+  --panel:#15203a;
+  --panel2:#1b2848;
+  --ink:#e6ecf7;
+  --ink-dim:#9fb0cc;
+  --gold:#e8a020;
+  --gold-soft:#f0c060;
+  --line:#2a3a5c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Crimson Text',Georgia,serif;
+  font-size:18px;
+  line-height:1.65;
+}
+body.light{
+  --bg:#f4efe4;
+  --bg2:#ece4d4;
+  --panel:#fffaf0;
+  --panel2:#f6eeddff;
+  --ink:#231b10;
+  --ink-dim:#6b5c44;
+  --gold:#9a6407;
+  --gold-soft:#7a4f05;
+  --line:#d8c9a8;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+
+/* Header */
+header{
+  border-bottom:2px solid var(--line);
+  background:linear-gradient(180deg,var(--bg2),var(--bg));
+  padding:38px 20px 30px;
+  text-align:center;
+  position:relative;
+}
+h1{
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  color:var(--gold);
+  font-size:2.3rem;
+  letter-spacing:.04em;
+  margin:0 0 6px;
+}
+.sub{color:var(--ink-dim);margin:0;font-style:italic}
+a:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* Nav */
+nav.toc{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  margin:26px 0 10px;
+}
+nav.toc a{
+  font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.06em;
+  color:var(--ink-dim);text-decoration:none;
+  border:1px solid var(--line);border-radius:5px;padding:6px 12px;
+}
+nav.toc a:hover{color:var(--gold);border-color:var(--gold)}
+
+section{margin-top:44px}
+h2{
+  font-family:'Cinzel',serif;color:var(--gold);font-size:1.4rem;
+  border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;
+}
+h3{font-family:'Cinzel',serif;color:var(--gold-soft);font-size:1.02rem;margin:24px 0 8px}
+section p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.note{
+  background:var(--panel);border-left:3px solid var(--gold);
+  padding:12px 16px;margin:16px 0;color:var(--ink-dim);
+}
+.note strong{color:var(--ink)}
+
+/* Recipe strip */
+.recipe{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.recipe .step{
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:12px 18px;min-width:150px;
+}
+.recipe .step b{display:block;font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem}
+.recipe .step span{color:var(--ink-dim);font-size:.88rem}
+.recipe .op{color:var(--gold);font-size:1.5rem;font-family:'Cinzel',serif}
+
+/* Tables */
+.scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;margin-top:10px;font-size:.94rem}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{
+  background:var(--panel2);color:var(--gold);
+  font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.05em;font-weight:600;
+}
+tbody tr:nth-child(odd){background:var(--panel)}
+/* Filterable tables restripe in JS so hidden rows don't break the banding */
+#groupTbl tbody tr,#raidTbl tbody tr{background:transparent}
+#groupTbl tbody tr.odd,#raidTbl tbody tr.odd{background:var(--panel)}
+td.cls{font-family:'Cinzel',serif;color:var(--ink);white-space:nowrap}
+.mat{color:var(--gold-soft)}
+a.setlink{
+  color:inherit;text-decoration:none;
+  border-bottom:1px dotted var(--gold-soft);
+}
+a.setlink:hover{border-bottom-style:solid}
+a.setlink:hover .mat{color:var(--gold)}
+a.setlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+a.advlink{
+  font-size:.74rem;color:var(--ink-dim);text-decoration:none;white-space:nowrap;
+  border:1px solid var(--line);border-radius:3px;padding:0 5px;margin-left:2px;
+}
+a.advlink:hover{color:var(--gold);border-color:var(--gold)}
+a.advlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.pieces{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.pieces .advlink{margin-left:0}
+span.nolink{
+  font-size:.74rem;color:var(--ink-dim);opacity:.45;white-space:nowrap;
+  border:1px dashed var(--line);border-radius:3px;padding:0 5px;cursor:help;
+}
+tr.hit td.cls{color:var(--gold)}
+
+.filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.filter label{font-family:'Cinzel',serif;font-size:.76rem;letter-spacing:.06em;color:var(--ink-dim)}
+select{
+  background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:6px;padding:7px 11px;font-family:'Crimson Text',serif;font-size:.95rem;
+}
+
+/* Tier cards */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:14px}
+.tier{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:14px 16px}
+.tier h4{font-family:'Cinzel',serif;color:var(--gold);margin:0 0 4px;font-size:1rem}
+.tier .mats{color:var(--gold-soft);font-size:.86rem;margin-bottom:8px}
+.tier .mats strong{font-weight:700;color:var(--gold)}
+.tier ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:.92rem}
+.tier .hp{color:var(--ink-dim);font-size:.84rem;font-style:italic;margin:-4px 0 8px}
+
+ul.plain{list-style:none;padding-left:0}
+ul.plain li{padding:4px 0;border-bottom:1px solid var(--line);color:var(--ink-dim)}
+ul.plain li b{color:var(--ink);font-family:'Cinzel',serif;font-size:.85rem}
+
+footer{
+  margin-top:60px;padding:22px 20px;border-top:1px solid var(--line);
+  text-align:center;color:var(--ink-dim);font-size:.85rem;
+}
+@media (max-width:640px){
+  h1{font-size:1.6rem}
+  body{font-size:17px}
+}
+
+/* ── BACK TO HUB (copied from uf.html) ── */
+.back-btn { display: inline-flex; align-items: center; gap: 6px; margin: 16px auto; font-size: 13px; color: #e8a020; text-decoration: none; border: 1px solid #2a2a4a; background: #16213e; padding: 6px 14px; border-radius: 6px; transition: border-color 0.15s, background 0.3s, color 0.3s; }
+.back-btn:hover { border-color: #e8a020; }
+body.light .back-btn { background: #e0d4bc; border-color: #c0a878; color: #8a5a10; }
+body.light .back-btn:hover { border-color: #8a5a10; }
+/* uf.html uses Arial and normal line spacing; pin both so the button looks identical */
+.back-btn { font-family: Arial, sans-serif; line-height: normal; }
+header .back-btn { margin: 14px 0 0; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle { position: fixed; top: 12px; right: 16px; z-index: 1000; display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
+  .toggle-track { width: 36px; height: 18px; background: #2a2a4a; border: 1px solid #4a4a6a; border-radius: 9px; position: relative; transition: background 0.25s, border-color 0.25s; flex-shrink: 0; }
+  body.light .toggle-track { background: #c8a060; border-color: #a07840; }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e8a020; transition: transform 0.25s; }
+  body.light .toggle-thumb { transform: translateX(18px); }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 9.5A6 6 0 0 1 4.5 2.5a6 6 0 0 0 0 9 6 6 0 0 0 7-2z" fill="#c8a060" stroke="#e8c080" stroke-width="0.75" stroke-linejoin="round"/></svg>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#e8a020"/><line x1="7" y1="1" x2="7" y2="3" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="7" y2="13" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="7" x2="3" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="7" x2="13" y2="7" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="9.66" y1="9.66" x2="11.07" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="11.07" y1="2.93" x2="9.66" y2="4.34" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><line x1="4.34" y1="9.66" x2="2.93" y2="11.07" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+</div>
+
+<header>
+  <h1>House of Thule Armor</h1>
+  <p class="sub">Visible armor for tiers 1 through 4 — what drops it, what builds it, what it's called.</p>
+  <a class="back-btn" href="hot.html">&#8592; House of Thule</a>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <a href="#how">How it works</a>
+  <a href="#tiers">Tiers &amp; remnants</a>
+  <a href="#slots">Slot names</a>
+  <a href="#agents">Coalescing agents</a>
+  <a href="#templates">Templates</a>
+  <a href="#sets">Set names</a>
+  <a href="#extras">Odds &amp; ends</a>
+</nav>
+
+<section id="how">
+  <h2>How House of Thule armor works</h2>
+  <p>Every visible armor piece in House of Thule is combined in a Shroud of Dreams. Unlike Underfoot, this armor does upgrade: a tier 1 piece plus a tier 2 remnant becomes the tier 2 piece, and so on up to tier 4. If you don't have the piece below, any tier can be built fresh from a remnant, a coalescing agent, and that tier's template. Group and raid armor are made exactly the same way — only the remnant changes.</p>
+
+  <h3>Building a piece fresh (without the previous tier's armor piece)</h3>
+  <div class="recipe">
+    <div class="step"><b>Remnant</b><span>No Drop. Drops off named mobs.</span></div>
+    <div class="op">+</div>
+    <div class="step"><b>Template</b><span>Tier 1 player-crafted; tiers 2–4 vendor.</span></div>
+    <div class="op">+</div>
+    <div class="step"><b>Coalescing Agent</b><span>Vendor, Zande Vorich.</span></div>
+    <div class="op">=</div>
+    <div class="step"><b>Armor piece</b><span>Combine in a Shroud of Dreams.</span></div>
+  </div>
+
+  <h3>Upgrading a piece</h3>
+  <div class="recipe">
+    <div class="step"><b>Remnant</b><span>Next tier up, same slot.</span></div>
+    <div class="op">+</div>
+    <div class="step"><b>Previous tier piece</b><span>Your current armor.</span></div>
+    <div class="op">=</div>
+    <div class="step"><b>Next tier piece</b><span>Combine in a Shroud of Dreams.</span></div>
+  </div>
+
+  <div class="note">
+    <strong>Where to get the parts:</strong> Zande Vorich in The Feerrott, near the PoK book, sells the Shroud of Dreams, all eight coalescing agents, and the Inchoate (tier 2) templates. Ginale Vaultseeker, outside the zone-in to the House of Thule, sells the Nebulous (tier 3) and Amorphous (tier 4) templates. The Shroud is a three-slot container you carry, so the combine can happen anywhere.
+  </div>
+</section>
+
+<section id="tiers">
+  <h2>Tiers, zones, and remnants</h2>
+  <p>Remnants are named <span class="mat">(Tier) Remnant of (Slot)</span> — an Abstruse Remnant of Desire, for example, is a tier 1 group chest remnant. The tier word tells you the tier and whether it's group or raid; the slot word tells you the piece. They drop at random off named mobs throughout the expansion.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <h4>Tier 1</h4>
+      <div class="mats">Group: Abstruse · <strong>Raid: Enigmatic</strong></div>
+      <div class="hp">HP/Mana — group 940–995 · raid 1560–1700</div>
+      <ul><li>Feerrott, the Dream</li><li>House of Thule, Lower Floors</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Tier 2</h4>
+      <div class="mats">Group: Recondite · <strong>Raid: Esoteric</strong></div>
+      <div class="hp">HP/Mana — group 1120–1200 · raid 1725–1890</div>
+      <ul><li>Erudin Burning</li><li>The Grounds</li><li>The Library</li><li>The Well</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Tier 3</h4>
+      <div class="mats">Group: Ambiguous · <strong>Raid: Obscure</strong></div>
+      <div class="hp">HP/Mana — group 1250–1375 · raid 1990–2100</div>
+      <ul><li>Al'Kabor's Nightmare</li><li>Fear Itself</li><li>House of Thule, Upper Floors</li><li>Miragul's Nightmare</li></ul>
+    </div>
+    <div class="tier">
+      <h4>Tier 4</h4>
+      <div class="mats">Group: Lucid · <strong>Raid: Perspicuous</strong></div>
+      <div class="hp">HP/Mana — group 1400–1575 · raid 2055–2280</div>
+      <ul><li>Morell's Castle</li><li>Sanctum Somnium</li></ul>
+    </div>
+  </div>
+
+  <div class="note">
+    Every tier has its own raid remnant — nothing is shared across tiers the way Palladium was in Underfoot. For scale, <strong>tier 1</strong> sits at about Underfoot's tier 8, and <strong>tier 2</strong> is a small step above Underfoot's tier 9.
+  </div>
+</section>
+
+<section id="slots">
+  <h2>Slot names on remnants</h2>
+  <p>Remnants use virtue-and-vice wording rather than slot wording. The item itself also lists the slot, so nobody has to memorize these — but they come up constantly in loot chat.</p>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Remnant word</th><th>Slot</th></tr></thead>
+    <tbody>
+      <tr><td>of Knowledge</td><td>Head</td></tr>
+      <tr><td>of Desire</td><td>Chest</td></tr>
+      <tr><td>of Devotion</td><td>Arms</td></tr>
+      <tr><td>of Fear</td><td>Legs</td></tr>
+      <tr><td>of Truth</td><td>Wrist — two slots to fill</td></tr>
+      <tr><td>of Survival</td><td>Feet</td></tr>
+      <tr><td>of Greed</td><td>Hands</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="agents">
+  <h2>Coalescing agents</h2>
+  <p>Bought from Zande Vorich in The Feerrott. The eight names and class pairs match Underfoot's bonding agents, but these are a separate item — Coalescing, not Bonding. One agent covers two classes, and the agent is what keys the piece to your class. You only need one when building a piece fresh; upgrades skip it.</p>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Agent</th><th>Classes</th></tr></thead>
+    <tbody>
+      <tr><td>Consort Coalescing Agent</td><td>Beastlord, Magician</td></tr>
+      <tr><td>Dedicant Coalescing Agent</td><td>Cleric, Shaman</td></tr>
+      <tr><td>Dream Coalescing Agent</td><td>Bard, Enchanter</td></tr>
+      <tr><td>Druadic Coalescing Agent</td><td>Druid, Ranger</td></tr>
+      <tr><td>Intensity Coalescing Agent</td><td>Berserker, Wizard</td></tr>
+      <tr><td>Martialism Coalescing Agent</td><td>Rogue, Warrior</td></tr>
+      <tr><td>Necrotic Coalescing Agent</td><td>Necromancer, Shadow Knight</td></tr>
+      <tr><td>Purification Coalescing Agent</td><td>Monk, Paladin</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="templates">
+  <h2>Templates</h2>
+  <p>Each tier has its own template. Tier 1 uses the player-made templates; tiers 2 through 4 come from vendors in The Feerrott. A template is only needed when building a piece fresh — if you already have the piece from the tier below, the remnant alone upgrades it.</p>
+
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Tier</th><th>Template</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Tier 1</td><td>Vanadium or Immaculate (by armor type)</td><td>Player-crafted, tradeable</td></tr>
+      <tr><td>Tier 2</td><td>Inchoate</td><td>Zande Vorich, The Feerrott</td></tr>
+      <tr><td>Tier 3</td><td>Nebulous</td><td>Ginale Vaultseeker, outside the House of Thule zone-in</td></tr>
+      <tr><td>Tier 4</td><td>Amorphous</td><td>Ginale Vaultseeker, The Feerrott</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Tier 1 templates</h3>
+  <p>These are the same templates Underfoot uses, so a guild crafter who supplied the Underfoot raid can keep supplying this one. Which line you need depends on your armor class.</p>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Armor type</th><th>Template line</th><th>Skill</th><th>Classes</th></tr></thead>
+    <tbody>
+      <tr><td>Plate</td><td>Vanadium Plate</td><td>Smithing</td><td>Warrior, Cleric, Paladin, Shadow Knight, Bard</td></tr>
+      <tr><td>Chain</td><td>Vanadium Chain</td><td>Smithing</td><td>Ranger, Rogue, Shaman, Berserker</td></tr>
+      <tr><td>Silk</td><td>Immaculate Silk</td><td>Tailoring</td><td>Enchanter, Necromancer, Magician, Wizard</td></tr>
+      <tr><td>Leather</td><td>Immaculate Leather</td><td>Tailoring</td><td>Beastlord, Druid, Monk</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Template combines</h3>
+  <ul class="plain">
+    <li><b>Vanadium Plate / Chain</b> — Brimstone Coal, Metal Tempering Chemicals, the matching mold, Smithy Hammer, and 1–3 Vanadium Ore depending on slot.</li>
+    <li><b>Immaculate Silk</b> — Faysilk Filament, Silk Curing Chemicals, Silk Pattern, Simple Sewing Needle, and 2–6 Immaculate Silk depending on slot.</li>
+    <li><b>Immaculate Leather</b> — Faysilk Filament, Tanning Chemicals, Leather Pattern, Simple Sewing Needle, and 1–3 Immaculate Animal Pelt depending on slot.</li>
+  </ul>
+
+  <h3>Trivials and raw material per slot</h3>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>Slot</th><th>Trivial</th><th>Immaculate Silk</th><th>Immaculate Pelt</th><th>Vanadium Ore</th></tr></thead>
+    <tbody>
+      <tr><td>Wrist</td><td><strong>488</strong></td><td>2</td><td>1</td><td>1</td></tr>
+      <tr><td>Hands</td><td><strong>490</strong></td><td>2</td><td>1</td><td>1</td></tr>
+      <tr><td>Head</td><td><strong>492</strong></td><td>4</td><td>2</td><td>2</td></tr>
+      <tr><td>Arms</td><td><strong>494</strong></td><td>4</td><td>2</td><td>2</td></tr>
+      <tr><td>Feet</td><td><strong>496</strong></td><td>4</td><td>2</td><td>2</td></tr>
+      <tr><td>Legs</td><td><strong>498</strong></td><td>6</td><td>3</td><td>3</td></tr>
+      <tr><td>Chest</td><td><strong>510</strong></td><td>6</td><td>3</td><td>3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">Trivials run well north of 480, so these are not casual combines — line up a crafter early. Only tier 1 needs them; everything above is an upgrade or a vendor template.</div>
+</section>
+
+<section id="sets">
+  <h2>Set names by class</h2>
+  <p>The set name stays fixed per class; only the tier word changes. Group pieces read <span class="mat">(Tier) (Set) Armor</span> and raid pieces read <span class="mat">(Tier) Armor of (Title)</span>, so a Warrior farms Abstruse Ironhand Armor in groups and Enigmatic Armor of the Protector on raids.</p>
+
+  <div class="filter">
+    <label for="clsPick">Show class</label>
+    <select id="clsPick">
+      <option value="">All classes</option>
+    </select>
+  </div>
+
+  <h3>Group armor</h3>
+  <div class="scroller">
+  <table id="groupTbl">
+    <thead><tr><th>Class</th><th>Tier 1 — Abstruse</th><th>Tier 2 — Recondite</th><th>Tier 3 — Ambiguous</th><th>Tier 4 — Lucid</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+
+  <h3>Raid armor</h3>
+  <div class="scroller">
+  <table id="raidTbl">
+    <thead><tr><th>Class</th><th>Tier 1 — Enigmatic</th><th>Tier 2 — Esoteric</th><th>Tier 3 — Obscure</th><th>Tier 4 — Perspicuous</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+</section>
+
+<section id="extras">
+  <h2>Odds and ends</h2>
+
+  <h3>Wrist focus swaps</h3>
+  <p>Shadow Knights, Shamans, Necromancers and Beastlords can change a finished wrist piece's focus effect by placing it <strong>alone in a Shroud of Dreams</strong> — no Box of Latent Energies needed this time. Worth knowing before anyone rolls on a second Remnant of Truth.</p>
+
+  <h3>Terror Infused armor</h3>
+  <p>Terror Infused armor is standalone: it can't be upgraded and can't be used in any combine. The set covers head, arms, chest, legs and feet for every class at roughly 919–936 HP/Mana — just under tier 1 group armor, which makes it useful filler while remnant luck sorts itself out.</p>
+
+  <h3>Dream Motes</h3>
+  <p>Rotharran Radhelm, the adventure merchant, sells jewelry and accessories for Dream Motes — finger, ear, waist, face, back, neck, shoulder, charm and range. Some items only open up as faction climbs through apprehensive, indifferent, amiable and kindly.</p>
+
+  <h3>Getting there</h3>
+  <p>Clicking the Oggok portal in the Plane of Knowledge now asks whether you want The Feerrott or Feerrott, the Dream. The Dream is the base zone of House of Thule.</p>
+</section>
+
+</div>
+
+<footer>Key of Swords · Teek Server · Created by Temujin of Teek</footer>
+
+<script>
+(function(){
+  /* [class, group set name, raid set title]
+     Group pieces: "<Tier> <Set> Armor"; raid pieces: "<Tier> Armor of <Title>". */
+  var CLASSES = [
+    ["Bard","Dreamhunter Armor","Armor of the Muse"],
+    ["Beastlord","Wildroar Armor","Armor of the Predator"],
+    ["Berserker","Rageblade Armor","Armor of the Merciless"],
+    ["Cleric","Blessedbond Armor","Armor of the Rejuvenator"],
+    ["Druid","Orobane Armor","Armor of Creation"],
+    ["Enchanter","Mindbroken Armor","Armor of the Phantasmist"],
+    ["Magician","Conjuredflame Armor","Armor of the Thaumaterge"],
+    ["Monk","Forcestruck Armor","Armor of Affinity"],
+    ["Necromancer","Soulreaper Armor","Armor of Finality"],
+    ["Paladin","Soulbound Armor","Armor of the Crusader"],
+    ["Ranger","Stormheart Armor","Armor of the Hunt"],
+    ["Rogue","Stealthinfused Armor","Armor of the Swift"],
+    ["Shadow Knight","Darktouch Armor","Armor of the Reaver"],
+    ["Shaman","Spiritskin Armor","Armor of Foresight"],
+    ["Warrior","Ironhand Armor","Armor of the Protector"],
+    ["Wizard","Manafiber Armor","Armor of the Sorcerer"]
+  ];
+  var GROUP_MATS = ["Abstruse","Recondite","Ambiguous","Lucid"];
+  var RAID_MATS  = ["Enigmatic","Esoteric","Obscure","Perspicuous"];
+
+  /* Confirmed Allakhazam links, keyed by class then tier word.
+     Group and raid tier words never overlap, so the tier word alone is unambiguous.
+     Group tiers link to the set searches from the House of Thule Armor Guide wiki page.
+     Raid tiers: item links from the wiki page, plus links Lars supplied for pieces the wiki left as placeholders.
+     pieces are [piece name, URL] in slot order Head, Chest, Arms, Legs, Wrist, Hands, Feet.
+     URLs may be item or recipe pages; 0 = not supplied yet (shows dimmed).
+     Add entries only from confirmed URLs — do not generate them from the pattern. */
+  var LINKS = {
+    "Bard": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20dreamhunter"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20dreamhunter"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20dreamhunter"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20dreamhunter"},
+      "Enigmatic":{pieces:[["Helm","https://everquest.allakhazam.com/db/recipe/25082"],["Breastplate","https://everquest.allakhazam.com/db/recipe/25071"],["Vambraces","https://everquest.allakhazam.com/db/recipe/41488"],["Greaves","https://everquest.allakhazam.com/db/recipe/30465"],["Bracer","https://everquest.allakhazam.com/db/item/134952"],["Gauntlets","https://everquest.allakhazam.com/db/recipe/27389"],["Boots","https://everquest.allakhazam.com/db/item/134954"]]},
+      "Esoteric":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95126"],["Breastplate","https://everquest.allakhazam.com/db/item/95208"],["Vambraces","https://everquest.allakhazam.com/db/item/95292"],["Greaves","https://everquest.allakhazam.com/db/item/95765"],["Bracer","https://everquest.allakhazam.com/db/item/95065"],["Gauntlets","https://everquest.allakhazam.com/db/item/95665"],["Boots","https://everquest.allakhazam.com/db/item/95818"]]},
+      "Obscure":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95988"],["Breastplate","https://everquest.allakhazam.com/db/item/96064"],["Vambraces","https://everquest.allakhazam.com/db/item/95428"],["Greaves","https://everquest.allakhazam.com/db/item/95748"],["Bracer","https://everquest.allakhazam.com/db/item/95386"],["Gauntlets","https://everquest.allakhazam.com/db/item/95711"],["Boots","https://everquest.allakhazam.com/db/item/95579"]]},
+      "Perspicuous":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96503"],["Breastplate","https://everquest.allakhazam.com/db/item/96443"],["Vambraces","https://everquest.allakhazam.com/db/item/96656"],["Greaves","https://everquest.allakhazam.com/db/item/96602"],["Bracer","https://everquest.allakhazam.com/db/item/96358"],["Gauntlets","https://everquest.allakhazam.com/db/item/96301"],["Boots","https://everquest.allakhazam.com/db/item/96601"]]}
+    },
+    "Beastlord": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20wildroar"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20wildroar"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20wildroar"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20wildroar"},
+      "Enigmatic":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/95232"],["Tunic","https://everquest.allakhazam.com/db/item/109914"],["Armwraps","https://everquest.allakhazam.com/db/item/95077"],["Leggings","https://everquest.allakhazam.com/db/item/103630"],["Wristguard","https://everquest.allakhazam.com/db/item/95610"],["Gloves","https://everquest.allakhazam.com/db/item/134957"],["Boots","https://everquest.allakhazam.com/db/item/134958"]]},
+      "Esoteric":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/95120"],["Tunic","https://everquest.allakhazam.com/db/item/95402"],["Armwraps","https://everquest.allakhazam.com/db/item/95351"],["Leggings","https://everquest.allakhazam.com/db/item/95352"],["Wristguard","https://everquest.allakhazam.com/db/item/95118"],["Gloves","https://everquest.allakhazam.com/db/item/95350"],["Boots","https://everquest.allakhazam.com/db/item/95007"]]},
+      "Obscure":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96084"],["Tunic","https://everquest.allakhazam.com/db/item/96655"],["Armwraps","https://everquest.allakhazam.com/db/item/95937"],["Leggings","https://everquest.allakhazam.com/db/item/96209"],["Wristguard","https://everquest.allakhazam.com/db/item/95694"],["Gloves","https://everquest.allakhazam.com/db/item/95775"],["Boots","https://everquest.allakhazam.com/db/item/95810"]]},
+      "Perspicuous":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96645"],["Tunic","https://everquest.allakhazam.com/db/item/97100"],["Armwraps","https://everquest.allakhazam.com/db/item/96879"],["Leggings","https://everquest.allakhazam.com/db/item/96593"],["Wristguard","https://everquest.allakhazam.com/db/item/96747"],["Gloves","https://everquest.allakhazam.com/db/item/96592"],["Boots","https://everquest.allakhazam.com/db/item/96758"]]}
+    },
+    "Berserker": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20rageblade"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20rageblade"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20rageblade"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20rageblade"},
+      "Enigmatic":{pieces:[["Coif","https://everquest.allakhazam.com/db/recipe/41829"],["Coat","https://everquest.allakhazam.com/db/recipe/48155"],["Sleeves","https://everquest.allakhazam.com/db/item/95266"],["Leggings","https://everquest.allakhazam.com/db/recipe/41835"],["Wristguard",0],["Gauntlets","https://everquest.allakhazam.com/db/recipe/49318"],["Boots","https://everquest.allakhazam.com/db/recipe/49321"]]},
+      "Esoteric":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/95942"],["Coat","https://everquest.allakhazam.com/db/item/95823"],["Sleeves","https://everquest.allakhazam.com/db/item/95822"],["Leggings","https://everquest.allakhazam.com/db/item/95820"],["Wristguard","https://everquest.allakhazam.com/db/item/95819"],["Gauntlets","https://everquest.allakhazam.com/db/item/95825"],["Boots","https://everquest.allakhazam.com/db/item/95821"]]},
+      "Obscure":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96105"],["Coat","https://everquest.allakhazam.com/db/item/95967"],["Sleeves","https://everquest.allakhazam.com/db/item/96175"],["Leggings","https://everquest.allakhazam.com/db/item/96547"],["Wristguard","https://everquest.allakhazam.com/db/item/96579"],["Gauntlets","https://everquest.allakhazam.com/db/item/96635"],["Boots","https://everquest.allakhazam.com/db/item/96492"]]},
+      "Perspicuous":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96843"],["Coat","https://everquest.allakhazam.com/db/item/96944"],["Sleeves","https://everquest.allakhazam.com/db/item/96341"],["Leggings","https://everquest.allakhazam.com/db/item/96554"],["Wristguard","https://everquest.allakhazam.com/db/item/96557"],["Gauntlets","https://everquest.allakhazam.com/db/item/96332"],["Boots","https://everquest.allakhazam.com/db/item/96785"]]}
+    },
+    "Cleric": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20blessedbond"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20blessedbond"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20blessedbond"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20blessedbond"},
+      "Enigmatic":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95638"],["Breastplate","https://everquest.allakhazam.com/db/item/94551"],["Vambraces","https://everquest.allakhazam.com/db/item/94904"],["Greaves","https://everquest.allakhazam.com/db/item/95639"],["Bracer","https://everquest.allakhazam.com/db/item/96787"],["Gauntlets","https://everquest.allakhazam.com/db/item/95843"],["Boots","https://everquest.allakhazam.com/db/item/95297"]]},
+      "Esoteric":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95201"],["Breastplate","https://everquest.allakhazam.com/db/item/95115"],["Vambraces","https://everquest.allakhazam.com/db/item/94819"],["Greaves","https://everquest.allakhazam.com/db/item/95202"],["Bracer","https://everquest.allakhazam.com/db/item/94789"],["Gauntlets","https://everquest.allakhazam.com/db/item/95824"],["Boots","https://everquest.allakhazam.com/db/item/94854"]]},
+      "Obscure":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96431"],["Breastplate","https://everquest.allakhazam.com/db/item/95717"],["Vambraces","https://everquest.allakhazam.com/db/item/95633"],["Greaves","https://everquest.allakhazam.com/db/item/95725"],["Bracer","https://everquest.allakhazam.com/db/item/95270"],["Gauntlets","https://everquest.allakhazam.com/db/item/95939"],["Boots","https://everquest.allakhazam.com/db/item/95429"]]},
+      "Perspicuous":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96429"],["Breastplate","https://everquest.allakhazam.com/db/item/96570"],["Vambraces","https://everquest.allakhazam.com/db/item/96374"],["Greaves","https://everquest.allakhazam.com/db/item/96565"],["Bracer","https://everquest.allakhazam.com/db/item/96265"],["Gauntlets","https://everquest.allakhazam.com/db/item/96266"],["Boots","https://everquest.allakhazam.com/db/item/96333"]]}
+    },
+    "Druid": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20orobane"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20orobane"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20orobane"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20orobane"},
+      "Enigmatic":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96425"],["Tunic","https://everquest.allakhazam.com/db/recipe/29858"],["Armwraps","https://everquest.allakhazam.com/db/item/95575"],["Leggings","https://everquest.allakhazam.com/db/recipe/25085"],["Wristguard","https://everquest.allakhazam.com/db/item/96297"],["Gloves","https://everquest.allakhazam.com/db/recipe/41485"],["Boots","https://everquest.allakhazam.com/db/item/95458"]]},
+      "Esoteric":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/95417"],["Tunic","https://everquest.allakhazam.com/db/item/95071"],["Armwraps","https://everquest.allakhazam.com/db/item/95677"],["Leggings","https://everquest.allakhazam.com/db/item/95671"],["Wristguard","https://everquest.allakhazam.com/db/item/95293"],["Gloves","https://everquest.allakhazam.com/db/item/95544"],["Boots","https://everquest.allakhazam.com/db/item/96085"]]},
+      "Obscure":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96791"],["Tunic","https://everquest.allakhazam.com/db/item/95968"],["Armwraps","https://everquest.allakhazam.com/db/item/96648"],["Leggings","https://everquest.allakhazam.com/db/item/96527"],["Wristguard","https://everquest.allakhazam.com/db/item/95554"],["Gloves","https://everquest.allakhazam.com/db/item/96578"],["Boots","https://everquest.allakhazam.com/db/item/95669"]]},
+      "Perspicuous":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96618"],["Tunic","https://everquest.allakhazam.com/db/item/96939"],["Armwraps","https://everquest.allakhazam.com/db/item/96644"],["Leggings","https://everquest.allakhazam.com/db/item/96363"],["Wristguard","https://everquest.allakhazam.com/db/item/96233"],["Gloves","https://everquest.allakhazam.com/db/item/96372"],["Boots","https://everquest.allakhazam.com/db/item/96334"]]}
+    },
+    "Enchanter": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20mindbroken"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20mindbroken"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20mindbroken"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20mindbroken"},
+      "Enigmatic":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/134769"],["Robe","https://everquest.allakhazam.com/db/item/94679"],["Sleeves","https://everquest.allakhazam.com/db/item/95013"],["Pants","https://everquest.allakhazam.com/db/item/92616"],["Wristguard","https://everquest.allakhazam.com/db/item/95012"],["Gloves","https://everquest.allakhazam.com/db/item/95296"],["Sandals","https://everquest.allakhazam.com/db/item/94781"]]},
+      "Esoteric":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/97416"],["Robe","https://everquest.allakhazam.com/db/item/95609"],["Sleeves","https://everquest.allakhazam.com/db/item/95648"],["Pants","https://everquest.allakhazam.com/db/item/95696"],["Wristguard","https://everquest.allakhazam.com/db/item/95543"],["Gloves","https://everquest.allakhazam.com/db/recipe/25188"],["Sandals","https://everquest.allakhazam.com/db/item/97880"]]},
+      "Obscure":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/96977"],["Robe","https://everquest.allakhazam.com/db/item/96979"],["Sleeves","https://everquest.allakhazam.com/db/item/96976"],["Pants","https://everquest.allakhazam.com/db/item/96978"],["Wristguard","https://everquest.allakhazam.com/db/item/95707"],["Gloves","https://everquest.allakhazam.com/db/item/96935"],["Sandals","https://everquest.allakhazam.com/db/item/96613"]]},
+      "Perspicuous":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/96611"],["Robe","https://everquest.allakhazam.com/db/item/96668"],["Sleeves","https://everquest.allakhazam.com/db/item/96667"],["Pants","https://everquest.allakhazam.com/db/item/96658"],["Wristguard","https://everquest.allakhazam.com/db/item/96657"],["Gloves","https://everquest.allakhazam.com/db/item/96343"],["Sandals","https://everquest.allakhazam.com/db/item/96344"]]}
+    },
+    "Magician": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20conjuredflame"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20conjuredflame"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20conjuredflame"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20conjuredflame"},
+      "Enigmatic":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95635"],["Robe","https://everquest.allakhazam.com/db/item/95411"],["Sleeves","https://everquest.allakhazam.com/db/item/95078"],["Pants","https://everquest.allakhazam.com/db/item/95002"],["Wristguard","https://everquest.allakhazam.com/db/recipe/58678"],["Gloves","https://everquest.allakhazam.com/db/recipe/57710"],["Sandals","https://everquest.allakhazam.com/db/recipe/41609"]]},
+      "Esoteric":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95985"],["Robe","https://everquest.allakhazam.com/db/item/95423"],["Sleeves","https://everquest.allakhazam.com/db/recipe/25194"],["Pants","https://everquest.allakhazam.com/db/recipe/49314"],["Wristguard","https://everquest.allakhazam.com/db/item/95085"],["Gloves","https://everquest.allakhazam.com/db/item/96373"],["Sandals","https://everquest.allakhazam.com/db/item/95705"]]},
+      "Obscure":{pieces:[["Cap","https://everquest.allakhazam.com/db/recipe/33475"],["Robe","https://everquest.allakhazam.com/db/recipe/25119"],["Sleeves","https://everquest.allakhazam.com/db/recipe/32068"],["Pants","https://everquest.allakhazam.com/db/recipe/49316"],["Wristguard","https://everquest.allakhazam.com/db/item/95555"],["Gloves","https://everquest.allakhazam.com/db/item/95840"],["Sandals","https://everquest.allakhazam.com/db/item/96210"]]},
+      "Perspicuous":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/96552"],["Robe","https://everquest.allakhazam.com/db/recipe/25640"],["Sleeves","https://everquest.allakhazam.com/db/recipe/32070"],["Pants","https://everquest.allakhazam.com/db/recipe/37012"],["Wristguard","https://everquest.allakhazam.com/db/recipe/25264"],["Gloves","https://everquest.allakhazam.com/db/item/96390"],["Sandals","https://everquest.allakhazam.com/db/recipe/25291"]]}
+    },
+    "Monk": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20forcestruck"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20forcestruck"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20forcestruck"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20forcestruck"},
+      "Enigmatic":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/95520"],["Chestwraps","https://everquest.allakhazam.com/db/recipe/41533"],["Armwraps","https://everquest.allakhazam.com/db/recipe/40531"],["Leggings","https://everquest.allakhazam.com/db/item/96086"],["Wristguard","https://everquest.allakhazam.com/db/item/95142"],["Gloves","https://everquest.allakhazam.com/db/recipe/41617"],["Boots","https://everquest.allakhazam.com/db/recipe/57241"]]},
+      "Esoteric":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/94848"],["Chestwraps","https://everquest.allakhazam.com/db/item/95072"],["Armwraps","https://everquest.allakhazam.com/db/item/95200"],["Leggings","https://everquest.allakhazam.com/db/item/94808"],["Wristguard","https://everquest.allakhazam.com/db/item/95124"],["Gloves","https://everquest.allakhazam.com/db/item/94847"],["Boots","https://everquest.allakhazam.com/db/item/103457"]]},
+      "Obscure":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96277"],["Chestwraps","https://everquest.allakhazam.com/db/item/96288"],["Armwraps","https://everquest.allakhazam.com/db/item/95674"],["Leggings","https://everquest.allakhazam.com/db/item/95793"],["Wristguard","https://everquest.allakhazam.com/db/item/95664"],["Gloves","https://everquest.allakhazam.com/db/recipe/25266"],["Boots","https://everquest.allakhazam.com/db/recipe/41536"]]},
+      "Perspicuous":{pieces:[["Cowl","https://everquest.allakhazam.com/db/item/96501"],["Chestwraps","https://everquest.allakhazam.com/db/item/96389"],["Armwraps","https://everquest.allakhazam.com/db/item/96712"],["Leggings","https://everquest.allakhazam.com/db/recipe/25208"],["Wristguard","https://everquest.allakhazam.com/db/recipe/36712"],["Gloves","https://everquest.allakhazam.com/db/item/96502"],["Boots","https://everquest.allakhazam.com/db/item/96494"]]}
+    },
+    "Necromancer": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20soulreaper"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20soulreaper"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20soulreaper"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20soulreaper"},
+      "Enigmatic":{pieces:[["Cap","https://everquest.allakhazam.com/db/recipe/25629"],["Robe","https://everquest.allakhazam.com/db/recipe/25088"],["Sleeves","https://everquest.allakhazam.com/db/recipe/25114"],["Pants","https://everquest.allakhazam.com/db/recipe/26936"],["Wristguard","https://everquest.allakhazam.com/db/item/95010"],["Gloves","https://everquest.allakhazam.com/db/recipe/26933"],["Sandals","https://everquest.allakhazam.com/db/item/96099"]]},
+      "Esoteric":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95813"],["Robe","https://everquest.allakhazam.com/db/item/96075"],["Sleeves","https://everquest.allakhazam.com/db/item/95743"],["Pants","https://everquest.allakhazam.com/db/item/94720"],["Wristguard","https://everquest.allakhazam.com/db/item/94809"],["Gloves","https://everquest.allakhazam.com/db/item/95753"],["Sandals","https://everquest.allakhazam.com/db/recipe/27105"]]},
+      "Obscure":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95781"],["Robe","https://everquest.allakhazam.com/db/recipe/25160"],["Sleeves","https://everquest.allakhazam.com/db/recipe/25315"],["Pants","https://everquest.allakhazam.com/db/item/96312"],["Wristguard","https://everquest.allakhazam.com/db/recipe/24919"],["Gloves","https://everquest.allakhazam.com/db/recipe/24921"],["Sandals","https://everquest.allakhazam.com/db/item/96174"]]},
+      "Perspicuous":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/96604"],["Robe","https://everquest.allakhazam.com/db/recipe/29611"],["Sleeves","https://everquest.allakhazam.com/db/recipe/25317"],["Pants","https://everquest.allakhazam.com/db/recipe/34782"],["Wristguard","https://everquest.allakhazam.com/db/recipe/25932"],["Gloves","https://everquest.allakhazam.com/db/item/97892"],["Sandals","https://everquest.allakhazam.com/db/recipe/34780"]]}
+    },
+    "Paladin": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20soulbound"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20soulbound"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20soulbound"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20soulbound"},
+      "Enigmatic":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/92618"],["Breastplate","https://everquest.allakhazam.com/db/item/92541"],["Vambraces","https://everquest.allakhazam.com/db/recipe/25548"],["Greaves","https://everquest.allakhazam.com/db/recipe/25304"],["Bracer","https://everquest.allakhazam.com/db/item/94836"],["Gauntlets","https://everquest.allakhazam.com/db/recipe/26930"],["Boots","https://everquest.allakhazam.com/db/recipe/41482"]]},
+      "Esoteric":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95742"],["Breastplate","https://everquest.allakhazam.com/db/item/95355"],["Vambraces","https://everquest.allakhazam.com/db/item/95354"],["Greaves","https://everquest.allakhazam.com/db/recipe/31098"],["Bracer","https://everquest.allakhazam.com/db/item/95365"],["Gauntlets","https://everquest.allakhazam.com/db/item/95214"],["Boots","https://everquest.allakhazam.com/db/item/95476"]]},
+      "Obscure":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95721"],["Breastplate","https://everquest.allakhazam.com/db/recipe/25279"],["Vambraces","https://everquest.allakhazam.com/db/recipe/32074"],["Greaves","https://everquest.allakhazam.com/db/recipe/31100"],["Bracer","https://everquest.allakhazam.com/db/item/95719"],["Gauntlets","https://everquest.allakhazam.com/db/item/95720"],["Boots","https://everquest.allakhazam.com/db/recipe/25309"]]},
+      "Perspicuous":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96335"],["Breastplate","https://everquest.allakhazam.com/db/item/96566"],["Vambraces","https://everquest.allakhazam.com/db/recipe/37014"],["Greaves","https://everquest.allakhazam.com/db/item/96553"],["Bracer","https://everquest.allakhazam.com/db/item/96422"],["Gauntlets","https://everquest.allakhazam.com/db/item/96271"],["Boots","https://everquest.allakhazam.com/db/item/96369"]]}
+    },
+    "Ranger": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20stormheart"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20stormheart"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20stormheart"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20stormheart"},
+      "Enigmatic":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96701"],["Coat","https://everquest.allakhazam.com/db/item/96920"],["Sleeves","https://everquest.allakhazam.com/db/item/96077"],["Leggings","https://everquest.allakhazam.com/db/item/96608"],["Wristguard","https://everquest.allakhazam.com/db/item/109908"],["Gauntlets","https://everquest.allakhazam.com/db/item/103629"],["Boots","https://everquest.allakhazam.com/db/item/103626"]]},
+      "Esoteric":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/95347"],["Coat","https://everquest.allakhazam.com/db/item/94993"],["Sleeves","https://everquest.allakhazam.com/db/item/97487"],["Leggings","https://everquest.allakhazam.com/db/item/96682"],["Wristguard","https://everquest.allakhazam.com/db/item/95076"],["Gauntlets","https://everquest.allakhazam.com/db/item/96921"],["Boots","https://everquest.allakhazam.com/db/item/94793"]]},
+      "Obscure":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96090"],["Coat","https://everquest.allakhazam.com/db/item/96088"],["Sleeves","https://everquest.allakhazam.com/db/item/96741"],["Leggings","https://everquest.allakhazam.com/db/item/95553"],["Wristguard","https://everquest.allakhazam.com/db/item/95269"],["Gauntlets","https://everquest.allakhazam.com/db/item/96742"],["Boots","https://everquest.allakhazam.com/db/item/96298"]]},
+      "Perspicuous":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96360"],["Coat","https://everquest.allakhazam.com/db/item/96523"],["Sleeves","https://everquest.allakhazam.com/db/item/96504"],["Leggings","https://everquest.allakhazam.com/db/item/96516"],["Wristguard","https://everquest.allakhazam.com/db/item/96419"],["Gauntlets","https://everquest.allakhazam.com/db/item/96420"],["Boots","https://everquest.allakhazam.com/db/item/96421"]]}
+    },
+    "Rogue": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20stealthinfused"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20stealthinfused"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20stealthinfused"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20stealthinfused"},
+      "Enigmatic":{pieces:[["Coif","https://everquest.allakhazam.com/db/recipe/41614"],["Coat","https://everquest.allakhazam.com/db/recipe/41826"],["Sleeves","https://everquest.allakhazam.com/db/item/95022"],["Leggings","https://everquest.allakhazam.com/db/item/94690"],["Wristguard","https://everquest.allakhazam.com/db/item/95068"],["Gauntlets","https://everquest.allakhazam.com/db/recipe/57683"],["Boots","https://everquest.allakhazam.com/db/item/95047"]]},
+      "Esoteric":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/94892"],["Coat","https://everquest.allakhazam.com/db/item/95675"],["Sleeves","https://everquest.allakhazam.com/db/item/95203"],["Leggings","https://everquest.allakhazam.com/db/item/94900"],["Wristguard","https://everquest.allakhazam.com/db/item/95382"],["Gauntlets","https://everquest.allakhazam.com/db/item/95367"],["Boots","https://everquest.allakhazam.com/db/item/94891"]]},
+      "Obscure":{pieces:[["Coif","https://everquest.allakhazam.com/db/recipe/27145"],["Coat","https://everquest.allakhazam.com/db/recipe/25828"],["Sleeves","https://everquest.allakhazam.com/db/recipe/25535"],["Leggings","https://everquest.allakhazam.com/db/item/95229"],["Wristguard","https://everquest.allakhazam.com/db/item/95383"],["Gauntlets","https://everquest.allakhazam.com/db/item/95718"],["Boots","https://everquest.allakhazam.com/db/recipe/26005"]]},
+      "Perspicuous":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96835"],["Coat","https://everquest.allakhazam.com/db/item/96836"],["Sleeves","https://everquest.allakhazam.com/db/recipe/26282"],["Leggings","https://everquest.allakhazam.com/db/recipe/25046"],["Wristguard","https://everquest.allakhazam.com/db/recipe/26080"],["Gauntlets","https://everquest.allakhazam.com/db/item/96647"],["Boots","https://everquest.allakhazam.com/db/item/96698"]]}
+    },
+    "Shadow Knight": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20darktouch"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20darktouch"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20darktouch"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20darktouch"},
+      "Enigmatic":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95951"],["Breastplate","https://everquest.allakhazam.com/db/item/96069"],["Vambraces","https://everquest.allakhazam.com/db/item/95974"],["Greaves","https://everquest.allakhazam.com/db/item/95784"],["Bracer","https://everquest.allakhazam.com/db/item/95975"],["Gauntlets","https://everquest.allakhazam.com/db/recipe/26991"],["Boots","https://everquest.allakhazam.com/db/recipe/25243"]]},
+      "Esoteric":{pieces:[["Helm","https://everquest.allakhazam.com/db/recipe/26992"],["Breastplate","https://everquest.allakhazam.com/db/recipe/35740"],["Vambraces","https://everquest.allakhazam.com/db/recipe/27211"],["Greaves","https://everquest.allakhazam.com/db/recipe/25190"],["Bracer","https://everquest.allakhazam.com/db/recipe/35742"],["Gauntlets","https://everquest.allakhazam.com/db/recipe/39883"],["Boots","https://everquest.allakhazam.com/db/recipe/39887"]]},
+      "Obscure":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96089"],["Breastplate","https://everquest.allakhazam.com/db/item/96103"],["Vambraces","https://everquest.allakhazam.com/db/recipe/27213"],["Greaves","https://everquest.allakhazam.com/db/item/96104"],["Bracer","https://everquest.allakhazam.com/db/item/95521"],["Gauntlets","https://everquest.allakhazam.com/db/item/96063"],["Boots","https://everquest.allakhazam.com/db/item/95956"]]},
+      "Perspicuous":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96342"],["Breastplate","https://everquest.allakhazam.com/db/item/96700"],["Vambraces","https://everquest.allakhazam.com/db/recipe/25543"],["Greaves","https://everquest.allakhazam.com/db/item/96497"],["Bracer","https://everquest.allakhazam.com/db/item/96254"],["Gauntlets","https://everquest.allakhazam.com/db/item/96696"],["Boots","https://everquest.allakhazam.com/db/item/96746"]]}
+    },
+    "Shaman": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20spiritskin"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20spiritskin"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20spiritskin"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20spiritskin"},
+      "Enigmatic":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/94959"],["Coat","https://everquest.allakhazam.com/db/item/96588"],["Sleeves","https://everquest.allakhazam.com/db/item/94550"],["Leggings","https://everquest.allakhazam.com/db/item/95410"],["Wristguard","https://everquest.allakhazam.com/db/item/90277"],["Gauntlets","https://everquest.allakhazam.com/db/item/96432"],["Boots","https://everquest.allakhazam.com/db/item/95608"]]},
+      "Esoteric":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/95500"],["Coat","https://everquest.allakhazam.com/db/item/95647"],["Sleeves","https://everquest.allakhazam.com/db/item/95976"],["Leggings","https://everquest.allakhazam.com/db/item/95977"],["Wristguard","https://everquest.allakhazam.com/db/item/95764"],["Gauntlets","https://everquest.allakhazam.com/db/item/96279"],["Boots","https://everquest.allakhazam.com/db/item/96763"]]},
+      "Obscure":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/95523"],["Coat","https://everquest.allakhazam.com/db/item/95726"],["Sleeves","https://everquest.allakhazam.com/db/item/96606"],["Leggings","https://everquest.allakhazam.com/db/item/95230"],["Wristguard","https://everquest.allakhazam.com/db/item/95549"],["Gauntlets","https://everquest.allakhazam.com/db/item/96382"],["Boots","https://everquest.allakhazam.com/db/item/95966"]]},
+      "Perspicuous":{pieces:[["Coif","https://everquest.allakhazam.com/db/item/96585"],["Coat","https://everquest.allakhazam.com/db/item/96599"],["Sleeves","https://everquest.allakhazam.com/db/item/96794"],["Leggings","https://everquest.allakhazam.com/db/item/96440"],["Wristguard","https://everquest.allakhazam.com/db/item/97152"],["Gauntlets","https://everquest.allakhazam.com/db/item/96569"],["Boots","https://everquest.allakhazam.com/db/item/96499"]]}
+    },
+    "Warrior": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20ironhand"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20ironhand"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20ironhand"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20ironhand"},
+      "Enigmatic":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95256"],["Breastplate","https://everquest.allakhazam.com/db/item/92800"],["Vambraces","https://everquest.allakhazam.com/db/item/94559"],["Greaves","https://everquest.allakhazam.com/db/item/92799"],["Bracer","https://everquest.allakhazam.com/db/item/94558"],["Gauntlets","https://everquest.allakhazam.com/db/item/95605"],["Boots","https://everquest.allakhazam.com/db/item/95827"]]},
+      "Esoteric":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/95373"],["Breastplate","https://everquest.allakhazam.com/db/item/95994"],["Vambraces","https://everquest.allakhazam.com/db/item/95940"],["Greaves","https://everquest.allakhazam.com/db/item/95254"],["Bracer","https://everquest.allakhazam.com/db/item/95372"],["Gauntlets","https://everquest.allakhazam.com/db/item/94663"],["Boots","https://everquest.allakhazam.com/db/item/95693"]]},
+      "Obscure":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96996"],["Breastplate","https://everquest.allakhazam.com/db/item/96206"],["Vambraces","https://everquest.allakhazam.com/db/item/96147"],["Greaves","https://everquest.allakhazam.com/db/item/95792"],["Bracer","https://everquest.allakhazam.com/db/item/95970"],["Gauntlets","https://everquest.allakhazam.com/db/item/95519"],["Boots","https://everquest.allakhazam.com/db/item/95971"]]},
+      "Perspicuous":{pieces:[["Helm","https://everquest.allakhazam.com/db/item/96238"],["Breastplate","https://everquest.allakhazam.com/db/item/96307"],["Vambraces","https://everquest.allakhazam.com/db/item/96264"],["Greaves","https://everquest.allakhazam.com/db/item/96352"],["Bracer","https://everquest.allakhazam.com/db/item/96230"],["Gauntlets","https://everquest.allakhazam.com/db/item/96231"],["Boots","https://everquest.allakhazam.com/db/item/96234"]]}
+    },
+    "Wizard": {
+      "Abstruse":{url:"https://everquest.allakhazam.com/search.html?q=abstruse%20manafiber"},
+      "Recondite":{url:"https://everquest.allakhazam.com/search.html?q=recondite%20manafiber"},
+      "Ambiguous":{url:"https://everquest.allakhazam.com/search.html?q=ambiguous%20manafiber"},
+      "Lucid":{url:"https://everquest.allakhazam.com/search.html?q=lucid%20manafiber"},
+      "Enigmatic":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95670"],["Robe","https://everquest.allakhazam.com/db/item/95049"],["Sleeves","https://everquest.allakhazam.com/db/item/95387"],["Pants","https://everquest.allakhazam.com/db/item/94777"],["Wristguard","https://everquest.allakhazam.com/db/item/95215"],["Gloves","https://everquest.allakhazam.com/db/item/95582"],["Sandals","https://everquest.allakhazam.com/db/item/95216"]]},
+      "Esoteric":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95339"],["Robe","https://everquest.allakhazam.com/db/item/95366"],["Sleeves","https://everquest.allakhazam.com/db/item/95338"],["Pants","https://everquest.allakhazam.com/db/item/94661"],["Wristguard","https://everquest.allakhazam.com/db/item/95217"],["Gloves","https://everquest.allakhazam.com/db/item/95938"],["Sandals","https://everquest.allakhazam.com/db/item/95370"]]},
+      "Obscure":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/95965"],["Robe","https://everquest.allakhazam.com/db/item/96165"],["Sleeves","https://everquest.allakhazam.com/db/item/95724"],["Pants","https://everquest.allakhazam.com/db/recipe/25546"],["Wristguard","https://everquest.allakhazam.com/db/item/95826"],["Gloves","https://everquest.allakhazam.com/db/item/96299"],["Sandals","https://everquest.allakhazam.com/db/recipe/25287"]]},
+      "Perspicuous":{pieces:[["Cap","https://everquest.allakhazam.com/db/item/96868"],["Robe","https://everquest.allakhazam.com/db/recipe/26159"],["Sleeves","https://everquest.allakhazam.com/db/recipe/26162"],["Pants","https://everquest.allakhazam.com/db/recipe/26280"],["Wristguard","https://everquest.allakhazam.com/db/recipe/25644"],["Gloves","https://everquest.allakhazam.com/db/item/96880"],["Sandals","https://everquest.allakhazam.com/db/recipe/27149"]]}
+    }
+  };
+
+  var SLOT_ABBR = ["Head","Chest","Arms","Legs","Wrist","Hands","Feet"];
+
+  function cell(mat, suffix, cls){
+    var td = document.createElement("td");
+    var matEl = document.createElement("span");
+    matEl.className = "mat";
+    matEl.textContent = mat;
+
+    var entry = LINKS[cls] && LINKS[cls][mat];
+    if (entry && entry.url){
+      var a = document.createElement("a");
+      a.className = "setlink";
+      a.href = entry.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.appendChild(matEl);
+      a.appendChild(document.createTextNode(" " + suffix));
+      td.appendChild(a);
+      if (entry.adv){
+        var adv = document.createElement("a");
+        adv.className = "advlink";
+        adv.href = entry.adv;
+        adv.target = "_blank";
+        adv.rel = "noopener";
+        adv.textContent = "this tier";
+        adv.title = "Advanced search filtered to " + mat + " only";
+        td.appendChild(document.createTextNode(" "));
+        td.appendChild(adv);
+      }
+    } else {
+      td.appendChild(matEl);
+      td.appendChild(document.createTextNode(" " + suffix));
+    }
+
+    if (entry && entry.pieces){
+      var row = document.createElement("div");
+      row.className = "pieces";
+      entry.pieces.forEach(function(pc, i){
+        var label = SLOT_ABBR[i];
+        if (pc[1]){
+          var l = document.createElement("a");
+          l.className = "advlink";
+          l.href = pc[1];
+          l.target = "_blank";
+          l.rel = "noopener";
+          l.textContent = label;
+          l.title = mat + " " + pc[0] + " — Allakhazam " + (pc[1].indexOf("/recipe/") > -1 ? "recipe" : "item") + " page";
+          row.appendChild(l);
+        } else {
+          var s = document.createElement("span");
+          s.className = "nolink";
+          s.textContent = label;
+          s.title = mat + " " + pc[0] + " — no item ID on Allakhazam yet";
+          row.appendChild(s);
+        }
+      });
+      td.appendChild(row);
+    }
+    return td;
+  }
+
+  var gBody = document.querySelector("#groupTbl tbody");
+  var rBody = document.querySelector("#raidTbl tbody");
+  var pick  = document.getElementById("clsPick");
+
+  CLASSES.forEach(function(c){
+    var gr = document.createElement("tr");
+    gr.dataset.cls = c[0];
+    var gc = document.createElement("td");
+    gc.className = "cls"; gc.textContent = c[0];
+    gr.appendChild(gc);
+    GROUP_MATS.forEach(function(m){ gr.appendChild(cell(m, c[1], c[0])); });
+    gBody.appendChild(gr);
+
+    var rr = document.createElement("tr");
+    rr.dataset.cls = c[0];
+    var rc = document.createElement("td");
+    rc.className = "cls"; rc.textContent = c[0];
+    rr.appendChild(rc);
+    RAID_MATS.forEach(function(m){ rr.appendChild(cell(m, c[2], c[0])); });
+    rBody.appendChild(rr);
+
+    var opt = document.createElement("option");
+    opt.value = c[0]; opt.textContent = c[0];
+    pick.appendChild(opt);
+  });
+
+  function restripe(tbl){
+    var i = 0;
+    Array.prototype.forEach.call(tbl.querySelectorAll("tbody tr"), function(tr){
+      if (tr.style.display === "none"){ tr.classList.remove("odd"); return; }
+      tr.classList.toggle("odd", i % 2 === 0);
+      i++;
+    });
+  }
+
+  function applyFilter(){
+    var v = pick.value;
+    Array.prototype.forEach.call(
+      document.querySelectorAll("#groupTbl tbody tr, #raidTbl tbody tr"),
+      function(tr){
+        var on = !v || tr.dataset.cls === v;
+        tr.style.display = on ? "" : "none";
+        tr.classList.toggle("hit", !!v && on);
+      });
+    restripe(document.getElementById("groupTbl"));
+    restripe(document.getElementById("raidTbl"));
+  }
+
+  pick.addEventListener("change", applyFilter);
+  applyFilter();
+
+})();
+</script>
+<script>
+  if(document.documentElement.classList.contains('light')){
+    document.documentElement.classList.remove('light');
+    document.body.classList.add('light');
+  }
+  function toggleTheme(){
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('kos-theme', isLight ? 'light' : 'dark');
+  }
+</script>
+</body>
+</html>

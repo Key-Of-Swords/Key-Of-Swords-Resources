@@ -121,12 +121,14 @@ a.advlink{
 }
 a.advlink:hover{color:var(--gold);border-color:var(--gold)}
 a.advlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.pieces{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
-.pieces .advlink{margin-left:0}
+/* Raid slot links: all seven kept on one line */
+.pieces{display:flex;flex-wrap:nowrap;gap:2px;margin-top:5px}
+.pieces .advlink{margin-left:0;padding:0 3px;font-size:.66rem}
 span.nolink{
-  font-size:.74rem;color:var(--ink-dim);opacity:.45;white-space:nowrap;
-  border:1px dashed var(--line);border-radius:3px;padding:0 5px;cursor:help;
+  font-size:.66rem;color:var(--ink-dim);opacity:.45;white-space:nowrap;
+  border:1px dashed var(--line);border-radius:3px;padding:0 3px;cursor:help;
 }
+#raidTbl td{padding:8px 6px}
 tr.hit td.cls{color:var(--gold)}
 
 .filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
